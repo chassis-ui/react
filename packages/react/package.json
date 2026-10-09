@@ -146,7 +146,7 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
     "@arethetypeswrong/core": "^0.18.5",
-    "@chassis-ui/css": "^0.7.0",
+    "@chassis-ui/css": "^0.7.2",
     "@chassis-ui/tokens": "^0.7.0",
     "@playwright/test": "1.63.0",
     "@storybook/addon-a11y": "^10.6.1",

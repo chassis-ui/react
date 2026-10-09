@@ -1,0 +1,17 @@
+/*
+ * The stylesheet of a project that builds @chassis-ui/css with Tailwind CSS, as the Tailwind page
+ * of the docs gives it (packages/site/content/getting-started/tailwind.mdx). The entry loads
+ * Tailwind itself. The safelist lists the classes the layout props build at runtime, and the
+ * `@source` rule has Tailwind read the whole class names in the built package, which it does not
+ * scan in node_modules by default.
+ */
+@import '@chassis-ui/css/tailwind';
+@import '@chassis-ui/css/tailwind/safelist.css';
+
+@source "../node_modules/@chassis-ui/react/dist";
+
+/*
+ * Not part of a project's setup: the tests name the classes they expect, and a name Tailwind
+ * finds there would get its rule from the test, not from the two lines above.
+ */
+@source not "../tests";

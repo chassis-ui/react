@@ -87,10 +87,12 @@ type PlaceholderComponent = (<C extends ElementType = 'img'>(
   props: PlaceholderProps<C> & { ref?: PolymorphicRef<C> }
 ) => ReactElement | null) & { displayName?: string }
 
-const alignClassNames = (align: PlaceholderAlign | undefined) => [
-  align === 'start' || align === 'end' ? `float-${align}` : null,
-  align === 'center' ? 'd-block mx-auto' : null
-]
+// Whole class names, not `float-${align}`: see `utils/colorClassNames.ts`.
+const ALIGN_CLASS_NAMES: Record<PlaceholderAlign, string> = {
+  start: 'float-start',
+  center: 'd-block mx-auto',
+  end: 'float-end'
+}
 
 function PlaceholderRender<C extends ElementType = 'img'>(
   {
@@ -127,7 +129,7 @@ function PlaceholderRender<C extends ElementType = 'img'>(
     const Component = component ?? 'img'
     const _className = classNames(
       { image: fluid || thumbnail, fluid, rounded, thumbnail },
-      alignClassNames(align),
+      align && ALIGN_CLASS_NAMES[align],
       className
     )
 

@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
+import { ICON_COLOR_CLASS_NAMES } from '../../utils/colorClassNames'
 import { Icon, IconProps } from '../icon/Icon'
 
 export type AlertIconProps = IconProps & {
@@ -21,7 +22,7 @@ export type AlertIconProps = IconProps & {
 export const AlertIcon = forwardRef<HTMLSpanElement | SVGSVGElement, AlertIconProps>(
   ({ className, color, ...rest }, ref) => (
     <Icon
-      className={classNames('alert-icon', color && `icon-${color}`, className)}
+      className={classNames('alert-icon', color && ICON_COLOR_CLASS_NAMES[color], className)}
       {...rest}
       ref={ref}
     />

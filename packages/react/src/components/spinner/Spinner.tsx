@@ -7,6 +7,7 @@ import {
   PolymorphicRef
 } from '../../utils/polymorphic'
 import { ContextColor } from '../../types'
+import { FG_COLOR_CLASS_NAMES } from '../../utils/colorClassNames'
 import { VisuallyHidden } from '../visually-hidden/VisuallyHidden'
 
 type SpinnerOwnProps<C extends ElementType> = {
@@ -60,7 +61,7 @@ function SpinnerRender<C extends ElementType = 'div'>(
   const Component = component ?? 'div'
   const _className = classNames(
     `spinner-${variant}`,
-    color ? `fg-${color}` : null,
+    color ? FG_COLOR_CLASS_NAMES[color] : null,
     size && `spinner-${variant}-${size}`,
     className
   )

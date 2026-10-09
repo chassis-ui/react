@@ -2,6 +2,7 @@ import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'reac
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
+import { BG_COLOR_CLASS_NAMES } from '../../utils/colorClassNames'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -62,7 +63,7 @@ function ProgressBarRender<C extends ElementType = 'div'>(
   const clampedValue = Math.min(100, Math.max(0, value))
   const _className = classNames(
     'progress-bar',
-    color && `bg-${color} fg-contrast`,
+    color && [BG_COLOR_CLASS_NAMES[color], 'fg-contrast'],
     {
       striped,
       animated

@@ -1,0 +1,21 @@
+{
+  "name": "smoke-test-tailwind",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Framework integration smoke test: confirms every class @chassis-ui/react renders has a rule in a Tailwind CSS build of @chassis-ui/css. Not published, not user-facing — see README.md.",
+  "scripts": {
+    "build": "tailwindcss --input src/app.css --output dist/app.css",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@chassis-ui/css": "^0.7.2",
+    "@chassis-ui/react": "workspace:*",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.3",
+    "tailwindcss": "4.3.3"
+  }
+}

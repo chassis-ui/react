@@ -1,0 +1,73 @@
+---
+title: Tailwind
+description: The two lines a Tailwind CSS build of @chassis-ui/css needs so that every class @chassis-ui/react renders has a rule.
+
+toc: true
+---
+
+`@chassis-ui/css` has a [Tailwind entry](https://chassis-ui.com/css/docs/getting-started/tailwind) for projects that build their styles with Tailwind CSS. This page is for those projects only. The regular build, the `chassis.min.css` of the [Introduction]([[docsref:/getting-started/introduction#stylesheets]]), ships every class and needs none of it.
+
+## What goes missing
+
+In the Tailwind entry a utility class has a rule only when Tailwind's scanner finds its whole name in a source file. The classes `@chassis-ui/react` renders escape the scanner in two ways:
+
+- **The package is in `node_modules`**, which Tailwind does not scan. A component that renders `d-flex` or `bg-primary` gets no rule for it, unless your own code happens to use the same class.
+- **The layout props build their class names when they render.** `<GridItem span={{ base: 6, md: 3 }}>` renders `col-span-6 md:col-span-3`, and neither name is written anywhere a scanner could read.
+
+<Callout type="warning">
+  Nothing warns about a missing class. The build passes, the markup carries the class, and the
+  layout is wrong. A class that your own code also uses still works, which hides the gap: one
+  `GridItem` looks right and the next one, with a span nobody wrote out, does not.
+</Callout>
+
+## Register the package
+
+Add a `@source` rule for the package to the stylesheet that loads Tailwind. The path is relative to that file:
+
+```css
+@source "../node_modules/@chassis-ui/react/dist";
+```
+
+Tailwind then reads the built components as it reads your own source, and generates the classes they name: the display, spacing and position utilities of the components, and the classes of their `color` and `align` props. In a monorepo, point the path at the `node_modules` folder the package is installed in.
+
+## Load the safelist
+
+The classes of the layout props are too many to name one by one, at every breakpoint and container prefix. `@chassis-ui/css` 0.7.2 and later lists them in an opt-in safelist. Import it after the Tailwind entry:
+
+```css
+@import "@chassis-ui/css/tailwind";
+@import "@chassis-ui/css/tailwind/safelist.css";
+```
+
+In a Sass build of the entry, load the module instead:
+
+```scss
+@use "@chassis-ui/css/scss/tailwind";
+@use "@chassis-ui/css/scss/tailwind/safelist";
+```
+
+The safelist covers the props that place and size a layout:
+
+| Component                                              | Props                                                                                 |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| [`<Grid>`]([[docsref:/components/grid]])               | `columns`, `rows`, `gap`, `flow`                                                      |
+| [`<GridItem>`]([[docsref:/components/grid]])           | `span`, `start`, `end`, `rowSpan`, `rowStart`, `rowEnd`, `rows`, `gap`                |
+| [`<Flex>`]([[docsref:/components/flex]])               | `direction`, `wrap`, `justify`, `align`, `alignContent`, `gap`, `rowGap`, `columnGap` |
+| [`<Stack>`]([[docsref:/components/stack]])             | `gap`                                                                                 |
+| [`<Card>`, `<CardBody>`]([[docsref:/components/card]]) | `direction`, and `gap` of `<CardBody>`                                                |
+| [`<Skeleton>`]([[docsref:/components/skeleton]])       | `span`                                                                                |
+
+It trades on-demand generation for the whole set: about 9 KB of gzipped CSS, whether a page uses a class or not. A project that uses none of these props can leave it out. [Runtime class names](https://chassis-ui.com/css/docs/getting-started/tailwind#runtime-class-names) in the `@chassis-ui/css` guide lists every class of the safelist and how a Sass build changes it.
+
+## The complete entry
+
+With both in place, the stylesheet of a project that uses the prebuilt Tailwind entry reads as below. The entry loads Tailwind itself, so there is no `@import "tailwindcss"`:
+
+```css
+@import "@chassis-ui/css/tailwind";
+@import "@chassis-ui/css/tailwind/safelist.css";
+
+@source "../node_modules/@chassis-ui/react/dist";
+```
+
+The [Component-specific styles]([[docsref:/getting-started/introduction#component-specific-styles]]) of `@chassis-ui/react/style.css` are plain CSS and are imported as in any other build.

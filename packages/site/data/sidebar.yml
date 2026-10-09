@@ -5,6 +5,7 @@
   pages:
     - title: Introduction
     - title: Theming
+    - title: Tailwind
     - title: Accessibility
     - title: Internationalization
     - title: TypeScript

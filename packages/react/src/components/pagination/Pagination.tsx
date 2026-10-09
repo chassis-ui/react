@@ -6,6 +6,13 @@ import classNames from 'classnames'
 import { PaginationItem } from './PaginationItem'
 import { usePagination } from '../../hooks'
 
+// Whole class names, not `justify-content-${align}`: see `utils/colorClassNames.ts`.
+const ALIGN_CLASS_NAMES: Record<NonNullable<PaginationProps['align']>, string> = {
+  start: 'justify-content-start',
+  center: 'justify-content-center',
+  end: 'justify-content-end'
+}
+
 export interface PaginationProps extends HTMLAttributes<HTMLElement> {
   /**
    * Current active page (1-indexed). Used with `pages` for data-driven mode.
@@ -139,14 +146,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
     },
     ref
   ) => {
-    const _className = classNames(
-      'pagination',
-      size,
-      {
-        [`justify-content-${align}`]: align
-      },
-      className
-    )
+    const _className = classNames('pagination', size, align && ALIGN_CLASS_NAMES[align], className)
 
     const clampedActivePage = pages ? Math.min(Math.max(activePage, 1), pages) : activePage
     const prevDisabled = pages ? clampedActivePage <= 1 : false

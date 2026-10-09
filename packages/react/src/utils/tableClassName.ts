@@ -51,6 +51,13 @@ export interface TableStyleProps {
   striped?: boolean
 }
 
+// Whole class names, not `align-${align}`: see `utils/colorClassNames.ts`.
+export const TABLE_ALIGN_CLASS_NAMES: Record<NonNullable<TableStyleProps['align']>, string> = {
+  bottom: 'align-bottom',
+  middle: 'align-middle',
+  top: 'align-top'
+}
+
 export function tableClassName({
   align,
   bordered,
@@ -66,8 +73,8 @@ export function tableClassName({
     classNames(
       'table',
       color,
+      align && TABLE_ALIGN_CLASS_NAMES[align],
       {
-        [`align-${align}`]: align,
         bordered,
         borderless,
         hoverable: hover,

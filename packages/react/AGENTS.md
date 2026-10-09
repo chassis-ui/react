@@ -312,6 +312,18 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
   the class chassis-css positions that icon by, so consumers can swap it via `IconProvider` or
   the component's own icon prop. A new purpose goes in `IconKey`/`DEFAULT_ICONS`
   (`src/utils/iconConfig.ts`). `<Icon>` is the default renderer, not a dependency.
+- A prop maps to a utility class of `@chassis-ui/css` by whole class names, from a condition or a
+  table (`src/utils/colorClassNames.ts`), never a name joined at runtime (`` `bg-${color}` ``). The
+  Tailwind entry of chassis-css generates a utility only where Tailwind's scanner reads its whole
+  name, so a joined name renders with no rule and nothing warns. Two exceptions: the layout props
+  (`Grid`, `GridItem`, `Flex`, the gaps, `Skeleton`'s `span`), whose classes the opt-in safelist of
+  chassis-css lists, and a component class (`` `spinner-${variant}` ``), which the entry ships
+  whole. `test/utils/tailwindClassNames.spec.tsx` reads every template literal in `src/` and fails
+  on one that can spell a utility, unless its allowlist names it; a listed template that is gone
+  fails until its entry is deleted. The same file renders every value of every layout prop and
+  fails on a class the safelist has not, so a new value needs the class in chassis-css first.
+  `smoke-tests/tailwind` builds a stylesheet with Tailwind as the docs describe and checks a page
+  against it (RD20).
 - `className` builder ordering (base class, then size, then validation state, then caller's
   `className` last) — see `CONVENTIONS.md`.
 - Prefer native elements (`<input>`, `<select>`, `<textarea>`) wired up with react-aria hooks over

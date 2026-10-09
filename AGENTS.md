@@ -53,7 +53,7 @@ pnpm site:build   # astro build + pagefind index
 pnpm lint:html    # html-validate over the built _site/
 pnpm lint:vnu     # the Nu Html Checker over the built _site/ (needs Java)
 pnpm smoke:build  # react:build, then build every app under smoke-tests/*
-pnpm smoke:test   # smoke:build, then load the apps' routes in Chromium with Playwright
+pnpm smoke:test   # smoke:build, then run each app's tests: routes in Chromium, classes in a Tailwind build
 pnpm new:component <kebab-name> [--group <sidebar group>]  # scaffold a component across both packages
 ```
 
@@ -125,7 +125,9 @@ places. Every job but Audit starts with `pnpm install --frozen-lockfile`.
   tag stays in lockstep with the `@playwright/test` devDependency in `packages/react/package.json`;
   bumping one alone brings font and rendering drift that looks like a regression (RD15).
 - **Smoke Test**: `pnpm smoke:build`, then the Next.js app's Server Component routes in
-  Chromium under `next start` and `next dev` (RD16). See `smoke-tests/nextjs-app-router/README.md`.
+  Chromium under `next start` and `next dev` (RD16), and the classes of a page against a Tailwind
+  build of `@chassis-ui/css` (RD20). See `smoke-tests/nextjs-app-router/README.md` and
+  `smoke-tests/tailwind/README.md`.
 - **Audit**: `pnpm check:pnpm`, which is `pnpm audit --prod --audit-level moderate` and blocks,
   then `pnpm audit`, which reports and doesn't (RD17). It installs nothing: the audit reads the
   lockfile. The ruleset doesn't require it, so it doesn't stop a push to `main`; `release.yml`

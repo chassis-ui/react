@@ -19,6 +19,11 @@ import { Example as ItemUtilitiesExample } from '../../examples/components/flex/
 
 Reach for [`<Stack>`]([[docsref:/components/stack]]) first for simple one-dimensional arrangements — it wraps `.hstack`/`.vstack` with alignment defaults baked in. Reach for `<Flex>` instead once more control is needed than Stack's defaults give: wrapping, main-axis justification, cross-axis alignment other than Stack's fixed default, or no default flex/align behavior at all (a bare `.d-flex` with nothing else set).
 
+<Callout type="info">
+  A Tailwind build of `@chassis-ui/css` has the classes of the `<Flex>` props only with its safelist
+  loaded: see [Tailwind]([[docsref:/getting-started/tailwind]]).
+</Callout>
+
 ## Basic usage
 
 With no props, `<Flex>` is a plain flexbox row using the browser's defaults (`flex-direction: row`, no wrap, items stretched to the container's cross-axis size):

@@ -20,6 +20,7 @@ import {
 
 import { useForkedRef } from '../../hooks/useForkedRef'
 import { ContextColor } from '../../types'
+import { TABLE_ALIGN_CLASS_NAMES } from '../../utils/tableClassName'
 import { DataGridBodyProps } from './DataGridBody'
 import { DataGridHeaderProps } from './DataGridHeader'
 import { DataGridPinBehavior } from './DataGridPinBehavior'
@@ -212,8 +213,8 @@ const DataGridInner = <T extends object>(
     'datagrid',
     instanceClassName,
     color,
+    align && TABLE_ALIGN_CLASS_NAMES[align],
     {
-      [`align-${align}`]: align,
       bordered,
       borderless,
       hoverable: hover,

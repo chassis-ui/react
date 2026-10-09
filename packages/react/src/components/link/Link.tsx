@@ -9,6 +9,7 @@ import classNames from 'classnames'
 import { mergeProps } from 'react-aria'
 
 import { ContextColor } from '../../types'
+import { LINK_COLOR_CLASS_NAMES } from '../../utils/colorClassNames'
 import { useButtonSemantics, useDisabledAnchorGuard, useForkedRef } from '../../hooks'
 import { hrefProps, isInteractiveKind, linkElement, resolveLinkKind } from '../../utils/elementKind'
 import {
@@ -146,7 +147,7 @@ function LinkRender<C extends ElementType = 'a'>(
   const ariaCurrent = active ? 'page' : spy.mark === 'current' ? 'true' : undefined
 
   const _className = classNames(
-    color && `link-${color}`,
+    color && LINK_COLOR_CLASS_NAMES[color],
     { 'icon-link': iconLink, 'fg-reset': reset, 'stretched-link': stretched },
     { active: isActive, disabled },
     className

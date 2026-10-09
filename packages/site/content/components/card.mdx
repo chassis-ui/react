@@ -246,6 +246,11 @@ elements with a fraction width (`.lg:w-4/12`, `.lg:w-8/12`) to control each side
 `<CardImage>` `orientation={{ base: 'top', lg: 'start' }}` so the image's rounded corners switch
 from the top edge to the start edge at the same breakpoint the card switches to a row.
 
+<Callout type="info">
+  A Tailwind build of `@chassis-ui/css` has the classes of `direction`, and of the `gap` of
+  `<CardBody>`, only with its safelist loaded: see [Tailwind]([[docsref:/getting-started/tailwind]]).
+</Callout>
+
 <Example>
   <HorizontalExample client:load />
 </Example>

@@ -3,6 +3,7 @@ import classNames from 'classnames'
 
 import { WidthSpan, responsiveClassNames, responsiveProp } from '../../utils/breakpoints'
 import { ContextColor, Responsive } from '../../types'
+import { BG_COLOR_CLASS_NAMES } from '../../utils/colorClassNames'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -72,7 +73,7 @@ function SkeletonRender<C extends ElementType = 'span'>(
   const _className = classNames(
     'skeleton',
     animation && `skeleton-${animation}`,
-    { [`bg-${color}`]: color },
+    color && BG_COLOR_CLASS_NAMES[color],
     responsiveClassNames([responsiveProp(span, spanClassName)]),
     className
   )

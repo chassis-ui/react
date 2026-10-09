@@ -282,6 +282,7 @@ jobs:
   # pipeline. smoke-tests/nextjs-app-router is a real, minimal app (not published, not
   # user-facing — see its own AGENTS.md/README.md) depending on @chassis-ui/react via
   # `workspace:*`, so it always builds against this PR's actual source, not a published version.
+  # smoke-tests/tailwind builds a stylesheet with Tailwind CSS the same way (RD20).
   smoke-test:
     name: Smoke Test
     runs-on: ubuntu-latest
@@ -307,7 +308,7 @@ jobs:
       # dist/ is gitignored and has to exist before the smoke app's own build can resolve
       # @chassis-ui/react's `exports` map (ESM-only — no `main`/`module` fields to fall back to)
       # through the workspace link. `smoke:build` builds it first, then builds every app under
-      # smoke-tests/* (just the Next.js one today).
+      # smoke-tests/*: the Next.js app, and the stylesheet of the Tailwind one.
       - name: Build the library and the smoke apps
         run: pnpm smoke:build
 
@@ -317,6 +318,8 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm --filter smoke-test-nextjs-app-router exec playwright install --with-deps chromium
 
+      # Also runs the Tailwind app's test: every class a page renders has a rule in a Tailwind
+      # build of @chassis-ui/css. See smoke-tests/tailwind/README.md.
       - name: Load the routes in a browser
         run: pnpm --filter './smoke-tests/*' test
 
