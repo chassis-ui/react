@@ -72,7 +72,7 @@ export const page = h(
 
   // The color and alignment props, which map to whole class names in the built package.
   h(Progress, null, h(ProgressBar, { color: 'success', value: 40 })),
-  h(Spinner, { color: 'danger' }),
+  h(Spinner, { color: 'danger', size: 'sm' }),
   h(AlertIcon, { color: 'warning', name: 'circle-info' }),
   h(Link, { color: 'primary', href: '#' }, 'Link'),
   h(Placeholder, { align: 'end', src: '/photo.png', alt: '' }),

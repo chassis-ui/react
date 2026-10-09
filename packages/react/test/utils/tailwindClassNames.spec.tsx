@@ -49,11 +49,10 @@ const BUILT: Record<string, string> = {
   'components/skeleton/Skeleton.tsx: {}w-{}/12': SAFELISTED,
   'utils/breakpoints.ts: {}flex-{}': SAFELISTED,
   // Component classes, which the Tailwind entry ships whole. They only share a prefix with a
-  // utility (`skeleton-primary`, `spinner-sm`).
+  // utility (`skeleton-primary`, `spinner-primary`).
   'components/skeleton/Skeleton.tsx: skeleton-{}':
     'skeleton-glow, skeleton-wave: component classes',
-  'components/spinner/Spinner.tsx: spinner-{}': 'spinner-border, spinner-grow: component classes',
-  'components/spinner/Spinner.tsx: spinner-{}-{}': 'spinner-border-sm, spinner-grow-sm: no utility'
+  'components/spinner/Spinner.tsx: spinner-{}': 'spinner-border, spinner-grow: component classes'
 }
 
 const SRC = path.resolve(__dirname, '../../src')

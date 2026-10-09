@@ -88,7 +88,7 @@
     },
     "size": {
       "defaultValue": null,
-      "description": "Size the component sm.",
+      "description": "Renders a smaller spinner, with the `spinner-sm` class.",
       "name": "size",
       "declarations": [
         {

@@ -24,7 +24,7 @@ type SpinnerOwnProps<C extends ElementType> = {
    */
   component?: C
   /**
-   * Size the component sm.
+   * Renders a smaller spinner, with the `spinner-sm` class.
    */
   size?: 'sm'
   /**
@@ -35,6 +35,12 @@ type SpinnerOwnProps<C extends ElementType> = {
    * Set visually hidden label for accessibility purposes.
    */
   visuallyHiddenLabel?: string
+}
+
+// chassis-css sizes a spinner of either variant with the one `spinner-{size}` class. Whole class
+// names: see `utils/colorClassNames.ts`.
+const SIZE_CLASS_NAMES: Record<NonNullable<SpinnerOwnProps<ElementType>['size']>, string> = {
+  sm: 'spinner-sm'
 }
 
 export type SpinnerProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
@@ -62,7 +68,7 @@ function SpinnerRender<C extends ElementType = 'div'>(
   const _className = classNames(
     `spinner-${variant}`,
     color ? FG_COLOR_CLASS_NAMES[color] : null,
-    size && `spinner-${variant}-${size}`,
+    size && SIZE_CLASS_NAMES[size],
     className
   )
 

@@ -5840,7 +5840,7 @@ type SpinnerOwnProps<C extends ElementType> = {
    */
   component?: C;
   /**
-   * Size the component sm.
+   * Renders a smaller spinner, with the `spinner-sm` class.
    */
   size?: 'sm';
   /**
