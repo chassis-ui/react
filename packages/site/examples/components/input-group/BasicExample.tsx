@@ -17,10 +17,16 @@ export const Example = () => {
         <InputGroupAddon id="basic-addon2">@example.com</InputGroupAddon>
       </InputGroup>
 
-      <FormLabel htmlFor="basic-url">Your vanity URL</FormLabel>
+      <FormLabel htmlFor="basic-url" id="basic-url-label">
+        Your vanity URL
+      </FormLabel>
       <InputGroup className="mb-md">
         <InputGroupAddon id="basic-addon3">https://example.com/users/</InputGroupAddon>
-        <TextInput id="basic-url" aria-describedby="basic-addon3" />
+        <TextInput
+          id="basic-url"
+          aria-labelledby="basic-url-label"
+          aria-describedby="basic-addon3"
+        />
       </InputGroup>
 
       <InputGroup className="mb-md">

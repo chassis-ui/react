@@ -14,18 +14,34 @@ export const Example = () => {
   return (
     <Flex component={Form} wrap="wrap" align="center" columnGap="md" rowGap="xs">
       <div className="w-100 sm:w-3/12">
-        <FormLabel className="visually-hidden" htmlFor="specificSizeInputName">
+        <FormLabel
+          className="visually-hidden"
+          htmlFor="specificSizeInputName"
+          id="specificSizeInputNameLabel"
+        >
           Name
         </FormLabel>
-        <TextInput id="specificSizeInputName" placeholder="Jane Doe" />
+        <TextInput
+          id="specificSizeInputName"
+          aria-labelledby="specificSizeInputNameLabel"
+          placeholder="Jane Doe"
+        />
       </div>
       <div className="w-100 sm:w-3/12">
-        <FormLabel className="visually-hidden" htmlFor="specificSizeInputGroupUsername">
+        <FormLabel
+          className="visually-hidden"
+          htmlFor="specificSizeInputGroupUsername"
+          id="specificSizeInputGroupUsernameLabel"
+        >
           Username
         </FormLabel>
         <InputGroup>
           <InputGroupAddon>@</InputGroupAddon>
-          <TextInput id="specificSizeInputGroupUsername" placeholder="Username" />
+          <TextInput
+            id="specificSizeInputGroupUsername"
+            aria-labelledby="specificSizeInputGroupUsernameLabel"
+            placeholder="Username"
+          />
         </InputGroup>
       </div>
       <div className="w-100 sm:w-3/12">

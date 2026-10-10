@@ -50,9 +50,12 @@ export const Example = () => {
       <Form onSubmit={handleSubmit} onReset={handleReset} validated={false}>
         <Grid columns={2} gap="md" className="mb-md">
           <div>
-            <FormLabel htmlFor="reg-name">Full name</FormLabel>
+            <FormLabel htmlFor="reg-name" id="reg-name-label">
+              Full name
+            </FormLabel>
             <TextInput
               id="reg-name"
+              aria-labelledby="reg-name-label"
               placeholder="Jane Smith"
               value={name}
               onChange={setName}
@@ -64,9 +67,12 @@ export const Example = () => {
             </FormFeedback>
           </div>
           <div>
-            <FormLabel htmlFor="reg-email">Email address</FormLabel>
+            <FormLabel htmlFor="reg-email" id="reg-email-label">
+              Email address
+            </FormLabel>
             <TextInput
               id="reg-email"
+              aria-labelledby="reg-email-label"
               type="email"
               placeholder="jane@example.com"
               value={email}
@@ -92,10 +98,13 @@ export const Example = () => {
             <FormFeedback invalid>Please select a role.</FormFeedback>
           </div>
           <div>
-            <FormLabel htmlFor="reg-pw">Password</FormLabel>
+            <FormLabel htmlFor="reg-pw" id="reg-pw-label">
+              Password
+            </FormLabel>
             <TextInput
               autoComplete="new-password"
               id="reg-pw"
+              aria-labelledby="reg-pw-label"
               type="password"
               placeholder="Min. 8 characters"
               value={password}

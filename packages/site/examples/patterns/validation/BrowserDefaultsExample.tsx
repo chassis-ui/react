@@ -21,10 +21,16 @@ export const Example = () => (
       <TextInput label="Last name" defaultValue="Otto" required />
     </GridItem>
     <GridItem span={{ base: 'full', md: 4 }}>
-      <FormLabel htmlFor="validationDefaultUsername">Username</FormLabel>
+      <FormLabel htmlFor="validationDefaultUsername" id="validationDefaultUsernameLabel">
+        Username
+      </FormLabel>
       <InputGroup>
         <InputGroupAddon>@</InputGroupAddon>
-        <TextInput id="validationDefaultUsername" required />
+        <TextInput
+          id="validationDefaultUsername"
+          aria-labelledby="validationDefaultUsernameLabel"
+          required
+        />
       </InputGroup>
     </GridItem>
     <GridItem span={{ base: 'full', md: 6 }}>

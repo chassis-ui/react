@@ -19,12 +19,20 @@ export const Example = () => {
       align={{ lg: 'center' }}
     >
       <div>
-        <FormLabel className="visually-hidden" htmlFor="inlineFormInputGroupUsername">
+        <FormLabel
+          className="visually-hidden"
+          htmlFor="inlineFormInputGroupUsername"
+          id="inlineFormInputGroupUsernameLabel"
+        >
           Username
         </FormLabel>
         <InputGroup>
           <InputGroupAddon>@</InputGroupAddon>
-          <TextInput id="inlineFormInputGroupUsername" placeholder="Username" />
+          <TextInput
+            id="inlineFormInputGroupUsername"
+            aria-labelledby="inlineFormInputGroupUsernameLabel"
+            placeholder="Username"
+          />
         </InputGroup>
       </div>
       <div>

@@ -22,11 +22,14 @@ export const Example = () => (
       <TextInput label="Last name" defaultValue="Otto" validFeedback="Looks good!" valid />
     </GridItem>
     <GridItem span={{ base: 'full', md: 4 }}>
-      <FormLabel htmlFor="validationServerUsername">Username</FormLabel>
+      <FormLabel htmlFor="validationServerUsername" id="validationServerUsernameLabel">
+        Username
+      </FormLabel>
       <InputGroup>
         <InputGroupAddon id="inputGroupPrepend03">@</InputGroupAddon>
         <TextInput
           id="validationServerUsername"
+          aria-labelledby="validationServerUsernameLabel"
           aria-describedby="inputGroupPrepend03 validationServerUsernameFeedback"
           invalid
         />

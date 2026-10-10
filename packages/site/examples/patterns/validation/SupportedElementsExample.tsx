@@ -80,11 +80,14 @@ export const Example = () => (
     <RangeInput label="Range input" invalid invalidFeedback="Example invalid range feedback." />
 
     <div>
-      <FormLabel htmlFor="validationInputGroup">Input group</FormLabel>
+      <FormLabel htmlFor="validationInputGroup" id="validationInputGroupLabel">
+        Input group
+      </FormLabel>
       <InputGroup>
         <InputGroupAddon>@</InputGroupAddon>
         <TextInput
           id="validationInputGroup"
+          aria-labelledby="validationInputGroupLabel"
           placeholder="Username"
           aria-describedby="inputGroupFeedback"
           invalid
@@ -123,13 +126,18 @@ export const Example = () => (
 
     <FloatingInput
       label="Floating label"
-      ids={{ feedback: 'validationFloatingFeedback', input: 'validationFloating' }}
+      ids={{
+        feedback: 'validationFloatingFeedback',
+        input: 'validationFloating',
+        label: 'validationFloatingLabel'
+      }}
       invalid
       invalidFeedback="Example invalid floating label feedback."
     >
       <TextInput
         type="email"
         id="validationFloating"
+        aria-labelledby="validationFloatingLabel"
         placeholder="name@example.com"
         defaultValue="test@example.com"
         aria-describedby="validationFloatingFeedback"
