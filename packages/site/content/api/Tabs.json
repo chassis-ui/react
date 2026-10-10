@@ -121,7 +121,7 @@
     },
     "orientation": {
       "defaultValue": null,
-      "description": "The orientation of the tab list.",
+      "description": "The orientation of the tab list. `'vertical'` stacks the tabs, with the `flex-column` class\non the list, and moves between them with the up and down arrow keys. The panels stay below\nthe list: to put them beside it, lay out the root with `className`.",
       "name": "orientation",
       "declarations": [
         {

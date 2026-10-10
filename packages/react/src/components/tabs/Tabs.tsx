@@ -50,7 +50,9 @@ type TabsOwnProps<C extends ElementType> = {
    */
   onSelectionChange?: (key: Key) => void
   /**
-   * The orientation of the tab list.
+   * The orientation of the tab list. `'vertical'` stacks the tabs, with the `flex-column` class
+   * on the list, and moves between them with the up and down arrow keys. The panels stay below
+   * the list: to put them beside it, lay out the root with `className`.
    */
   orientation?: 'horizontal' | 'vertical'
   /**

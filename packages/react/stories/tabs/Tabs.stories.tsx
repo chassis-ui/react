@@ -105,14 +105,16 @@ export const Disabled: Story = {
   )
 }
 
+// `orientation` stacks the tabs; the root's own classes put the panels beside the list.
 export const Vertical: Story = {
   args: {
+    className: 'd-flex align-items-start gap-md',
     defaultSelectedKey: 'home',
     orientation: 'vertical'
   },
   render: (args) => (
     <Tabs {...args}>
-      <TabList aria-label="Vertical tabs">
+      <TabList aria-label="Vertical tabs" variant="segments">
         <Tab id="home">Home</Tab>
         <Tab id="profile">Profile</Tab>
         <Tab id="contact">Contact</Tab>
@@ -121,5 +123,20 @@ export const Vertical: Story = {
       <TabPanel id="profile">Food truck fixie locavore, accusamus mcsweeney&apos;s.</TabPanel>
       <TabPanel id="contact">Etsy mixtape wayfarers, ethical wes anderson tofu.</TabPanel>
     </Tabs>
-  )
+  ),
+  play: async function ({ canvas, userEvent }) {
+    const list = canvas.getByRole('tablist', { name: 'Vertical tabs' })
+    await expect(list).toHaveAttribute('aria-orientation', 'vertical')
+    await expect(list).toHaveClass('flex-column')
+
+    const home = canvas.getByRole('tab', { name: 'Home' })
+    const profile = canvas.getByRole('tab', { name: 'Profile' })
+    await expect(profile.getBoundingClientRect().top).toBeGreaterThan(
+      home.getBoundingClientRect().top
+    )
+
+    await userEvent.click(home)
+    await userEvent.keyboard('{ArrowDown}')
+    await waitFor(() => expect(profile).toHaveAttribute('aria-selected', 'true'))
+  }
 }

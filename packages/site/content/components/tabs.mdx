@@ -8,6 +8,7 @@ import { Example as BasicExample } from '../../examples/components/tabs/BasicExa
 import { Example as SegmentsExample } from '../../examples/components/tabs/SegmentsExample.tsx'
 import { Example as UnderlineExample } from '../../examples/components/tabs/UnderlineExample.tsx'
 import { Example as DisabledExample } from '../../examples/components/tabs/DisabledExample.tsx'
+import { Example as VerticalExample } from '../../examples/components/tabs/VerticalExample.tsx'
 
 ## Overview
 
@@ -39,6 +40,14 @@ Add `disabled` to a `Tab` to remove it from keyboard navigation and prevent it f
 
 <Example>
   <DisabledExample client:load />
+</Example>
+
+## Vertical
+
+Pass `orientation="vertical"` to `Tabs` to stack the tabs. The list gets the `flex-column` class and `aria-orientation="vertical"`, and the up and down arrow keys move between the tabs. The panels stay below the list unless the root is laid out: here `className="d-flex align-items-start gap-md"` puts them beside it.
+
+<Example>
+  <VerticalExample client:load />
 </Example>
 
 ## Overflow

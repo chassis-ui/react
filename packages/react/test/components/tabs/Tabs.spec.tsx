@@ -183,6 +183,25 @@ describe('Tabs', () => {
     })
   })
 
+  describe('orientation', () => {
+    test('a vertical list is stacked, and the up and down arrow keys move between its tabs', () => {
+      render(<BasicTabs orientation="vertical" />)
+      const list = screen.getByRole('tablist')
+      expect(list).toHaveAttribute('aria-orientation', 'vertical')
+      expect(list).toHaveClass('nav', 'nav-tabs', 'flex-column')
+
+      const home = screen.getByRole('tab', { name: 'Home' })
+      act(() => home.focus())
+      fireEvent.keyDown(home, { key: 'ArrowDown' })
+      expect(screen.getByRole('tab', { name: 'Profile' })).toHaveFocus()
+    })
+
+    test('a horizontal list is not stacked', () => {
+      render(<BasicTabs />)
+      expect(screen.getByRole('tablist')).not.toHaveClass('flex-column')
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying div', () => {
       const ref = React.createRef<HTMLDivElement>()

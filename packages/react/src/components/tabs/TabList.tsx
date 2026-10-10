@@ -64,7 +64,14 @@ export const TabList = forwardRef<HTMLUListElement, TabListProps>(
     // and Shift+Tab then leave the list from it, instead of stopping at a tab on the way.
     const [toggleFocused, setToggleFocused] = useState(false)
 
-    const _className = classNames('nav', size, navVariantClassName(variant, 'TabList'), className)
+    // chassis-css has no rule on `aria-orientation`: a vertical list is stacked by `flex-column`.
+    const _className = classNames(
+      'nav',
+      size,
+      navVariantClassName(variant, 'TabList'),
+      { 'flex-column': orientation === 'vertical' },
+      className
+    )
 
     // Inside a `NavOverflow` some tabs are in its menu, hidden here, and its toggle is one more
     // stop among the tabs. react-aria's own arrow keys walk the whole collection, so they would
