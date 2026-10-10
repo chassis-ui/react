@@ -44,7 +44,7 @@ describe('a Tailwind build of @chassis-ui/css', () => {
       assert.ok(rendered.has(name), `the page has no ${name}`)
     }
     // Whole names in the built package: found through the `@source` rule.
-    for (const name of ['bg-success', 'fg-danger', 'icon-warning', 'link-primary']) {
+    for (const name of ['bg-success', 'spinner-danger', 'icon-warning', 'link-primary']) {
       assert.ok(rendered.has(name), `the page has no ${name}`)
     }
     for (const name of ['float-end', 'justify-content-center', 'align-middle', 'd-flex']) {

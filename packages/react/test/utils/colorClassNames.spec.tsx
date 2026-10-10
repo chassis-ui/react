@@ -3,18 +3,18 @@ import path from 'path'
 
 import {
   BG_COLOR_CLASS_NAMES,
-  FG_COLOR_CLASS_NAMES,
   ICON_COLOR_CLASS_NAMES,
-  LINK_COLOR_CLASS_NAMES
+  LINK_COLOR_CLASS_NAMES,
+  SPINNER_COLOR_CLASS_NAMES
 } from '../../src/utils/colorClassNames'
 
 // The tables hold whole class names so that Tailwind's scanner can read them, which leaves a
 // name free to be misspelled: the type checks the keys of a table, not what each one maps to.
 const TABLES = {
   bg: BG_COLOR_CLASS_NAMES,
-  fg: FG_COLOR_CLASS_NAMES,
   icon: ICON_COLOR_CLASS_NAMES,
-  link: LINK_COLOR_CLASS_NAMES
+  link: LINK_COLOR_CLASS_NAMES,
+  spinner: SPINNER_COLOR_CLASS_NAMES
 }
 
 const utilities = fs.readFileSync(

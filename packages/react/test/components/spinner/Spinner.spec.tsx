@@ -25,7 +25,7 @@ describe('Spinner', () => {
         </Spinner>
       )
       const spinner = screen.getByRole('status')
-      expect(spinner).toHaveClass('spinner-grow', 'fg-warning', 'spinner-sm', 'bazinga')
+      expect(spinner).toHaveClass('spinner-grow', 'spinner-warning', 'spinner-sm', 'bazinga')
       expect(spinner.tagName).toBe('SPAN')
     })
 

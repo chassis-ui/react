@@ -33,8 +33,9 @@ Set `variant="grow"` for a spinner that pulses in size instead of spinning; the 
 
 ## Colors
 
-The spinner uses `currentColor`, so set `color` to any Chassis context color to change its
-appearance — this applies to either variant.
+Set `color` to any Chassis context color to change the spinner's color, in either variant. The
+prop renders the `spinner-{color}` class of `@chassis-ui/css`; a spinner doesn't follow the text
+color around it.
 
 <Example class="d-flex flex-wrap gap-sm">
   <ColorExample client:load />

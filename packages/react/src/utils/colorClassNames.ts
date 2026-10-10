@@ -24,18 +24,20 @@ export const BG_COLOR_CLASS_NAMES: Record<ContextColor, string> = {
   white: 'bg-white'
 }
 
-export const FG_COLOR_CLASS_NAMES: Record<ContextColor, string> = {
-  default: 'fg-default',
-  alternate: 'fg-alternate',
-  primary: 'fg-primary',
-  secondary: 'fg-secondary',
-  neutral: 'fg-neutral',
-  success: 'fg-success',
-  danger: 'fg-danger',
-  warning: 'fg-warning',
-  info: 'fg-info',
-  black: 'fg-black',
-  white: 'fg-white'
+// A spinner draws from `--cx-spinner-color`, which only `spinner-{color}` sets: `fg-{color}`
+// changes `color`, and the ring and the dot don't read it.
+export const SPINNER_COLOR_CLASS_NAMES: Record<ContextColor, string> = {
+  default: 'spinner-default',
+  alternate: 'spinner-alternate',
+  primary: 'spinner-primary',
+  secondary: 'spinner-secondary',
+  neutral: 'spinner-neutral',
+  success: 'spinner-success',
+  danger: 'spinner-danger',
+  warning: 'spinner-warning',
+  info: 'spinner-info',
+  black: 'spinner-black',
+  white: 'spinner-white'
 }
 
 export const ICON_COLOR_CLASS_NAMES: Record<ContextColor, string> = {
