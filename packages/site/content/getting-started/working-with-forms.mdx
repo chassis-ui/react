@@ -52,8 +52,9 @@ under a single label — for example, a `TextInput` and a `PasswordStrength` met
 `FloatingInput` follows the same shape but always renders its own label as a floating label rather
 than a static one above the control. Reach for either only when the component being wrapped
 doesn't already accept `label`/`help`/validation props directly — every one of the components
-listed at the top of this page does, and wrapping one of them in `FormField` produces a redundant,
-empty extra wrapper.
+listed at the top of this page does, and wires its label, help and feedback to its control, which
+`FormField` leaves to you — see
+[Manual id wiring]([[docsref:/components/form-field#manual-id-wiring]]).
 
 ## Layout and full examples
 
