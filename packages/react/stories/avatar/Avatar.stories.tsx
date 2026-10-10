@@ -18,7 +18,7 @@ export const Default: Story = {
   render: () => (
     <>
       <Avatar>CX</Avatar>
-      <Avatar src="https://i.pravatar.cc/256" />
+      <Avatar src="https://i.pravatar.cc/256?u=4" />
     </>
   )
 }
@@ -26,7 +26,7 @@ export const Default: Story = {
 export const WithAvatarImage: Story = {
   render: () => (
     <Avatar>
-      <AvatarImage src="https://i.pravatar.cc/256" alt="Profile picture" loading="lazy" />
+      <AvatarImage src="https://i.pravatar.cc/256?u=5" alt="Profile picture" loading="lazy" />
     </Avatar>
   )
 }
@@ -72,9 +72,9 @@ export const Stack: Story = {
 export const Status: Story = {
   render: () => (
     <>
-      <Avatar src="https://i.pravatar.cc/256" status="success" statusLabel="Online" />
-      <Avatar src="https://i.pravatar.cc/256" status="danger" statusLabel="Offline" />
-      <Avatar src="https://i.pravatar.cc/256" status="warning" statusLabel="Away" />
+      <Avatar src="https://i.pravatar.cc/256?u=6" status="success" statusLabel="Online" />
+      <Avatar src="https://i.pravatar.cc/256?u=7" status="danger" statusLabel="Offline" />
+      <Avatar src="https://i.pravatar.cc/256?u=8" status="warning" statusLabel="Away" />
     </>
   )
 }

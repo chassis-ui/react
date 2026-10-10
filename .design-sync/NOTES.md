@@ -143,18 +143,17 @@ bottom for what can silently go stale.
 - The chain is `ChassisThemeRoot theme="light"` → `IconProvider font` (see Icons). Both
   are bundle exports, so the generated README and every `.prompt.md` carry the same wrap.
 
-## Harness patch (`compare.mjs`) — redo after every restage
+## Harness patch (`compare.mjs`) — retired 2026-10-10
 
-- `SearchField` and `Tree` stories carry a `withIcons` meta decorator that puts a
-  hidden `<svg aria-hidden style="display:none">` sprite FIRST in `#storybook-root`.
-  `captureStory()` in `.ds-sync/storybook/compare.mjs` waits for the first match of
-  `SB_CONTENT` to be visible; the first match is that hidden svg, so all their stories
-  report `sb-error` "no storybook root content" although they render fine.
-- This is NOT a `skip` case. Append `:visible` to the `SB_CONTENT` selector in the
-  staged copy (one line, `.ds-sync/` is gitignored and re-copied on every sync):
-  ``const SB_CONTENT = `:is(${SB_ROOT}) > :not(style,script,link,meta,template):visible`;``
-  Only needed when those two components are recaptured. The fix that retires the patch
-  is upstream: render `<Story />` before the sprite in the two `withIcons` decorators.
+- `SearchField` and `Tree` stories carry a `withIcons` meta decorator with a hidden
+  `<svg aria-hidden style="display:none">` sprite. It used to come FIRST in
+  `#storybook-root`, and `captureStory()` in `.ds-sync/storybook/compare.mjs` waits for
+  the first match of `SB_CONTENT` to be visible, so every story of the two reported
+  `sb-error` "no storybook root content". The staged copy needed `:visible` appended to
+  the `SB_CONTENT` selector after every restage.
+- The two decorators now render `<Story />` before the sprite, so the unpatched harness
+  finds the story. No patch is needed. If these stories report that `sb-error` again,
+  look at the decorator order before patching anything.
 - Those two story files embed their own sprite, so their icons render in the reference
   too (unlike the bare `Icon` stories).
 
@@ -232,10 +231,10 @@ bottom for what can silently go stale.
   at `scale(0)`. A blank pair proves nothing. Grade from your own capture of both pages
   (`iframe.html?id=…` and `<Name>.html?story=<Export>`) with `document.getAnimations()`
   paused at half their duration. Graded match that way on 2026-10-10.
-- `Avatar` `Default`, `With Avatar Image` and `Status` load `https://i.pravatar.cc/256`
-  with no seed, which answers with a random face per request, so the photo differs
-  between the two sides and between two captures of the reference. Grade the component
-  (circle, size, status dot). `Stack` seeds its URLs and matches exactly.
+- `Avatar` stories load `https://i.pravatar.cc/256?u=<n>`. Every URL is seeded since
+  2026-10-10, so a story shows the same face on both sides and on every capture. An
+  unseeded URL answers with a random face per request: if one comes back, the photo
+  differs between the two sides for no reason in the component.
 - `Notification` `Autohide` removes itself 5 seconds after load on both sides. It
   matches at capture; in a live card that cell empties, and a slow render check could
   see it blank.

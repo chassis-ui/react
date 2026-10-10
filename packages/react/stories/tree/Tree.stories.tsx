@@ -28,8 +28,13 @@ const symbols = [
   ]
 ]
 
+// The sprite comes after the story: a tool that reads the first element of the canvas as the
+// story (design-sync's capture does) would find a hidden `<svg>` and call the story empty.
 const withIcons = (Story: () => React.ReactElement) => (
   <>
+    <div style={{ maxWidth: '20rem' }}>
+      <Story />
+    </div>
     <svg aria-hidden="true" style={{ display: 'none' }}>
       {symbols.map(([id, path]) => (
         <symbol id={id} key={id} viewBox="0 0 24 24">
@@ -37,9 +42,6 @@ const withIcons = (Story: () => React.ReactElement) => (
         </symbol>
       ))}
     </svg>
-    <div style={{ maxWidth: '20rem' }}>
-      <Story />
-    </div>
   </>
 )
 
