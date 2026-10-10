@@ -11,7 +11,7 @@ export const Example = () => {
         />
       </div>
       <div className="mb-md">
-        <TextInput autoComplete="current-password" type="password" label="Email Password" />
+        <TextInput autoComplete="current-password" type="password" label="Password" />
       </div>
       <Checkbox
         className="mb-md"
