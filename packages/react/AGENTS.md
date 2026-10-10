@@ -218,8 +218,9 @@ for the two families that need it, a `waitFor`: toast/notification (see below) a
 own scroll-cue/pin-positioning effects read `scrollWidth`/`clientWidth` before the browser's layout
 pass has settled those values, even for statically-sized columns — a screenshot taken in that
 window is genuinely, not just transiently, different from one taken a couple of frames later, so
-`datagrid.visual.spec.ts` waits two animation frames after navigation before every screenshot in
-the family).
+`datagrid.visual.spec.ts` waits for the grid, then two animation frames, before every screenshot
+in the family; without the grid first, a story slow to start is captured as Storybook's own
+loader).
 
 ```bash
 pnpm storybook            # storybook dev -p 6006, for authoring stories interactively

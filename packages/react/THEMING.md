@@ -107,7 +107,11 @@ Its only genuinely new custom properties are the two pinned-column scroll cues
 with. One documented consequence of the `--table-*` reuse: an override scoped to a _specific_
 `DataGrid` instance's own class won't reach its `footer`, which renders outside the grid's
 scrollable element and so inherits nothing from it — only a global `--table-*` override reaches
-both.
+both. The `color` prop does reach both: the component puts `<color> context` on the grid and on
+the footer, and `DataGrid.scss` maps the context colors onto `--table-*` for the two, as
+`.table.context` does for a table. A hovered row is the one difference: it takes the opaque
+`--bg-evident`, not chassis-css's translucent `--dim-slight`, because a pinned cell lies over the
+cells that scrolled under it.
 
 Every other component ships zero CSS of its own — there's nothing in this package for a consuming
 app to override beyond the chassis-css classes it applies, which is exactly the point: theming

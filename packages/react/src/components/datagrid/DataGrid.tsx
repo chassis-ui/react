@@ -217,6 +217,9 @@ const DataGridInner = <T extends object>(
     {
       bordered,
       borderless,
+      // The color class names the color; `.datagrid.context` (DataGrid.scss) paints with it, as
+      // `.table.context` does for `Table`.
+      context: !!color,
       hoverable: hover,
       sm,
       'datagrid-scrolled-start': scrolledStart,
@@ -249,7 +252,12 @@ const DataGridInner = <T extends object>(
       >
         {children}
       </AriaTable>
-      {footer && <div className={classNames('datagrid-footer', { borderless })}>{footer}</div>}
+      {footer && (
+        // A sibling of the grid, so it takes the color itself: nothing reaches it by inheritance.
+        <div className={classNames('datagrid-footer', color, { borderless, context: !!color })}>
+          {footer}
+        </div>
+      )}
       <DataGridPinBehavior
         containerRef={gridRef}
         header={children[0]}

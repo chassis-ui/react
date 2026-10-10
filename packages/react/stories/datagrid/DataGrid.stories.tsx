@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import type { Selection, SortDescriptor } from 'react-aria-components'
+import { expect } from 'storybook/test'
 
 import { DataGrid } from '../../src/components/datagrid/DataGrid'
 import { DataGridBody } from '../../src/components/datagrid/DataGridBody'
@@ -270,6 +271,29 @@ export const FooterRow: Story = {
         )}
       </DataGridBody>
     ]
+  }
+}
+
+// `color` paints the header, the rows, the selected row and the footer, which is a sibling of the
+// grid and takes the color classes itself.
+export const Colored: Story = {
+  args: {
+    ...FooterRow.args,
+    color: 'primary',
+    selectedKeys: new Set([1]),
+    selectionMode: 'single'
+  },
+  play: async function ({ canvas }) {
+    const grid = canvas.getByRole('grid', { name: 'People' })
+    await expect(grid).toHaveClass('datagrid', 'primary', 'context')
+    await expect(canvas.getByText(`${items.length} people total`)).toHaveClass(
+      'datagrid-footer',
+      'primary',
+      'context'
+    )
+    // The color reaches the cells: a grid with no color has the page's text color.
+    const cell = await canvas.findByRole('rowheader', { name: 'Person 0' })
+    await expect(getComputedStyle(cell).color).not.toBe(getComputedStyle(document.body).color)
   }
 }
 

@@ -179,6 +179,7 @@ describe('DataGrid', () => {
       expect(screen.getByRole('grid')).toHaveClass(
         'datagrid',
         'info',
+        'context',
         'align-middle',
         'bordered',
         'hoverable',
@@ -649,6 +650,49 @@ describe('DataGrid', () => {
         </DataGrid>
       )
       expect(screen.getByText('3 users')).toHaveClass('datagrid-footer', 'borderless')
+    })
+
+    // The footer is a sibling of the grid, so the grid's color can't reach it by inheritance.
+    test('the color goes to the grid and to the footer, each with the context class', () => {
+      render(
+        <DataGrid aria-label="Users" color="success" footer="3 users" rowHeight={40}>
+          <DataGridHeader>
+            <DataGridColumn id="name" isRowHeader>
+              Name
+            </DataGridColumn>
+          </DataGridHeader>
+          <DataGridBody items={rows}>
+            {(row) => (
+              <DataGridRow id={row.id}>
+                <DataGridCell>{row.name}</DataGridCell>
+              </DataGridRow>
+            )}
+          </DataGridBody>
+        </DataGrid>
+      )
+      expect(screen.getByRole('grid')).toHaveClass('datagrid', 'success', 'context')
+      expect(screen.getByText('3 users')).toHaveClass('datagrid-footer', 'success', 'context')
+    })
+
+    test('a grid with no color has no context class, on the grid or the footer', () => {
+      render(
+        <DataGrid aria-label="Users" footer="3 users" rowHeight={40}>
+          <DataGridHeader>
+            <DataGridColumn id="name" isRowHeader>
+              Name
+            </DataGridColumn>
+          </DataGridHeader>
+          <DataGridBody items={rows}>
+            {(row) => (
+              <DataGridRow id={row.id}>
+                <DataGridCell>{row.name}</DataGridCell>
+              </DataGridRow>
+            )}
+          </DataGridBody>
+        </DataGrid>
+      )
+      expect(screen.getByRole('grid')).not.toHaveClass('context')
+      expect(screen.getByText('3 users')).not.toHaveClass('context')
     })
 
     test('no footer element renders when the footer prop is omitted', () => {

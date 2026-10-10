@@ -200,4 +200,27 @@
       border-width: 0;
     }
   }
+
+  // `color` on the component: `<color> context`, the classes chassis-css colors a table with.
+  // `.table.context` maps the context colors onto the `--table-*` properties, and matches a
+  // `<table>` only, so the same map is written here for the grid and for its footer, which is a
+  // sibling and inherits nothing from it. No striped pair: a DataGrid has no `striped`.
+  //
+  // One value differs. A context table hovers with `--dim-slight`, a tenth of the color over
+  // whatever is behind the cell. Behind a pinned cell are the cells that scrolled under it, which
+  // would show through, so the hover here is the opaque `--bg-evident`: the header's background,
+  // the pair a grid with no color hovers with too.
+  .datagrid.context,
+  .datagrid-footer.context {
+    --table-td-fg-color: #{$table-td-fg-context};
+    --table-td-bg-color: #{$table-td-bg-context};
+    --table-th-fg-color: #{$table-th-fg-context};
+    --table-th-bg-color: #{$table-th-bg-context};
+    --table-hover-fg-color: #{$table-hover-fg-context};
+    --table-hover-bg-color: var(--bg-evident);
+    --table-active-fg-color: #{$table-active-fg-context};
+    --table-active-bg-color: #{$table-active-bg-context};
+    --table-border-color: #{$table-border-context};
+    --table-cue-color: #{$table-cue-context};
+  }
 }

@@ -131,7 +131,8 @@ required.
 ## Variants
 
 `align`, `bordered`, `borderless`, `hover`, `sm`, and `color` all apply to the grid's root
-element, the same as `Table`'s equivalent props.
+element, the same as `Table`'s equivalent props. `color` also colors the `footer`, which is
+outside that element.
 
 <Example>
   <VariantsExample client:load />
@@ -173,7 +174,8 @@ element, the same as `Table`'s equivalent props.
   grid's own scrollable element (see [Header & footer pinning](#header--footer-pinning)), so it
   can't inherit CSS custom properties set directly on that specific `DataGrid` instance's own
   class — only a global `--table-*` token override reaches it. This matches every other DataGrid
-  instance on the page, just not one re-themed individually.
+  instance on the page, just not one re-themed individually. The `color` prop is not such an
+  override: the component gives the footer the same color classes as the grid.
 - **Columns are already windowed horizontally — no extra work needed for wide grids.** The
   underlying `react-aria-components`/`react-stately` layout engine only mounts DOM for cells that
   intersect the horizontal viewport (the same visible-range mechanism that windows rows

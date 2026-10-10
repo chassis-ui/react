@@ -1,3 +1,5 @@
+import { expect } from '@playwright/test'
+
 import { runVisualRegressionSuite } from './visualSuite'
 
 // Scoped to DataGrid, the first family whose rendering is virtualizer-driven (react-aria-components'
@@ -20,12 +22,19 @@ import { runVisualRegressionSuite } from './visualSuite'
 // frames after navigation, mirroring the same fix applied inside PinnedColumnsScrolled/
 // HeaderFooterScrolled's own mount effects in DataGrid.stories.tsx for the identical reason, gives
 // that settling time to complete before the screenshot is taken.
+//
+// The frames only count once the story is on the page. Until then Storybook shows its own loader,
+// which holds still under `animations: 'disabled'`: two frames after navigation, a story that was
+// slow to start (`Colored`, the one with a `play` function, on the first runs after a build) was
+// captured as that loader, and it became the baseline. So the grid comes first.
 runVisualRegressionSuite('datagrid visual regression', ['datagrid/'], {
-  waitFor: (page) =>
-    page.evaluate(
+  waitFor: async (page) => {
+    await expect(page.locator('[role="grid"]')).toBeVisible()
+    await page.evaluate(
       () =>
         new Promise<void>((resolve) => {
           requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
         })
     )
+  }
 })
