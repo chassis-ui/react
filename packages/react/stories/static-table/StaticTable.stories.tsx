@@ -78,7 +78,14 @@ export const Variants: Story = {
 
 export const Colored: Story = {
   args: { 'aria-label': 'Team', color: 'primary' },
-  render: Default.render
+  render: Default.render,
+  play: async function ({ canvas }) {
+    const table = canvas.getByRole('table', { name: 'Team' })
+    await expect(table).toHaveClass('table', 'primary', 'context')
+    // The color reaches the cells: a default table's are not tinted.
+    const cell = canvas.getByRole('cell', { name: 'Mark Otto' })
+    await expect(getComputedStyle(cell).color).not.toBe(getComputedStyle(document.body).color)
+  }
 }
 
 export const CaptionAndFooter: Story = {

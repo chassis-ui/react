@@ -76,6 +76,7 @@ describe('StaticTable', () => {
     expect(screen.getByRole('table')).toHaveClass(
       'table',
       'primary',
+      'context',
       'align-middle',
       'bordered',
       'hoverable',
@@ -83,6 +84,24 @@ describe('StaticTable', () => {
       'striped',
       'custom'
     )
+  })
+
+  // chassis-css colors a table through `.table.context`, so the color class needs it beside it,
+  // and a table with no color must not take the context of an element around it.
+  test('adds the context class with a color only', () => {
+    const { rerender } = render(
+      <StaticTable aria-label="Users">
+        <Rows />
+      </StaticTable>
+    )
+    expect(screen.getByRole('table')).not.toHaveClass('context')
+
+    rerender(
+      <StaticTable aria-label="Users" color="danger">
+        <Rows />
+      </StaticTable>
+    )
+    expect(screen.getByRole('table')).toHaveClass('table', 'danger', 'context')
   })
 
   test('applies the same classes as Table for the same styling props', () => {

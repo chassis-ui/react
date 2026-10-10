@@ -118,6 +118,7 @@ describe('Table', () => {
       expect(table).toHaveClass(
         'table',
         'info',
+        'context',
         'bordered',
         'hoverable',
         'sm',

@@ -77,6 +77,9 @@ export function tableClassName({
       {
         bordered,
         borderless,
+        // chassis-css colors a table through `.table.context`: the color class alone names the
+        // color and paints nothing.
+        context: !!color,
         hoverable: hover,
         sm,
         stacked: stacked === true,

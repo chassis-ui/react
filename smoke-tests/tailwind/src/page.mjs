@@ -78,5 +78,5 @@ export const page = h(
   h(Placeholder, { align: 'end', src: '/photo.png', alt: '' }),
   h(Placeholder, { align: 'center', src: '/photo.png', alt: '' }),
   h(Pagination, { align: 'center', pages: 3, activePage: 2 }),
-  h(StaticTable, { align: 'middle' }, h('tbody', null, h('tr', null, h('td', null, 'Cell'))))
+  h(StaticTable, { align: 'middle', color: 'primary' }, h('tbody', null, h('tr', null, h('td', null, 'Cell'))))
 )
