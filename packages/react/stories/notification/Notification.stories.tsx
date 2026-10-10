@@ -1,7 +1,13 @@
 import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, waitFor } from 'storybook/test'
 
 import { Notification } from '../../src/components/notification/Notification'
+import { NotificationStack } from '../../src/components/notification/NotificationStack'
+import {
+  addNotification,
+  closeNotification
+} from '../../src/components/notification/notificationQueue'
 import { NotificationTitle } from '../../src/components/notification/NotificationTitle'
 import { NotificationIcon } from '../../src/components/notification/NotificationIcon'
 import { NotificationText } from '../../src/components/notification/NotificationText'
@@ -136,5 +142,42 @@ export const WithActions: Story = {
         </div>
       </>
     )
+  }
+}
+
+// `NotificationStack` renders the shared `notificationQueue` after its own static children. The
+// queued one is added before the story renders, so both play their entrance together and the
+// family's visual regression spec screenshots a settled stack; it leaves the queue when the story
+// does. The server-rendering sweeps compose the story with no `beforeEach` and see the pinned
+// notification alone.
+export const Stack: Story = {
+  beforeEach: () => {
+    const key = addNotification(undefined, {
+      color: 'success',
+      icon: 'check-solid',
+      title: 'Export finished',
+      text: 'Your report is ready to download.',
+      dismissible: true
+    })
+    return () => closeNotification(key)
+  },
+  render: () => (
+    <NotificationStack>
+      <Notification color="warning" icon="exclamation-triangle-solid" role="alert">
+        Scheduled maintenance starts at 02:00 UTC. Save your work before then.
+      </Notification>
+    </NotificationStack>
+  ),
+  play: async function ({ canvas }) {
+    // react-aria names the region by what the queue holds; the pinned child isn't counted.
+    const region = canvas.getByRole('region', { name: '1 notification.' })
+    await expect(region).toHaveClass('vstack')
+    await expect(canvas.getByRole('alert')).toHaveTextContent('Scheduled maintenance')
+    // Both notifications play their entrance at opacity 0 before they settle.
+    const title = canvas.getByRole('heading', { name: 'Export finished' })
+    await waitFor(() => expect(title).toBeVisible())
+    await expect(canvas.getByText('Your report is ready to download.')).toBeVisible()
+    await expect(canvas.getByRole('button', { name: 'Close' })).toBeVisible()
+    await expect(canvas.getByRole('alert')).toBeVisible()
   }
 }

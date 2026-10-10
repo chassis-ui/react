@@ -1,9 +1,13 @@
 import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, waitFor } from 'storybook/test'
 
+import { Button } from '../../src/components/button/Button'
 import { Toast } from '../../src/components/toast/Toast'
-import { ToastHeader } from '../../src/components/toast/ToastHeader'
 import { ToastBody } from '../../src/components/toast/ToastBody'
+import { ToastFooter } from '../../src/components/toast/ToastFooter'
+import { ToastHeader } from '../../src/components/toast/ToastHeader'
+import { ToastIcon } from '../../src/components/toast/ToastIcon'
 import { Toaster } from '../../src/components/toast/Toaster'
 
 const meta: Meta<typeof Toast> = {
@@ -116,4 +120,51 @@ export const PlacementBottomEnd: Story = {
       </Toast>
     </Toaster>
   )
+}
+
+// Storybook has no icon sprite, so this story embeds the one symbol it draws, from chassis-icons.
+const withCheckIcon = (Story: () => React.ReactElement) => (
+  <>
+    <Story />
+    <svg aria-hidden="true" style={{ display: 'none' }}>
+      <symbol id="check-solid" viewBox="0 0 24 24">
+        <path d="M20.36 6.14c.507.47.507 1.29 0 1.758l-10 10a1.205 1.205 0 0 1-1.758 0l-5-5a1.205 1.205 0 0 1 0-1.757 1.205 1.205 0 0 1 1.757 0L9.5 15.242l9.102-9.101a1.205 1.205 0 0 1 1.757 0" />
+      </symbol>
+    </svg>
+  </>
+)
+
+// A `ToastIcon` composed into the header, and a `ToastFooter` of actions after the body — what
+// the `icon` and `footer` shorthand props of `Toast` render. The play function reads the toast
+// and leaves it as it is: the family's visual regression spec screenshots the settled toast.
+export const IconAndFooter: Story = {
+  decorators: [withCheckIcon],
+  args: {
+    autohide: false,
+    visible: true,
+    children: (
+      <>
+        <ToastHeader icon={<ToastIcon name="check-solid" title="Saved" />} time="just now">
+          Draft saved
+        </ToastHeader>
+        <ToastBody>Your changes are safe. Undo to restore the previous draft.</ToastBody>
+        <ToastFooter>
+          <Button color="secondary" size="sm" variant="outline">
+            Undo
+          </Button>
+          <Button color="primary" size="sm">
+            View draft
+          </Button>
+        </ToastFooter>
+      </>
+    )
+  },
+  play: async function ({ canvas }) {
+    await expect(canvas.getByRole('img', { name: 'Saved' })).toHaveClass('toast-icon')
+    // The toast plays its entrance at opacity 0 before it settles.
+    const undo = canvas.getByRole('button', { name: 'Undo' })
+    await waitFor(() => expect(undo).toBeVisible())
+    await expect(canvas.getByRole('button', { name: 'View draft' })).toBeVisible()
+    await expect(canvas.getByText('Draft saved')).toBeVisible()
+  }
 }

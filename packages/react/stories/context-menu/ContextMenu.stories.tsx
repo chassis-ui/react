@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, waitFor } from 'storybook/test'
+import { expect, screen, waitFor } from 'storybook/test'
 
 import { ContextMenu } from '../../src/components/context-menu/ContextMenu'
 import { MenuDivider } from '../../src/components/menu/MenuDivider'
@@ -8,6 +8,8 @@ import { MenuHeader } from '../../src/components/menu/MenuHeader'
 import { MenuItem } from '../../src/components/menu/MenuItem'
 import { MenuList } from '../../src/components/menu/MenuList'
 import { MenuSubmenu } from '../../src/components/menu/MenuSubmenu'
+import { MenuSubmenuBack } from '../../src/components/menu/MenuSubmenuBack'
+import { MenuText } from '../../src/components/menu/MenuText'
 
 const meta: Meta<typeof ContextMenu> = {
   component: ContextMenu,
@@ -152,5 +154,61 @@ export const Controlled: Story = {
         <p className="form-help">The menu is {visible ? 'open' : 'closed'}.</p>
       </>
     )
+  }
+}
+
+// A `stacked` submenu renders its panel inline, not portaled, and below the `sm` breakpoint
+// replaces the menu's view instead of cascading beside it, with its `MenuSubmenuBack` as the way
+// back; above `sm` chassis-css hides the back item and the submenu cascades, which is what the
+// test browsers show. A `MenuText` is a line of plain text among the items. The list portals to
+// `document.body`, outside the canvas, so the play function reads it from `screen`.
+export const StackedSubmenu: Story = {
+  args: {
+    style: regionStyle,
+    tabIndex: 0,
+    children: (
+      <>
+        Press Shift+F10 in this area.
+        <MenuList aria-label="Actions for Report.pdf">
+          <MenuText className="text-muted">Report.pdf · 2.4 MB</MenuText>
+          <MenuItem>Open</MenuItem>
+          <MenuSubmenu trigger="Share" stacked>
+            <MenuSubmenuBack>Back</MenuSubmenuBack>
+            <MenuItem>Copy link</MenuItem>
+            <MenuItem>Send by mail</MenuItem>
+          </MenuSubmenu>
+          <MenuDivider />
+          <MenuItem>Delete</MenuItem>
+        </MenuList>
+      </>
+    )
+  },
+  play: async function ({ canvas, userEvent }) {
+    const region = canvas.getByText(/Shift\+F10/)
+    region.focus()
+    await userEvent.keyboard('{Shift>}{F10}{/Shift}')
+    const text = await screen.findByText('Report.pdf · 2.4 MB')
+    await expect(text).toHaveClass('menu-text', 'text-muted')
+
+    // Focus lands on the first item; the next one is the trigger, which Enter opens, moving
+    // focus to the nested menu's first visible item. The back item is there, hidden at this width.
+    await userEvent.keyboard('{ArrowDown}')
+    const trigger = screen.getByRole('menuitem', { name: 'Share' })
+    await expect(trigger).toHaveFocus()
+    await userEvent.keyboard('{Enter}')
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    const copyLink = screen.getByRole('menuitem', { name: 'Copy link' })
+    await waitFor(() => expect(copyLink).toHaveFocus())
+    const back = screen.getByText('Back')
+    await expect(back).toHaveClass('submenu-back', 'menu-item')
+    await expect(back).not.toBeVisible()
+
+    // ArrowLeft closes the submenu and returns focus to the trigger.
+    await userEvent.keyboard('{ArrowLeft}')
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    await expect(trigger).toHaveFocus()
+
+    await userEvent.keyboard('{Escape}')
+    await waitFor(() => expect(region).toHaveFocus())
   }
 }

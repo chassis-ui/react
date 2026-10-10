@@ -1,9 +1,11 @@
 import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect } from 'storybook/test'
 
 import { Nav } from '../../src/components/nav/Nav'
 import { NavItem } from '../../src/components/nav/NavItem'
 import { NavLink } from '../../src/components/nav/NavLink'
+import { NavTitle } from '../../src/components/nav/NavTitle'
 
 const meta: Meta<typeof Nav> = {
   component: Nav,
@@ -140,4 +142,34 @@ export const Fill: Story = {
       </NavItem>
     </Nav>
   )
+}
+
+// A `NavTitle` heads a group of links, as a plain list item among them.
+export const WithTitle: Story = {
+  render: () => (
+    <Nav className="flex-column">
+      <NavTitle>Account</NavTitle>
+      <NavItem>
+        <NavLink href="#" active>
+          Profile
+        </NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href="#">Billing</NavLink>
+      </NavItem>
+      <NavTitle>Workspace</NavTitle>
+      <NavItem>
+        <NavLink href="#">Members</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href="#">Settings</NavLink>
+      </NavItem>
+    </Nav>
+  ),
+  play: async function ({ canvas }) {
+    const title = canvas.getByText('Account')
+    await expect(title).toHaveClass('nav-title')
+    await expect(canvas.getAllByRole('listitem')).toHaveLength(6)
+    await expect(canvas.getAllByRole('link')).toHaveLength(4)
+  }
 }
