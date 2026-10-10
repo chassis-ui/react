@@ -4036,8 +4036,13 @@ interface FloatingInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'child
    */
   help?: ReactNode;
   /**
-   * The DOM ids of the wrapped control, used to associate the label (`htmlFor`) and point your
-   * control's own `aria-describedby` at the rendered help/feedback text.
+   * The ids that tie the label, help and feedback to the wrapped control, in place of the ones
+   * `FloatingInput` generates. A field component of this library (`TextInput`, `Select`,
+   * `Textarea`) takes them by itself and needs none. Any other control, such as a native
+   * `<input>`, takes them by hand: `input` is the label's `htmlFor` and goes on the control as
+   * its `id`, `label` is the label's own `id`, for a control named through `aria-labelledby`,
+   * and `help` and `feedback` are the ids of the help and feedback text, for the control's
+   * `aria-describedby`. `label` without `input` leaves the label with no `htmlFor`.
    */
   ids?: FormFieldIds;
   /**
@@ -4049,7 +4054,7 @@ interface FloatingInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'child
    */
   invalidFeedback?: ReactNode;
   /**
-   * The field's caption, rendered as a floating `FormLabel` associated with `ids.input`.
+   * The field's caption, rendered as a floating `FormLabel` associated with the wrapped control.
    */
   label: ReactNode;
   /**

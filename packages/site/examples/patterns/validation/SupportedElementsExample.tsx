@@ -126,21 +126,13 @@ export const Example = () => (
 
     <FloatingInput
       label="Floating label"
-      ids={{
-        feedback: 'validationFloatingFeedback',
-        input: 'validationFloating',
-        label: 'validationFloatingLabel'
-      }}
       invalid
       invalidFeedback="Example invalid floating label feedback."
     >
       <TextInput
         type="email"
-        id="validationFloating"
-        aria-labelledby="validationFloatingLabel"
         placeholder="name@example.com"
         defaultValue="test@example.com"
-        aria-describedby="validationFloatingFeedback"
         invalid
       />
     </FloatingInput>

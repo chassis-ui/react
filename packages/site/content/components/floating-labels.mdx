@@ -11,19 +11,15 @@ import { Example as TextareaExample } from '../../examples/components/floating-l
 import { Example as TextareaHeightExample } from '../../examples/components/floating-labels/TextareaHeightExample.tsx'
 import { Example as SelectExample } from '../../examples/components/floating-labels/SelectExample.tsx'
 import { Example as LayoutExample } from '../../examples/components/floating-labels/LayoutExample.tsx'
+import { Example as NativeControlExample } from '../../examples/components/floating-labels/NativeControlExample.tsx'
 
 ## Examples
 
-Pass `label` and `ids={{ input: yourControlId }}` to `FloatingInput` and wrap a `TextInput`,
-`Select`, or `Textarea` (matched on the same `id`) to enable floating labels with textual form
-fields — `FloatingInput` renders the floating `<label>` itself, so don't also pass `label` to the
-wrapped control. A `placeholder` is required on each `<TextInput>`, since this CSS-only technique
-relies on the `:placeholder-shown` pseudo-class.
-
-A `<TextInput>` or `<Textarea>` takes the label's id too: pass `ids.label` and repeat it as the
-control's `aria-labelledby`. The label's `htmlFor` is enough to name the control, but react-aria,
-which these two are built on, reads only the control's own `aria-label`/`aria-labelledby` and warns
-in development about a field it finds neither on. A `<Select>` needs `ids.input` only.
+Pass `label` to `FloatingInput` and wrap a `TextInput`, `Select`, or `Textarea` to enable floating
+labels with textual form fields. `FloatingInput` renders the floating `<label>` itself and ties it
+to the control inside, so pass neither `label` nor an `id` to the wrapped control. A `placeholder`
+is required on each `<TextInput>`, since this CSS-only technique relies on the
+`:placeholder-shown` pseudo-class.
 
 <Example>
   <TextInputsExample client:load />
@@ -38,9 +34,9 @@ The label floats automatically when the wrapped control already has a `value`.
 ## Help and feedback
 
 Passing `help`, `invalid`/`invalidFeedback`, or `valid`/`validFeedback` wraps the floating input
-in a `.form-field` and renders the corresponding text below it, same as the other form components
-— point the control's own `aria-describedby` at the same id via `ids.help`/`ids.feedback` so it
-stays associated.
+in a `.form-field` and renders the corresponding text below it, same as the other form components.
+The control inside is described by the text that shows. Set `invalid`/`valid` on the control as
+well: its state is what shows the feedback and draws its border.
 
 <Example>
   <HelpAndValidationExample client:load />
@@ -78,6 +74,22 @@ out side by side.
 <Example>
   <LayoutExample client:load />
 </Example>
+
+## Other controls
+
+`FloatingInput` generates the ids of its label, help and feedback, and a `TextInput`, `Select` or
+`Textarea` inside takes them by itself. Any other control, such as a native `<input>`, takes them
+by hand: choose the ids, pass them through the `ids` prop, and repeat them on the control, as for
+a [`<FormField>`]([[docsref:/components/form-field#manual-id-wiring]]). The control needs the
+`.form-input` class and has to be a direct child, which is what the label floats over.
+
+<Example>
+  <NativeControlExample client:load />
+</Example>
+
+`ids` also replaces a generated id with one of your own, for a test or a link to the field:
+`ids={{ input: 'email' }}` gives the wrapped `TextInput` the id `email`. In development,
+`FloatingInput` warns when no element has the id its label points at.
 
 ## API
 

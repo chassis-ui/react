@@ -1,6 +1,14 @@
+import * as React from 'react'
 import { renderHook } from '@testing-library/react'
 
+import { FormFieldContext, FormFieldContextValue } from '../../src/components/form-field/context'
 import { useFormField } from '../../src/hooks/useFormField'
+
+const within =
+  (value: FormFieldContextValue) =>
+  ({ children }: { children: React.ReactNode }) => (
+    <FormFieldContext.Provider value={value}>{children}</FormFieldContext.Provider>
+  )
 
 describe('useFormField', () => {
   describe('id generation', () => {
@@ -84,6 +92,57 @@ describe('useFormField', () => {
     test('uses only ariaLabelledBy when label is unset', () => {
       const { result } = renderHook(() => useFormField({ ariaLabelledBy: 'external-label-id' }))
       expect(result.current.labelledBy).toBe('external-label-id')
+    })
+  })
+
+  describe('inside a wrapper that renders the label', () => {
+    const wrapper = within({ describedBy: 'w-help', inputId: 'w-input', labelId: 'w-label' })
+
+    test('takes the id the wrapper points its label at', () => {
+      const { result } = renderHook(() => useFormField({}), { wrapper })
+      expect(result.current.inputId).toBe('w-input')
+    })
+
+    test('keeps a caller-supplied id', () => {
+      const { result } = renderHook(() => useFormField({ id: 'custom-id' }), { wrapper })
+      expect(result.current.inputId).toBe('custom-id')
+    })
+
+    test('is labelled and described by the wrapper', () => {
+      const { result } = renderHook(() => useFormField({}), { wrapper })
+      expect(result.current.labelledBy).toBe('w-label')
+      expect(result.current.describedBy).toBe('w-help')
+    })
+
+    test("puts its own label and help first and the caller's ids last", () => {
+      const { result } = renderHook(
+        () =>
+          useFormField({
+            ariaDescribedBy: 'own-desc',
+            ariaLabelledBy: 'own-label',
+            help: 'Help',
+            label: 'Label'
+          }),
+        { wrapper }
+      )
+      const { describedBy, helpId, labelId, labelledBy } = result.current
+      expect(labelledBy).toBe(`${labelId} w-label own-label`)
+      expect(describedBy).toBe(`${helpId} w-help own-desc`)
+    })
+
+    test('writes an id the caller repeats once', () => {
+      const { result } = renderHook(
+        () => useFormField({ ariaDescribedBy: 'w-help', ariaLabelledBy: 'w-label' }),
+        { wrapper }
+      )
+      expect(result.current.labelledBy).toBe('w-label')
+      expect(result.current.describedBy).toBe('w-help')
+    })
+
+    test('a wrapper with no ids to hand down changes nothing', () => {
+      const { result } = renderHook(() => useFormField({}), { wrapper: within({}) })
+      expect(result.current.labelledBy).toBeUndefined()
+      expect(result.current.describedBy).toBeUndefined()
     })
   })
 })

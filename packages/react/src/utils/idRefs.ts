@@ -3,6 +3,13 @@
 export const joinIds = (...ids: (string | false | null | undefined)[]): string | undefined =>
   ids.filter(Boolean).join(' ') || undefined
 
+// As `joinIds`, for values that may each hold several ids and may repeat one: a consumer's own
+// `aria-labelledby` naming the label that a wrapper already hands down.
+export const joinUniqueIds = (
+  ...values: (string | false | null | undefined)[]
+): string | undefined =>
+  joinIds(...new Set(values.flatMap((value) => (value ? value.split(' ') : []))))
+
 // `value` without the given ids: for an id-reference attribute a react-aria hook built from ids
 // that may not be rendered, such as the description and error-message ids of its `useField`.
 export const withoutIds = (

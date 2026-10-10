@@ -64,7 +64,7 @@
     },
     "ids": {
       "defaultValue": null,
-      "description": "The DOM ids of the wrapped control, used to associate the label (`htmlFor`) and point your\ncontrol's own `aria-describedby` at the rendered help/feedback text.",
+      "description": "The ids that tie the label, help and feedback to the wrapped control, in place of the ones\n`FloatingInput` generates. A field component of this library (`TextInput`, `Select`,\n`Textarea`) takes them by itself and needs none. Any other control, such as a native\n`<input>`, takes them by hand: `input` is the label's `htmlFor` and goes on the control as\nits `id`, `label` is the label's own `id`, for a control named through `aria-labelledby`,\nand `help` and `feedback` are the ids of the help and feedback text, for the control's\n`aria-describedby`. `label` without `input` leaves the label with no `htmlFor`.",
       "name": "ids",
       "parent": {
         "fileName": "packages/react/src/components/floating-input/FloatingInput.tsx",
@@ -121,7 +121,7 @@
     },
     "label": {
       "defaultValue": null,
-      "description": "The field's caption, rendered as a floating `FormLabel` associated with `ids.input`.",
+      "description": "The field's caption, rendered as a floating `FormLabel` associated with the wrapped control.",
       "name": "label",
       "parent": {
         "fileName": "packages/react/src/components/floating-input/FloatingInput.tsx",
