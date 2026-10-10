@@ -159,10 +159,12 @@ export const Controlled: Story = {
 
 // A `stacked` submenu renders its panel inline, not portaled, and below the `sm` breakpoint
 // replaces the menu's view instead of cascading beside it, with its `MenuSubmenuBack` as the way
-// back; above `sm` chassis-css hides the back item and the submenu cascades, which is what the
-// test browsers show. A `MenuText` is a line of plain text among the items. The list portals to
-// `document.body`, outside the canvas, so the play function reads it from `screen`.
+// back. The story runs at a phone's width, where chassis-css shows the back item and hides the
+// rest of the list, the trigger included, while the submenu is open. A `MenuText` is a line of
+// plain text among the items. The list portals to `document.body`, outside the canvas, so the
+// play function reads it from `screen`.
 export const StackedSubmenu: Story = {
+  globals: { viewport: { value: 'mobile1', isRotated: false } },
   args: {
     style: regionStyle,
     tabIndex: 0,
@@ -189,21 +191,33 @@ export const StackedSubmenu: Story = {
     await userEvent.keyboard('{Shift>}{F10}{/Shift}')
     const text = await screen.findByText('Report.pdf · 2.4 MB')
     await expect(text).toHaveClass('menu-text', 'text-muted')
+    const menu = screen.getByRole('menu', { name: 'Actions for Report.pdf' })
 
-    // Focus lands on the first item; the next one is the trigger, which Enter opens, moving
-    // focus to the nested menu's first visible item. The back item is there, hidden at this width.
+    // Focus lands on the first item; the next one is the trigger, which Enter opens. The nested
+    // menu takes the list's place: its back item is the first one shown and takes focus, and the
+    // trigger is hidden.
     await userEvent.keyboard('{ArrowDown}')
     const trigger = screen.getByRole('menuitem', { name: 'Share' })
     await expect(trigger).toHaveFocus()
     await userEvent.keyboard('{Enter}')
     await expect(trigger).toHaveAttribute('aria-expanded', 'true')
-    const copyLink = screen.getByRole('menuitem', { name: 'Copy link' })
-    await waitFor(() => expect(copyLink).toHaveFocus())
     const back = screen.getByText('Back')
     await expect(back).toHaveClass('submenu-back', 'menu-item')
-    await expect(back).not.toBeVisible()
+    await waitFor(() => expect(back).toHaveFocus())
+    await expect(trigger).not.toBeVisible()
 
-    // ArrowLeft closes the submenu and returns focus to the trigger.
+    // A click on the back item closes the submenu and nothing else: the list is back, with focus
+    // on the trigger.
+    await userEvent.click(back)
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    await expect(menu).toHaveClass('show')
+    await expect(trigger).toHaveFocus()
+
+    // ArrowLeft on an item of the submenu goes back the same way.
+    await userEvent.keyboard('{Enter}')
+    await waitFor(() => expect(back).toHaveFocus())
+    await userEvent.keyboard('{ArrowDown}')
+    await expect(screen.getByRole('menuitem', { name: 'Copy link' })).toHaveFocus()
     await userEvent.keyboard('{ArrowLeft}')
     await expect(trigger).toHaveAttribute('aria-expanded', 'false')
     await expect(trigger).toHaveFocus()

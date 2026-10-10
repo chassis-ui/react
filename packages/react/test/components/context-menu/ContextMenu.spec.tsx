@@ -8,7 +8,8 @@ import {
   MenuHeader,
   MenuItem,
   MenuList,
-  MenuSubmenu
+  MenuSubmenu,
+  MenuSubmenuBack
 } from '../../../src/index'
 
 // The region with a menu of three items, and a button inside the region so a keyboard user has
@@ -429,6 +430,32 @@ describe('ContextMenu', () => {
 
       fireEvent.click(nested)
       expect(isOpen()).toBe(false)
+    })
+
+    test('a click on the back item of a stacked submenu closes the submenu only', () => {
+      render(
+        <ContextMenu data-testid="region">
+          Region
+          <MenuList>
+            <MenuItem>Cut</MenuItem>
+            <MenuSubmenu trigger="Share" stacked>
+              <MenuSubmenuBack>Back</MenuSubmenuBack>
+              <MenuItem>Mail</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
+        </ContextMenu>
+      )
+      rightClick(screen.getByText('Region'))
+      settle()
+      const trigger = screen.getByRole('menuitem', { name: 'Share' })
+
+      fireEvent.click(trigger)
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+
+      fireEvent.click(screen.getByRole('menuitem', { name: 'Back' }))
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(isOpen()).toBe(true)
+      expect(trigger).toHaveFocus()
     })
 
     test('a form control inside the menu is used in place', () => {

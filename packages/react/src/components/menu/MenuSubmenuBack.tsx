@@ -18,7 +18,12 @@ export const MenuSubmenuBack = forwardRef<HTMLButtonElement, MenuSubmenuBackProp
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       onClick?.(event)
-      actions?.close()
+      if (!actions) return
+      // Going back is the submenu's own action, as opening it from its trigger is: the click
+      // stops here. On `window`, the `autoClose` listener of `Menu` and `ContextMenu` would read
+      // it as a click on an item and close the whole menu.
+      event.stopPropagation()
+      actions.close()
     }
 
     return (

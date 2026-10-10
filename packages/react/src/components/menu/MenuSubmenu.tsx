@@ -85,6 +85,7 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
     const [visible, setVisible] = useState(false)
     const closeTimeoutRef = useRef<number | undefined>(undefined)
     const focusFirstRafRef = useRef<number | undefined>(undefined)
+    const refocusTriggerRef = useRef(false)
     const triggerRef = useRef<HTMLButtonElement | null>(null)
     const overlayRef = useRef<HTMLElement | null>(null)
     const parentGroup = useContext(SubmenuGroupContext)
@@ -177,10 +178,19 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
       })
     }
 
+    // Focus returns to the trigger once the close has rendered, in the effect below, not here:
+    // below the `sm` breakpoint a shown `stacked` panel hides its trigger (chassis-css's
+    // `.submenu:has(.submenu-stacked.show)` rule), and focusing a hidden element leaves focus on
+    // `document.body`.
     const closeAndRefocusTrigger = () => {
+      refocusTriggerRef.current = true
       close()
-      triggerRef.current?.focus()
     }
+
+    useEffect(() => {
+      if (!visible && refocusTriggerRef.current) triggerRef.current?.focus()
+      refocusTriggerRef.current = false
+    }, [visible])
 
     const handleTriggerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       if (!clickEnabled || disabled) return

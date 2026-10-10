@@ -30,6 +30,7 @@ describe('MenuSubmenu', () => {
   })
   afterEach(() => {
     vi.restoreAllMocks()
+    vi.useRealTimers()
   })
 
   describe('rendering', () => {
@@ -149,6 +150,88 @@ describe('MenuSubmenu', () => {
 
       fireEvent.click(screen.getByText('Back'))
       expect(nestedMenu).not.toHaveClass('show')
+      expect(trigger).toHaveFocus()
+    })
+
+    // An uncontrolled menu, so the `autoClose` listener on `window` can close it: a controlled
+    // `<Menu visible>` stays open whatever the listener asks for.
+    test('a click on MenuSubmenuBack leaves the menu it is in open', () => {
+      vi.useFakeTimers()
+      render(
+        <Menu defaultVisible>
+          <MenuList>
+            <MenuSubmenu trigger="File" stacked>
+              <MenuSubmenuBack>Back</MenuSubmenuBack>
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
+        </Menu>
+      )
+      // The listener is installed a tick after the menu opens.
+      vi.runAllTimers()
+      const trigger = screen.getByText('File')
+      const topMenu = getNestedMenu('File')
+      const nestedMenu = getNestedMenu('New')
+
+      fireEvent.click(trigger)
+      expect(nestedMenu).toHaveClass('show')
+
+      fireEvent.click(screen.getByText('Back'))
+      expect(nestedMenu).not.toHaveClass('show')
+      expect(topMenu).toHaveClass('show')
+      expect(trigger).toHaveFocus()
+
+      // A click on an item still closes it.
+      fireEvent.click(screen.getByText('New'))
+      expect(topMenu).not.toHaveClass('show')
+    })
+
+    test("MenuSubmenuBack's own onClick still runs", () => {
+      const onClick = vi.fn()
+      render(
+        <Menu visible>
+          <MenuList>
+            <MenuSubmenu trigger="File" stacked>
+              <MenuSubmenuBack onClick={onClick}>Back</MenuSubmenuBack>
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
+        </Menu>
+      )
+      fireEvent.click(screen.getByText('File'))
+      fireEvent.click(screen.getByText('Back'))
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
+    // Below the `sm` breakpoint chassis-css hides the trigger while its stacked panel is shown,
+    // and a browser doesn't focus a hidden element. jsdom applies no stylesheet and focuses
+    // anything, so the trigger's `focus` stands in for both: it works once the panel is closed.
+    test.each([
+      ['MenuSubmenuBack', () => fireEvent.click(screen.getByText('Back'))],
+      ['ArrowLeft', () => fireEvent.keyDown(screen.getByText('New'), { key: 'ArrowLeft' })],
+      ['Escape', () => fireEvent.keyDown(screen.getByText('New'), { key: 'Escape' })]
+    ])('%s refocuses a trigger that is hidden until the panel has closed', (_name, goBack) => {
+      render(
+        <Menu visible>
+          <MenuList>
+            <MenuSubmenu trigger="File" stacked>
+              <MenuSubmenuBack>Back</MenuSubmenuBack>
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
+        </Menu>
+      )
+      const trigger = screen.getByText('File')
+      const focus = trigger.focus.bind(trigger)
+      vi.spyOn(trigger, 'focus').mockImplementation((options) => {
+        if (trigger.getAttribute('aria-expanded') === 'false') focus(options)
+      })
+
+      fireEvent.click(trigger)
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+
+      goBack()
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
       expect(trigger).toHaveFocus()
     })
   })
