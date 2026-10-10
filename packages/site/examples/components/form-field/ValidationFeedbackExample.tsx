@@ -6,9 +6,9 @@ export const Example = () => {
       label="Username"
       invalid
       invalidFeedback="This username is already taken."
-      ids={{ input: 'ffUsername' }}
+      ids={{ feedback: 'ffUsernameFeedback', input: 'ffUsername' }}
     >
-      <ChipInput id="ffUsername" name="username" />
+      <ChipInput aria-describedby="ffUsernameFeedback" id="ffUsername" invalid name="username" />
     </FormField>
   )
 }

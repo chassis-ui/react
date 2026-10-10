@@ -45,7 +45,7 @@ Group a control with related content, like a `<PasswordStrength>` meter, under o
 
 ### Validation feedback
 
-`invalidFeedback`/`validFeedback` render only alongside a truthy `invalid`/`valid`, matching the leaf components' own validation props.
+`invalidFeedback`/`validFeedback` render only alongside a truthy `invalid`/`valid`, matching the leaf components' own validation props. `<FormField>` never changes its children, so set `invalid`/`valid` on the control too: its state is what shows the feedback and draws its border. Point the control's `aria-describedby` at `ids.feedback` so the message is read with it.
 
 <Example>
   <ValidationFeedbackExample client:load />

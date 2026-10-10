@@ -1,5 +1,6 @@
 import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect } from 'storybook/test'
 
 import { ChipInput } from '../../src/components/chip-input/ChipInput'
 import { Combobox } from '../../src/components/combobox/Combobox'
@@ -38,15 +39,25 @@ export const CompanionContent: Story = {
   )
 }
 
+// `FormField` renders the feedback and never touches its children: the control takes `invalid`
+// itself, which is what chassis-css shows the feedback by, and names the feedback as its
+// description.
 export const ValidationFeedback: Story = {
   render: () => (
     <FormField
       label="Username"
       invalid
       invalidFeedback="This username is already taken."
-      ids={{ input: 'ffUsername' }}
+      ids={{ feedback: 'ffUsernameFeedback', input: 'ffUsername' }}
     >
-      <ChipInput id="ffUsername" name="username" />
+      <ChipInput aria-describedby="ffUsernameFeedback" id="ffUsername" invalid name="username" />
     </FormField>
-  )
+  ),
+  play: async function ({ canvas }) {
+    const feedback = canvas.getByText('This username is already taken.')
+    await expect(feedback).toBeVisible()
+    const input = canvas.getByRole('textbox')
+    await expect(input).toBeInvalid()
+    await expect(input).toHaveAccessibleDescription('This username is already taken.')
+  }
 }
