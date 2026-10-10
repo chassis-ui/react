@@ -8,10 +8,11 @@ export const Example = () => {
     <FormField
       label="Password"
       help="Use 8 or more characters with a mix of letters, numbers & symbols."
-      ids={{ help: 'password3Help', input: 'password3' }}
+      ids={{ help: 'password3Help', input: 'password3', label: 'password3Label' }}
     >
       <TextInput
         aria-describedby="password3Help"
+        aria-labelledby="password3Label"
         autoComplete="new-password"
         id="password3"
         onChange={setPassword}

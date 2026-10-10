@@ -19,8 +19,9 @@ export const Default: Story = {
   render: function DefaultPasswordStrength() {
     const [password, setPassword] = useState('')
     return (
-      <FormField label="Password" ids={{ input: 'password1' }}>
+      <FormField label="Password" ids={{ input: 'password1', label: 'password1Label' }}>
         <TextInput
+          aria-labelledby="password1Label"
           autoComplete="new-password"
           id="password1"
           onChange={setPassword}
@@ -43,8 +44,9 @@ export const BarVariant: Story = {
   render: function BarPasswordStrength() {
     const [password, setPassword] = useState('correct horse battery staple')
     return (
-      <FormField label="Password" ids={{ input: 'password2' }}>
+      <FormField label="Password" ids={{ input: 'password2', label: 'password2Label' }}>
         <TextInput
+          aria-labelledby="password2Label"
           autoComplete="new-password"
           id="password2"
           onChange={setPassword}
@@ -83,8 +85,9 @@ export const CustomWeights: Story = {
   render: function CustomWeightsPasswordStrength() {
     const [password, setPassword] = useState('nouppercasebutlong123')
     return (
-      <FormField label="Password" ids={{ input: 'password4' }}>
+      <FormField label="Password" ids={{ input: 'password4', label: 'password4Label' }}>
         <TextInput
+          aria-labelledby="password4Label"
           autoComplete="new-password"
           id="password4"
           onChange={setPassword}

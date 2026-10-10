@@ -5,8 +5,9 @@ export const Example = () => {
   const [password, setPassword] = useState('')
 
   return (
-    <FormField label="Password" ids={{ input: 'password2' }}>
+    <FormField label="Password" ids={{ input: 'password2', label: 'password2Label' }}>
       <TextInput
+        aria-labelledby="password2Label"
         autoComplete="new-password"
         id="password2"
         onChange={setPassword}
