@@ -29,9 +29,9 @@ whatever an existing component happens to do.
 - `stories/<family>/<Component>.stories.tsx` — Storybook stories, centralized separately from
   the component they document (matched by `.storybook/main.ts`'s glob against anywhere under
   `src/`, so this is an organizational choice, not something the glob requires).
-- `test/components/<kebab-name>/<PascalName>.spec.tsx` (plus `test/components/<kebab-name>/
-__snapshots__/` for snapshot files) — mirrors `src/components/` the same way `stories/`
-  does, under the top-level `test/` folder that also holds shared setup (`test/setup.ts`, etc.).
+- `test/components/<kebab-name>/<PascalName>.spec.tsx` — mirrors `src/components/` the same way
+  `stories/` does, under the top-level `test/` folder that also holds shared setup
+  (`test/setup.ts`, etc.). No markup snapshots, so no `__snapshots__/` folders (RD12).
 
 Don't colocate tests or stories beside the component (e.g. a `__tests__/` folder inside
 `src/components/<kebab-name>/`) — keep them in the separate `stories/`/`test/` trees above. Once a
@@ -297,6 +297,19 @@ value instead.
 `test/ssr/render.spec.tsx` fails on a story whose server HTML refers to a missing id, and asserts
 the first paint of each case in `test/ssr/firstPaint.tsx`, which `hydrate.spec.tsx` hydrates too. A
 component whose markup changes after it mounts gets a case there.
+
+Portaled content goes through `Portal` (`src/components/portal/Portal.tsx`), never `createPortal`
+directly. `Portal` renders nothing (or its `fallback`) on the server and during hydration, then
+portals, so an overlay can't mismatch the server's HTML. `test/ssr/portal.spec.tsx` checks that
+the overlays still appear once hydrated.
+
+## Show and hide transitions: the phase from `useTransitionState`
+
+A component that animates showing and hiding takes its phase from `useTransitionState`
+(`src/hooks/useTransitionState.ts`) and maps it to chassis-css's classes itself. No duration lives
+in JavaScript: a phase ends with the element's own CSS transition, so a themed duration and
+`prefers-reduced-motion` are followed. `Modal`, `Alert`, `Drawer` and `Menu` wait on the same
+`executeAfterTransition` (`src/utils/dialogTransition.ts`).
 
 ## Measured layout: read in a layout effect, commit before the paint
 

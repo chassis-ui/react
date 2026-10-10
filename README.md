@@ -16,7 +16,7 @@ of live examples and API tables generated from the library's own TypeScript sour
 ## Features
 
 - **Accessible by default**: components are built on [React Aria](https://react-spectrum.adobe.com/react-aria/) and [React Stately](https://react-spectrum.adobe.com/react-stately/), covering keyboard interaction, focus management, and ARIA out of the box.
-- **Token-driven styling**: components render Chassis CSS markup and style themselves through its design tokens, so brand and theme changes apply without touching component code. The few components Chassis CSS doesn't style yet (the calendars, date pickers, `Table`'s sort and selection UI, `DataGrid`) ship their own CSS in `@chassis-ui/react/style.css`, built on the same tokens.
+- **Token-driven styling**: components render Chassis CSS markup and style themselves through its design tokens, so brand and theme changes apply without touching component code. The few pieces Chassis CSS doesn't style yet (the calendars and date pickers, `DataGrid`, `Tree`, `Table`'s sort and selection UI, among others) ship their own CSS in `@chassis-ui/react/style.css`, built on the same tokens.
 - **Fully typed**: written in strict TypeScript, with prop tables for the docs site generated directly from source via `react-docgen-typescript`.
 - **Tested and covered**: a Vitest suite with coverage thresholds, server-render and hydration checks for every story, interaction tests in Chromium, Firefox and WebKit, and Storybook + Playwright visual regression for the families where pixels matter most (overlays, dates, carousel, tables and more; the rest are tracked in [issue #45](https://github.com/chassis-ui/react/issues/45)).
 
@@ -24,7 +24,7 @@ of live examples and API tables generated from the library's own TypeScript sour
 
 ### Installation
 
-Requires React and React DOM 18 or 19:
+Requires React and React DOM 19:
 
 ```shell
 npm install @chassis-ui/react @chassis-ui/css
@@ -41,10 +41,11 @@ function App() {
 }
 ```
 
-A handful of components — `Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`, and
-`Table`'s sort/selection UI — have no `@chassis-ui/css` visual equivalent, so `@chassis-ui/react`
-ships its own compiled stylesheet for just those pieces. Import it once alongside the
-`@chassis-ui/css` stylesheet above:
+A few pieces — the calendars and date pickers, `TimeField`, `NumberField`, `SearchField`,
+`DataGrid`, `Tree`, `Notification`'s fade, `Divider`'s label and `Table`'s sort/selection UI —
+have no `@chassis-ui/css` visual equivalent, so `@chassis-ui/react` ships its own compiled
+stylesheet for just those pieces. Import it once alongside the `@chassis-ui/css` stylesheet
+above:
 
 ```js
 import "@chassis-ui/react/style.css";

@@ -71,7 +71,7 @@ jobs:
 
       # Nothing else type-checks this repo's own source: tsdown's build doesn't check function
       # bodies (it bundles declarations, it doesn't run a full `tsc`), and `react:check:api` only
-      # diffs the emitted .d.ts against a snapshot. History: RD6 in ref/DECISIONS.md.
+      # diffs the emitted .d.ts against a snapshot. History: RD6 in DECISIONS.md.
       - name: Type check
         run: pnpm react:check:types
 
@@ -237,7 +237,7 @@ jobs:
         run: pnpm lint:vnu
 
   # Screenshot regression tests against a built Storybook (packages/react/test/visual/,
-  # packages/react/.storybook/), for the families listed in packages/react/AGENTS.md. Runs inside
+  # packages/react/.storybook/), one spec per family under packages/react/test/visual/. Runs inside
   # the official Playwright container image so the rendered pixels match what the checked-in
   # `test/visual/__snapshots__/*/*-chromium-linux.png` baselines were generated against — the image
   # tag's Playwright version must stay in lockstep with the `@playwright/test` devDependency

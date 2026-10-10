@@ -49,8 +49,8 @@ const ATTRIBUTES = [
   'aria-pressed'
 ]
 
-// Cases known to fail, each with its reason. Empty since phase B2 of AUDIT-PLAN.md; a case listed
-// here is expected to fail, so an entry has to be deleted with its fix.
+// Cases known to fail, each with its reason. Empty today; a case listed here is expected to fail,
+// so an entry has to be deleted with its fix.
 const KNOWN_FAILURES: Record<string, string> = {}
 
 // Components that throw outside their parent are rendered inside it.

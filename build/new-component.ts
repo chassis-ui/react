@@ -2,7 +2,7 @@
 // every component here has, across both packages. It writes the component, its barrel, both
 // entries in `src/index.ts`, a spec, a story, a docs page with one example, and the sidebar entry,
 // then prints the commands still to run. See `packages/react/CONVENTIONS.md` for the rules the
-// files follow, and the "Rules for B11–B19" in `AUDIT-PLAN.md` for what a real component adds.
+// files follow, and "Conventions" in `packages/react/AGENTS.md` for what a real component adds.
 //
 // The component it writes is polymorphic (`createPolymorphicComponent`, so `component` and
 // `asChild` work) and renders a `<div>` with the class named after the component. Replace the body;

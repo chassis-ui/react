@@ -42,9 +42,10 @@ import '@chassis-ui/css/dist/css/chassis.min.css'
 import '@chassis-ui/react/style.css'
 ```
 
-`@chassis-ui/react/style.css` covers the few pieces with no `@chassis-ui/css` equivalent:
-`Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`, and `Table`'s sort and selection UI.
-Without it those pieces render unstyled; everything else is styled by `@chassis-ui/css` alone.
+`@chassis-ui/react/style.css` covers the pieces with no `@chassis-ui/css` equivalent: the
+calendars and date pickers, `TimeField`, `NumberField`, `SearchField`, `DataGrid`, `Tree`,
+`Notification`'s fade, `Divider`'s label and `Table`'s sort and selection UI. Without it those
+pieces render unstyled; everything else is styled by `@chassis-ui/css` alone.
 
 ## Usage
 

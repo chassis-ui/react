@@ -135,8 +135,8 @@ const CASES: Record<string, (wrap: Wrap) => React.ReactElement> = {
   )
 }
 
-// Cases known to fail, each with its reason. Empty since phase B3 of AUDIT-PLAN.md; a case listed
-// here is expected to fail, so an entry has to be deleted with its fix.
+// Cases known to fail, each with its reason. Empty today; a case listed here is expected to fail,
+// so an entry has to be deleted with its fix.
 const KNOWN_FAILURES: Record<string, string> = {}
 
 const FORMS: Record<string, Wrap> = { 'lazy nodes': lazyNode, 'lazy types': lazyType }

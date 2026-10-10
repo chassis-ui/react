@@ -81,8 +81,8 @@ expectTypeOf(
     1
   </PaginationItem>
 ).toBeObject()
-// Phase B5 of AUDIT-PLAN.md gave these the same rule: `href` renders an `<a>` in place of the
-// default, and `MenuItem` without `href` renders a `<button>`.
+// These follow the same rule: `href` renders an `<a>` in place of the default, and `MenuItem`
+// without `href` renders a `<button>`.
 expectTypeOf(
   <CloseButton href="/x" ref={React.createRef<HTMLButtonElement | HTMLAnchorElement>()} />
 ).toBeObject()
@@ -208,7 +208,7 @@ expectTypeOf(
   </SkeletonLoader>
 ).toBeObject()
 
-// --- Open state: `visible`, `defaultVisible`, `onVisibleChange` (audit 3 phase B6) ---
+// --- Open state: `visible`, `defaultVisible`, `onVisibleChange` ---
 
 // `onVisibleChange` takes a state setter as it is.
 declare const setVisible: React.Dispatch<React.SetStateAction<boolean>>

@@ -6,8 +6,8 @@ import { Nav, NavItem, NavLink } from '../../../src/index'
 
 describe('Nav', () => {
   describe('rendering', () => {
-    // A `navigation` role on the `<ul>` took away its list semantics (F10 of AUDIT-PLAN.md). The
-    // landmark is the caller's `<nav>` around it.
+    // A `navigation` role on the `<ul>` took away its list semantics. The landmark is the caller's
+    // `<nav>` around it.
     test('renders a ul with the base class and no role of its own', () => {
       render(<Nav>Test</Nav>)
       const nav = screen.getByRole('list')

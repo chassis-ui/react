@@ -90,7 +90,7 @@ was nothing to reuse. These files already build on the supported `--cx-*` token 
 wherever chassis-css has one (documented in each file's own header comment, which also names the
 four exceptions above) — treat that as the reference implementation for what "component-scoped CSS
 built on the token system" looks like if a
-future component needs the same treatment. Before adding a new one, read `../chassis-css/scss/`
+future component needs the same treatment. Before adding a new one, read `@chassis-ui/css/scss/`
 for an existing partial that already covers the need — don't reimplement first and tokenize later.
 `Calendar.scss`/`DatePicker.scss`'s own header comments are the reference example for how this was
 done for the calendar/datepicker family.
@@ -119,7 +119,7 @@ those goes entirely through the `--cx-*` surface described above.
 
 ### Consuming this package's own emitted stylesheet
 
-Each of these ten files' CSS/Sass side-effect imports (`import './Calendar.scss'`, `import
+Each of these files' CSS/Sass side-effect imports (`import './Calendar.scss'`, `import
 './Table.css'`, `import './Notification.scss'`, `import './DataGrid.scss'`, `import
 './Divider.scss'`, `import './NumberField.scss'`, ...) is compiled by
 tsdown's build into a single real `dist/style.css` file, rather than injected into the page via a

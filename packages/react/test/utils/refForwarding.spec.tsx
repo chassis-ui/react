@@ -20,7 +20,7 @@ const WITHOUT_REF: Record<string, string> = {
   IconProvider: 'provider',
   Scrollspy: 'provider',
   Portal: 'portal',
-  // Render react-aria-components' elements but take no ref yet: left open by audit 3 phase B8.
+  // Render react-aria-components' elements but take no ref yet.
   DataGridBody: 'open',
   DataGridCell: 'open',
   DataGridColumn: 'open',

@@ -18,8 +18,8 @@ import { loadStories, STILL_FAILS } from './stories'
 // browser bundle would see them (see `clientEnvironment.ts`). Rendering the HTML under jsdom instead would hide exactly
 // the `typeof window` branches that cause mismatches.
 
-// Stories known to fail hydration, keyed by story id, each with the finding it belongs to. Empty
-// since B1 of AUDIT-PLAN.md made every portal hydration-safe.
+// Stories known to fail hydration, keyed by story id, each with its reason. Empty since `Portal`
+// made every portal hydration-safe.
 const KNOWN_FAILURES: Record<string, string> = {}
 
 // Stories and first-paint cases alike, keyed by story id or `first paint: <case name>`.

@@ -6,8 +6,8 @@ import * as serverLibrary from '../../src/index'
 import { installClientEnvironment } from './clientEnvironment'
 
 // Portaled content, server-rendered and hydrated: it must hydrate without a mismatch and then
-// actually appear, where it did before `Portal` (B1 of AUDIT-PLAN.md). The hydration sweep only
-// proves the first half. See `hydrate.spec.tsx` for why this runs in Node and installs jsdom later.
+// actually appear, where it did before `Portal`. The hydration sweep only proves the first half.
+// See `hydrate.spec.tsx` for why this runs in Node and installs jsdom later.
 type Library = typeof serverLibrary
 
 // Built with whichever copy of the library is passed: the server's for the HTML, the client's

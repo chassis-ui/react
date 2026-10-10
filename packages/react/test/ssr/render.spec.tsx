@@ -50,7 +50,7 @@ describe('server render of every story', () => {
 
 // What the server's HTML shows before any JavaScript has run: it should be what the page settles
 // to after hydration, except for what only a browser can know (a position, the viewer's time
-// zone) or render (a portal). AUDIT-PLAN.md finding F5.
+// zone) or render (a portal).
 describe('first paint on the server', () => {
   // The case's server HTML, parsed into a document of its own. Query it with `within`.
   function firstPaint(name: string): HTMLElement {

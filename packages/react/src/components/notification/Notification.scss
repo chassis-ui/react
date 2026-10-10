@@ -1,7 +1,7 @@
 /*
  * `Notification` applies chassis-css's generic `.fade` utility (`_transitions.scss`) for its base
  * opacity transition and `:not(.show) { opacity: 0 }` resting state — no chassis-css edit needed
- * for that part. `../chassis-css/scss/_notification.scss` has no `.showing` equivalent of its own
+ * for that part. chassis-css's `_notification.scss` has no `.showing` equivalent of its own
  * (unlike `_toast.scss`'s `.toast.showing { opacity: 0 }`), since a persistent banner has no
  * built-in notion of a fade transition. This file adds just that one Toast-parity rule, so the
  * entering/exiting halfway state (both `show` and `showing` present, per `Notification.tsx`'s

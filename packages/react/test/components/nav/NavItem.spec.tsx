@@ -96,7 +96,7 @@ describe('NavItem', () => {
       expect(screen.getByRole('listitem')).not.toHaveAttribute('aschild')
     })
 
-    // F10 of AUDIT-PLAN.md: they were written onto the `<li>` as attributes.
+    // They were once written onto the `<li>` as attributes, which the HTML validators reject.
     test('without a link, keeps active and disabled off the li, and says so', () => {
       const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
       render(
