@@ -9,7 +9,7 @@
   "cssEntry": ".ds-css/chassis.min.css",
   "extraFonts": ["../../.design-sync/fonts.css"],
   "libOverrides": {
-    "dts.mjs": "package.json declares no `types` field (tsdown emits dist/index.d.ts adjacent to dist/index.js; publint + attw pass) so projectFor() resolved the type entry to a nonexistent <pkg>/index.d.ts and discovered 0 components \u2014 the fork prefers index.d.ts inside the already-resolved typesRoot."
+    "dts.mjs": "package.json declares no `types` field (tsdown emits dist/index.d.ts adjacent to dist/index.js; publint + attw pass) so projectFor() resolved the type entry to a nonexistent <pkg>/index.d.ts and discovered 0 components — the fork prefers index.d.ts inside the already-resolved typesRoot."
   },
   "docsDir": "../site/content/components",
   "extraEntries": ["../../.design-sync/preview-theme-root.js"],
@@ -17,6 +17,12 @@
     "component": "ChassisThemeRoot",
     "props": {
       "theme": "light"
+    },
+    "inner": {
+      "component": "IconProvider",
+      "props": {
+        "font": true
+      }
     }
   },
   "overrides": {
@@ -24,7 +30,8 @@
       "cardMode": "column"
     },
     "Popover": {
-      "cardMode": "column"
+      "cardMode": "single",
+      "primaryStory": "Open"
     },
     "Toast": {
       "cardMode": "single",
@@ -33,6 +40,65 @@
     },
     "Collapse": {
       "skip": ["collapse-collapse--closed"]
+    },
+    "Alert": {
+      "cardMode": "single",
+      "primaryStory": "StackedWithCloseButton"
+    },
+    "ContextMenu": {
+      "cardMode": "single",
+      "primaryStory": "Open"
+    },
+    "Drawer": {
+      "cardMode": "single",
+      "primaryStory": "Default"
+    },
+    "Modal": {
+      "cardMode": "single",
+      "primaryStory": "Default"
+    },
+    "DateRangePicker": {
+      "cardMode": "single",
+      "primaryStory": "OpenWithPresets"
+    },
+    "Divider": {
+      "cardMode": "column"
+    },
+    "Grid": {
+      "cardMode": "column"
+    },
+    "NavOverflow": {
+      "cardMode": "column"
+    },
+    "Navbar": {
+      "cardMode": "column"
+    },
+    "Pagination": {
+      "cardMode": "column"
+    },
+    "Placeholder": {
+      "cardMode": "column"
+    },
+    "DatePicker": {
+      "cardMode": "single",
+      "primaryStory": "Open"
+    },
+    "Menu": {
+      "cardMode": "single",
+      "primaryStory": "Open"
+    },
+    "Tooltip": {
+      "cardMode": "single",
+      "primaryStory": "Top"
+    },
+    "Stack": {
+      "cardMode": "column"
+    },
+    "Container": {
+      "cardMode": "column"
+    },
+    "Carousel": {
+      "cardMode": "column"
     }
   },
   "projectId": "91177c6f-184d-454c-8e14-18a3b29ea396",

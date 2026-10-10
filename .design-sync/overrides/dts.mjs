@@ -16,6 +16,16 @@ export function findTypesRoot(pkgDir, pkgJson) {
   const t = pkgJson.types || pkgJson.typings;
   if (t) return dirname(join(pkgDir, t));
   const hasDts = (d) => { try { return readdirSync(d).some((f) => f.endsWith('.d.ts')); } catch { return false; } };
+  // ---- FORK (chassis-react) --------------------------------------------
+  // packages/react/types/ holds only ambient declarations for dev tooling
+  // (jsdom.d.ts, postcss-prefix-custom-properties.d.ts), not the package's
+  // types. Upstream's candidate list reaches `types` before `dist`, parses
+  // those two files and discovers 0 components. Take the first candidate that
+  // has an index.d.ts before falling back to upstream's order.
+  for (const c of ['build/ts', 'dist/types', 'types', 'lib', 'dist']) {
+    if (existsSync(join(pkgDir, c, 'index.d.ts'))) return join(pkgDir, c);
+  }
+  // ---- /FORK -------------------------------------------------------------
   for (const c of ['build/ts', 'dist/types', 'types', 'lib', 'dist']) {
     const p = join(pkgDir, c);
     if (existsSync(p) && (c !== 'dist' || hasDts(p))) return p;
