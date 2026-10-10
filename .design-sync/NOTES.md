@@ -225,7 +225,8 @@ bottom for what can silently go stale.
   is 24x24. A font-mode span is `.icon:empty`: only its `::before` gets the 24px
   font-size, the span keeps the link's 16px, and the 24px glyph overflows the gap. It
   is what a design built with `<IconProvider font>` really renders, so no owned preview
-  hides it. The fix is in chassis-css (size a font-mode icon's box like the svg's).
+  hides it. The fix is in chassis-css (size a font-mode icon's box like the svg's):
+  chassis-ui/css#25, filed 2026-10-10. Regrade this story once a css release has it.
 - `Spinner` `Grow`, and the grow half of `Sizes`, are blank on BOTH sides of a sheet:
   the harness resets infinite animations to their first frame, and `spinner-grow` starts
   at `scale(0)`. A blank pair proves nothing. Grade from your own capture of both pages
