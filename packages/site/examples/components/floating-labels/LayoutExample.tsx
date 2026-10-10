@@ -4,10 +4,14 @@ export const Example = () => {
   return (
     <Grid columns={{ base: 1, md: 2 }} gap="sm">
       <div>
-        <FloatingInput label="Email address" ids={{ input: 'floatingInputGrid' }}>
+        <FloatingInput
+          label="Email address"
+          ids={{ input: 'floatingInputGrid', label: 'floatingInputGridLabel' }}
+        >
           <TextInput
             type="email"
             id="floatingInputGrid"
+            aria-labelledby="floatingInputGridLabel"
             placeholder="name@example.com"
             defaultValue="email@example.com"
           />

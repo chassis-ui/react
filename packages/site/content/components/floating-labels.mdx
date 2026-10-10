@@ -20,6 +20,11 @@ fields — `FloatingInput` renders the floating `<label>` itself, so don't also 
 wrapped control. A `placeholder` is required on each `<TextInput>`, since this CSS-only technique
 relies on the `:placeholder-shown` pseudo-class.
 
+A `<TextInput>` or `<Textarea>` takes the label's id too: pass `ids.label` and repeat it as the
+control's `aria-labelledby`. The label's `htmlFor` is enough to name the control, but react-aria,
+which these two are built on, reads only the control's own `aria-label`/`aria-labelledby` and warns
+in development about a field it finds neither on. A `<Select>` needs `ids.input` only.
+
 <Example>
   <TextInputsExample client:load />
 </Example>

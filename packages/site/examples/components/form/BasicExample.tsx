@@ -1,16 +1,17 @@
-import { Button, Checkbox, Form, FormHelp, FormLabel, TextInput } from '@chassis-ui/react'
+import { Button, Checkbox, Form, TextInput } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <Form>
       <div className="mb-md">
-        <FormLabel htmlFor="exampleInputEmail1">Email address</FormLabel>
-        <TextInput type="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
-        <FormHelp id="emailHelp">We'll never share your email with anyone else.</FormHelp>
+        <TextInput
+          type="email"
+          label="Email address"
+          help="We'll never share your email with anyone else."
+        />
       </div>
       <div className="mb-md">
-        <FormLabel htmlFor="exampleInputPassword1">Email Password</FormLabel>
-        <TextInput autoComplete="current-password" type="password" id="exampleInputPassword1" />
+        <TextInput autoComplete="current-password" type="password" label="Email Password" />
       </div>
       <Checkbox
         className="mb-md"

@@ -19,8 +19,8 @@ for numerical information) to take advantage of the browser's native input contr
 verification and number selection.
 
 A form combining a labeled email input, a password input, and a checkbox demonstrates the base
-building blocks — `<FormLabel>`, `<TextInput>`, `<FormHelp>`, and `<Checkbox>` — that the rest of
-this doc covers individually.
+building blocks. A `<TextInput>` renders its own `<FormLabel>` and `<FormHelp>` from `label` and
+`help`, already associated with the input, and a `<Checkbox>` its own label.
 
 <Example>
   <BasicExample client:load />
@@ -31,6 +31,10 @@ this doc covers individually.
 `<FormHelp>` renders block-level or inline-level help text alongside a form control. Point the
 control's `aria-describedby` at the same id as the `<FormHelp>` so assistive technology — screen
 readers in particular — announces the help text when the control receives focus.
+
+A `<TextInput>` beside a `<FormLabel>` written by hand takes the label's `id` as `aria-labelledby`,
+as well as the `id` the label's `htmlFor` names: see
+[Manual id wiring]([[docsref:/components/form-field#manual-id-wiring]]).
 
 A block-level `<FormHelp>` gets a top margin for spacing from the input above it.
 

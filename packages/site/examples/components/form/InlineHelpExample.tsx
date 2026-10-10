@@ -4,7 +4,7 @@ export const Example = () => {
   return (
     <Flex wrap="wrap" gap="md" align="center">
       <div>
-        <FormLabel htmlFor="inputPassword6" className="col-form-label">
+        <FormLabel htmlFor="inputPassword6" id="inputPassword6Label" className="col-form-label">
           Password
         </FormLabel>
       </div>
@@ -14,6 +14,7 @@ export const Example = () => {
           type="password"
           id="inputPassword6"
           aria-describedby="passwordHelpInline"
+          aria-labelledby="inputPassword6Label"
         />
       </div>
       <div>

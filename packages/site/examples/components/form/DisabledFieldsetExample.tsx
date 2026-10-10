@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, FormLabel, Select, TextInput } from '@chassis-ui/react'
+import { Button, Checkbox, Form, Select, TextInput } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
@@ -6,12 +6,10 @@ export const Example = () => {
       <fieldset disabled>
         <legend>Disabled fieldset example</legend>
         <div className="mb-md">
-          <FormLabel htmlFor="disabledTextInput">Disabled input</FormLabel>
-          <TextInput id="disabledTextInput" placeholder="Disabled input" />
+          <TextInput label="Disabled input" placeholder="Disabled input" />
         </div>
         <div className="mb-md">
-          <FormLabel htmlFor="disabledSelect">Disabled select menu</FormLabel>
-          <Select id="disabledSelect">
+          <Select label="Disabled select menu">
             <option>Disabled select</option>
           </Select>
         </div>
