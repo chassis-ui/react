@@ -11,9 +11,9 @@ import { Example as ValidationFeedbackExample } from '../../examples/components/
 
 ## Overview
 
-`<FormField>` wraps a form control (or a sm group of them) with a `.form-field` grid layout, along with an associated `FormLabel`, `FormHelp`, and `FormFeedback` — see [chassis-css's Form Field docs](https://chassis-ui.com/css/docs/forms/form-field) for the underlying CSS.
+`<FormField>` wraps a form control (or a small group of them) with a `.form-field` grid layout, along with an associated `FormLabel`, `FormHelp`, and `FormFeedback` — see [chassis-css's Form Field docs](https://chassis-ui.com/css/docs/forms/form-field) for the underlying CSS.
 
-Every form leaf (`TextInput`, `Select`, `Textarea`, `RangeInput`, `Combobox`, `DatePicker`, `ChipInput`, `OtpInput`, ...) already accepts `label`/`help`/`invalidFeedback`/`validFeedback` props directly and wraps itself — reach for those first. Use `<FormField>` to group more than one element — like an input alongside a `PasswordStrength` meter — under a single label and help text.
+Every field component (`TextInput`, `Textarea`, `Select`, `RangeInput`, `FileInput`, `ColorInput`, `Combobox`, `Autocomplete`, `DatePicker`, `DateRangePicker`, `TimeField`, `NumberField`, `SearchField`, `ChipInput`, `OtpInput`) already accepts `label`/`help`/`invalidFeedback`/`validFeedback` props directly, lays itself out the same way and wires the label, help and feedback to its control — reach for those first, and don't wrap one of them in `<FormField>` to label it. Use `<FormField>` for what they can't do: a control with no field props of its own, like an `<InputGroup>`, or more than one element — like an input alongside a `PasswordStrength` meter — under a single label and help text.
 
 `<FormField>` renders nothing but its `children` bare when none of `label`/`help`/`validFeedback`/`invalidFeedback` are set, so it's always safe to reach for.
 
@@ -21,7 +21,7 @@ Every form leaf (`TextInput`, `Select`, `Textarea`, `RangeInput`, `Combobox`, `D
 
 ### Own field props
 
-A leaf component that already accepts `label`/`help` needs no `<FormField>` wrapper at all.
+A field component that already accepts `label`/`help` needs no `<FormField>` wrapper at all, and no ids: it names its control and describes it with the help text itself.
 
 <Example>
   <OwnFieldPropsExample client:load />
@@ -29,7 +29,7 @@ A leaf component that already accepts `label`/`help` needs no `<FormField>` wrap
 
 ### Wrapping a control
 
-A control with no `label`/`help` props of its own — like `<Combobox>` — still gets the same layout wrapped in `<FormField>`.
+A control with no `label`/`help` props of its own — like `<InputGroup>` — still gets the same layout wrapped in `<FormField>`. The `<TextInput>` inside the group can't take `label` itself, which would put the label and help inside the group, so it names the label and the help that `<FormField>` renders through `ids` — see [Manual id wiring](#manual-id-wiring).
 
 <Example>
   <WrappedControlExample client:load />
@@ -37,7 +37,7 @@ A control with no `label`/`help` props of its own — like `<Combobox>` — stil
 
 ### Companion content
 
-Group a control with related content, like a `<PasswordStrength>` meter, under one label.
+Group a control with related content, like a `<PasswordStrength>` meter, under one label. This is the one case for a `<TextInput>` inside `<FormField>`: its own `label` and `help` would wrap the input alone and leave the meter outside the field.
 
 <Example>
   <CompanionContentExample client:load />
@@ -53,7 +53,22 @@ Group a control with related content, like a `<PasswordStrength>` meter, under o
 
 ## Manual id wiring
 
-`<FormField>` doesn't clone its children, so it can't wire ids onto a control it doesn't own. Pass matching values through the `ids` prop — `input` for `htmlFor` (or `label` for a group with no single input to target, wired via the control's own `aria-labelledby`) — and set `aria-describedby`/`aria-labelledby` on the control directly, pointing at the same id.
+`<FormField>` doesn't clone its children, so it can't wire ids onto a control it doesn't own. Without the wiring the label and help are only text beside the control: a screen reader announces neither with it. Choose the ids, pass them through the `ids` prop, and repeat them on the control:
+
+| `ids` key  | `<FormField>` puts it on          | Set on the control                         |
+| ---------- | --------------------------------- | ------------------------------------------ |
+| `input`    | the label, as `htmlFor`           | `id`                                       |
+| `label`    | the label, as its own `id`        | `aria-labelledby`                          |
+| `help`     | the help text, as its `id`        | `aria-describedby`                         |
+| `feedback` | the feedback message, as its `id` | `aria-describedby`, while the state is set |
+
+Which of `input` and `label` to use depends on the control:
+
+- A native `<input>`, `<select>` or `<textarea>`, or a `<Select>`, needs `input` only.
+- A `<TextInput>` or `<Textarea>` takes both. `input` is enough to name it, but react-aria, which these are built on, reads only the control's own `aria-label`/`aria-labelledby`, and warns in development about a field it finds neither on.
+- A group with no single input to target, like a `role="group"` element, takes `label` only: `htmlFor` does nothing on an element that isn't a form control.
+
+A control's own `aria-label` wins over both. `<ChipInput>` falls back to one (`"Add value"`) unless it gets `label`, `aria-label` or `aria-labelledby`, which is one more reason to pass `label` to it rather than wrap it.
 
 ## API
 

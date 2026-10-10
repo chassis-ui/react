@@ -1,4 +1,4 @@
-import { ChipInput, FormField } from '@chassis-ui/react'
+import { FormField, InputGroup, InputGroupAddon, TextInput } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
@@ -6,9 +6,19 @@ export const Example = () => {
       label="Username"
       invalid
       invalidFeedback="This username is already taken."
-      ids={{ feedback: 'ffUsernameFeedback', input: 'ffUsername' }}
+      ids={{ feedback: 'ffUsernameFeedback', input: 'ffUsername', label: 'ffUsernameLabel' }}
     >
-      <ChipInput aria-describedby="ffUsernameFeedback" id="ffUsername" invalid name="username" />
+      <InputGroup>
+        <InputGroupAddon>@</InputGroupAddon>
+        <TextInput
+          aria-describedby="ffUsernameFeedback"
+          aria-labelledby="ffUsernameLabel"
+          defaultValue="chassis"
+          id="ffUsername"
+          invalid
+          name="username"
+        />
+      </InputGroup>
     </FormField>
   )
 }
