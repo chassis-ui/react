@@ -5478,6 +5478,13 @@ type ProgressOwnProps<C extends ElementType> = {
    */
   height?: number;
   /**
+   * Shows that work is under way without saying how much, for a request with no progress events.
+   * The bar sweeps across the track, or fills it with stripes when `striped` is set, and the
+   * `aria-valuenow`, `aria-valuemin` and `aria-valuemax` attributes are left out. `value` and
+   * `inlineValue` are ignored, and `showValue` keeps its place in the caption row empty.
+   */
+  indeterminate?: boolean;
+  /**
    * Shows the current value as text inside the bar, independently of `showValue` — combine both
    * to get a `label` + `showValue` caption above the bar alongside an `inlineValue` reading
    * inside it.
@@ -5528,6 +5535,11 @@ type ProgressBarOwnProps<C extends ElementType> = {
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
   component?: C;
+  /**
+   * Shows that work is under way without saying how much: the bar fills the track and sweeps
+   * across it, or shows its stripes when `striped` is set. `value` is ignored.
+   */
+  indeterminate?: boolean;
   /**
    * Adds a diagonal stripe pattern over the bar's background.
    */

@@ -9,6 +9,8 @@ import {
   PolymorphicRef
 } from '../../utils/polymorphic'
 
+import './Progress.scss'
+
 type ProgressBarOwnProps<C extends ElementType> = {
   /**
    * Use to animate the stripes right to left via CSS3 animations.
@@ -26,6 +28,11 @@ type ProgressBarOwnProps<C extends ElementType> = {
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
   component?: C
+  /**
+   * Shows that work is under way without saying how much: the bar fills the track and sweeps
+   * across it, or shows its stripes when `striped` is set. `value` is ignored.
+   */
+  indeterminate?: boolean
   /**
    * Adds a diagonal stripe pattern over the bar's background.
    */
@@ -52,6 +59,7 @@ function ProgressBarRender<C extends ElementType = 'div'>(
     className,
     color,
     component,
+    indeterminate,
     striped,
     style,
     value = 0,
@@ -66,7 +74,8 @@ function ProgressBarRender<C extends ElementType = 'div'>(
     color && [BG_COLOR_CLASS_NAMES[color], 'fg-contrast'],
     {
       striped,
-      animated
+      animated,
+      indeterminate
     },
     className
   )
@@ -75,7 +84,8 @@ function ProgressBarRender<C extends ElementType = 'div'>(
     <Component
       {...rest}
       className={_className}
-      style={{ width: `${clampedValue}%`, ...style }}
+      // An indeterminate bar takes its width from `Progress.scss`.
+      style={indeterminate ? style : { width: `${clampedValue}%`, ...style }}
       ref={ref}
     >
       <span className="mx-2xs">{children}</span>

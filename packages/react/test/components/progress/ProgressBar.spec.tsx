@@ -36,6 +36,13 @@ describe('ProgressBar', () => {
       expect(screen.getByTestId('bar')).toHaveClass('striped', 'animated', 'bazinga')
     })
 
+    test('takes the indeterminate class and no width when indeterminate', () => {
+      render(<ProgressBar indeterminate value={50} style={{ opacity: 0.5 }} data-testid="bar" />)
+      const bar = screen.getByTestId('bar')
+      expect(bar).toHaveClass('progress-bar', 'indeterminate')
+      expect(bar).toHaveAttribute('style', 'opacity: 0.5;')
+    })
+
     test('merges a custom style with the computed width instead of replacing it', () => {
       render(<ProgressBar value={50} style={{ transition: 'width 0.3s' }} data-testid="bar" />)
       const bar = screen.getByTestId('bar')

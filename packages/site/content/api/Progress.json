@@ -116,6 +116,21 @@
         "name": "number"
       }
     },
+    "indeterminate": {
+      "defaultValue": null,
+      "description": "Shows that work is under way without saying how much, for a request with no progress events.\nThe bar sweeps across the track, or fills it with stripes when `striped` is set, and the\n`aria-valuenow`, `aria-valuemin` and `aria-valuemax` attributes are left out. `value` and\n`inlineValue` are ignored, and `showValue` keeps its place in the caption row empty.",
+      "name": "indeterminate",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/progress/Progress.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "inlineValue": {
       "defaultValue": null,
       "description": "Shows the current value as text inside the bar, independently of `showValue` — combine both\nto get a `label` + `showValue` caption above the bar alongside an `inlineValue` reading\ninside it.",

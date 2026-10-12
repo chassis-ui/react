@@ -10,6 +10,7 @@ import { Example as HeightExample } from '../../examples/components/progress/Hei
 import { Example as ColorExample } from '../../examples/components/progress/ColorExample.tsx'
 import { Example as StripedExample } from '../../examples/components/progress/StripedExample.tsx'
 import { Example as AnimatedExample } from '../../examples/components/progress/AnimatedExample.tsx'
+import { Example as IndeterminateExample } from '../../examples/components/progress/IndeterminateExample.tsx'
 import { Example as CustomExample } from '../../examples/components/progress/CustomExample.tsx'
 
 ## Overview
@@ -64,6 +65,39 @@ The striped gradient can also be animated. Add the `animated` prop alongside `st
   <AnimatedExample client:load />
 </Example>
 
+## Indeterminate
+
+Set `indeterminate` when work is under way and how much of it is done isn't known: a page navigation, an upload before its size is known, a request with no progress events. The bar sweeps across the track, and the `aria-valuenow`, `aria-valuemin` and `aria-valuemax` attributes are left out, so a screen reader announces a progress bar and no percentage. `value` and `inlineValue` are ignored, and `showValue` keeps its place in the caption row empty, so nothing moves when a value arrives.
+
+Add `striped` to fill the track with stripes instead of the sweep, and `animated` to move them. Text inside the bar belongs with `striped`: the sweep stretches the bar it is drawn with.
+
+<Example class="vstack gap-md">
+  <IndeterminateExample client:load />
+</Example>
+
+The sweep animates `transform` only, so it keeps running while the page is busy. Under `prefers-reduced-motion: reduce` it is replaced by still stripes. Set the `--cx-progress-indeterminate-animation` custom property to run an animation of your own, for example a bar that grows towards the end of the track for a page navigation:
+
+```tsx
+<Progress aria-label="Loading page" className="navigation-progress" height={3} indeterminate />
+```
+
+```css
+@keyframes navigation-progress {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(-10%);
+  }
+}
+
+.navigation-progress {
+  --cx-progress-indeterminate-animation: 8s cubic-bezier(0.1, 0.8, 0.2, 1) forwards navigation-progress;
+}
+```
+
+The indeterminate bar is styled by [`@chassis-ui/react/style.css`]([[docsref:/getting-started/introduction#component-specific-styles]]), not by `@chassis-ui/css`.
+
 ## Custom compositions
 
 Combine `<Progress>` with flex utilities to build layouts beyond the built-in `inlineValue` placement, like a leading label and a trailing percentage flanking the bar.
@@ -79,6 +113,6 @@ Combine `<Progress>` with flex utilities to build layouts beyond the built-in `i
 <PropTable component="Progress" />
 ### ProgressBar
 
-`<ProgressBar>` is the presentational inner element `<Progress>` renders automatically. It's exported for advanced, manual compositions (for example custom stacked layouts) — for typical use, `<Progress>` alone is enough.
+`<ProgressBar>` is the presentational inner element `<Progress>` renders automatically. It's exported for advanced, manual compositions (for example custom stacked layouts) — for typical use, `<Progress>` alone is enough. An `indeterminate` segment of a stacked layout needs `striped`: the sweep is clipped by the track, not by its segment.
 
 <PropTable component="ProgressBar" />

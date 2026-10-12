@@ -79,14 +79,16 @@ comment), `DataGrid` (see below), `Divider` (its label, and the line on elements
 `<hr>` — see `Divider.scss`'s own header comment), `NumberField` (its step buttons — see
 `NumberField.scss`'s own header comment), `SearchField` (its clear button, which reads the
 close button's `--cx-close-button-idle-opacity`/`--cx-close-button-hover-opacity` — see
-`SearchField.scss`'s own header comment) and `Tree` (its whole surface, like `DataGrid`'s: the
+`SearchField.scss`'s own header comment), `Progress` (its indeterminate bar, a `.indeterminate`
+modifier of `.progress-bar` that adds only `--cx-progress-indeterminate-animation` — see
+`Progress.scss`'s own header comment) and `Tree` (its whole surface, like `DataGrid`'s: the
 rows of react-aria-components' `treegrid`, indented by level, read `.list`'s `--cx-list-*` and
 `.menu`'s `--cx-menu-item-*` custom properties, and add only `--cx-tree-indent` — see
 `Tree.scss`'s own header comment) are the only places in this package with
 component-scoped CSS/Sass — chassis-css has no visual equivalent for a calendar grid/segmented date
 field, those two `Table` pieces, `Notification`'s Toast-parity fade-in/out, `DataGrid`'s
-non-`<table>` markup, a divider with a label, a number field's step buttons, or a tree, so there
-was nothing to reuse. These files already build on the supported `--cx-*` token surface above
+non-`<table>` markup, a divider with a label, a number field's step buttons, progress of unknown
+extent, or a tree, so there was nothing to reuse. These files already build on the supported `--cx-*` token surface above
 wherever chassis-css has one (documented in each file's own header comment, which also names the
 four exceptions above) — treat that as the reference implementation for what "component-scoped CSS
 built on the token system" looks like if a
@@ -142,7 +144,8 @@ for the pattern this repo's own docs site follows). Skipping this import doesn't
 `Calendar`, `DatePicker`, and `Table`'s sort/selection UI will simply render unstyled for those
 specific pieces, `Notification` will snap in/out at full opacity instead of fading, and a
 `Divider` keeps only the line chassis-css's reboot gives an `<hr>` (a vertical or labelled one
-shows no line), and `NumberField`'s step buttons lose their column and borders, since every other component's chassis-css-only styling is unaffected. `DataGrid` is the one component that
+shows no line), `NumberField`'s step buttons lose their column and borders, and an
+`indeterminate` `Progress` shows an empty track, since every other component's chassis-css-only styling is unaffected. `DataGrid` is the one component that
 degrades further than "unstyled": its stylesheet is also what gives the grid its bounded height and
 `overflow: auto`, without which the virtualizer has no scroll viewport to window rows against and
 lays out every row at once.

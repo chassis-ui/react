@@ -43,6 +43,13 @@ type ProgressOwnProps<C extends ElementType> = {
    */
   height?: number
   /**
+   * Shows that work is under way without saying how much, for a request with no progress events.
+   * The bar sweeps across the track, or fills it with stripes when `striped` is set, and the
+   * `aria-valuenow`, `aria-valuemin` and `aria-valuemax` attributes are left out. `value` and
+   * `inlineValue` are ignored, and `showValue` keeps its place in the caption row empty.
+   */
+  indeterminate?: boolean
+  /**
    * Shows the current value as text inside the bar, independently of `showValue` — combine both
    * to get a `label` + `showValue` caption above the bar alongside an `inlineValue` reading
    * inside it.
@@ -86,6 +93,7 @@ function ProgressRender<C extends ElementType = 'div'>(
     color,
     component,
     height,
+    indeterminate,
     inlineValue,
     label,
     showValue,
@@ -101,7 +109,11 @@ function ProgressRender<C extends ElementType = 'div'>(
   const clampedValue = Math.min(100, Math.max(0, value))
 
   const barChildren =
-    children !== undefined ? children : inlineValue ? `${clampedValue}%` : undefined
+    children !== undefined
+      ? children
+      : inlineValue && !indeterminate
+        ? `${clampedValue}%`
+        : undefined
   const hasCaption = Boolean(label || showValue)
 
   const labelId = useId()
@@ -115,15 +127,21 @@ function ProgressRender<C extends ElementType = 'div'>(
       {...rest}
       className={_className}
       role="progressbar"
-      aria-valuenow={clampedValue}
-      aria-valuemin={0}
-      aria-valuemax={100}
+      aria-valuenow={indeterminate ? undefined : clampedValue}
+      aria-valuemin={indeterminate ? undefined : 0}
+      aria-valuemax={indeterminate ? undefined : 100}
       aria-label={ariaLabel ?? (typeof label === 'string' ? label : undefined)}
       aria-labelledby={!ariaLabel && isNodeLabel ? labelId : undefined}
       style={_style}
       ref={ref}
     >
-      <ProgressBar animated={animated} color={color} striped={striped} value={clampedValue}>
+      <ProgressBar
+        animated={animated}
+        color={color}
+        indeterminate={indeterminate}
+        striped={striped}
+        value={clampedValue}
+      >
         {barChildren}
       </ProgressBar>
     </Component>
@@ -141,7 +159,11 @@ function ProgressRender<C extends ElementType = 'div'>(
             {label}
           </span>
         ) : null}
-        {showValue ? <span className="font-strong">{clampedValue}%</span> : null}
+        {/* An indeterminate bar has no value to show. The row keeps its height, so nothing moves
+            when the value arrives. */}
+        {showValue ? (
+          <span className="font-strong">{indeterminate ? '\u00A0' : `${clampedValue}%`}</span>
+        ) : null}
       </div>
       {progressElement}
     </div>
