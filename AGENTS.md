@@ -38,6 +38,10 @@ build, tests and CI; the guides state the rule and cite the row.
   command of `@chassis-ui/docs`. `pnpm vendor` builds the commit this repository pins, so one
   commit always builds the same site. `pnpm sync-submodules` moves the pin to the latest and
   builds it; commit the new pointer on its own.
+  Both scripts pass `--subset latin --subset latin-ext --split` for the fonts: keep the flags, and
+  add the range of any script a page uses that they don't hold (RD23).
+  The build reads the commit in the index, so `git add vendor/assets` before `pnpm vendor` after a
+  sync.
 
 ## CI
 
