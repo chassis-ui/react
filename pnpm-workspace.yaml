@@ -18,9 +18,16 @@ onlyBuiltDependencies:
   - sharp
 overrides:
   '@babel/core': ^7.29.6
+  # bundlewatch 0.4.2, its latest, asks for axios ^0.31.1, and the advisories against that are
+  # fixed in 0.34.0. Remove when bundlewatch takes it.
+  'axios@<0.34.0': ^0.34.0
   'brace-expansion@<1.1.21': ^1.1.21
   immutable: '>=5.1.8'
   nanoid: '>=3.3.18'
   postcss: '>=8.5.23'
-  sharp: '>=0.35.0'
+  # The 6.x line has no fix, and @stylistic/stylelint-plugin 3, which
+  # stylelint-config-twbs-bootstrap pins, asks for ^6.1.2. Its 5.x takes 7.x but needs
+  # stylelint 17. Remove with that upgrade.
+  'postcss-selector-parser@<7.1.6': ^7.1.6
+  sharp: '>=0.35.5'
   svgo: '>=4.0.2'
