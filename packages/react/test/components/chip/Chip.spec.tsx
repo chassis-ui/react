@@ -107,6 +107,36 @@ describe('Chip', () => {
     })
   })
 
+  // `aria-pressed` went on every chip: on a static one, a span with no role, it is an attribute
+  // the element can't take, which axe's `aria-allowed-attr` reports.
+  describe('pressed state of a chip that is not a control', () => {
+    test('a static chip shows pressed by its class alone', async () => {
+      const { container } = render(<Chip pressed>Filter</Chip>)
+      const chip = screen.getByText('Filter')
+      expect(chip).toHaveClass('active')
+      expect(chip).not.toHaveAttribute('aria-pressed')
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('a chip with onClick, which gets the button role, keeps aria-pressed', () => {
+      render(
+        <Chip pressed onClick={vi.fn()}>
+          Filter
+        </Chip>
+      )
+      expect(screen.getByRole('button', { name: 'Filter' })).toHaveAttribute('aria-pressed', 'true')
+    })
+
+    test('a chip given role="button" by the caller keeps aria-pressed', () => {
+      render(
+        <Chip pressed role="button" tabIndex={0}>
+          Filter
+        </Chip>
+      )
+      expect(screen.getByRole('button', { name: 'Filter' })).toHaveAttribute('aria-pressed', 'true')
+    })
+  })
+
   describe('disabled state', () => {
     test('disables a native button chip and blocks clicks', async () => {
       const user = userEvent.setup()

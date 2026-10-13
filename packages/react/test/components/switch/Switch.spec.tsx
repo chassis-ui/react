@@ -45,6 +45,21 @@ describe('Switch', () => {
   })
 
   describe('styling props', () => {
+    // With no label there is no `.form-check`, and `className` was dropped with it while `style`
+    // went to the `.check-input`.
+    test.each(['checkbox', 'radio'] as const)(
+      'a %s-backed switch with no label takes className and style on its check input',
+      (type) => {
+        render(<Switch aria-label="Wi-Fi" className="bazinga" style={{ margin: 4 }} type={type} />)
+        const checkInput = screen.getByText(
+          (_, element) => element?.classList.contains('check-input') ?? false
+        )
+        expect(checkInput).toHaveClass('check-input', 'bazinga')
+        expect(checkInput).toHaveStyle({ margin: '4px' })
+        expect(checkInput).toContainElement(screen.getByRole('switch', { name: 'Wi-Fi' }))
+      }
+    )
+
     test('applies color, size, invalid/valid classes together, as a radio-backed switch', () => {
       render(
         <Switch

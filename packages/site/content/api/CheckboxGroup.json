@@ -225,7 +225,7 @@
     },
     "required": {
       "defaultValue": null,
-      "description": "Marks the group as required.",
+      "description": "Requires at least one checkbox of the group. While none is selected each carries the native\n`required`, so a form isn't submitted until one is; a `Checkbox` with its own `required`\nstays required whatever the others are.",
       "name": "required",
       "parent": {
         "fileName": "packages/react/src/components/checkbox/CheckboxGroup.tsx",

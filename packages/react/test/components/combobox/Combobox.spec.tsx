@@ -1,8 +1,10 @@
 import * as React from 'react'
 import { act, render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
+import { renderToString as toHtml } from 'react-dom/server'
 
 import { Combobox, ComboboxGroup, ComboboxItem } from '../../../src/index'
+import { danglingReferences } from '../../utils/danglingReferences'
 
 const BasicCombobox = (props: Partial<React.ComponentProps<typeof Combobox>> = {}) => (
   <Combobox aria-label="Fruit" {...props}>
@@ -379,6 +381,30 @@ describe('Combobox', () => {
       expect(wrapper).not.toHaveAttribute('aria-labelledby')
       expect(input.getAttribute('aria-describedby')).toContain('external-desc')
       expect(input).toHaveAttribute('aria-labelledby', 'external-label')
+    })
+  })
+
+  // The no-results message is inside `Portal`, which renders nothing on the server and while
+  // hydrating: an empty combobox's server HTML described its input by an id no element had.
+  describe('server HTML', () => {
+    test('an empty combobox refers to no element its HTML lacks', () => {
+      const html = toHtml(<Combobox aria-label="Fruit" />)
+      expect(html).not.toContain('No results found')
+      expect(danglingReferences(html)).toEqual([])
+      expect(html).not.toContain('aria-describedby')
+    })
+
+    test('an empty combobox with help is described by the help alone', () => {
+      const html = toHtml(<Combobox help="Pick a fruit." label="Fruit" />)
+      expect(danglingReferences(html)).toEqual([])
+      expect(html).toMatch(/<input[^>]* aria-describedby="[^" ]+"/)
+    })
+
+    test('once mounted, an empty combobox is described by its no-results message', () => {
+      render(<Combobox aria-label="Fruit" help="Pick a fruit." />)
+      expect(screen.getByRole('combobox', { name: 'Fruit' })).toHaveAccessibleDescription(
+        'Pick a fruit. No results found'
+      )
     })
   })
 

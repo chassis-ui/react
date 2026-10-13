@@ -22,7 +22,7 @@
     },
     "component": {
       "defaultValue": null,
-      "description": "Component used for the root node. Either a string to use a HTML element or a component. Use\n`\"button\"` or `\"a\"` for an actionable adorn, e.g. a password reveal toggle or a clear button.",
+      "description": "Component used for the root node. Either a string to use a HTML element or a component. Use\n`\"button\"` or `\"a\"` for an actionable adorn, e.g. a password reveal toggle or a clear button.\nA `\"button\"` gets `type=\"button\"` unless `type` is given, so it doesn't submit a form.",
       "name": "component",
       "declarations": [
         {

@@ -49,7 +49,8 @@ type ChipOwnProps<C extends ElementType> = {
   onClick?: MouseEventHandler<HTMLElement>
   /**
    * Marks the chip as pressed for toggle-style usage (e.g. a filter chip). Applies the `.active`
-   * class and sets `aria-pressed` so assistive technology announces the toggle state.
+   * class and sets `aria-pressed` so assistive technology announces the toggle state. A chip
+   * with no `onClick`, `href` or `component="button"` is not a control and gets the class alone.
    */
   pressed?: boolean
   /**
@@ -167,10 +168,14 @@ function ChipRender<C extends ElementType = 'span'>(
     )
   }
 
+  // `aria-pressed` belongs to the button role alone: on a static chip, a span with no role, it is
+  // an attribute the element can't take (axe's `aria-allowed-attr`). `.active` still shows it.
+  const hasButtonRole = needsButtonSemantics || (rest as Record<string, unknown>).role === 'button'
+
   return (
     <Component
       {...(mergeProps(rest, needsButtonSemantics ? buttonProps : {}) as Record<string, unknown>)}
-      aria-pressed={pressed}
+      aria-pressed={hasButtonRole ? pressed : undefined}
       className={_className}
       {...(!needsButtonSemantics && { onClick: handleClick })}
       {...(disabled && { 'aria-disabled': true })}

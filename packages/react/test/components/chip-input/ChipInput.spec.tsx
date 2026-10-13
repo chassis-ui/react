@@ -3,7 +3,7 @@ import { act } from 'react'
 import { render, screen, fireEvent, within } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { ChipInput } from '../../../src/index'
+import { ChipInput, FloatingInput } from '../../../src/index'
 
 describe('ChipInput', () => {
   describe('rendering', () => {
@@ -403,6 +403,26 @@ describe('ChipInput', () => {
       expect(wrapper).not.toHaveAttribute('aria-labelledby')
       expect(input.getAttribute('aria-describedby')).toContain('external-desc')
       expect(input).toHaveAttribute('aria-labelledby', 'external-label')
+    })
+  })
+
+  describe('inside a FloatingInput', () => {
+    // The fallback `aria-label` looked at the raw `label` and `aria-labelledby` props, not at
+    // the label a `FloatingInput` hands down: the input kept "Add value", which react-aria puts
+    // in front of the label, and was named "Add value Skills".
+    test('is named by the floating label alone, without the fallback aria-label', () => {
+      render(
+        <FloatingInput label="Skills">
+          <ChipInput />
+        </FloatingInput>
+      )
+      const input = screen.getByRole('textbox', { name: 'Skills' })
+      expect(input).not.toHaveAttribute('aria-label')
+    })
+
+    test('keeps the fallback aria-label with no label of any kind', () => {
+      render(<ChipInput />)
+      expect(screen.getByRole('textbox', { name: 'Add value' })).toBeInTheDocument()
     })
   })
 

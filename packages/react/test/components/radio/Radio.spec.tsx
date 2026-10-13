@@ -171,6 +171,38 @@ describe('Radio', () => {
     })
   })
 
+  describe('form', () => {
+    // `form` was taken out with the props the group owns, so a radio could not be linked to a
+    // form it isn't inside, as its props type says it can.
+    test('links the radio to the form named by its form prop', () => {
+      render(
+        <>
+          <form aria-label="Checkout" id="checkout" />
+          <RadioGroup defaultValue="pro" label="Plan" name="plan">
+            <Radio form="checkout" value="free" label="Free" />
+            <Radio form="checkout" value="pro" label="Pro" />
+          </RadioGroup>
+        </>
+      )
+      const form = screen.getByRole('form', { name: 'Checkout' })
+      for (const radio of screen.getAllByRole<HTMLInputElement>('radio')) {
+        expect(radio).toHaveAttribute('form', 'checkout')
+        expect(radio.form).toBe(form)
+      }
+    })
+
+    test("keeps the group's name and required state over the radio's own", () => {
+      render(
+        <RadioGroup label="Plan" name="plan">
+          <Radio name="other" required value="free" label="Free" />
+        </RadioGroup>
+      )
+      const radio = screen.getByRole('radio', { name: 'Free' })
+      expect(radio).toHaveAttribute('name', 'plan')
+      expect(radio).not.toBeRequired()
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying input', () => {
       const ref = React.createRef<HTMLInputElement>()

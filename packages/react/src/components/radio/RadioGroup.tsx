@@ -61,7 +61,8 @@ export interface RadioGroupProps extends Omit<
    */
   orientation?: 'horizontal' | 'vertical'
   /**
-   * Marks the group as required.
+   * Marks the group as required: `aria-required` on the group and the native `required` on its
+   * radios, so a form isn't submitted until one of them is selected.
    */
   required?: boolean
   /**

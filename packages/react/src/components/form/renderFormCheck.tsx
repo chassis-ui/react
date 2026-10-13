@@ -40,7 +40,7 @@ export interface RenderFormCheckOptions {
 // Shared nested, modern `.form-check`/`.check-input` markup for Checkbox and Radio —
 // see https://chassis-ui.com/css/docs/forms/checkbox-radio/#modern-inputs. Everything renders
 // nested inside a single <label> (or a bare <span class="check-input"> when there's no label);
-// there is no sibling/`for`-linked layout. `style` goes on the outermost element.
+// there is no sibling/`for`-linked layout. `className` and `style` go on the outermost element.
 export const renderFormCheck = ({
   button,
   className,
@@ -73,9 +73,11 @@ export const renderFormCheck = ({
 
   const checkInputClassName = classNames('check-input', color, validationClassName(invalid, valid))
 
+  // With no label the `.check-input` is the outermost element, so it takes `className` as it
+  // takes `style`.
   if (!label) {
     return (
-      <span className={checkInputClassName} style={style}>
+      <span className={classNames(checkInputClassName, className)} style={style}>
         {input}
       </span>
     )

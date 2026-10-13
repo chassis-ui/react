@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { Checkbox, CheckboxGroup } from '../../../src/index'
@@ -86,6 +86,63 @@ describe('CheckboxGroup', () => {
       expect(email).toHaveClass('is-valid')
       expect(email).not.toHaveClass('is-invalid')
       expect(screen.getByRole('checkbox', { name: 'SMS' })).toHaveClass('is-invalid')
+    })
+  })
+
+  // `required` reached react-aria alone, which writes `aria-required`: no checkbox carried the
+  // native attribute, and a form with nothing selected reported itself valid.
+  describe('required', () => {
+    test('a required group asks its form for one checkbox, not for every one', () => {
+      render(
+        <form aria-label="Settings">
+          <CheckboxGroup label="Notifications" name="channels" required>
+            <Checkbox value="email" label="Email" />
+            <Checkbox value="sms" label="SMS" />
+          </CheckboxGroup>
+        </form>
+      )
+      const form = screen.getByRole<HTMLFormElement>('form', { name: 'Settings' })
+      const email = screen.getByRole('checkbox', { name: 'Email' })
+      const sms = screen.getByRole('checkbox', { name: 'SMS' })
+      // The native attribute alone, without react-aria's `aria-required` copy.
+      expect(email).toHaveAttribute('required')
+      expect(email).not.toHaveAttribute('aria-required')
+      expect(sms).toHaveAttribute('required')
+      expect(form.checkValidity()).toBe(false)
+
+      fireEvent.click(email)
+      expect(email).not.toBeRequired()
+      expect(sms).not.toBeRequired()
+      expect(form.checkValidity()).toBe(true)
+
+      fireEvent.click(email)
+      expect(form.checkValidity()).toBe(false)
+    })
+
+    test("a checkbox's own required stays, whatever the group has selected", () => {
+      render(
+        <form aria-label="Settings">
+          <CheckboxGroup defaultValue={['email']} label="Notifications" name="channels">
+            <Checkbox value="email" label="Email" />
+            <Checkbox required value="terms" label="Terms" />
+          </CheckboxGroup>
+        </form>
+      )
+      expect(screen.getByRole('checkbox', { name: 'Email' })).not.toBeRequired()
+      expect(screen.getByRole('checkbox', { name: 'Terms' })).toHaveAttribute('required')
+      expect(screen.getByRole<HTMLFormElement>('form', { name: 'Settings' }).checkValidity()).toBe(
+        false
+      )
+    })
+
+    test('has no axe violations as a required group', async () => {
+      const { container } = render(
+        <CheckboxGroup label="Notifications" name="channels" required>
+          <Checkbox value="email" label="Email" />
+          <Checkbox value="sms" label="SMS" />
+        </CheckboxGroup>
+      )
+      expect(await axe(container)).toHaveNoViolations()
     })
   })
 

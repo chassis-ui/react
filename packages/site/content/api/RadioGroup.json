@@ -225,7 +225,7 @@
     },
     "required": {
       "defaultValue": null,
-      "description": "Marks the group as required.",
+      "description": "Marks the group as required: `aria-required` on the group and the native `required` on its\nradios, so a form isn't submitted until one of them is selected.",
       "name": "required",
       "parent": {
         "fileName": "packages/react/src/components/radio/RadioGroup.tsx",

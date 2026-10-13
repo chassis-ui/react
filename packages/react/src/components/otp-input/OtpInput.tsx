@@ -244,7 +244,9 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
       const digits = onlyDigits(event.clipboardData.getData('text')).slice(0, total)
       if (!digits) return
       commit(toBoxes(digits, total))
-      focusBox(Math.min(digits.length, total) - 1)
+      // The next empty box, as the autofill branch of `handleChange` does: a box selects its
+      // content on focus, so on the last filled one the next digit typed would replace it.
+      focusBox(Math.min(digits.length, total - 1))
     }
 
     const renderBoxes = (start: number, count: number) =>

@@ -60,7 +60,9 @@ export interface CheckboxGroupProps extends Omit<
    */
   orientation?: 'horizontal' | 'vertical'
   /**
-   * Marks the group as required.
+   * Requires at least one checkbox of the group. While none is selected each carries the native
+   * `required`, so a form isn't submitted until one is; a `Checkbox` with its own `required`
+   * stays required whatever the others are.
    */
   required?: boolean
   /**

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
 import { Autocomplete, AutocompleteGroup, AutocompleteItem } from '../../../src/index'
@@ -309,6 +310,86 @@ describe('Autocomplete', () => {
       expect(button.closest('.form-field')).not.toBeNull()
       expect(screen.getByText('Fruit').tagName).toBe('LABEL')
       expect(screen.getByText('Fruit')).not.toHaveAttribute('for')
+    })
+  })
+
+  // Closing always focused the toggle: leaving the open search field for another field, by a
+  // press there or by Tab, closed the list and pulled focus straight back.
+  describe('focus when the list closes', () => {
+    const renderBesideField = () => {
+      render(
+        <>
+          <BasicAutocomplete />
+          <input aria-label="Notes" />
+        </>
+      )
+      // Read before the list opens: while it is open, react-aria hides everything else from
+      // assistive technology, role queries included.
+      return {
+        notes: screen.getByRole('textbox', { name: 'Notes' }),
+        toggle: screen.getByRole('button', { name: 'Fruit' })
+      }
+    }
+
+    test('stays on another field the user pressed', async () => {
+      const user = userEvent.setup()
+      const { notes, toggle } = renderBesideField()
+      await user.click(toggle)
+      expect(screen.getByRole('combobox')).toHaveFocus()
+
+      await user.click(notes)
+      expect(getListboxWrapper()).toHaveAttribute('hidden')
+      expect(notes).toHaveFocus()
+    })
+
+    test('stays on another field the user tabbed to', async () => {
+      const user = userEvent.setup()
+      const { notes, toggle } = renderBesideField()
+      await user.click(toggle)
+      expect(screen.getByRole('combobox')).toHaveFocus()
+
+      // The list is portaled to the end of the body, so the field before it is one Shift+Tab away.
+      await user.tab({ shift: true })
+      expect(getListboxWrapper()).toHaveAttribute('hidden')
+      expect(notes).toHaveFocus()
+    })
+
+    test('returns to the toggle when Escape closes the list', async () => {
+      const user = userEvent.setup()
+      const { toggle } = renderBesideField()
+      await user.click(toggle)
+      await user.keyboard('{Escape}')
+      expect(getListboxWrapper()).toHaveAttribute('hidden')
+      expect(toggle).toHaveFocus()
+    })
+  })
+
+  // The toggle's own props were spread after the caller's, replacing `onClick`, `onKeyDown` and
+  // `onFocus` instead of running beside them.
+  describe('handlers on the toggle', () => {
+    test("runs the caller's onFocus, onKeyDown and onClick, and still opens the list", async () => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      const onFocus = vi.fn()
+      const onKeyDown = vi.fn()
+      render(<BasicAutocomplete onClick={onClick} onFocus={onFocus} onKeyDown={onKeyDown} />)
+      const toggle = screen.getByRole('button', { name: 'Fruit' })
+
+      await user.tab()
+      expect(toggle).toHaveFocus()
+      expect(onFocus).toHaveBeenCalledTimes(1)
+
+      await user.keyboard('a')
+      expect(onKeyDown).toHaveBeenCalledTimes(1)
+
+      await user.click(toggle)
+      expect(onClick).toHaveBeenCalledTimes(1)
+      expect(getListboxWrapper()).not.toHaveAttribute('hidden')
+    })
+
+    test('a disabled toggle stays out of the tab order, whatever tabIndex the caller gives', () => {
+      render(<BasicAutocomplete disabled tabIndex={0} />)
+      expect(screen.getByRole('button', { name: 'Fruit' })).not.toHaveAttribute('tabindex')
     })
   })
 

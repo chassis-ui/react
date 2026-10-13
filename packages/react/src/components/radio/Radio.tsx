@@ -50,8 +50,9 @@ export interface RadioProps extends Omit<
   value: string
 }
 
-// The group owns its radios' `name`, `form` and required state, and which one is the tab stop.
-const RADIO_PROPS = [...TOGGLE_PROPS, 'form', 'name', 'required', 'tabIndex']
+// The group owns its radios' `name` and required state, and which one is the tab stop. `form`
+// is the radio's own, as a `Checkbox` in a `CheckboxGroup` keeps its own.
+const RADIO_PROPS = [...TOGGLE_PROPS, 'name', 'required', 'tabIndex']
 
 // `<Radio>` must be rendered inside a `<RadioGroup>` — react-aria has no standalone
 // radio hook, only useRadio(props, RadioGroupState, ref), because a lone radio with no group is
@@ -100,6 +101,9 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
           className={inputClassName}
           id={id}
           ref={forkedRef}
+          // A required group is the native `required` on its radios, which share a `name`: a
+          // form then asks for one of them. react-aria writes `aria-required` on the group alone.
+          required={groupState.isRequired || undefined}
         />
       ),
       invalid,

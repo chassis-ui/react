@@ -1,6 +1,7 @@
 import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
+import { resolveElementKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -15,6 +16,7 @@ type InputAdornOwnProps<C extends ElementType> = {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component. Use
    * `"button"` or `"a"` for an actionable adorn, e.g. a password reveal toggle or a clear button.
+   * A `"button"` gets `type="button"` unless `type` is given, so it doesn't submit a form.
    */
   component?: C
 }
@@ -42,8 +44,18 @@ function InputAdornRender<C extends ElementType = 'span'>(
       event.preventDefault()
     }
   }
+  // A `<button>` with no `type` is a submit button: a password reveal adorn submitted the form
+  // around its input. The caller's own `type` in `rest` still wins.
+  const buttonType =
+    resolveElementKind(Component) === 'button' ? { type: 'button' as const } : undefined
   return (
-    <Component className={_className} onMouseDown={handleMouseDown} {...rest} ref={ref}>
+    <Component
+      className={_className}
+      onMouseDown={handleMouseDown}
+      {...buttonType}
+      {...rest}
+      ref={ref}
+    >
       {children}
     </Component>
   )

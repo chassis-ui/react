@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { InputAdorn } from '../../../src/index'
@@ -22,6 +22,61 @@ describe('InputAdorn', () => {
       const adorn = screen.getByRole('button', { name: 'Clear' })
       expect(adorn).toHaveClass('input-adorn', 'bazinga')
       expect(adorn.tagName).toBe('BUTTON')
+    })
+  })
+
+  // A `<button>` with no `type` submits: a password reveal adorn submitted the form around it.
+  describe('button type', () => {
+    const setupInForm = (adorn: React.ReactElement) => {
+      const onSubmit = vi.fn((event: React.FormEvent) => event.preventDefault())
+      render(
+        <form aria-label="Sign in" onSubmit={onSubmit}>
+          <input aria-label="Password" type="password" />
+          {adorn}
+        </form>
+      )
+      return onSubmit
+    }
+
+    test('a button adorn is type="button" by default and does not submit its form', () => {
+      const onSubmit = setupInForm(
+        <InputAdorn aria-label="Show password" component="button">
+          Show
+        </InputAdorn>
+      )
+      const adorn = screen.getByRole('button', { name: 'Show password' })
+      expect(adorn).toHaveAttribute('type', 'button')
+      fireEvent.click(adorn)
+      expect(onSubmit).not.toHaveBeenCalled()
+    })
+
+    test('a slotted button gets the same default', () => {
+      const onSubmit = setupInForm(
+        <InputAdorn asChild>
+          <button aria-label="Show password">Show</button>
+        </InputAdorn>
+      )
+      const adorn = screen.getByRole('button', { name: 'Show password' })
+      expect(adorn).toHaveAttribute('type', 'button')
+      fireEvent.click(adorn)
+      expect(onSubmit).not.toHaveBeenCalled()
+    })
+
+    test('keeps a type the caller gives', () => {
+      const onSubmit = setupInForm(
+        <InputAdorn aria-label="Sign in" component="button" type="submit">
+          Go
+        </InputAdorn>
+      )
+      const adorn = screen.getByRole('button', { name: 'Sign in' })
+      expect(adorn).toHaveAttribute('type', 'submit')
+      fireEvent.click(adorn)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+
+    test('leaves type off an element that is not a button', () => {
+      render(<InputAdorn>kg</InputAdorn>)
+      expect(screen.getByText('kg')).not.toHaveAttribute('type')
     })
   })
 

@@ -253,7 +253,11 @@ describe('NumberField', () => {
 
     test('marks a required field', () => {
       render(<NumberField aria-label="Amount" required />)
-      expect(screen.getByRole('textbox', { name: 'Amount' })).toBeRequired()
+      const input = screen.getByRole('textbox', { name: 'Amount' })
+      expect(input).toBeRequired()
+      // The native attribute, which a form checks, without react-aria's `aria-required` copy.
+      expect(input).toHaveAttribute('required')
+      expect(input).not.toHaveAttribute('aria-required')
     })
 
     test('describes the input with its help and feedback only', () => {
@@ -269,6 +273,35 @@ describe('NumberField', () => {
   })
 
   describe('form', () => {
+    // `required` reached react-aria alone, which writes `aria-required`: no native input carried
+    // it, and the form of an empty required field reported itself valid.
+    test('a required field keeps its form invalid until it has a value', async () => {
+      const user = userEvent.setup()
+      render(
+        <form aria-label="Order">
+          <NumberField label="Quantity" name="quantity" required />
+        </form>
+      )
+      const form = screen.getByRole<HTMLFormElement>('form', { name: 'Order' })
+      expect(form.checkValidity()).toBe(false)
+      await user.type(screen.getByRole('textbox', { name: 'Quantity' }), '3')
+      await user.tab()
+      expect(form.checkValidity()).toBe(true)
+      expect(form).toHaveFormValues({ quantity: '3' })
+    })
+
+    test('a field that is not required leaves its form valid when empty', () => {
+      render(
+        <form aria-label="Order">
+          <NumberField label="Quantity" name="quantity" />
+        </form>
+      )
+      expect(screen.getByRole<HTMLFormElement>('form', { name: 'Order' }).checkValidity()).toBe(
+        true
+      )
+      expect(screen.getByRole('textbox', { name: 'Quantity' })).not.toBeRequired()
+    })
+
     test('submits the number, not the formatted text, under name', () => {
       render(
         <form aria-label="Order">

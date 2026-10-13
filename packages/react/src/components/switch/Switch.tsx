@@ -68,6 +68,7 @@ export interface SwitchProps extends Omit<
 type SwitchVariantProps = Omit<SwitchProps, 'type'>
 
 interface RenderSwitchOptions {
+  bareClassName: string
   checkInputClassName: string
   className: string
   input: ReactNode
@@ -79,6 +80,7 @@ interface RenderSwitchOptions {
 // FORMS.md) rather than sharing that helper directly, since `role="switch"` placement didn't fit
 // it cleanly. Keep this in sync with renderFormCheck by eye if either changes.
 const renderSwitch = ({
+  bareClassName,
   checkInputClassName,
   className,
   input,
@@ -87,7 +89,7 @@ const renderSwitch = ({
 }: RenderSwitchOptions) => {
   if (!label) {
     return (
-      <span className={checkInputClassName} style={style}>
+      <span className={bareClassName} style={style}>
         {input}
       </span>
     )
@@ -115,7 +117,8 @@ interface RenderSwitchInputOptions {
 
 // Shared className-building/markup for `SwitchCheckbox`/`SwitchRadio` — the two variants only
 // differ in how `inputProps` gets built (a react-aria hook vs. a hand-wired radio), everything
-// after that is identical. `style` goes on the outermost element, as `className` does.
+// after that is identical. `style` goes on the outermost element, as `className` does: the
+// label, or the `.check-input` when there is no label.
 const renderSwitchInput = ({
   className,
   color,
@@ -138,6 +141,9 @@ const renderSwitchInput = ({
   )
 
   return renderSwitch({
+    // With no label the `.check-input` is the outermost element, and takes the caller's
+    // `className` as it takes `style`.
+    bareClassName: classNames(checkInputClassName, className),
     checkInputClassName,
     className: _className,
     input: <input {...inputProps} className={inputClassName} id={id} ref={forkedRef} />,

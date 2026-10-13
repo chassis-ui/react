@@ -161,8 +161,9 @@ export interface DateRangePickerProps extends Omit<
   /**
    * A list of quick-select range presets shown in the overlay next to the calendar. Selecting a
    * preset commits its range immediately, the same as picking a start and end date from the
-   * calendar. The preset matching the current selection (if any) is marked selected. Omit to not
-   * show a preset list.
+   * calendar: in order, kept inside `minValue`/`maxValue`, and with the times of the current
+   * range. A preset with no day inside those limits is disabled. The preset matching the current
+   * selection (if any) is marked selected. Omit to not show a preset list.
    */
   presets?: DateRangePreset[]
   /**
@@ -327,6 +328,9 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
     } = useDateRangePicker(
       {
         ...pickerProps,
+        // Given to the hook, so the help and feedback describe the segments of both fields, which
+        // take focus, and the calendar button, not only the group around them.
+        'aria-describedby': describedBy,
         'aria-label': rest['aria-label'],
         'aria-labelledby': labelledBy,
         id: groupId
@@ -334,6 +338,9 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       state,
       groupRef
     )
+    // As in `DatePicker`: react-aria's value keeps its description of the selected range, without
+    // the slot ids (FORMS.md, gotcha 6), and is set again after the spread (gotcha 4).
+    const group = withoutSlotIds(groupProps, descriptionProps, errorMessageProps)
 
     const { overlayStyle, placementAttr, overlayDismissProps } = useOverlayPlacement({
       overlayRef,
@@ -409,8 +416,8 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
                 ),
                 fieldClassName: 'd-flex w-100',
                 groupProps: {
-                  ...mergeProps(groupProps, rest),
-                  'aria-describedby': describedBy,
+                  ...mergeProps(group, rest),
+                  'aria-describedby': group['aria-describedby'],
                   'aria-labelledby': labelledBy
                 },
                 groupRef: forkedGroupRef,

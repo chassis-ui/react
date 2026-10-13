@@ -454,6 +454,63 @@ describe('DateRangePicker', () => {
     })
   })
 
+  describe('presets, as the grid would select them', () => {
+    test('keeps a preset inside minValue and maxValue, and still closes the calendar', () => {
+      const onChange = vi.fn()
+      render(
+        <DateRangePicker
+          aria-label="Trip dates"
+          maxValue={new CalendarDate(2026, 7, 20)}
+          minValue={new CalendarDate(2026, 7, 10)}
+          onChange={onChange}
+          presets={[
+            {
+              label: 'July',
+              range: { end: new CalendarDate(2026, 7, 31), start: new CalendarDate(2026, 7, 1) }
+            }
+          ]}
+        />
+      )
+      openCalendar()
+      fireEvent.click(screen.getByRole('button', { name: 'July' }))
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith({
+        end: new CalendarDate(2026, 7, 20),
+        start: new CalendarDate(2026, 7, 10)
+      })
+      expect(getCalendarWrapper()).toHaveAttribute('hidden')
+      expect(screen.getByRole('group', { name: 'Trip dates' })).not.toHaveClass('is-invalid')
+    })
+
+    test('keeps the times of the current range', () => {
+      const onChange = vi.fn()
+      render(
+        <DateRangePicker
+          aria-label="Trip dates"
+          defaultValue={{
+            end: new CalendarDateTime(2026, 7, 5, 17, 0),
+            start: new CalendarDateTime(2026, 7, 3, 9, 30)
+          }}
+          onChange={onChange}
+          presets={[
+            {
+              label: 'Mid July',
+              range: { end: new CalendarDate(2026, 7, 20), start: new CalendarDate(2026, 7, 10) }
+            }
+          ]}
+        />
+      )
+      openCalendar()
+      fireEvent.click(screen.getByRole('button', { name: 'Mid July' }))
+
+      expect(onChange).toHaveBeenCalledWith({
+        end: new CalendarDateTime(2026, 7, 20, 17, 0),
+        start: new CalendarDateTime(2026, 7, 10, 9, 30)
+      })
+    })
+  })
+
   describe('time', () => {
     const segmentText = () =>
       screen.getAllByRole('spinbutton').map((segment) => segment.textContent)
@@ -608,6 +665,62 @@ describe('DateRangePicker', () => {
       const group = screen.getByRole('group', { name: 'Trip dates' })
       expect(screen.getByText('Required')).toHaveClass('invalid-feedback')
       expect(group).toHaveClass('is-invalid')
+    })
+  })
+
+  // The help and feedback ids went on the group alone, which takes no focus: the segments and
+  // the calendar button, which do, were described by nothing. And the group's own value replaced
+  // react-aria's, which also holds its description of the selected range.
+  describe('description', () => {
+    test('describes the first segment of each field and the calendar button by the help', () => {
+      render(
+        <>
+          <span id="extra-help">In your time zone.</span>
+          <DateRangePicker aria-describedby="extra-help" help="Up to 30 nights." label="Stay" />
+        </>
+      )
+      const description = 'Up to 30 nights. In your time zone.'
+      expect(screen.getByRole('group', { name: 'Stay' })).toHaveAccessibleDescription(description)
+      const segments = screen.getAllByRole('spinbutton')
+      expect(segments).toHaveLength(6)
+      // react-aria describes the first segment of a field alone, so the help isn't read on each.
+      segments.forEach((segment, index) => {
+        if (index % 3 === 0) expect(segment).toHaveAccessibleDescription(description)
+        else expect(segment).not.toHaveAttribute('aria-describedby')
+      })
+      expect(screen.getByRole('button', { name: /calendar/i })).toHaveAccessibleDescription(
+        description
+      )
+    })
+
+    test('describes every segment by the feedback while invalid', () => {
+      render(
+        <DateRangePicker help="Up to 30 nights." invalid invalidFeedback="Required." label="Stay" />
+      )
+      for (const segment of screen.getAllByRole('spinbutton')) {
+        expect(segment).toHaveAccessibleDescription('Up to 30 nights. Required.')
+        // The help and the feedback, and no id of a react-aria slot that isn't rendered.
+        expect(segment.getAttribute('aria-describedby')?.split(' ')).toHaveLength(2)
+      }
+    })
+
+    test("keeps react-aria's description of the selected range on the group, beside the help", () => {
+      render(
+        <DateRangePicker
+          defaultValue={{
+            end: new CalendarDate(2024, 3, 20),
+            start: new CalendarDate(2024, 3, 15)
+          }}
+          help="Up to 30 nights."
+          label="Stay"
+        />
+      )
+      const group = screen.getByRole('group', { name: 'Stay' })
+      // How the two dates are joined is `Intl`'s choice ("March 15 to 20, 2024").
+      expect(group).toHaveAccessibleDescription(
+        /^Selected Range: March 15.* 2024 Up to 30 nights\.$/
+      )
+      expect(group.getAttribute('aria-describedby')?.split(' ')).toHaveLength(2)
     })
   })
 

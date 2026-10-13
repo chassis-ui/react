@@ -79,6 +79,38 @@ describe('Progress', () => {
     })
   })
 
+  // The component's own `aria-labelledby` came after the spread of the caller's props, and was
+  // `undefined` whenever there was no node label: the caller's value never reached the element.
+  describe('aria-labelledby', () => {
+    test("keeps the caller's aria-labelledby", () => {
+      render(
+        <>
+          <h2 id="upload-title">Uploading photos</h2>
+          <Progress aria-labelledby="upload-title" value={40} />
+        </>
+      )
+      expect(screen.getByRole('progressbar', { name: 'Uploading photos' })).toHaveAttribute(
+        'aria-labelledby',
+        'upload-title'
+      )
+    })
+
+    test("the caller's aria-labelledby wins over a node label's id", () => {
+      render(
+        <>
+          <h2 id="upload-title">Uploading photos</h2>
+          <Progress aria-labelledby="upload-title" label={<em>Step 2</em>} value={40} />
+        </>
+      )
+      expect(screen.getByRole('progressbar', { name: 'Uploading photos' })).toBeInTheDocument()
+    })
+
+    test('a node label still names the bar when the caller gives none', () => {
+      render(<Progress label={<em>Step 2</em>} value={40} />)
+      expect(screen.getByRole('progressbar', { name: 'Step 2' })).toBeInTheDocument()
+    })
+  })
+
   describe('label, showValue and inlineValue', () => {
     test('shows the value in the caption (not inside the bar) when only showValue is set', () => {
       render(<Progress aria-label="Test" showValue value={40} />)

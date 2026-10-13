@@ -304,7 +304,9 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
     const { inputProps } = useTextField(
       {
         'aria-describedby': describedBy,
-        'aria-label': ariaLabel ?? (ariaLabelledBy || label ? undefined : 'Add value'),
+        // The merged `labelledBy`, not the raw props: a wrapping `FloatingInput` names the field
+        // too, and react-aria puts an `aria-label` given beside `aria-labelledby` in front of it.
+        'aria-label': ariaLabel ?? (labelledBy ? undefined : 'Add value'),
         'aria-labelledby': labelledBy,
         id: inputId,
         isDisabled: disabled,

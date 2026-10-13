@@ -266,6 +266,8 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(
         // field sets; the Nu Html Checker flags the copies.
         aria-disabled={undefined}
         aria-readonly={undefined}
+        // The native `required` below says the same.
+        aria-required={undefined}
         aria-roledescription={hydrated ? inputProps['aria-roledescription'] : undefined}
         className={classNames(
           hasWrapper ? 'ghost-input' : 'form-input',
@@ -276,6 +278,10 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(
         form={form}
         inputMode={hydrated ? inputProps.inputMode : 'numeric'}
         ref={forkedRef}
+        // On the visible input, not the hidden one that carries `name`: a hidden input is barred
+        // from constraint validation, and this one is empty exactly when the value is. react-aria
+        // writes `aria-required` alone, which no form checks.
+        required={required || undefined}
         style={hasWrapper ? undefined : style}
       />
     )

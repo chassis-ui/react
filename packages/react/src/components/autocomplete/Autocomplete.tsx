@@ -288,12 +288,17 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
   // closes — `useComboBox` only knows about `inputRef` as its focus target, and that input is
   // `hidden` (via the panel) while closed, so without this, closing (via Escape, selection, or
   // outside click) would drop focus entirely instead of landing back on the toggle.
+  // Only focus that the closing would lose is restored: still inside the panel, which is hidden
+  // now, or already dropped to the body. Focus the user moved to another field, by Tab or a
+  // press there, stays where they put it.
   const wasOpen = useRef(state.isOpen)
   useEffect(() => {
     if (state.isOpen && !wasOpen.current) {
       inputRef.current?.focus()
     } else if (!state.isOpen && wasOpen.current) {
-      triggerRef.current?.focus()
+      const active = document.activeElement
+      const lost = !active || active === document.body || popoverRef.current?.contains(active)
+      if (lost) triggerRef.current?.focus()
     }
     wasOpen.current = state.isOpen
   }, [state.isOpen])
@@ -395,8 +400,11 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
             { 'is-invalid': invalid, 'is-valid': valid },
             className
           )}
-          {...rest}
-          {...triggerButtonProps}
+          // `mergeProps`, so the caller's `onClick`, `onKeyDown` and `onFocus` run beside the
+          // toggle's own instead of being replaced by them. It also lets a caller's value through
+          // where the toggle's is `undefined`, which `tabIndex` is while disabled: set again.
+          {...mergeProps(rest, triggerButtonProps)}
+          tabIndex={triggerButtonProps.tabIndex}
           // `useComboBox`'s own `buttonProps` defaults to a generic "Show suggestions" label,
           // since its primary a11y attention goes to the search input — override with the same
           // label the input gets, so the toggle (the element actually reachable via Tab, since

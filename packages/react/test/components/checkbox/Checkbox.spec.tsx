@@ -30,6 +30,18 @@ describe('Checkbox', () => {
   })
 
   describe('styling props', () => {
+    // With no label there is no `.form-check`, and `className` was dropped with it while `style`
+    // went to the `.check-input`.
+    test('a checkbox with no label takes className and style on its check input', () => {
+      render(<Checkbox aria-label="Select row" className="bazinga" style={{ margin: 4 }} />)
+      const checkInput = screen.getByText(
+        (_, element) => element?.classList.contains('check-input') ?? false
+      )
+      expect(checkInput).toHaveClass('check-input', 'bazinga')
+      expect(checkInput).toHaveStyle({ margin: '4px' })
+      expect(checkInput).toContainElement(screen.getByRole('checkbox', { name: 'Select row' }))
+    })
+
     test('applies color and className to the wrapper and check input', () => {
       const { container } = render(
         <Checkbox className="bazinga" color="secondary" id="id" label="label" />

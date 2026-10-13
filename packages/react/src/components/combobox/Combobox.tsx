@@ -12,6 +12,8 @@ import { useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Key, useComboBoxState } from 'react-stately'
 
 import { useFloatingOverlay, useForkedRef, useFormField } from '../../hooks'
+import { useHydrated } from '../../hooks/useHydrated'
+import { joinIds } from '../../utils/idRefs'
 import {
   buildEntriesFromChildren,
   buildEntriesFromItemsDef,
@@ -188,6 +190,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const listBoxRef = useRef<HTMLElement>(null)
     const popoverRef = useRef<HTMLDivElement>(null)
     const noResultsId = useId()
+    const hydrated = useHydrated()
 
     const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
       ariaDescribedBy,
@@ -250,9 +253,10 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     // Merges the no-results message into the input's own description (for AT that reads
     // descriptions on demand) in addition to the `aria-live` region below (for AT that announces
     // live-region changes proactively as the user types) — belt and braces, since screen reader
-    // support for announcing a freshly-mounted live region is inconsistent.
-    const inputDescribedBy =
-      [describedBy, showNoResults && noResultsId].filter(Boolean).join(' ') || undefined
+    // support for announcing a freshly-mounted live region is inconsistent. Only once hydrated:
+    // the message is inside `Portal`, which renders nothing on the server and while hydrating, so
+    // an empty combobox's server HTML referred to an id no element had.
+    const inputDescribedBy = joinIds(describedBy, showNoResults && hydrated && noResultsId)
 
     return renderFormField({
       children: (

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { Radio, RadioGroup } from '../../../src/index'
@@ -52,6 +52,54 @@ describe('RadioGroup', () => {
         </RadioGroup>
       )
       expect(screen.getByRole('radio', { name: 'Option A' })).toHaveClass('is-valid')
+    })
+  })
+
+  // `required` reached react-aria alone, which writes `aria-required` on the group: no radio
+  // carried the native attribute, and a form with nothing selected reported itself valid.
+  describe('required', () => {
+    test('a required group puts the native required on its radios, so its form asks for one', () => {
+      render(
+        <form aria-label="Checkout">
+          <RadioGroup label="Plan" name="plan" required>
+            <Radio value="free" label="Free" />
+            <Radio value="pro" label="Pro" />
+          </RadioGroup>
+        </form>
+      )
+      const form = screen.getByRole<HTMLFormElement>('form', { name: 'Checkout' })
+      expect(screen.getByRole('radiogroup', { name: 'Plan' })).toBeRequired()
+      expect(screen.getByRole('radio', { name: 'Free' })).toHaveAttribute('required')
+      expect(screen.getByRole('radio', { name: 'Pro' })).toHaveAttribute('required')
+      expect(form.checkValidity()).toBe(false)
+
+      fireEvent.click(screen.getByRole('radio', { name: 'Pro' }))
+      expect(form.checkValidity()).toBe(true)
+      expect(form).toHaveFormValues({ plan: 'pro' })
+    })
+
+    test('a group that is not required leaves required off its radios', () => {
+      render(
+        <form aria-label="Checkout">
+          <RadioGroup label="Plan" name="plan">
+            <Radio value="free" label="Free" />
+          </RadioGroup>
+        </form>
+      )
+      expect(screen.getByRole('radio', { name: 'Free' })).not.toBeRequired()
+      expect(screen.getByRole<HTMLFormElement>('form', { name: 'Checkout' }).checkValidity()).toBe(
+        true
+      )
+    })
+
+    test('has no axe violations as a required group', async () => {
+      const { container } = render(
+        <RadioGroup label="Plan" name="plan" required>
+          <Radio value="free" label="Free" />
+          <Radio value="pro" label="Pro" />
+        </RadioGroup>
+      )
+      expect(await axe(container)).toHaveNoViolations()
     })
   })
 

@@ -87,6 +87,7 @@ type ProgressComponent = (<C extends ElementType = 'div'>(
 function ProgressRender<C extends ElementType = 'div'>(
   {
     'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
     animated,
     children,
     className,
@@ -131,7 +132,9 @@ function ProgressRender<C extends ElementType = 'div'>(
       aria-valuemin={indeterminate ? undefined : 0}
       aria-valuemax={indeterminate ? undefined : 100}
       aria-label={ariaLabel ?? (typeof label === 'string' ? label : undefined)}
-      aria-labelledby={!ariaLabel && isNodeLabel ? labelId : undefined}
+      // The caller's own wins: written after the spread, the label's id replaced it, and with no
+      // node label it was `undefined` that did.
+      aria-labelledby={ariaLabelledBy ?? (!ariaLabel && isNodeLabel ? labelId : undefined)}
       style={_style}
       ref={ref}
     >

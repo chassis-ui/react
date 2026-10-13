@@ -1258,8 +1258,10 @@ interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defau
   onChange?: (value: RangeValue<DateValue>) => void;
   /**
    * A list of quick-select range presets shown beside the calendar. Selecting a preset commits
-   * its range immediately, the same as picking a start and end date from the grid. The preset
-   * matching the current selection (if any) is marked selected. Omit to not show a preset list.
+   * its range immediately, the same as picking a start and end date from the grid: in order,
+   * kept inside `minValue`/`maxValue`, and in the calendar of the current value with its times.
+   * A preset with no day inside those limits is disabled. The preset matching the current
+   * selection (if any) is marked selected. Omit to not show a preset list.
    */
   presets?: DateRangePreset[];
   /**
@@ -3034,8 +3036,9 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
   /**
    * A list of quick-select range presets shown in the overlay next to the calendar. Selecting a
    * preset commits its range immediately, the same as picking a start and end date from the
-   * calendar. The preset matching the current selection (if any) is marked selected. Omit to not
-   * show a preset list.
+   * calendar: in order, kept inside `minValue`/`maxValue`, and with the times of the current
+   * range. A preset with no day inside those limits is disabled. The preset matching the current
+   * selection (if any) is marked selected. Omit to not show a preset list.
    */
   presets?: DateRangePreset[];
   /**
@@ -3917,7 +3920,9 @@ interface CheckboxGroupProps extends Omit<HTMLAttributes<HTMLFieldSetElement>, '
    */
   orientation?: 'horizontal' | 'vertical';
   /**
-   * Marks the group as required.
+   * Requires at least one checkbox of the group. While none is selected each carries the native
+   * `required`, so a form isn't submitted until one is; a `Checkbox` with its own `required`
+   * stays required whatever the others are.
    */
   required?: boolean;
   /**
@@ -4166,6 +4171,7 @@ type InputAdornOwnProps<C extends ElementType> = {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component. Use
    * `"button"` or `"a"` for an actionable adorn, e.g. a password reveal toggle or a clear button.
+   * A `"button"` gets `type="button"` unless `type` is given, so it doesn't submit a form.
    */
   component?: C;
 };
@@ -4262,7 +4268,8 @@ interface RadioGroupProps extends Omit<HTMLAttributes<HTMLFieldSetElement>, 'def
    */
   orientation?: 'horizontal' | 'vertical';
   /**
-   * Marks the group as required.
+   * Marks the group as required: `aria-required` on the group and the native `required` on its
+   * radios, so a form isn't submitted until one of them is selected.
    */
   required?: boolean;
   /**
@@ -6742,7 +6749,8 @@ type ChipOwnProps<C extends ElementType> = {
   onClick?: MouseEventHandler<HTMLElement>;
   /**
    * Marks the chip as pressed for toggle-style usage (e.g. a filter chip). Applies the `.active`
-   * class and sets `aria-pressed` so assistive technology announces the toggle state.
+   * class and sets `aria-pressed` so assistive technology announces the toggle state. A chip
+   * with no `onClick`, `href` or `component="button"` is not a control and gets the class alone.
    */
   pressed?: boolean;
   /**

@@ -1,6 +1,13 @@
 import * as React from 'react'
 import { act, render, screen, fireEvent, within } from '@testing-library/react'
-import { CalendarDate, parseZonedDateTime } from '@internationalized/date'
+import {
+  BuddhistCalendar,
+  CalendarDate,
+  CalendarDateTime,
+  DateValue,
+  parseZonedDateTime,
+  toCalendar
+} from '@internationalized/date'
 import { axe } from 'jest-axe'
 
 import { RangeCalendar, I18nProvider } from '../../../src/index'
@@ -667,6 +674,141 @@ describe('RangeCalendar', () => {
       expect(onChange).toHaveBeenCalledWith({
         start: new CalendarDate(2026, 7, 1),
         end: new CalendarDate(2026, 7, 10)
+      })
+    })
+
+    // A preset went straight to `state.setValue`, past what react-stately's `selectDate` does to
+    // two days picked in the grid: it could commit a reversed range, days outside the limits,
+    // Gregorian dates over a value in another calendar, and plain dates over a value with times.
+    describe('as the grid would select it', () => {
+      const presetOf = (start: DateValue, end: DateValue) => [
+        { label: 'Preset', range: { end, start } }
+      ]
+      const selectPreset = () => fireEvent.click(screen.getByRole('button', { name: 'Preset' }))
+
+      test('puts a reversed range in order', () => {
+        const onChange = vi.fn()
+        render(
+          <RangeCalendar
+            aria-label="Trip dates"
+            onChange={onChange}
+            presets={presetOf(new CalendarDate(2026, 7, 10), new CalendarDate(2026, 7, 1))}
+          />
+        )
+        selectPreset()
+        expect(onChange).toHaveBeenCalledWith({
+          end: new CalendarDate(2026, 7, 10),
+          start: new CalendarDate(2026, 7, 1)
+        })
+      })
+
+      test('keeps the range inside minValue and maxValue', () => {
+        const onChange = vi.fn()
+        render(
+          <RangeCalendar
+            aria-label="Trip dates"
+            maxValue={new CalendarDate(2026, 7, 20)}
+            minValue={new CalendarDate(2026, 7, 10)}
+            onChange={onChange}
+            presets={presetOf(new CalendarDate(2026, 7, 1), new CalendarDate(2026, 7, 31))}
+          />
+        )
+        selectPreset()
+        expect(onChange).toHaveBeenCalledWith({
+          end: new CalendarDate(2026, 7, 20),
+          start: new CalendarDate(2026, 7, 10)
+        })
+      })
+
+      test('disables a preset with no day inside minValue and maxValue', () => {
+        const onChange = vi.fn()
+        render(
+          <RangeCalendar
+            aria-label="Trip dates"
+            minValue={new CalendarDate(2026, 8, 1)}
+            onChange={onChange}
+            presets={presetOf(new CalendarDate(2026, 7, 1), new CalendarDate(2026, 7, 31))}
+          />
+        )
+        expect(screen.getByRole('button', { name: 'Preset' })).toBeDisabled()
+        selectPreset()
+        expect(onChange).not.toHaveBeenCalled()
+      })
+
+      test('keeps the times of a value that has them', () => {
+        const onChange = vi.fn()
+        render(
+          <RangeCalendar
+            aria-label="Trip dates"
+            defaultValue={{
+              end: new CalendarDateTime(2026, 7, 5, 17, 0),
+              start: new CalendarDateTime(2026, 7, 3, 9, 30)
+            }}
+            onChange={onChange}
+            presets={presetOf(new CalendarDate(2026, 7, 10), new CalendarDate(2026, 7, 20))}
+          />
+        )
+        selectPreset()
+        expect(onChange).toHaveBeenCalledWith({
+          end: new CalendarDateTime(2026, 7, 20, 17, 0),
+          start: new CalendarDateTime(2026, 7, 10, 9, 30)
+        })
+      })
+
+      test('keeps the time and the zone of a zoned value', () => {
+        const onChange = vi.fn()
+        render(
+          <RangeCalendar
+            aria-label="Trip dates"
+            defaultValue={{
+              end: parseZonedDateTime('2026-07-05T17:00[Asia/Tokyo]'),
+              start: parseZonedDateTime('2026-07-03T09:30[Asia/Tokyo]')
+            }}
+            onChange={onChange}
+            presets={presetOf(new CalendarDate(2026, 7, 10), new CalendarDate(2026, 7, 20))}
+          />
+        )
+        selectPreset()
+        const range = onChange.mock.calls[0]![0]
+        expect(range.start.toString()).toBe('2026-07-10T09:30:00+09:00[Asia/Tokyo]')
+        expect(range.end.toString()).toBe('2026-07-20T17:00:00+09:00[Asia/Tokyo]')
+      })
+
+      test('returns the range in the calendar of the value', () => {
+        const onChange = vi.fn()
+        const buddhist = new BuddhistCalendar()
+        render(
+          <RangeCalendar
+            aria-label="Trip dates"
+            defaultValue={{
+              end: toCalendar(new CalendarDate(2026, 7, 5), buddhist),
+              start: toCalendar(new CalendarDate(2026, 7, 3), buddhist)
+            }}
+            onChange={onChange}
+            presets={presetOf(new CalendarDate(2026, 7, 10), new CalendarDate(2026, 7, 20))}
+          />
+        )
+        selectPreset()
+        const range = onChange.mock.calls[0]![0]
+        expect(range.start.calendar.identifier).toBe('buddhist')
+        expect(range.end.calendar.identifier).toBe('buddhist')
+        expect(range.start.compare(new CalendarDate(2026, 7, 10))).toBe(0)
+        expect(range.end.compare(new CalendarDate(2026, 7, 20))).toBe(0)
+      })
+
+      test("keeps a preset's own times while there is no value to take them from", () => {
+        const onChange = vi.fn()
+        const start = new CalendarDateTime(2026, 7, 10, 8, 0)
+        const end = new CalendarDateTime(2026, 7, 20, 18, 0)
+        render(
+          <RangeCalendar
+            aria-label="Trip dates"
+            onChange={onChange}
+            presets={presetOf(start, end)}
+          />
+        )
+        selectPreset()
+        expect(onChange).toHaveBeenCalledWith({ end, start })
       })
     })
 

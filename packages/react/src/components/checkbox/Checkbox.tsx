@@ -253,9 +253,16 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
         <input
           {...mergeUnhandledProps(inputProps, rest, TOGGLE_PROPS)}
           aria-describedby={joinIds(rest['aria-describedby'], groupDescribedBy)}
+          // The native `required` below says the same.
+          aria-required={undefined}
           className={inputClassName}
           id={id}
           ref={forkedRef}
+          // A required group asks for one of its checkboxes, which HTML has no attribute for:
+          // every checkbox is required while none is selected, as react-aria's own native
+          // validation does it (`groupState.isRequired` is false once one is). react-aria writes
+          // `aria-required` alone, which no form checks.
+          required={rest.required ?? (groupState.isRequired || undefined)}
         />
       ),
       invalid,

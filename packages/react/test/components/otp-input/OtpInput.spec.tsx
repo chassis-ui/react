@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render, screen, fireEvent, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
 import { OtpInput } from '../../../src/index'
@@ -109,6 +110,24 @@ describe('OtpInput', () => {
       })
       expect(onChange).toHaveBeenCalledWith('1234')
       expect(screen.getByRole('textbox', { name: 'Digit 4' })).toHaveFocus()
+    })
+
+    // Focus went to the last filled box, which selects its content on focus: the next digit
+    // typed replaced the third one instead of filling the fourth box.
+    test('pasting a partial code focuses the next empty box, so typing goes on from there', async () => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      render(<OtpInput aria-label="Code" length={6} onChange={onChange} />)
+      fireEvent.paste(screen.getByRole('textbox', { name: 'Digit 1' }), {
+        clipboardData: { getData: () => '123' }
+      })
+      expect(onChange).toHaveBeenLastCalledWith('123')
+      expect(screen.getByRole('textbox', { name: 'Digit 4' })).toHaveFocus()
+
+      await user.keyboard('4')
+      expect(onChange).toHaveBeenLastCalledWith('1234')
+      expect(screen.getByRole('textbox', { name: 'Digit 3' })).toHaveValue('3')
+      expect(screen.getByRole('textbox', { name: 'Digit 5' })).toHaveFocus()
     })
 
     test('pasting content with no digits is a no-op', () => {

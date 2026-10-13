@@ -367,6 +367,9 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
     } = useDatePicker(
       {
         ...pickerProps,
+        // Given to the hook, so the help and feedback describe the segments, which take focus,
+        // and the calendar button, not only the group around them.
+        'aria-describedby': describedBy,
         'aria-label': rest['aria-label'],
         'aria-labelledby': labelledBy,
         id: groupId
@@ -374,6 +377,10 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       state,
       groupRef
     )
+    // react-aria's `aria-describedby` holds its description of the selected date, added once
+    // mounted, and the help and feedback given to it; the slot ids come out (FORMS.md, gotcha 6).
+    // It's set again after the spread, where the caller's own value would replace it (gotcha 4).
+    const group = withoutSlotIds(groupProps, descriptionProps, errorMessageProps)
 
     const { overlayStyle, placementAttr, overlayDismissProps } = useOverlayPlacement({
       overlayRef,
@@ -433,8 +440,8 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
                 ),
                 fieldClassName: 'w-100 overflow-x-scroll',
                 groupProps: {
-                  ...mergeProps(groupProps, rest),
-                  'aria-describedby': describedBy,
+                  ...mergeProps(group, rest),
+                  'aria-describedby': group['aria-describedby'],
                   'aria-labelledby': labelledBy
                 },
                 groupRef: forkedGroupRef,
@@ -585,7 +592,10 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
     // the provider here, so it can't read the context it's about to publish.
     const mergedLabels = { ...DEFAULT_CALENDAR_LABELS, ...labels }
 
+    // Described by the help and feedback as the group is: the button is this variant's one
+    // element that takes focus.
     const buttonProps: AriaButtonProps = {
+      'aria-describedby': describedBy,
       'aria-expanded': state.isOpen,
       'aria-haspopup': 'dialog',
       'aria-label': mergedLabels.calendar,

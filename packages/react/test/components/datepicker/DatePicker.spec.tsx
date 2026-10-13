@@ -849,6 +849,66 @@ describe('DatePicker', () => {
       expect(group).toHaveClass('is-invalid')
     })
 
+    // The help and feedback ids went on the group alone, which takes no focus: the segments and
+    // the calendar button, which do, were described by nothing. And the group's own value
+    // replaced react-aria's, which also holds its description of the selected date.
+    test('describes the first segment and the calendar button by the help, not only the group', () => {
+      render(
+        <>
+          <span id="extra-help">In your time zone.</span>
+          <DatePicker aria-describedby="extra-help" help="Weekdays only." label="Event date" />
+        </>
+      )
+      const description = 'Weekdays only. In your time zone.'
+      expect(screen.getByRole('group', { name: 'Event date' })).toHaveAccessibleDescription(
+        description
+      )
+      const [first, ...others] = screen.getAllByRole('spinbutton')
+      expect(first).toHaveAccessibleDescription(description)
+      // react-aria describes the first segment alone, so the help isn't read on every one.
+      for (const segment of others) expect(segment).not.toHaveAttribute('aria-describedby')
+      expect(screen.getByRole('button', { name: /calendar/i })).toHaveAccessibleDescription(
+        description
+      )
+    })
+
+    test('describes every segment by the feedback while invalid', () => {
+      render(<DatePicker help="Weekdays only." invalid invalidFeedback="Required." label="Day" />)
+      for (const segment of screen.getAllByRole('spinbutton')) {
+        expect(segment).toHaveAccessibleDescription('Weekdays only. Required.')
+        // The help and the feedback, and no id of a react-aria slot that isn't rendered.
+        expect(segment.getAttribute('aria-describedby')?.split(' ')).toHaveLength(2)
+      }
+    })
+
+    test("keeps react-aria's description of the selected date on the group, beside the help", () => {
+      render(
+        <DatePicker
+          defaultValue={new CalendarDate(2024, 3, 15)}
+          help="Weekdays only."
+          label="Event date"
+        />
+      )
+      const group = screen.getByRole('group', { name: 'Event date' })
+      expect(group).toHaveAccessibleDescription('Selected Date: March 15, 2024 Weekdays only.')
+      expect(group.getAttribute('aria-describedby')?.split(' ')).toHaveLength(2)
+    })
+
+    test('describes the calendar button of a multiple-date picker, its one focusable element', () => {
+      render(
+        <DatePicker
+          help="Weekdays only."
+          invalid
+          invalidFeedback="Required."
+          label="Event dates"
+          selectionMode="multiple"
+        />
+      )
+      expect(screen.getByRole('button', { name: /calendar/i })).toHaveAccessibleDescription(
+        'Weekdays only. Required.'
+      )
+    })
+
     test('renders valid feedback and applies the is-valid class only when valid', () => {
       render(<DatePicker aria-label="Event date" valid validFeedback="Looks good" />)
       const group = screen.getByRole('group', { name: 'Event date' })
