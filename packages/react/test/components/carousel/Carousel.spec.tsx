@@ -63,7 +63,11 @@ const ITEM_WIDTH = 300
 // own layout effect and make the *next* effect run look like the initial sync instead of the
 // first real navigation. Patching the prototype before `render()` covers every node as it's
 // created, including during mount.
-function installCarouselGeometry() {
+//
+// `scrollAware` moves the slides with the track's `scrollLeft`, as a browser lays them out. The
+// cases that scroll the track by hand (a swipe) and expect the carousel to scroll it back need
+// that: without it every slide rests where it started, and the first one is never out of place.
+function installCarouselGeometry({ scrollAware = false }: { scrollAware?: boolean } = {}) {
   const proto = HTMLElement.prototype
   const originalGetBoundingClientRect = proto.getBoundingClientRect
   const originalScrollWidth = Object.getOwnPropertyDescriptor(proto, 'scrollWidth')
@@ -108,9 +112,10 @@ function installCarouselGeometry() {
         (node): node is HTMLElement => node instanceof HTMLElement && isRealItem(node)
       )
       const index = siblings.indexOf(this)
+      const scrolled = scrollAware ? (this.parentElement?.scrollLeft ?? 0) : 0
       return {
-        left: index * ITEM_WIDTH,
-        right: (index + 1) * ITEM_WIDTH,
+        left: index * ITEM_WIDTH - scrolled,
+        right: (index + 1) * ITEM_WIDTH - scrolled,
         width: ITEM_WIDTH
       } as DOMRect
     }
@@ -649,8 +654,10 @@ describe('Carousel', () => {
     })
 
     // Autoplay with nowhere left to go paused its timer and stayed `playing`: the button read
-    // "Pause", and the first click on it only stopped what had already stopped.
-    test('ends="stop": the play/pause control says Play once the last slide is reached, and one click restarts', () => {
+    // "Pause", and the first click on it only stopped what had already stopped. It also found
+    // that out one interval late, on a tick that had no slide to go to, so the last slide's
+    // indicator filled once more for nothing.
+    test('ends="stop": autoplay is over when it arrives at the last slide, and one click restarts', () => {
       vi.useFakeTimers()
       const uninstallVisibility = stubVisibleGeometry()
       try {
@@ -660,22 +667,62 @@ describe('Carousel', () => {
             <CarouselInner>
               <CarouselItem>Item-1</CarouselItem>
               <CarouselItem>Item-2</CarouselItem>
+              <CarouselItem>Item-3</CarouselItem>
             </CarouselInner>
           </Carousel>
         )
         act(() => vi.advanceTimersByTime(1000))
         expect(screen.getByText('Item-2')).toHaveClass('active')
         expect(screen.getByRole('button', { name: 'Pause' })).toBeInTheDocument()
+        expect(screen.getByTestId('carousel')).toHaveClass('carousel-playing')
 
-        // The tick that finds nothing after the last slide.
+        // The tick that reaches the last slide, with no interval spent on it.
         act(() => vi.advanceTimersByTime(1000))
+        expect(screen.getByText('Item-3')).toHaveClass('active')
         const toggle = screen.getByRole('button', { name: 'Play' })
         expect(toggle).toHaveClass('paused')
         expect(screen.getByTestId('carousel')).not.toHaveClass('carousel-playing')
+        expect(vi.getTimerCount()).toBe(0)
 
         fireEvent.click(toggle)
         expect(screen.getByRole('button', { name: 'Pause' })).toBeInTheDocument()
         expect(screen.getByTestId('carousel')).toHaveClass('carousel-playing')
+      } finally {
+        vi.useRealTimers()
+        uninstallVisibility()
+      }
+    })
+
+    // The last slide reached by anything else ends it too: the parent of a controlled carousel
+    // moving there by itself, here.
+    test('ends="stop": autoplay is over when the parent moves a controlled carousel to the last slide', () => {
+      vi.useFakeTimers()
+      const uninstallVisibility = stubVisibleGeometry()
+      try {
+        const tree = (activeIndex: number) => (
+          <Carousel
+            activeIndex={activeIndex}
+            autoplay
+            interval={1000}
+            ends="stop"
+            onSlide={() => undefined}
+          >
+            <CarouselPlayPause />
+            <CarouselInner>
+              <CarouselItem>Item-1</CarouselItem>
+              <CarouselItem>Item-2</CarouselItem>
+              <CarouselItem>Item-3</CarouselItem>
+            </CarouselInner>
+          </Carousel>
+        )
+        const { rerender } = render(tree(0))
+        expect(screen.getByRole('button', { name: 'Pause' })).toBeInTheDocument()
+
+        rerender(tree(1))
+        expect(screen.getByRole('button', { name: 'Pause' })).toBeInTheDocument()
+        rerender(tree(2))
+        expect(screen.getByRole('button', { name: 'Play' })).toBeInTheDocument()
+        expect(vi.getTimerCount()).toBe(0)
       } finally {
         vi.useRealTimers()
         uninstallVisibility()
@@ -908,7 +955,7 @@ describe('Carousel', () => {
   })
 
   describe('controlled activeIndex', () => {
-    test('warns in development when neither onSlide nor onSlid is provided', () => {
+    test('warns in development when onSlide is not provided', () => {
       const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
       render(
         <Carousel activeIndex={0}>
@@ -918,7 +965,41 @@ describe('Carousel', () => {
           </CarouselInner>
         </Carousel>
       )
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('onSlide` nor `onSlid`'))
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('without `onSlide`'))
+      warnSpy.mockRestore()
+    })
+
+    // `onSlid` reports a slide that has arrived, and a controlled carousel doesn't leave for one
+    // until `activeIndex` names it: fed from `onSlid` alone, it never moves. The warning and the
+    // docs both offered `onSlid` as the way to feed the index back.
+    test('warns in development when only onSlid is provided, which cannot feed the index back', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+      const onSlid = vi.fn()
+      function FedFromOnSlid() {
+        const [activeIndex, setActiveIndex] = React.useState(0)
+        return (
+          <Carousel
+            activeIndex={activeIndex}
+            onSlid={(detail) => {
+              onSlid(detail)
+              setActiveIndex(detail.to)
+            }}
+          >
+            <CarouselControlNext />
+            <CarouselInner>
+              <CarouselItem>Item-1</CarouselItem>
+              <CarouselItem>Item-2</CarouselItem>
+            </CarouselInner>
+          </Carousel>
+        )
+      }
+      render(<FedFromOnSlid />)
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('without `onSlide`'))
+
+      // What the warning is about: nothing has slid, so nothing is reported.
+      fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+      expect(onSlid).not.toHaveBeenCalled()
+      expect(screen.getByText('Item-1')).toHaveClass('active')
       warnSpy.mockRestore()
     })
 
@@ -1039,6 +1120,200 @@ describe('Carousel', () => {
         next.click()
       })
       expect(screen.getByText('Item-3')).toHaveClass('active')
+    })
+  })
+
+  describe('a swipe the controlled parent does not follow', () => {
+    const Guarded = ({ locked }: { locked: boolean }) => {
+      const [activeIndex, setActiveIndex] = React.useState(0)
+      return (
+        <ThreeItemCarousel
+          activeIndex={activeIndex}
+          onSlide={({ to }) => {
+            if (!locked) setActiveIndex(to)
+          }}
+        />
+      )
+    }
+    let uninstallGeometry: () => void
+    let observer: ReturnType<typeof installFakeIntersectionObserver>
+
+    beforeEach(() => {
+      uninstallGeometry = installCarouselGeometry({ scrollAware: true })
+      vi.useFakeTimers()
+      observer = installFakeIntersectionObserver()
+    })
+
+    afterEach(() => {
+      observer.uninstall()
+      vi.useRealTimers()
+      uninstallGeometry()
+    })
+
+    // What the browser does and reports when the user swipes to the slide at `index`.
+    const swipeTo = (index: number) => {
+      // eslint-disable-next-line testing-library/no-node-access
+      const inner = document.querySelector('.carousel-inner') as HTMLElement
+      // eslint-disable-next-line testing-library/no-node-access
+      const items = Array.from(document.querySelectorAll('.carousel-item')) as HTMLElement[]
+      inner.scrollLeft = index * ITEM_WIDTH
+      fireEvent.scroll(inner)
+      observer.deliver(
+        items.map((target, at) => ({
+          target,
+          isIntersecting: at === index,
+          intersectionRatio: at === index ? 1 : 0
+        }))
+      )
+      return inner
+    }
+
+    // The track stayed on the slide the user had swiped to, with `activeIndex`, the indicators
+    // and the slide marked `active` all naming another.
+    test('scrolls the track back to the active slide once the swipe has come to rest', () => {
+      render(<Guarded locked />)
+      act(() => vi.runAllTimers())
+
+      const inner = swipeTo(1)
+      expect(screen.getByText('Item-1')).toHaveClass('active')
+      // Not while the track is still moving under the user's finger.
+      expect(inner.scrollLeft).toBe(ITEM_WIDTH)
+
+      act(() => vi.runAllTimers())
+      expect(inner.scrollLeft).toBe(0)
+      expect(inner.style.scrollSnapType).toBe('')
+    })
+
+    test('waits for the finger to lift', () => {
+      render(<Guarded locked />)
+      act(() => vi.runAllTimers())
+      // eslint-disable-next-line testing-library/no-node-access
+      const track = document.querySelector('.carousel-inner') as HTMLElement
+
+      fireEvent.touchStart(track)
+      const inner = swipeTo(1)
+      act(() => vi.advanceTimersByTime(2000))
+      expect(inner.scrollLeft).toBe(ITEM_WIDTH)
+
+      fireEvent.touchEnd(track)
+      act(() => vi.runAllTimers())
+      expect(inner.scrollLeft).toBe(0)
+    })
+
+    // The mark that keeps the carousel from scrolling after a swipe was left set by one nobody
+    // followed, and the next step that was followed didn't scroll.
+    test('the next step the parent follows still scrolls the track', async () => {
+      const { rerender } = render(<Guarded locked />)
+      act(() => vi.runAllTimers())
+      const inner = swipeTo(1)
+      // The click below comes in a later task, as a browser delivers it.
+      await act(async () => void vi.runAllTimers())
+      expect(inner.scrollLeft).toBe(0)
+
+      rerender(<Guarded locked={false} />)
+      fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+      expect(screen.getByText('Item-2')).toHaveClass('active')
+      act(() => vi.runAllTimers())
+      expect(inner.scrollLeft).toBe(ITEM_WIDTH)
+    })
+
+    test('leaves the track where a followed swipe put it', () => {
+      const scrollTo = vi.spyOn(HTMLElement.prototype, 'scrollTo')
+      render(<Guarded locked={false} />)
+      act(() => vi.runAllTimers())
+      scrollTo.mockClear()
+
+      const inner = swipeTo(1)
+      expect(screen.getByText('Item-2')).toHaveClass('active')
+      act(() => vi.runAllTimers())
+      expect(inner.scrollLeft).toBe(ITEM_WIDTH)
+      expect(scrollTo).not.toHaveBeenCalled()
+      scrollTo.mockRestore()
+    })
+  })
+
+  // `onSlid` reported the last step the carousel had asked for, which is not the one that
+  // happened when the parent chose the slide.
+  describe('onSlid for a slide the parent chose', () => {
+    const tree = (activeIndex: number, onSlid: (detail: unknown) => void, ends?: 'wrap') => (
+      <ThreeItemCarousel
+        activeIndex={activeIndex}
+        ends={ends}
+        onSlid={onSlid}
+        onSlide={() => undefined}
+      />
+    )
+
+    test('reports the slides it moved between, with no step asked for before', () => {
+      const onSlid = vi.fn()
+      const { rerender } = render(tree(0, onSlid))
+
+      rerender(tree(2, onSlid))
+      expect(onSlid).toHaveBeenCalledTimes(1)
+      expect(onSlid).toHaveBeenLastCalledWith({ direction: 'left', from: 0, to: 2 })
+
+      rerender(tree(1, onSlid))
+      expect(onSlid).toHaveBeenLastCalledWith({ direction: 'right', from: 2, to: 1 })
+    })
+
+    test('reports them after a step the carousel asked for', () => {
+      const onSlid = vi.fn()
+      function Subject({ jump }: { jump?: number }) {
+        const [activeIndex, setActiveIndex] = React.useState(0)
+        return (
+          <ThreeItemCarousel
+            activeIndex={jump ?? activeIndex}
+            onSlid={onSlid}
+            onSlide={({ to }) => setActiveIndex(to)}
+          />
+        )
+      }
+      const { rerender } = render(<Subject />)
+      fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+      expect(onSlid).toHaveBeenLastCalledWith({ direction: 'left', from: 0, to: 1 })
+
+      rerender(<Subject jump={0} />)
+      expect(onSlid).toHaveBeenCalledTimes(2)
+      expect(onSlid).toHaveBeenLastCalledWith({ direction: 'right', from: 1, to: 0 })
+    })
+
+    test('reports the slide the parent answered a request with', () => {
+      const onSlid = vi.fn()
+      function Subject() {
+        const [activeIndex, setActiveIndex] = React.useState(0)
+        return (
+          <ThreeItemCarousel
+            activeIndex={activeIndex}
+            onSlid={onSlid}
+            // Skips a slide.
+            onSlide={({ to }) => setActiveIndex(to + 1)}
+          />
+        )
+      }
+      render(<Subject />)
+      fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+      expect(onSlid).toHaveBeenLastCalledWith({ direction: 'left', from: 0, to: 2 })
+    })
+
+    // A request that wraps round keeps the direction that was asked for, which the two indexes
+    // alone would give the other way.
+    test('keeps the direction of a step that wrapped round', () => {
+      const onSlid = vi.fn()
+      function Subject() {
+        const [activeIndex, setActiveIndex] = React.useState(2)
+        return (
+          <ThreeItemCarousel
+            activeIndex={activeIndex}
+            ends="wrap"
+            onSlid={onSlid}
+            onSlide={({ to }) => setActiveIndex(to)}
+          />
+        )
+      }
+      render(<Subject />)
+      fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+      expect(screen.getByText('Item-1')).toHaveClass('active')
+      expect(onSlid).toHaveBeenLastCalledWith({ direction: 'left', from: 2, to: 0 })
     })
   })
 

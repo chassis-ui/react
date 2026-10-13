@@ -410,7 +410,7 @@
     },
     "required": {
       "defaultValue": null,
-      "description": "Toggle the required state for the component.",
+      "description": "Toggle the required state for the component. An empty required field holds its form back\nfrom submitting, and takes focus.",
       "name": "required",
       "parent": {
         "fileName": "packages/react/src/components/time-field/TimeField.tsx",

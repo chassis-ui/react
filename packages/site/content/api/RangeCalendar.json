@@ -280,7 +280,7 @@
     },
     "presets": {
       "defaultValue": null,
-      "description": "A list of quick-select range presets shown beside the calendar. Selecting a preset commits\nits range immediately, the same as picking a start and end date from the grid: in order,\nkept inside `minValue`/`maxValue`, and in the calendar of the current value with its times.\nA preset with no day inside those limits is disabled. The preset matching the current\nselection (if any) is marked selected. Omit to not show a preset list.",
+      "description": "A list of quick-select range presets shown beside the calendar. Selecting a preset commits\nits range immediately, the same as picking a start and end date from the grid: in order,\nkept inside `minValue`/`maxValue`, and in the calendar of the current value with its times.\nA preset the grid couldn't select is disabled: one with no day inside those limits, and one\nwith an unavailable day in its range. The preset matching the current selection (if any) is\nmarked selected. Omit to not show a preset list.",
       "name": "presets",
       "parent": {
         "fileName": "packages/react/src/components/calendar/RangeCalendar.tsx",

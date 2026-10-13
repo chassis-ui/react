@@ -259,6 +259,135 @@ describe('TimeField', () => {
     })
   })
 
+  // `required` reached react-aria alone, which writes `aria-required` on the segments. They are
+  // not form controls, and the input that carries the value was `type="hidden"`, which a form
+  // doesn't validate: an empty required field was submitted.
+  describe('required', () => {
+    const Booking = ({
+      onSubmit,
+      ...props
+    }: React.ComponentProps<typeof TimeField> & { onSubmit: () => void }) => (
+      <form
+        aria-label="Booking"
+        onSubmit={(event) => {
+          event.preventDefault()
+          onSubmit()
+        }}
+      >
+        <TimeField aria-label="Start" hourCycle={24} name="start" {...props} />
+        <button type="submit">Save</button>
+      </form>
+    )
+    const form = () => screen.getByRole<HTMLFormElement>('form', { name: 'Booking' })
+    const save = () => screen.getByRole('button', { name: 'Save' })
+
+    test('an empty required field holds its form back, and takes focus', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Booking onSubmit={onSubmit} required />)
+
+      expect(form().checkValidity()).toBe(false)
+      await user.click(save())
+      expect(onSubmit).not.toHaveBeenCalled()
+      // The browser has no bubble to show on an input that isn't displayed, so the first
+      // segment is focused in its place.
+      expect(screen.getByRole('spinbutton', { name: /^hour/ })).toHaveFocus()
+      for (const segment of screen.getAllByRole('spinbutton')) {
+        expect(segment).toHaveAttribute('aria-required', 'true')
+      }
+    })
+
+    test('a partly filled one still does', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Booking onSubmit={onSubmit} required />)
+      await user.click(screen.getByRole('spinbutton', { name: /^hour/ }))
+      await user.keyboard('9')
+
+      await user.click(save())
+      expect(onSubmit).not.toHaveBeenCalled()
+    })
+
+    test('submits once it has a value, and after a reset is empty and held back again', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(
+        <>
+          <Booking onSubmit={onSubmit} required />
+          <button form="booking" type="reset">
+            Reset
+          </button>
+        </>
+      )
+      form().id = 'booking'
+      await user.click(screen.getByRole('spinbutton', { name: /^hour/ }))
+      await user.keyboard('0930')
+      expect(form().checkValidity()).toBe(true)
+      await user.click(save())
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(form()).toHaveFormValues({ start: '09:30:00' })
+
+      await user.click(screen.getByRole('button', { name: 'Reset' }))
+      expect(form().checkValidity()).toBe(false)
+    })
+
+    test('submits a value it was given', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Booking defaultValue={new Time(9, 30)} onSubmit={onSubmit} required />)
+      await user.click(save())
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+
+    // Neither can be filled in, and a native input in either state isn't validated.
+    test.each([
+      ['disabled', { disabled: true }],
+      ['read-only', { readOnly: true }]
+    ])('a %s one holds nothing back', async (_state, props) => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Booking onSubmit={onSubmit} required {...props} />)
+      expect(form().checkValidity()).toBe(true)
+      await user.click(save())
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+
+    test('a field that is not required submits empty', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Booking onSubmit={onSubmit} />)
+      await user.click(save())
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+
+    // `invalid` is how the field looks, as on every other field: it doesn't hold the form back.
+    test('invalid alone holds nothing back', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Booking defaultValue={new Time(9, 30)} invalid onSubmit={onSubmit} required />)
+      await user.click(save())
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+
+    test('belongs to the form named by `form`', () => {
+      render(
+        <>
+          <form aria-label="Booking" id="booking" />
+          <TimeField aria-label="Start" form="booking" name="start" required />
+        </>
+      )
+      expect(form().checkValidity()).toBe(false)
+    })
+
+    test('has no axe violations, and warns of no uncontrolled input', async () => {
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+      const { container } = render(<Booking label="Start" onSubmit={() => undefined} required />)
+      expect(await axe(container)).toHaveNoViolations()
+      expect(consoleError).not.toHaveBeenCalled()
+      consoleError.mockRestore()
+    })
+  })
+
   describe('states', () => {
     test('disables the segments and leaves the value out of the form', () => {
       render(

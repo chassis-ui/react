@@ -63,7 +63,7 @@ Pass `visibleMonths` to show more than one month side by side, sharing a single 
 
 ## Presets
 
-Pass `presets` — an array of `{ label, range }` entries (see [`DateRangePreset`](#daterangepreset) below) — to show a quick-select list next to the calendar. Selecting a preset commits its range immediately, the same as picking a start and end date from the grid. The preset matching the current selection (if any) is shown as the active one.
+Pass `presets` — an array of `{ label, range }` entries (see [`DateRangePreset`](#daterangepreset) below) — to show a quick-select list next to the calendar. Selecting a preset commits its range immediately, the same as picking a start and end date from the grid. A preset the calendar couldn't select is disabled: one with no day inside `minValue`/`maxValue`, and one with an unavailable day in its range, which a range can't span. The preset matching the current selection (if any) is shown as the active one.
 
 <Example>
   <PresetsExample client:load />

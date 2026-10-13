@@ -1262,8 +1262,9 @@ interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defau
    * A list of quick-select range presets shown beside the calendar. Selecting a preset commits
    * its range immediately, the same as picking a start and end date from the grid: in order,
    * kept inside `minValue`/`maxValue`, and in the calendar of the current value with its times.
-   * A preset with no day inside those limits is disabled. The preset matching the current
-   * selection (if any) is marked selected. Omit to not show a preset list.
+   * A preset the grid couldn't select is disabled: one with no day inside those limits, and one
+   * with an unavailable day in its range. The preset matching the current selection (if any) is
+   * marked selected. Omit to not show a preset list.
    */
   presets?: DateRangePreset[];
   /**
@@ -1834,7 +1835,10 @@ type CardImageOwnProps<C extends ElementType> = {
    * Orientates the image to the top or bottom of the card as an "image cap", or to the start/end
    * for a horizontal layout. Omit to round all four corners for use inside `CardBody`. An object
    * sets the orientation from a breakpoint up — e.g. `{ base: 'top', lg: 'start' }` to switch an
-   * image cap from `top` to `start` once the card lays out horizontally.
+   * image cap from `top` to `start` once the card lays out horizontally. Only `start` and `end`
+   * can be set at a breakpoint, from `sm` to `xl`: `@chassis-ui/css` has no class for `top` or
+   * `bottom` there, nor for any value at `2xl`, and such a value does nothing and warns in
+   * development.
    */
   orientation?: Responsive<CardImageOrientation>;
 };
@@ -2024,8 +2028,10 @@ interface CarouselSlideDetail {
 }
 interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
   /**
-   * The active slide's index, for controlled usage. Pair with `onSlide` or `onSlid` to feed the
-   * new index back — they're the only way a controlled carousel's `activeIndex` gets updated.
+   * The active slide's index, for controlled usage. Pair with `onSlide` to feed the new index
+   * back: it is the only way a controlled carousel's `activeIndex` gets updated. `onSlid` can't
+   * do that, as it reports a slide that has arrived, which a controlled carousel doesn't leave
+   * for until `activeIndex` names it.
    */
   activeIndex?: number;
   /**
@@ -3041,7 +3047,8 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
    * A list of quick-select range presets shown in the overlay next to the calendar. Selecting a
    * preset commits its range immediately, the same as picking a start and end date from the
    * calendar: in order, kept inside `minValue`/`maxValue`, and with the times of the current
-   * range. A preset with no day inside those limits is disabled. The preset matching the current
+   * range. A preset the calendar couldn't select is disabled: one with no day inside those
+   * limits, and one with an unavailable day in its range. The preset matching the current
    * selection (if any) is marked selected. Omit to not show a preset list.
    */
   presets?: DateRangePreset[];
@@ -5800,6 +5807,8 @@ type SkeletonOwnProps<C extends ElementType> = {
    * element's own intrinsic width applies — set it explicitly (e.g. `span={12}`) for a
    * full-width text line; leave it unset when `component` is something that sizes itself, like
    * `Avatar` or `Button`. An object sets the width from a breakpoint up: `{ base: 12, md: 6 }`.
+   * Any other number or string (`0`, `13`, `'50%'`) has no width class: it sets no width, and
+   * warns in development.
    *
    * @type { Responsive<'auto' | number | string | boolean> }
    */
@@ -7243,8 +7252,9 @@ interface UseScrollspyOptions {
 /**
  * Tracks which of the sections named by `ids` the reader is in, as a scrollspy does: the last
  * section, in document order, whose top has scrolled past a line near the bottom of `root` (set
- * by `rootMargin`), or the first one while its top is still in view at the top of `root`. Returns
- * its id, or `null` when no section has reached the line yet.
+ * by `rootMargin`), or the first one while its top is still in view at the top of `root`, or the
+ * last one once `root` is scrolled to its end. Returns its id, or `null` when no section has
+ * reached the line yet.
  *
  * It returns `null` on the server and on the first render in the browser, so hydration matches,
  * and the active id from the first observation after that. Sections added, removed or renamed
@@ -7520,7 +7530,8 @@ interface TimeFieldProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVa
    */
   readOnly?: boolean;
   /**
-   * Toggle the required state for the component.
+   * Toggle the required state for the component. An empty required field holds its form back
+   * from submitting, and takes focus.
    */
   required?: boolean;
   /**

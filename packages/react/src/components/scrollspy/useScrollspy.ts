@@ -71,6 +71,17 @@ function activationZone(root: Element | null, rootMargin: string): Zone {
   }
 }
 
+// Whether `root` (the viewport for `null`) has been scrolled as far down as it goes. One that
+// doesn't scroll at all is at its start, not its end. A pixel short counts: a zoomed page stops
+// on a fraction.
+function isAtScrollEnd(root: Element | null): boolean {
+  const scroller = root ?? document.scrollingElement ?? document.documentElement
+  return (
+    scroller.scrollTop > 0 &&
+    scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 1
+  )
+}
+
 interface Pick {
   id: string | null
   /**
@@ -84,16 +95,22 @@ interface Pick {
  * The id of the last section, in document order, whose top has passed the activation line, or
  * `null` when none has. While the first of those hasn't scrolled past the top of the zone, the
  * reader is at its start, and it is the active one: at the top of a page of short sections,
- * several have passed the line before anything scrolled. A section that isn't rendered
- * (`display: none`) takes no part.
+ * several have passed the line before anything scrolled. At the end of the scroll (`atEnd`) the
+ * last section is the active one wherever its top is: one shorter than what lies below the line
+ * never brings its top past it, and the links stopped one short of the end of the page. A
+ * section that isn't rendered (`display: none`) takes no part.
  */
-function pickActive(sections: readonly HTMLElement[], zone: Zone): Pick {
+function pickActive(sections: readonly HTMLElement[], zone: Zone, atEnd: boolean): Pick {
   let first: string | null = null
   let last: string | null = null
   let atStart = false
   for (const section of sections) {
     const rect = section.getBoundingClientRect()
     if (rect.width === 0 && rect.height === 0) continue
+    if (atEnd) {
+      last = section.id
+      continue
+    }
     if (rect.top >= zone.bottom) continue
     if (first === null) {
       first = section.id
@@ -114,8 +131,9 @@ const SEPARATOR = '\u0000'
 /**
  * Tracks which of the sections named by `ids` the reader is in, as a scrollspy does: the last
  * section, in document order, whose top has scrolled past a line near the bottom of `root` (set
- * by `rootMargin`), or the first one while its top is still in view at the top of `root`. Returns
- * its id, or `null` when no section has reached the line yet.
+ * by `rootMargin`), or the first one while its top is still in view at the top of `root`, or the
+ * last one once `root` is scrolled to its end. Returns its id, or `null` when no section has
+ * reached the line yet.
  *
  * It returns `null` on the server and on the first render in the browser, so hydration matches,
  * and the active id from the first observation after that. Sections added, removed or renamed
@@ -142,29 +160,31 @@ export function useScrollspy(
     const scroller: EventTarget = rootElement ?? window
     let sections: HTMLElement[] = []
     let followingScroll = false
+    let atEnd = false
 
     const update = () => {
-      const { id, atStart } = pickActive(sections, activationZone(rootElement, rootMargin))
+      atEnd = isAtScrollEnd(rootElement)
+      const { id, atStart } = pickActive(sections, activationZone(rootElement, rootMargin), atEnd)
       setActiveId(id)
       // The first section stops being active when its top leaves the top of the zone. The
       // observer reports that only for a section that was wholly inside the zone (its threshold
       // of 1), which a section holding the others, or wider than the root, never is. So while
       // it is active for that reason, every scroll measures again.
-      if (atStart !== followingScroll) {
-        followingScroll = atStart
-        if (atStart) scroller.addEventListener('scroll', onScroll, { passive: true })
-        else scroller.removeEventListener('scroll', onScroll)
-      }
+      followingScroll = atStart
     }
 
+    // Arriving at the end of the scroll, and leaving it, move no section across the line, so
+    // the observer reports neither: each scroll reads where the scroller is, three numbers, and
+    // measures the sections only when that changed or while the first section is followed.
     let scrollFrame = 0
     const onScroll = () => {
       if (scrollFrame) return
       scrollFrame = requestAnimationFrame(() => {
         scrollFrame = 0
-        update()
+        if (followingScroll || isAtScrollEnd(rootElement) !== atEnd) update()
       })
     }
+    scroller.addEventListener('scroll', onScroll, { passive: true })
 
     // Called for every change of an intersection. The entries alone aren't enough: a section
     // that a jump scrolls from below the root to above it never intersects, and isn't reported.

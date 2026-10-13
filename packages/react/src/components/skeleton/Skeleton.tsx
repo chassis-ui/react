@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { WidthSpan, responsiveClassNames, responsiveProp } from '../../utils/breakpoints'
 import { ContextColor, Responsive } from '../../types'
 import { BG_COLOR_CLASS_NAMES } from '../../utils/colorClassNames'
+import { devWarning } from '../../utils/devWarning'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -40,6 +41,8 @@ type SkeletonOwnProps<C extends ElementType> = {
    * element's own intrinsic width applies — set it explicitly (e.g. `span={12}`) for a
    * full-width text line; leave it unset when `component` is something that sizes itself, like
    * `Avatar` or `Button`. An object sets the width from a breakpoint up: `{ base: 12, md: 6 }`.
+   * Any other number or string (`0`, `13`, `'50%'`) has no width class: it sets no width, and
+   * warns in development.
    *
    * @type { Responsive<'auto' | number | string | boolean> }
    */
@@ -55,11 +58,21 @@ type SkeletonComponent = (<C extends ElementType = 'span'>(
   props: SkeletonProps<C> & { ref?: PolymorphicRef<C> }
 ) => ReactElement | null) & { displayName?: string }
 
-// chassis-css has the fractions `w-1/12` to `w-11/12`; twelve twelfths is `w-100`.
+// chassis-css has the fractions `w-1/12` to `w-11/12`; twelve twelfths is `w-100`. `span` takes
+// any number or string, and one that isn't a whole number from 1 to 12 (0, 13, `'50%'`) is still
+// written into the class below, which then has no rule: it says so in development. The template
+// stays as it is: `test/utils/tailwindClassNames.spec.tsx` lists it by its text (RD20).
 const spanClassName = (span: WidthSpan, prefix: string) => {
   if (span === true) return `${prefix}flex-fill`
   if (span === 'auto') return `${prefix}w-auto`
   if (typeof span === 'number' || typeof span === 'string') {
+    const twelfths = Number(span)
+    devWarning(
+      !(Number.isInteger(twelfths) && twelfths >= 1 && twelfths <= 12) ||
+        String(twelfths) !== String(span),
+      `Skeleton: \`span\` takes a whole number of twelfths from 1 to 12, \`'auto'\` or ` +
+        `\`true\`. @chassis-ui/css has no width class for ${JSON.stringify(span)}, so it sets none.`
+    )
     return Number(span) === 12 ? `${prefix}w-100` : `${prefix}w-${span}/12`
   }
   return null

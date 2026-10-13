@@ -7,7 +7,7 @@
   "props": {
     "activeIndex": {
       "defaultValue": null,
-      "description": "The active slide's index, for controlled usage. Pair with `onSlide` or `onSlid` to feed the\nnew index back — they're the only way a controlled carousel's `activeIndex` gets updated.",
+      "description": "The active slide's index, for controlled usage. Pair with `onSlide` to feed the new index\nback: it is the only way a controlled carousel's `activeIndex` gets updated. `onSlid` can't\ndo that, as it reports a slide that has arrived, which a controlled carousel doesn't leave\nfor until `activeIndex` names it.",
       "name": "activeIndex",
       "parent": {
         "fileName": "packages/react/src/components/carousel/Carousel.tsx",

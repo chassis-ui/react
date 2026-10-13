@@ -27,7 +27,9 @@ no part.
 
 The active section is the last one, in document order, whose top has scrolled past a line near the
 bottom of the scrolling area. `rootMargin` sets that line: by default a quarter of the area's
-height above its bottom edge. Before any section has reached it, no link is marked.
+height above its bottom edge. Before any section has reached it, no link is marked. Once the area
+is scrolled to its end the last section is the active one, wherever its top is: a short last
+section never reaches the line.
 
 ## Basic usage
 

@@ -102,8 +102,9 @@ export interface RangeCalendarProps extends Omit<
    * A list of quick-select range presets shown beside the calendar. Selecting a preset commits
    * its range immediately, the same as picking a start and end date from the grid: in order,
    * kept inside `minValue`/`maxValue`, and in the calendar of the current value with its times.
-   * A preset with no day inside those limits is disabled. The preset matching the current
-   * selection (if any) is marked selected. Omit to not show a preset list.
+   * A preset the grid couldn't select is disabled: one with no day inside those limits, and one
+   * with an unavailable day in its range. The preset matching the current selection (if any) is
+   * marked selected. Omit to not show a preset list.
    */
   presets?: DateRangePreset[]
   /**
@@ -221,17 +222,35 @@ export const RangeCalendar = forwardRef<HTMLDivElement, RangeCalendarProps>(
     const nextButton = <CalendarNavButton buttonProps={nextButtonProps} direction="next" />
     const singleMonthArrows = visibleMonths === 1 ? { next: nextButton, prev: prevButton } : null
 
-    // A preset's range as the grid would select it: see `normalizePresetRange`.
-    const presetRange = (range: RangeValue<DateValue>) =>
-      normalizePresetRange(range, state.value, minValue, maxValue)
+    // Each preset's range as the grid would select it, or `null` for one it couldn't: see
+    // `normalizePresetRange`. Kept between renders, of which hovering the grid makes many: a
+    // preset is asked about every day of its range.
+    const gridCalendar = state.focusedDate.calendar
+    const presetRanges = useMemo(
+      () =>
+        new Map(
+          resolvedPresets?.map((preset) => [
+            preset,
+            normalizePresetRange(
+              preset.range,
+              state.value,
+              minValue,
+              maxValue,
+              combinedIsDateUnavailable,
+              gridCalendar
+            )
+          ])
+        ),
+      [resolvedPresets, state.value, minValue, maxValue, combinedIsDateUnavailable, gridCalendar]
+    )
 
     // Goes through the same `state.setValue` path a two-click grid selection does (rather than
     // calling `onChange` directly), so it behaves identically whether `value` is controlled or
     // uncontrolled — including `DateRangePicker`, which relies on this to auto-close its popover
     // the same way completing a range in the grid already does. `setValue` alone skips what the
     // grid's `selectDate` does to the two days first, so the range is normalized here.
-    const handlePresetSelect = (preset: RangeValue<DateValue>) => {
-      const range = presetRange(preset)
+    const handlePresetSelect = (preset: DateRangePreset) => {
+      const range = presetRanges.get(preset)
       if (!range) return
       // A range that starts outside the visible months would be selected out of sight, so the
       // calendar moves to its first month.
@@ -263,7 +282,7 @@ export const RangeCalendar = forwardRef<HTMLDivElement, RangeCalendarProps>(
             {resolvedPresets && (
               <DateRangePresets
                 disabled={state.isDisabled}
-                isSelectable={(range) => presetRange(range) !== null}
+                isSelectable={(preset) => Boolean(presetRanges.get(preset))}
                 onSelect={handlePresetSelect}
                 presets={resolvedPresets}
                 value={state.value}
@@ -401,10 +420,10 @@ const CalendarCell = ({
 
 interface DateRangePresetsProps {
   disabled: boolean
-  // Whether any day of a preset's range is inside `minValue`/`maxValue`. One with none is
+  // Whether the grid could select a preset's range (`normalizePresetRange`). One it couldn't is
   // disabled, as the cells of its days are.
-  isSelectable: (range: RangeValue<DateValue>) => boolean
-  onSelect: (range: RangeValue<DateValue>) => void
+  isSelectable: (preset: DateRangePreset) => boolean
+  onSelect: (preset: DateRangePreset) => void
   presets: DateRangePreset[]
   value: RangeValue<DateValue> | null
 }
@@ -434,8 +453,8 @@ const DateRangePresets = ({
           <button
             aria-current={isSelected ? 'true' : undefined}
             className={classNames('datepicker-preset', { selected: isSelected })}
-            disabled={disabled || !isSelectable(preset.range)}
-            onClick={() => onSelect(preset.range)}
+            disabled={disabled || !isSelectable(preset)}
+            onClick={() => onSelect(preset)}
             type="button"
           >
             {preset.label}

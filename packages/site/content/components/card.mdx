@@ -244,7 +244,9 @@ Set `direction="row"` on `<Card>` to lay it out side-by-side instead of stacked,
 such as `direction={{ lg: 'row' }}` for a breakpoint-gated switch. Wrap the image and body in
 elements with a fraction width (`.lg:w-4/12`, `.lg:w-8/12`) to control each side's width, and give
 `<CardImage>` `orientation={{ base: 'top', lg: 'start' }}` so the image's rounded corners switch
-from the top edge to the start edge at the same breakpoint the card switches to a row.
+from the top edge to the start edge at the same breakpoint the card switches to a row. At a
+breakpoint `orientation` takes `start` and `end`, from `sm` to `xl`: `top` and `bottom` have a
+class at `base` only.
 
 <Callout type="info">
   A Tailwind build of `@chassis-ui/css` has the classes of `direction`, and of the `gap` of

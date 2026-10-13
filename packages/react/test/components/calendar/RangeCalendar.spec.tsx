@@ -735,6 +735,91 @@ describe('RangeCalendar', () => {
         expect(onChange).not.toHaveBeenCalled()
       })
 
+      // Only `minValue` and `maxValue` held a preset back. The grid can't select across an
+      // unavailable day: once the start is picked, the cells past the next unavailable day are
+      // disabled. A preset over one committed a range no two presses could have made.
+      describe('over an unavailable day', () => {
+        const july = presetOf(new CalendarDate(2026, 7, 1), new CalendarDate(2026, 7, 31))
+
+        test('is disabled, and commits nothing', () => {
+          const onChange = vi.fn()
+          render(
+            <RangeCalendar
+              aria-label="Trip dates"
+              isDateUnavailable={(date) => date.day === 15}
+              onChange={onChange}
+              presets={july}
+            />
+          )
+          expect(screen.getByRole('button', { name: 'Preset' })).toBeDisabled()
+          selectPreset()
+          expect(onChange).not.toHaveBeenCalled()
+        })
+
+        test('is disabled for a day given in unavailableDates', () => {
+          render(
+            <RangeCalendar
+              aria-label="Trip dates"
+              presets={july}
+              unavailableDates={['2026-07-31']}
+            />
+          )
+          expect(screen.getByRole('button', { name: 'Preset' })).toBeDisabled()
+        })
+
+        test('is selectable when minValue and maxValue keep the range clear of it', () => {
+          const onChange = vi.fn()
+          render(
+            <RangeCalendar
+              aria-label="Trip dates"
+              maxValue={new CalendarDate(2026, 7, 20)}
+              minValue={new CalendarDate(2026, 7, 16)}
+              onChange={onChange}
+              presets={july}
+              unavailableDates={['2026-07-15', '2026-07-21']}
+            />
+          )
+          selectPreset()
+          expect(onChange).toHaveBeenCalledWith({
+            end: new CalendarDate(2026, 7, 20),
+            start: new CalendarDate(2026, 7, 16)
+          })
+        })
+
+        test('is selectable beside one', () => {
+          const onChange = vi.fn()
+          render(
+            <RangeCalendar
+              aria-label="Trip dates"
+              onChange={onChange}
+              presets={july}
+              unavailableDates={['2026-06-30', '2026-08-01']}
+            />
+          )
+          expect(screen.getByRole('button', { name: 'Preset' })).toBeEnabled()
+          selectPreset()
+          expect(onChange).toHaveBeenCalledTimes(1)
+        })
+
+        // The grid asks about its days in the calendar it shows, and so is the preset asked.
+        test("asks about each day in the calendar's own calendar system", () => {
+          const asked: string[] = []
+          render(
+            <I18nProvider locale="th-TH-u-ca-buddhist">
+              <RangeCalendar
+                aria-label="Trip dates"
+                isDateUnavailable={(date) => {
+                  asked.push(date.calendar.identifier)
+                  return false
+                }}
+                presets={presetOf(new CalendarDate(2026, 7, 1), new CalendarDate(2026, 7, 3))}
+              />
+            </I18nProvider>
+          )
+          expect(new Set(asked)).toEqual(new Set(['buddhist']))
+        })
+      })
+
       test('keeps the times of a value that has them', () => {
         const onChange = vi.fn()
         render(

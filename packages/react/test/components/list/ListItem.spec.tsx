@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { ListItem } from '../../../src/index'
@@ -98,6 +98,85 @@ describe('ListItem', () => {
       expect(screen.getByRole('button', { name: 'Action' })).not.toHaveAttribute('href')
       expect(consoleWarn).toHaveBeenCalledWith(expect.stringContaining('`href` was ignored'))
       consoleWarn.mockRestore()
+    })
+  })
+
+  // It rendered `Link` around its element only while that was a link, so a router link whose
+  // `href` came or went was a different tree each time, and React remounted it.
+  describe('a component whose href comes and goes', () => {
+    const mounted = vi.fn()
+    function Tracked(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+      React.useEffect(mounted, [])
+      return <a data-testid="tracked" {...props} />
+    }
+
+    beforeEach(() => mounted.mockClear())
+
+    test.each([
+      [
+        'as component',
+        (href?: string) => (
+          <ListItem active component={Tracked} disabled href={href}>
+            Account
+          </ListItem>
+        )
+      ],
+      [
+        'as the asChild element',
+        (href?: string) => (
+          <ListItem active asChild disabled>
+            <Tracked href={href}>Account</Tracked>
+          </ListItem>
+        )
+      ]
+    ])('stays mounted: %s', (_name, tree) => {
+      const { rerender } = render(tree())
+      const element = screen.getByTestId('tracked')
+      // With no link target it isn't a link: the states are its own classes and attributes, as
+      // on the `<li>`, and it isn't taken out of the tab order.
+      expect(element).toHaveClass('list-item', 'active', 'disabled')
+      expect(element).not.toHaveClass('list-action')
+      expect(element).toHaveAttribute('aria-current', 'page')
+      expect(element).toHaveAttribute('aria-disabled', 'true')
+      expect(element).not.toHaveAttribute('tabindex')
+      expect(element).not.toHaveAttribute('role')
+
+      rerender(tree('/account'))
+      expect(screen.getByTestId('tracked')).toBe(element)
+      expect(element).toHaveClass('list-item', 'list-action', 'active', 'disabled')
+      expect(element).toHaveAttribute('href', '/account')
+      expect(element).toHaveAttribute('tabindex', '-1')
+
+      rerender(tree())
+      expect(screen.getByTestId('tracked')).toBe(element)
+      expect(element).not.toHaveClass('list-action')
+      expect(element).not.toHaveAttribute('tabindex')
+      expect(mounted).toHaveBeenCalledTimes(1)
+    })
+
+    test('writes each state class once with no link target', () => {
+      render(
+        <ListItem active component={Tracked} disabled>
+          Account
+        </ListItem>
+      )
+      const classes = screen.getByTestId('tracked').className.split(' ')
+      expect(classes.filter((name) => name === 'active')).toHaveLength(1)
+      expect(classes.filter((name) => name === 'disabled')).toHaveLength(1)
+    })
+
+    test('calls its onClick once with no link target, and adds no button semantics', () => {
+      const onClick = vi.fn()
+      render(
+        <ListItem component={Tracked} onClick={onClick}>
+          Account
+        </ListItem>
+      )
+      const element = screen.getByTestId('tracked')
+      fireEvent.click(element)
+      expect(onClick).toHaveBeenCalledTimes(1)
+      expect(element).not.toHaveAttribute('role')
+      expect(element).not.toHaveAttribute('tabindex')
     })
   })
 

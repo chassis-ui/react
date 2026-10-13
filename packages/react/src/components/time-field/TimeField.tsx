@@ -98,7 +98,8 @@ export interface TimeFieldProps extends Omit<
    */
   readOnly?: boolean
   /**
-   * Toggle the required state for the component.
+   * Toggle the required state for the component. An empty required field holds its form back
+   * from submitting, and takes focus.
    */
   required?: boolean
   /**
@@ -125,6 +126,15 @@ export interface TimeFieldProps extends Omit<
 }
 
 type FieldProps = AriaTimeFieldProps<TimeValue>
+
+// See `holdsFormBack`. `onChange` because React takes an input with a `value` and no handler
+// for a mistake; nobody types in this one.
+const REQUIRED_INPUT_PROPS = {
+  hidden: true,
+  onChange: () => undefined,
+  required: true,
+  type: 'text'
+}
 
 // A time as `DateField` renders a date for the date pickers: a `.form-input` holding one editable
 // segment per unit, with the segments' styles shared (`DateSegment`). The `.form-input` is the
@@ -232,6 +242,18 @@ export const TimeField = forwardRef<HTMLDivElement, TimeFieldProps>(
       fieldRef
     )
 
+    // `required` has to reach an input a form validates (FORMS.md, gotcha 9), and react-aria
+    // writes `aria-required` on the segments alone: an empty required field was submitted. The
+    // segments aren't form controls, and the input that carries the value is `type="hidden"`,
+    // which is barred from constraint validation. So a required field's input is a text input
+    // that isn't displayed, the one react-aria itself renders under `validationBehavior:
+    // 'native'`. That behavior isn't turned on: it also holds a form back for `invalid` and for a
+    // time outside `minValue`/`maxValue`, and shows the latter on blur where it shows as typed
+    // now. The browser has no bubble to show on an input that isn't displayed; react-aria's
+    // listener on `inputRef` focuses the first segment in its place. A disabled input isn't
+    // validated, and a read-only field can't be filled in, so it keeps the hidden one.
+    const holdsFormBack = required && !readOnly
+
     // The field's `aria-describedby` from react-aria holds its description of the value, added
     // once mounted, and the help and feedback given to it; the slot ids come out (FORMS.md, gotcha
     // 6). It's set again after the spread, where the caller's own value would replace it (gotcha
@@ -269,7 +291,7 @@ export const TimeField = forwardRef<HTMLDivElement, TimeFieldProps>(
               ))}
             </div>
           </div>
-          <input {...inputProps} ref={inputRef} />
+          <input {...inputProps} {...(holdsFormBack && REQUIRED_INPUT_PROPS)} ref={inputRef} />
         </>
       ),
       help,

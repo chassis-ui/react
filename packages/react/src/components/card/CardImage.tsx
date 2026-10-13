@@ -3,6 +3,7 @@ import classNames from 'classnames'
 
 import { Responsive } from '../../types'
 import { baseValue, responsiveClassNames, responsiveProp } from '../../utils/breakpoints'
+import { devWarning } from '../../utils/devWarning'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -26,7 +27,10 @@ type CardImageOwnProps<C extends ElementType> = {
    * Orientates the image to the top or bottom of the card as an "image cap", or to the start/end
    * for a horizontal layout. Omit to round all four corners for use inside `CardBody`. An object
    * sets the orientation from a breakpoint up — e.g. `{ base: 'top', lg: 'start' }` to switch an
-   * image cap from `top` to `start` once the card lays out horizontally.
+   * image cap from `top` to `start` once the card lays out horizontally. Only `start` and `end`
+   * can be set at a breakpoint, from `sm` to `xl`: `@chassis-ui/css` has no class for `top` or
+   * `bottom` there, nor for any value at `2xl`, and such a value does nothing and warns in
+   * development.
    */
   orientation?: Responsive<CardImageOrientation>
 }
@@ -40,8 +44,26 @@ type CardImageComponent = (<C extends ElementType = 'img'>(
   props: CardImageProps<C> & { ref?: PolymorphicRef<C> }
 ) => ReactElement | null) & { displayName?: string }
 
-const orientationClassName = (orientation: CardImageOrientation, prefix: string) =>
-  `${prefix}card-image-${orientation}`
+// chassis-css has the four orientation classes at the base, and of the breakpoint ones only what
+// a card needs once it lays out in a row from some width up: `start` and `end`, from `sm` to
+// `xl`. The type takes every value at every breakpoint, and narrowing it would break the callers
+// it compiles for today (`VERSIONING.md`), so the rest still renders its class, which has no
+// rule, and says so in development. `test/components/card/CardImage.spec.tsx` holds this list to
+// the installed stylesheet.
+const BREAKPOINT_ORIENTATIONS: readonly CardImageOrientation[] = ['start', 'end']
+const ORIENTATION_PREFIXES: readonly string[] = ['sm:', 'md:', 'lg:', 'xl:']
+
+const orientationClassName = (orientation: CardImageOrientation, prefix: string) => {
+  const className = `${prefix}card-image-${orientation}`
+  devWarning(
+    prefix !== '' &&
+      !(BREAKPOINT_ORIENTATIONS.includes(orientation) && ORIENTATION_PREFIXES.includes(prefix)),
+    `CardImage: \`orientation\` rendered the class "${className}", which @chassis-ui/css ` +
+      "doesn't have, so it does nothing. Only `start` and `end` have breakpoint classes, from " +
+      '`sm` to `xl`; `top` and `bottom` apply at `base` alone.'
+  )
+  return className
+}
 
 function CardImageRender<C extends ElementType = 'img'>(
   { children, className, component, orientation, ...rest }: CardImageProps<C>,

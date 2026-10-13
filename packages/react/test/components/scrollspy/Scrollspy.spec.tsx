@@ -206,6 +206,86 @@ describe('Scrollspy', () => {
       expect(current()).toEqual(['Three'])
     })
 
+    // A last section shorter than the part of the root below the line never brings its top
+    // past it: at the end of the page the nav stayed one link short.
+    describe('at the end of the scroll', () => {
+      // The page is as long as its last section's end, and the viewport scrolls it.
+      const pageOf = (height: number) => {
+        vi.spyOn(document.documentElement, 'scrollHeight', 'get').mockReturnValue(height)
+        vi.spyOn(document.documentElement, 'scrollTop', 'get').mockImplementation(
+          () => scrollPosition
+        )
+      }
+      const scrollWindowTo = async (position: number) => {
+        scrollPosition = position
+        act(() => {
+          window.dispatchEvent(new Event('scroll'))
+        })
+        await nextFrame()
+      }
+
+      test('marks the last section, whose top is still below the line', async () => {
+        pageOf(1600)
+        render(<SpyNav />)
+        scrollTo(1100)
+        expect(current()).toEqual(['Three'])
+
+        // The end: four's top is at 300, on the line and not past it. No intersection changes
+        // on the way there, so the scroll itself is what reports it.
+        await scrollWindowTo(1200)
+        expect(current()).toEqual(['Four'])
+
+        // And leaving the end gives the mark back.
+        await scrollWindowTo(1190)
+        expect(current()).toEqual(['Three'])
+      })
+
+      test('marks the last section that is rendered', async () => {
+        pageOf(1600)
+        render(<SpyNav />)
+        screen.getByRole('region', { name: 'Section four' }).hidden = true
+        tops = { one: 0, two: 500, three: 1250, four: 1500 }
+        scrollTo(1200)
+        expect(current()).toEqual(['Three'])
+      })
+
+      test('leaves a page that does not scroll to the first section', () => {
+        tops = { one: 0, two: 100, three: 200, four: 350 }
+        pageOf(400)
+        render(<SpyNav />)
+        scrollTo(0)
+        expect(current()).toEqual(['One'])
+      })
+
+      test('reads the end of a root that scrolls', async () => {
+        const root = React.createRef<HTMLDivElement>()
+        render(
+          <>
+            <Scrollspy root={root}>
+              <Nav>
+                <NavItem href="#one">One</NavItem>
+                <NavItem href="#two">Two</NavItem>
+              </Nav>
+            </Scrollspy>
+            <div data-testid="root" ref={root}>
+              <Sections ids={['one', 'two']} />
+            </div>
+          </>
+        )
+        const element = screen.getByTestId('root')
+        vi.spyOn(element, 'scrollHeight', 'get').mockReturnValue(700)
+        vi.spyOn(element, 'scrollTop', 'get').mockImplementation(() => scrollPosition)
+        tops = { one: 0, two: 600 }
+        scrollTo(250)
+        expect(current()).toEqual(['One'])
+
+        scrollPosition = 300
+        fireEvent.scroll(element)
+        await nextFrame()
+        expect(current()).toEqual(['Two'])
+      })
+    })
+
     test('marks nothing while every section is below the line', () => {
       tops = { one: 600, two: 900, three: 1200, four: 1500 }
       render(<SpyNav />)

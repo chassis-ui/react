@@ -56,8 +56,10 @@ export interface CarouselSlideDetail {
 
 export interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
   /**
-   * The active slide's index, for controlled usage. Pair with `onSlide` or `onSlid` to feed the
-   * new index back — they're the only way a controlled carousel's `activeIndex` gets updated.
+   * The active slide's index, for controlled usage. Pair with `onSlide` to feed the new index
+   * back: it is the only way a controlled carousel's `activeIndex` gets updated. `onSlid` can't
+   * do that, as it reports a slide that has arrived, which a controlled carousel doesn't leave
+   * for until `activeIndex` names it.
    */
   activeIndex?: number
   /**
@@ -125,6 +127,10 @@ export interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const ACTIVE_RATIO_TOLERANCE = 0.05
+// How long the track must have stopped scrolling for a swipe to be over. `scrollend` would say so
+// outright, but not every supported browser has it, and it can come before the observer's last
+// report of the same frame.
+const SWIPE_SETTLE_MS = 150
 
 export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
   (
@@ -154,16 +160,20 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     },
     ref
   ) => {
-    // `onSlide`/`onSlid` — not a dedicated `onChange` — are the only way a controlled
-    // `activeIndex` gets fed back (see the CarouselProps `activeIndex` doc and carousel.mdx's
-    // "Controlled usage" section). Missing both means every click/swipe/autoplay advance updates
-    // internal state that `useControllableState` immediately discards (controlled mode always
-    // mirrors the prop), so the carousel silently freezes instead of erroring.
+    // `onSlide`, not a dedicated `onChange`, is the only way a controlled `activeIndex` gets fed
+    // back (see the CarouselProps `activeIndex` doc and carousel.mdx's "Controlled usage"
+    // section). Without it every click, swipe and autoplay advance is a request nobody hears, and
+    // the carousel silently freezes instead of erroring. `onSlid` is no substitute: it reports a
+    // slide that has arrived, and a controlled carousel only leaves for one once `activeIndex`
+    // names it. This warning and the docs offered `onSlid` too, and a carousel fed from it alone
+    // never moved.
     devWarning(
-      activeIndexProp !== undefined && !onSlide && !onSlid,
-      'Carousel: `activeIndex` is set (controlled) but neither `onSlide` nor `onSlid` is — ' +
-        'nothing feeds the new index back to your state, so the carousel will visually freeze ' +
-        'on click/swipe/autoplay. Pass `onSlide` or `onSlid` and update `activeIndex` from it.'
+      activeIndexProp !== undefined && !onSlide,
+      'Carousel: `activeIndex` is set (controlled) without `onSlide`: nothing feeds the new ' +
+        'index back to your state, so the carousel will visually freeze on click/swipe/autoplay. ' +
+        'Pass `onSlide` and update `activeIndex` from it. `onSlid` cannot do this: it fires once ' +
+        'a slide has arrived, which under a controlled `activeIndex` only happens after the ' +
+        'prop has changed.'
     )
 
     const carouselRef = useRef<HTMLDivElement>(null)
@@ -181,9 +191,30 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     // The index of the last commit, which `activeIndexRef` may run ahead of (see
     // `setActiveIndexInternal`).
     const committedIndexRef = useRef(activeIndex)
+    // The step last asked for, until `activeIndex` changes: then the step that happened, which
+    // `onSlid` reports.
+    const lastTransitionRef = useRef<CarouselSlideDetail>({
+      from: activeIndex,
+      to: activeIndex,
+      direction: 'left'
+    })
     useIsomorphicLayoutEffect(() => {
+      const from = committedIndexRef.current
       activeIndexRef.current = activeIndex
       committedIndexRef.current = activeIndex
+      if (from === activeIndex) return
+      // The parent of a controlled carousel can choose a slide nobody asked for, or answer a
+      // request with another slide. `onSlid` then reported the last request as it stood, an
+      // earlier step. A request that was followed is kept whole: it has the direction that was
+      // asked for, which the two indexes of a step that wrapped round would give the other way.
+      const asked = lastTransitionRef.current
+      if (asked.from === from && asked.to === activeIndex) return
+      lastTransitionRef.current = {
+        from,
+        to: activeIndex,
+        direction: directionBetween(from, activeIndex, viewportEl ? isRTL(viewportEl) : false)
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeIndex])
 
     // A timer, an observer and a running animation outlive the render that started them. The
@@ -218,12 +249,17 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     // doesn't treat a slide passing through mid-scroll (e.g. slide 2 on the way from 1 to 3) as
     // the new active slide and hijack the navigation before it reaches its real target.
     const syncingScrollRef = useRef(false)
-    // Set right before an `activeIndex` change originates from the IntersectionObserver (i.e. the
-    // user physically scrolled/swiped there) so the scroll-sync effect below can skip it. Without
-    // this, every threshold the observer crosses mid-gesture — before the browser's own
-    // scroll-snap has actually settled the position — would make that effect "correct" the
-    // still-in-progress native scroll, fighting the user's own touch/wheel input.
-    const skipScrollSyncRef = useRef(false)
+    // The slide the IntersectionObserver last asked for (i.e. the user physically scrolled/swiped
+    // there), so the scroll-sync effect below can skip the change to it. Without this, every
+    // threshold the observer crosses mid-gesture — before the browser's own scroll-snap has
+    // actually settled the position — would make that effect "correct" the still-in-progress
+    // native scroll, fighting the user's own touch/wheel input. It names the slide, and isn't a
+    // plain flag, because the parent of a controlled carousel may not follow: a flag stayed set
+    // then, and the next step that was followed, to any slide, didn't scroll. `settleSwipe`
+    // clears the mark of a swipe nobody followed.
+    const swipedToRef = useRef<number | null>(null)
+    const swipeSettleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const touchingRef = useRef(false)
     const cancelScrollSyncRef = useRef<(() => void) | null>(null)
     const observerRef = useRef<IntersectionObserver | null>(null)
     const visibilityRef = useRef(new Map<Element, number>())
@@ -236,11 +272,6 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     // `animateScrollTo` animation, so the generic effect doesn't fire it early — before the slide
     // has actually finished sliding into place.
     const deferOnSlidRef = useRef(false)
-    const lastTransitionRef = useRef<CarouselSlideDetail>({
-      from: activeIndex,
-      to: activeIndex,
-      direction: 'left'
-    })
     const prevControlsRef = useRef<Set<HTMLButtonElement>>(new Set())
     const nextControlsRef = useRef<Set<HTMLButtonElement>>(new Set())
 
@@ -266,6 +297,29 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       }
     }
 
+    // Moves the track by `delta` with scroll-snap off, which would pull it to the nearest slide
+    // on the way, and with the observer told not to act on the slides that pass.
+    const animateTrackBy = (viewport: HTMLDivElement, delta: number, onArrived?: () => void) => {
+      // Cancel any previous scroll-sync still animating so it can't finish later and clobber
+      // this newer target, and so `syncingScrollRef` isn't cleared early while this one runs.
+      cancelScrollSyncRef.current?.()
+      syncingScrollRef.current = true
+      viewport.style.scrollSnapType = 'none'
+      cancelScrollSyncRef.current = animateScrollTo(viewport, viewport.scrollLeft + delta, () => {
+        viewport.style.scrollSnapType = ''
+        syncingScrollRef.current = false
+        cancelScrollSyncRef.current = null
+        onArrived?.()
+      })
+    }
+
+    // (Re)starts the wait for a swipe to come to rest. Refs only: the observer and the scroll
+    // listener that call it belong to an earlier render.
+    const awaitSwipeSettle = () => {
+      if (swipeSettleTimerRef.current) clearTimeout(swipeSettleTimerRef.current)
+      swipeSettleTimerRef.current = setTimeout(() => settleSwipeRef.current(), SWIPE_SETTLE_MS)
+    }
+
     // Index math alone (not real geometry) drives `atStart`/`atEnd` so end-control state and
     // navigation clamping are correct even before layout exists (SSR, jsdom tests). The scroll
     // listener below refines it further for peek/variable-width layouts, where a whole number of
@@ -280,6 +334,8 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       if (!viewportEl) return undefined
 
       const handleScroll = () => {
+        // Still moving: a swipe waiting for its answer isn't over yet.
+        if (swipedToRef.current !== null) awaitSwipeSettle()
         if (loopingRef.current || !isViewportScrollable(viewportEl)) return
         const maxScroll = viewportEl.scrollWidth - viewportEl.clientWidth
         // Elastic overscroll (iOS Safari/macOS trackpad rubber-banding) can push `scrollLeft`
@@ -296,8 +352,24 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         setAtEnd(scrollLeft >= maxScroll - 1)
       }
 
+      // A finger resting on the track mid-swipe stops the scroll events too.
+      const handleTouchStart = () => {
+        touchingRef.current = true
+      }
+      const handleTouchEnd = (event: TouchEvent) => {
+        touchingRef.current = event.touches.length > 0
+      }
+
       viewportEl.addEventListener('scroll', handleScroll, { passive: true })
-      return () => viewportEl.removeEventListener('scroll', handleScroll)
+      viewportEl.addEventListener('touchstart', handleTouchStart, { passive: true })
+      viewportEl.addEventListener('touchend', handleTouchEnd)
+      viewportEl.addEventListener('touchcancel', handleTouchEnd)
+      return () => {
+        viewportEl.removeEventListener('scroll', handleScroll)
+        viewportEl.removeEventListener('touchstart', handleTouchStart)
+        viewportEl.removeEventListener('touchend', handleTouchEnd)
+        viewportEl.removeEventListener('touchcancel', handleTouchEnd)
+      }
     }, [viewportEl])
 
     // A layout effect, not a plain effect: `itemCount` must be measured before paint so the
@@ -353,8 +425,9 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
               }
               lastTransitionRef.current = detail
               onSlideRef.current?.(detail)
-              skipScrollSyncRef.current = true
+              swipedToRef.current = bestIndex
               setActiveIndexInternal(bestIndex)
+              awaitSwipeSettle()
             }
           },
           { root: viewportEl, threshold: [0, 0.25, 0.5, 0.75, 1] }
@@ -393,11 +466,11 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 
     // Best-effort visual sync: scrolls the real DOM position to match `activeIndex` after a
     // programmatic navigation. A user-driven drag/swipe goes the other way (observer above), which
-    // sets `skipScrollSyncRef` so this effect no-ops for it instead of fighting a gesture that's
+    // sets `swipedToRef` so this effect no-ops for it instead of fighting a gesture that's
     // still physically in progress — see the ref's own comment for why that matters.
     useIsomorphicLayoutEffect(() => {
-      if (skipScrollSyncRef.current) {
-        skipScrollSyncRef.current = false
+      if (swipedToRef.current === activeIndex) {
+        swipedToRef.current = null
         return
       }
       if (!viewportEl || loopingRef.current || isFade) return
@@ -415,33 +488,51 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       const delta = scrollDeltaFor(viewportEl, target, !!center)
       if (Math.abs(delta) < 1) return
 
-      // Cancel any previous scroll-sync still animating so it can't finish later and clobber
-      // this newer target, and so `syncingScrollRef` isn't cleared early while this one runs.
-      cancelScrollSyncRef.current?.()
-
-      syncingScrollRef.current = true
-      viewportEl.style.scrollSnapType = 'none'
-
       if (instant) {
+        // Cancel any previous scroll-sync still animating so it can't finish later and clobber
+        // this newer target, and so `syncingScrollRef` isn't cleared early while this one runs.
+        cancelScrollSyncRef.current?.()
+        syncingScrollRef.current = true
+        viewportEl.style.scrollSnapType = 'none'
         viewportEl.scrollTo({ left: viewportEl.scrollLeft + delta, behavior: 'instant' })
         viewportEl.style.scrollSnapType = ''
         syncingScrollRef.current = false
         cancelScrollSyncRef.current = null
       } else {
         deferOnSlidRef.current = true
-        cancelScrollSyncRef.current = animateScrollTo(
-          viewportEl,
-          viewportEl.scrollLeft + delta,
-          () => {
-            viewportEl.style.scrollSnapType = ''
-            syncingScrollRef.current = false
-            cancelScrollSyncRef.current = null
-            deferOnSlidRef.current = false
-            onSlidRef.current?.(lastTransitionRef.current)
-          }
-        )
+        animateTrackBy(viewportEl, delta, () => {
+          deferOnSlidRef.current = false
+          onSlidRef.current?.(lastTransitionRef.current)
+        })
       }
     }, [viewportEl, activeIndex, itemCount, center, isFade])
+
+    // A swipe is a request like any other, made after the track has moved. When the parent of a
+    // controlled carousel doesn't follow it, the track is put back on the active slide: it stayed
+    // on the slide the user had swiped to, with `activeIndex`, the indicators and the slide
+    // marked `active` all naming another. Not before the swipe has come to rest, since a scroll
+    // from here would fight the gesture (see `swipedToRef`): that is a pause in the track's
+    // scroll events with no finger on it. An uncontrolled carousel has followed by then, and so
+    // has a parent that does: the mark is gone and there is nothing to do.
+    const settleSwipe = () => {
+      swipeSettleTimerRef.current = null
+      if (swipedToRef.current === null) return
+      if (touchingRef.current) {
+        awaitSwipeSettle()
+        return
+      }
+      swipedToRef.current = null
+      if (!viewportEl || loopingRef.current || syncingScrollRef.current || isFade) return
+      const target = getCarouselItems(viewportEl)[committedIndexRef.current]
+      if (!target) return
+      const delta = scrollDeltaFor(viewportEl, target, !!center)
+      if (Math.abs(delta) >= 1) animateTrackBy(viewportEl, delta)
+    }
+    // The timer outlives the render that set it, as the autoplay timer does.
+    const settleSwipeRef = useRef(settleSwipe)
+    useIsomorphicLayoutEffect(() => {
+      settleSwipeRef.current = settleSwipe
+    })
 
     useEffect(() => {
       if (!mountedForSlidRef.current) {
@@ -482,6 +573,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     useEffect(() => {
       return () => {
         if (timeoutRef.current) clearTimeout(timeoutRef.current)
+        if (swipeSettleTimerRef.current) clearTimeout(swipeSettleTimerRef.current)
         observerRef.current?.disconnect()
         cancelScrollSyncRef.current?.()
       }
@@ -503,6 +595,9 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       const direction = loopDirection(isNext, isRTL(viewport))
 
       onSlide?.({ from, to, direction })
+      // Now, not only in `finish`: a controlled parent follows `onSlide` while the loop still
+      // runs, and the step that happened is matched against this one.
+      lastTransitionRef.current = { from, to, direction }
       loopingRef.current = true
 
       const finish = () => {
@@ -587,6 +682,10 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       const target = normalizeIndex(rawTarget, effectiveLast + 1, wraps)
       const from = activeIndexRef.current
       if (target === null || target === from) return
+
+      // This step is the carousel's own, and scrolls: a swipe still waiting for its answer no
+      // longer says where the track should be.
+      swipedToRef.current = null
 
       // `rawTarget`, not the post-wrap `target`, so a wrap-around still reports the direction the
       // caller actually asked for (e.g. Next wrapping last -> 0 stays "next", not "previous").
@@ -676,6 +775,18 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       return () => pauseCycle()
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [viewportEl])
+
+    // Under `ends="stop"` autoplay is over when it arrives at the last slide. It used to wait one
+    // more interval there, for the tick that finds nothing to go to, with the indicator's
+    // progress filling and `CarouselPlayPause` reading "Pause" all the while. An effect and not a
+    // line of the tick, so that the slide is the one being shown: a controlled parent may not
+    // follow the tick, or may move there by itself. Only a cycle that is running ends, so Play
+    // on the last slide still starts one.
+    useEffect(() => {
+      if (!timeoutRef.current || wraps || itemCount === 0) return
+      if (activeIndex >= Math.max(0, itemCount - itemsVisible)) stopPlayingForGood()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeIndex, itemCount, itemsVisible, wraps])
 
     // A new `interval` applies to the slide being shown, not from the one after it. A slide's own
     // `interval` still wins, in `scheduleAutoplay`.

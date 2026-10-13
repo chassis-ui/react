@@ -37,7 +37,7 @@
     },
     "orientation": {
       "defaultValue": null,
-      "description": "Orientates the image to the top or bottom of the card as an \"image cap\", or to the start/end\nfor a horizontal layout. Omit to round all four corners for use inside `CardBody`. An object\nsets the orientation from a breakpoint up — e.g. `{ base: 'top', lg: 'start' }` to switch an\nimage cap from `top` to `start` once the card lays out horizontally.",
+      "description": "Orientates the image to the top or bottom of the card as an \"image cap\", or to the start/end\nfor a horizontal layout. Omit to round all four corners for use inside `CardBody`. An object\nsets the orientation from a breakpoint up — e.g. `{ base: 'top', lg: 'start' }` to switch an\nimage cap from `top` to `start` once the card lays out horizontally. Only `start` and `end`\ncan be set at a breakpoint, from `sm` to `xl`: `@chassis-ui/css` has no class for `top` or\n`bottom` there, nor for any value at `2xl`, and such a value does nothing and warns in\ndevelopment.",
       "name": "orientation",
       "declarations": [
         {

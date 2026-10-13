@@ -2,7 +2,13 @@ import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'reac
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
-import { hrefProps, isInteractiveKind, linkElement, resolveLinkKind } from '../../utils/elementKind'
+import {
+  hrefProps,
+  isInteractiveKind,
+  linkElement,
+  resolveElementTag,
+  resolveLinkKind
+} from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -64,24 +70,37 @@ function ListItemRender<C extends ElementType = 'li'>(
   const isInteractive = isInteractiveKind(kind)
   const linkProps = hrefProps(kind, href, 'ListItem')
 
+  // A component (a router link given as `component`, or as the `asChild` element) renders through
+  // `Link` whether or not it has a link target. It did only while it had one, so a router link
+  // whose `href` came or went was a different tree each time, and React remounted it. `Link`
+  // leaves a component that isn't a link to its own semantics.
+  const throughLink = isInteractive || resolveElementTag(tag) === undefined
+
   const _className = classNames(
     'list-item',
     color && 'context',
     color,
     {
       'list-action': isInteractive,
-      // An interactive item renders through `Link`, which adds these classes and their ARIA
-      // attributes itself.
-      active: active && !isInteractive,
-      disabled: disabled && !isInteractive
+      // `Link` adds these classes, and `aria-current`, itself.
+      active: active && !throughLink,
+      disabled: disabled && !throughLink
     },
     className
   )
 
-  const Component = (isInteractive ? Link : tag) as ElementType
+  const Component = (throughLink ? Link : tag) as ElementType
 
-  const finalRest = isInteractive
-    ? { active, disabled, component: tag, ...linkProps, ...rest }
+  const finalRest = throughLink
+    ? {
+        active,
+        disabled,
+        component: tag,
+        // `Link` writes it on a link, which it also takes out of the tab order.
+        ...(disabled && !isInteractive && { 'aria-disabled': true }),
+        ...linkProps,
+        ...rest
+      }
     : {
         ...(active && { 'aria-current': 'page' }),
         ...(disabled && { 'aria-disabled': true }),

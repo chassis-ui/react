@@ -162,7 +162,8 @@ export interface DateRangePickerProps extends Omit<
    * A list of quick-select range presets shown in the overlay next to the calendar. Selecting a
    * preset commits its range immediately, the same as picking a start and end date from the
    * calendar: in order, kept inside `minValue`/`maxValue`, and with the times of the current
-   * range. A preset with no day inside those limits is disabled. The preset matching the current
+   * range. A preset the calendar couldn't select is disabled: one with no day inside those
+   * limits, and one with an unavailable day in its range. The preset matching the current
    * selection (if any) is marked selected. Omit to not show a preset list.
    */
   presets?: DateRangePreset[]

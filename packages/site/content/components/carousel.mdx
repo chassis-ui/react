@@ -107,7 +107,7 @@ With `ends="wrap"` the carousel jumps from the last slide back to the first, and
 
 ### Stop
 
-With `ends="stop"` the carousel hard-stops at the first and last slide: `CarouselControlPrev` disables on the first slide and `CarouselControlNext` on the last, via the native `disabled` attribute. When a focused control becomes disabled, focus shifts to the opposite control so it isn't lost.
+With `ends="stop"` the carousel hard-stops at the first and last slide: `CarouselControlPrev` disables on the first slide and `CarouselControlNext` on the last, via the native `disabled` attribute. When a focused control becomes disabled, focus shifts to the opposite control so it isn't lost. Autoplay ends when it arrives at the last slide, and `CarouselPlayPause` reads Play from then on.
 
 <Example>
   <StopExample client:load />
@@ -149,12 +149,14 @@ Set `center` to snap the active slide to the center of the viewport instead of i
 
 ## Controlled usage
 
-A controlled `activeIndex` needs an `onSlide` or `onSlid` handler feeding the new index back — every click, swipe, or autoplay advance calls one of them with the destination index, and that's the only path a controlled carousel has for updating its own `activeIndex`.
+A controlled `activeIndex` needs an `onSlide` handler feeding the new index back. Every click, swipe, or autoplay advance calls it with the destination index, and that's the only path a controlled carousel has for updating its own `activeIndex`. A request the handler doesn't follow moves nothing: a track the user swiped is scrolled back to the active slide.
+
+`onSlid` can't feed the index back. It fires once a slide has arrived, and a controlled carousel doesn't leave for one until `activeIndex` names it. It reports every change of `activeIndex`, with the slides it moved between, including one the parent made by itself.
 
 <Callout type="warning">
-  Omitting both `onSlide` and `onSlid` on a controlled `activeIndex` leaves the carousel visually
-  frozen after the first navigation attempt: internal state still advances, but the controlled
-  prop overrides it back on every render. `Carousel` warns about this pairing in development.
+  Omitting `onSlide` on a controlled `activeIndex` leaves the carousel visually frozen: every
+  navigation attempt is a request nothing answers. `Carousel` warns about this in development,
+  also when only `onSlid` is passed.
 </Callout>
 
 <Example>

@@ -555,7 +555,7 @@
     },
     "presets": {
       "defaultValue": null,
-      "description": "A list of quick-select range presets shown in the overlay next to the calendar. Selecting a\npreset commits its range immediately, the same as picking a start and end date from the\ncalendar: in order, kept inside `minValue`/`maxValue`, and with the times of the current\nrange. A preset with no day inside those limits is disabled. The preset matching the current\nselection (if any) is marked selected. Omit to not show a preset list.",
+      "description": "A list of quick-select range presets shown in the overlay next to the calendar. Selecting a\npreset commits its range immediately, the same as picking a start and end date from the\ncalendar: in order, kept inside `minValue`/`maxValue`, and with the times of the current\nrange. A preset the calendar couldn't select is disabled: one with no day inside those\nlimits, and one with an unavailable day in its range. The preset matching the current\nselection (if any) is marked selected. Omit to not show a preset list.",
       "name": "presets",
       "parent": {
         "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
