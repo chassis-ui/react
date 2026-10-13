@@ -121,11 +121,11 @@ import {
   toastQueue
 } from './components/toast'
 import { Tooltip } from './components/tooltip'
-import { useDrawer, useModal, useNotification, usePagination, useToast } from './hooks'
+import { useDrawer, useHydrated, useModal, useNotification, usePagination, useToast } from './hooks'
 import { Chip } from './components/chip'
 import { Flex } from './components/flex'
 import { Stack } from './components/stack'
-import { Portal, useHydrated } from './components/portal'
+import { Portal } from './components/portal'
 import { VisuallyHidden } from './components/visually-hidden'
 import {
   Alert,

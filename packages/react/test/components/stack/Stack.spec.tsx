@@ -46,6 +46,13 @@ describe('Stack', () => {
       expect(screen.getByText('Test')).toHaveClass('gap-0')
     })
 
+    test('an object maps each breakpoint to its prefixed gap class', () => {
+      render(<Stack gap={{ base: 'sm', md: 'lg' }}>Test</Stack>)
+      const el = screen.getByText('Test')
+      expect(el).toHaveClass('gap-sm', 'md:gap-lg')
+      expect(el.className).not.toMatch(/(^|\s)gap-lg/)
+    })
+
     test('applies no gap class when gap is omitted', () => {
       render(<Stack>Test</Stack>)
       expect(screen.getByText('Test').className).not.toMatch(/gap-/)

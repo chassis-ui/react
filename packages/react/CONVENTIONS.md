@@ -8,27 +8,27 @@ whatever an existing component happens to do.
 - **Components**: `PascalCase`, no prefix — e.g. `Button`, `AvatarStack`.
 - **Props/interfaces**: `<Component>Props` — e.g. `ButtonProps`.
 - **Files**: `Component.tsx`. Test files: `Component.spec.tsx`.
-- **Change-event props are always `onChange`**, never `onValueChange` — the ESLint rule in
-  `eslint.config.js` flags `onValueChange` as an error.
-- **Colors/variants are named `color`/`variant`**, never `tone` — also flagged as an error.
+- **Change-event props are always `onChange`**, never `onValueChange`; **colors/variants are named
+  `color`/`variant`**, never `tone`; **no `Cx` prefix** on an identifier. The root
+  `eslint.config.js` flags all three as errors. The `data-cx-*` attributes stay: `@chassis-ui/css`
+  selects on them.
 
 ## Folder layout: three separate trees, not colocation
 
-- `src/components/<kebab-name>/` — only the component file(s) (`<PascalName>.tsx`) and the
-  folder's `index.ts` barrel, with one narrow exception: a private, non-`.tsx`-or-lowercase-`.tsx`
-  helper module (state/context, a pure algorithm, internal keyboard-nav logic, ...) that is never
-  exported from the folder's `index.ts` and never imported from outside the folder — e.g. each of
-  `accordion/context.ts`, `checkbox/context.ts`, `radio/context.ts`, `tabs/context.ts` (compound-
-  family-shared React context), `menu/submenuGroup.ts`, `menu/menuNavigation.ts`, and
-  `password-strength/strengthScore.ts`. The moment a helper like this gets a second consumer
-  outside its own folder, it stops qualifying for this exception and moves out: a hook (`useXxx`)
-  goes to `src/hooks/`, anything else goes to `src/utils/` — regardless of how many folders end up
-  using it there (`src/hooks/useFormField.ts` and `src/utils/virtualFocusStyle.ts` are both single-
-  or few-consumer today and still live there, not colocated with their caller, because "is it a
-  hook / is it a component" decides the folder, not consumer count).
-- `stories/<family>/<Component>.stories.tsx` — Storybook stories, centralized separately from
-  the component they document (matched by `.storybook/main.ts`'s glob against anywhere under
-  `src/`, so this is an organizational choice, not something the glob requires).
+- `src/components/<kebab-name>/` — the component file(s) (`<PascalName>.tsx`), the folder's
+  `index.ts` barrel, and the modules of that family alone: its context, a pure algorithm, a render
+  helper, in a lowercase file (`accordion/context.ts`, `carousel/carouselEngine.ts`,
+  `datepicker/renderDatePickerShell.tsx`). The barrel exports one only when it is public API
+  (`useScrollspy`, `toastQueue`, the `MenuItemDef` types).
+- A module another family imports lives with the component that owns the behavior, and that
+  component's guide names it: the two form render engines in `form-field/` and `form/`
+  (`FORMS.md`), `calendar/labels.tsx` for the date pickers. It doesn't move to `src/utils/` for
+  having a second consumer.
+- `src/hooks/` holds a hook with no owning component (`useHydrated`, `useControllableState`,
+  `useFormField`), `src/utils/` everything else that is shared. One consumer or ten makes no
+  difference: "is it a hook" decides the folder.
+- `stories/<family>/<Component>.stories.tsx` — Storybook stories, in their own tree; the glob of
+  `.storybook/main.ts` reads `stories/` only.
 - `test/components/<kebab-name>/<PascalName>.spec.tsx` — mirrors `src/components/` the same way
   `stories/` does, under the top-level `test/` folder that also holds shared setup
   (`test/setup.ts`, etc.). No markup snapshots, so no `__snapshots__/` folders (RD12).
@@ -65,13 +65,7 @@ export { AvatarStack } from './AvatarStack'
 export type { AvatarStackProps, AvatarStackItemDef } from './AvatarStack'
 ```
 
-New sub-parts are added by copying an existing part's `.tsx` file and export lines for the
-closest similar component, not generated. These are independent top-level `export` statements,
-not object-literal entries, so order doesn't matter — new parts can be added anywhere in the
-barrel.
-
-The central `src/index.ts` also imports and re-exports every sub-part by name, same as any other
-top-level export — add the import and the export line there by hand alongside the barrel export.
+Every part is a top-level export of `src/index.ts` too, with both lines `AGENTS.md` asks for.
 
 Notes:
 
@@ -99,28 +93,19 @@ Notes:
 `@chassis-ui/css` classes remain the default styling mechanism for every component. A
 component-local `.scss` file is only justified when:
 
-- chassis-css has no equivalent class at all (documented exception: the calendar/datepicker
-  family and `Table`'s sort/selection UI — see `THEMING.md`'s "Component-scoped CSS"), or
+- chassis-css has no equivalent class at all (`THEMING.md`'s "Component-scoped CSS" lists every
+  file that exists for this reason; a new one is added there), or
 - chassis-css has partial coverage that would otherwise be duplicated as hardcoded values in the
   component.
 
 Reach for a chassis-css class first; reach for tokens/functions/mixins via `@use` before hardcoded
 colors, spacing, or radii; only write component-scoped CSS as a last resort.
 
-## What isn't caught by lint
-
-`eslint.config.js` flags `Cx`-prefixed _identifiers_ as an error, plus `onValueChange`/`tone`
-identifiers. Neither rule catches string literals: internal-only `cx-*` CSS class-name strings and
-`data-cx-*` HTML attributes both need an explicit grep (`grep -rn "cx-" src/`), not a lint pass —
-there's no separate inventory tracking which is which. `cx-*` class-name strings are in scope for
-renaming like any other `Cx` reference; `data-cx-*` attributes stay as-is, because
-`@chassis-ui/css` selects on them directly.
-
 ## `className` builder ordering
 
 chassis-css base class first, then size, then `is-invalid`/`is-valid`, then the caller's
-`className` last (so caller overrides win) — existing snapshot tests across the library assume
-this order. Match it in any new component.
+`className` last, so caller overrides win. No sweep checks the order; a component's own spec
+asserts it. Match it in any new component.
 
 ## Layout-primitive naming divergence (`Flex`/`Stack`/`Grid`)
 
@@ -129,8 +114,8 @@ this order. Match it in any new component.
 `Stack.direction` is `'horizontal' | 'vertical'` (mirrors chassis-css's own `.hstack`/`.vstack`
 classes), and `Grid.flow` is `'row' | 'column' | 'dense' | 'row-dense' | 'column-dense'` (mirrors
 CSS `grid-auto-flow`; chassis-css's classes abbreviate `column` to `col`, the prop doesn't). All
-three take `gap` as a `Spacing` token mapped to chassis-css's `gap-*` utilities; `Flex`/`Stack`
-add `rowGap`/`columnGap`, and `Grid.gap` also accepts a raw CSS value.
+three take `gap` as a `Spacing` token mapped to chassis-css's `gap-*` utilities; `Flex` adds
+`rowGap`/`columnGap`, and `Grid.gap` also accepts a raw CSS value.
 
 This is intentional, not an oversight: each prop mirrors the CSS property or chassis-css class it
 maps to 1:1. Reconciling the three into one shared vocabulary would be a breaking public-API
@@ -285,9 +270,9 @@ A component's server HTML is what it settles to once hydrated, because that HTML
 the JavaScript has loaded. State an effect would compute in the browser (the selected tab, the
 number of slides, a transition's settled phase) is computed during render instead, where the
 server runs it too. Only what a server can't know waits for hydration, through `useHydrated`
-(`src/components/portal/Portal.tsx`): a position (`Menu`'s open list), the viewer's time zone (the calendars'
-"today"), and any reference to portaled content (a trigger's `aria-controls`). Hydration then
-renders the server's value first, so it never mismatches.
+(`src/hooks/useHydrated.ts`): a position (`Menu`'s open list), the viewer's time zone (the
+calendars' "today"), and any reference to portaled content (a trigger's `aria-controls`).
+Hydration then renders the server's value first, so it never mismatches.
 
 An id-reference attribute (`aria-describedby`, `aria-labelledby`, `aria-controls`, `for`) names only
 elements the component renders on the same pass. react-aria's hooks don't hold to that on the

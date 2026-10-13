@@ -6700,6 +6700,15 @@ interface TooltipProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' |
 }
 export declare const Tooltip: React.ForwardRefExoticComponent<TooltipProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
+//#region src/hooks/useHydrated.d.ts
+/**
+ * `false` on the server and during hydration, `true` afterwards and in a client-only render. React
+ * hydrates against the server snapshot, then re-renders with the client one once hydration has
+ * finished, so a component can render something that only exists in the browser without
+ * mismatching the server's HTML.
+ */
+export declare function useHydrated(): boolean;
+//#endregion
 //#region src/components/chip/Chip.d.ts
 type ChipOwnProps<C extends ElementType> = {
   /**
@@ -6849,11 +6858,12 @@ type StackOwnProps<C extends ElementType> = {
    */
   direction?: Responsive<'horizontal' | 'vertical'>;
   /**
-   * Spacing between children, mapped to the `gap-*` utility classes.
+   * Spacing between children, mapped to the `gap-*` utility classes. Takes an object per
+   * breakpoint, as `direction` does: `{ base: 'sm', md: 'lg' }`.
    *
-   * @type { Spacing | 0 }
+   * @type { Responsive<Spacing | 0> }
    */
-  gap?: 0 | Spacing;
+  gap?: Responsive<0 | Spacing>;
 };
 type StackProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, StackOwnProps<C>>;
 type StackComponent = (<C extends ElementType = 'div'>(props: StackProps<C> & {
@@ -6864,13 +6874,6 @@ type StackComponent = (<C extends ElementType = 'div'>(props: StackProps<C> & {
 export declare const Stack: StackComponent;
 //#endregion
 //#region src/components/portal/Portal.d.ts
-/**
- * `false` on the server and during hydration, `true` afterwards and in a client-only render. React
- * hydrates against the server snapshot, then re-renders with the client one once hydration has
- * finished, so a component can render something that only exists in the browser without
- * mismatching the server's HTML.
- */
-export declare function useHydrated(): boolean;
 interface PortalProps {
   /**
    * The content to render in the portal.

@@ -94,8 +94,9 @@ cite rows of [`DECISIONS.md`](../../DECISIONS.md), which holds the history behin
     minor changeset, and an independent review of the diff before the commit.
 - `CONVENTIONS.md` states, and a sweep enforces, each of: polymorphism (ask `resolveElementKind`,
   never compare `component` to a tag), reading children (`isElementOfType`/`resolveLazy`, never
-  `child.type === X`), `href`, open state, refs, server HTML, measured layout, `className` order,
-  and show/hide transitions (`useTransitionState`, no duration in JavaScript).
+  `child.type === X`), `href`, open state, refs, server HTML and measured layout. It also states
+  the `className` order and the show/hide transitions (`useTransitionState`, no duration in
+  JavaScript), which a component's own spec covers.
 - Never call `createPortal`: render `Portal` (`src/components/portal/Portal.tsx`), which renders
   nothing until hydrated so portaled content can't break hydration (`CONVENTIONS.md`, "Server
   HTML").

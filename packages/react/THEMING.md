@@ -53,7 +53,7 @@ packages:
 - **`data-cx-*` attributes that aren't `data-cx-theme`** — `data-cx-placement`, `data-cx-inline`,
   `data-cx-target`, `data-cx-strength`, etc. These are a wire protocol between
   `@chassis-ui/react`'s components and `@chassis-ui/css`'s attribute selectors (see
-  `CONVENTIONS.md`'s "What isn't caught by lint" note), not a theming hook — don't set or rely on
+  `CONVENTIONS.md`'s "Naming"), not a theming hook — don't set or rely on
   their values from outside this package.
 - **Internal `cx-*`/plain class name strings the calendar/datepicker family's own `.scss` files use
   for their own layout** (e.g. `.datepicker-field`, `.datepicker-segment`) — implementation detail

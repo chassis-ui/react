@@ -49,7 +49,7 @@ export const Vertical: Story = {
 export const Responsive: Story = {
   render: () => (
     <div className="contains-inline">
-      <Stack direction={{ base: 'vertical', md: 'horizontal' }} gap="md">
+      <Stack direction={{ base: 'vertical', md: 'horizontal' }} gap={{ base: 'sm', md: 'lg' }}>
         {items}
       </Stack>
     </div>

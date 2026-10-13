@@ -278,7 +278,7 @@ const LAYOUT_PROPS: LayoutProp[] = [
   { component: Flex, prop: 'gap', keys: VIEWPORT, values: GAP },
   { component: Flex, prop: 'rowGap', keys: VIEWPORT, values: GAP },
   { component: Flex, prop: 'columnGap', keys: VIEWPORT, values: GAP },
-  { component: Stack, prop: 'gap', keys: PLAIN, values: GAP },
+  { component: Stack, prop: 'gap', keys: VIEWPORT, values: GAP },
   { component: Card, prop: 'direction', keys: VIEWPORT, values: ['row', 'column'] },
   { component: CardBody, prop: 'direction', keys: VIEWPORT, values: ['row', 'column'] },
   { component: CardBody, prop: 'gap', keys: PLAIN, values: GAP },

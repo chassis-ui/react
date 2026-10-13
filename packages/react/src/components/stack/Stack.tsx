@@ -31,11 +31,12 @@ type StackOwnProps<C extends ElementType> = {
    */
   direction?: Responsive<'horizontal' | 'vertical'>
   /**
-   * Spacing between children, mapped to the `gap-*` utility classes.
+   * Spacing between children, mapped to the `gap-*` utility classes. Takes an object per
+   * breakpoint, as `direction` does: `{ base: 'sm', md: 'lg' }`.
    *
-   * @type { Spacing | 0 }
+   * @type { Responsive<Spacing | 0> }
    */
-  gap?: Spacing | 0
+  gap?: Responsive<Spacing | 0>
 }
 
 export type StackProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
@@ -55,8 +56,10 @@ function StackRender<C extends ElementType = 'div'>(
   const _className = classNames(
     // An object with no `base` still starts from the default direction.
     baseValue(direction) === undefined && 'hstack',
-    responsiveClassNames([responsiveProp(direction, directionClassName)]),
-    spacingClassName('gap', gap),
+    responsiveClassNames([
+      responsiveProp(direction, directionClassName),
+      responsiveProp(gap, (value, prefix) => spacingClassName('gap', value, prefix))
+    ]),
     className
   )
 

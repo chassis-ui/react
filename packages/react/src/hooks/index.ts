@@ -12,6 +12,7 @@ import {
 } from './useFloatingOverlay'
 import { useForkedRef } from './useForkedRef'
 import { useFormField } from './useFormField'
+import { useHydrated } from './useHydrated'
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 import { useModal } from './useModal'
 import { useNotification } from './useNotification'
@@ -35,6 +36,7 @@ export {
   useFloatingOverlay,
   useForkedRef,
   useFormField,
+  useHydrated,
   useIsomorphicLayoutEffect,
   useModal,
   useNotification,

@@ -54,7 +54,8 @@ cross axis. Items take only their natural width; `gap` controls the spacing betw
 `direction` takes an object in place of a value to switch the direction at one or more
 breakpoints: `base` is the direction from the narrowest width (`'horizontal'` when omitted), and
 a key named after a breakpoint (`sm`/`md`/`lg`/`xl`/`2xl`) is the direction from that breakpoint
-up, as in `direction={{ base: 'vertical', md: 'horizontal' }}`. The breakpoints are
+up, as in `direction={{ base: 'vertical', md: 'horizontal' }}`. `gap` takes the same object,
+`gap={{ base: 'sm', md: 'lg' }}`, for a gap that grows with the width. The breakpoints are
 [container queries](https://chassis-ui.com/css/docs/layout/breakpoints) rather than viewport
 media queries.
 
