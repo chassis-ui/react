@@ -1,4 +1,11 @@
-import React, { ReactElement, RefObject, useEffect, useMemo } from 'react'
+import React, {
+  ReactElement,
+  RefObject,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo
+} from 'react'
 
 import { resolveLazy } from '../../utils/lazyElement'
 import { DataGridColumnProps } from './DataGridColumn'
@@ -17,11 +24,6 @@ export interface DataGridPinBehaviorProps<T> {
    * state off the resolved collection instead, not off this introspection).
    */
   header: ReactElement<DataGridHeaderProps<T>>
-  /**
-   * A CSS class unique to this `DataGrid` instance, scoping the generated rules below so
-   * multiple grids on the same page (with different pinned columns) don't collide.
-   */
-  instanceClassName: string
   /**
    * Ref to `DataGrid`'s own scrolling root — used both to measure `fr`-sized pinned columns via
    * `useColumnGeometry` and, for `pin="end"`, to find and reposition its cells on scroll (see
@@ -58,38 +60,12 @@ interface DeclaredColumns {
 const colIndexSelector = (index: number) => `[aria-colindex="${index + 1}"]`
 
 /**
- * Handles the two things `DataGrid`'s own layout subclass (`DataGridTableLayout`) can't:
- *
- * - `pin="end"`'s positioning. `DataGridTableLayout` reuses the layout engine's own sticky
- *   mechanism for `pin="start"`, but that mechanism is hardcoded to the leading edge — there's no
- *   upstream hook for a trailing-edge pin. A pure-CSS `position: sticky; right: 0` equivalent
- *   doesn't work either: for the *last* child of a horizontally-scrolling container, the browser's
- *   own max-scroll bound is defined such that its gap to the viewport's trailing edge never goes
- *   negative until the very last pixel of scroll — sticky has nothing to correct until then, so it
- *   renders exactly like `position: absolute` for the entire scroll range up to that point (this is
- *   a well-known, verified-here CSS limitation, not specific to this layout). So `pin="end"` is
- *   positioned imperatively instead: on every scroll (and on mount/resize), each `pin="end"`
- *   column's auto-generated wrapper div gets a `transform: translateX(...)` that keeps it flush
- *   against the scroll viewport's trailing edge, computed from `useColumnGeometry`'s cumulative
- *   offsets, plus the `z-index` that keeps it above the cells it now overlaps. This bypasses React
- *   for those two styles, similar to how other virtualized grids (e.g. AG-Grid) handle right-pinned
- *   columns — react-aria-components' own layout doesn't re-render an already-mounted cell's style on
- *   a plain scroll (its `layoutInfo` doesn't depend on scroll position), so there's no fight between
- *   this and React's own reconciliation; newly-mounted rows (from vertical scroll bringing fresh
- *   cells into the virtualized window) are covered by the same scroll-driven sync running again.
- * - The scroll-cue box-shadow on the boundary column of each pinned group (the last `pin="start"`
- *   column, the first `pin="end"` column) — shown only once the grid has actually scrolled far
- *   enough to hide content under it, via the `datagrid-scrolled-start`/`datagrid-scrolled-end`
- *   classes `DataGrid` toggles on scroll. This part stays pure CSS since box-shadow, unlike
- *   sticky's position offsets, has no "last child" gotcha.
- *
- * Rendered as a plain sibling of `DataGrid`'s `<Table>`, not inside it.
+ * The columns a header declares, in declaration order, with the positions of the pinned ones.
+ * Only the static-children form of `DataGridHeader` can be read this way (see `header` above).
  */
-export const DataGridPinBehavior = <T extends object>({
-  header,
-  instanceClassName,
-  containerRef
-}: DataGridPinBehaviorProps<T>) => {
+const useDeclaredColumns = <T extends object>(
+  header: ReactElement<DataGridHeaderProps<T>>
+): DeclaredColumns => {
   // A header written in a Server Component can arrive as a lazy node (see `utils/lazyElement`).
   const headerChildren = resolveLazy(header).props.children
 
@@ -110,11 +86,7 @@ export const DataGridPinBehavior = <T extends object>({
     })
     .join('|')
 
-  const {
-    all: allColumns,
-    endIndices,
-    startIndices
-  } = useMemo<DeclaredColumns>(() => {
+  return useMemo<DeclaredColumns>(() => {
     const declared: DeclaredColumns = { all: [], endIndices: [], startIndices: [] }
     columnElements.forEach((element, index) => {
       if (!React.isValidElement<DataGridColumnProps>(element)) return
@@ -128,6 +100,85 @@ export const DataGridPinBehavior = <T extends object>({
     // render, so its own reference can't be the dependency.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [declaredKey])
+}
+
+/**
+ * The (0-based) positions of the two columns that carry the scroll-cue shadow: the last
+ * `pin="start"` column and the first `pin="end"` column, the boundary of each pinned group.
+ */
+export interface PinCueColumns {
+  end: number | null
+  start: number | null
+}
+
+const NO_PIN_CUE: PinCueColumns = { end: null, start: null }
+
+/**
+ * Tells `DataGridColumn` and `DataGridCell` which columns carry the scroll cue. `DataGrid`
+ * provides it around its `<Table>`, whose cells render as descendants of the provider.
+ */
+export const DataGridPinCueContext = createContext<PinCueColumns>(NO_PIN_CUE)
+
+export const usePinCueColumns = <T extends object>(
+  header: ReactElement<DataGridHeaderProps<T>>
+): PinCueColumns => {
+  const { endIndices, startIndices } = useDeclaredColumns(header)
+  return useMemo(
+    () => ({
+      end: endIndices.length > 0 ? Math.min(...endIndices) : null,
+      start: startIndices.length > 0 ? Math.max(...startIndices) : null
+    }),
+    [endIndices, startIndices]
+  )
+}
+
+/**
+ * The class of a cell or column header in a boundary column, which `DataGrid.scss` gives the
+ * shadow while the grid carries `datagrid-scrolled-start`/`datagrid-scrolled-end`. A class on the
+ * cell and a rule in the stylesheet, not a `<style>` element written per grid: the HTML standard
+ * allows a `<style>` in `<body>` only with its rules in `@scope`, which the browsers this package
+ * supports don't all have.
+ */
+export const usePinCueClassName = (): ((columnIndex: number | null | undefined) => string) => {
+  const { end, start } = useContext(DataGridPinCueContext)
+  return (columnIndex) => {
+    if (columnIndex == null) return ''
+    if (columnIndex === start) return 'datagrid-pin-cue-start'
+    if (columnIndex === end) return 'datagrid-pin-cue-end'
+    return ''
+  }
+}
+
+/**
+ * Handles the one thing `DataGrid`'s own layout subclass (`DataGridTableLayout`) can't:
+ * `pin="end"`'s positioning. `DataGridTableLayout` reuses the layout engine's own sticky
+ * mechanism for `pin="start"`, but that mechanism is hardcoded to the leading edge — there's no
+ * upstream hook for a trailing-edge pin. A pure-CSS `position: sticky; right: 0` equivalent
+ * doesn't work either: for the *last* child of a horizontally-scrolling container, the browser's
+ * own max-scroll bound is defined such that its gap to the viewport's trailing edge never goes
+ * negative until the very last pixel of scroll — sticky has nothing to correct until then, so it
+ * renders exactly like `position: absolute` for the entire scroll range up to that point (this is
+ * a well-known, verified-here CSS limitation, not specific to this layout). So `pin="end"` is
+ * positioned imperatively instead: on every scroll (and on mount/resize), each `pin="end"`
+ * column's auto-generated wrapper div gets a `transform: translateX(...)` that keeps it flush
+ * against the scroll viewport's trailing edge, computed from `useColumnGeometry`'s cumulative
+ * offsets, plus the `z-index` that keeps it above the cells it now overlaps. This bypasses React
+ * for those two styles, similar to how other virtualized grids (e.g. AG-Grid) handle right-pinned
+ * columns — react-aria-components' own layout doesn't re-render an already-mounted cell's style on
+ * a plain scroll (its `layoutInfo` doesn't depend on scroll position), so there's no fight between
+ * this and React's own reconciliation; newly-mounted rows (from vertical scroll bringing fresh
+ * cells into the virtualized window) are covered by the same scroll-driven sync running again.
+ *
+ * The scroll-cue box-shadow of the boundary columns is not written here: see
+ * `usePinCueClassName`.
+ *
+ * Rendered as a plain sibling of `DataGrid`'s `<Table>`, not inside it. It renders nothing.
+ */
+export const DataGridPinBehavior = <T extends object>({
+  header,
+  containerRef
+}: DataGridPinBehaviorProps<T>): null => {
+  const { all: allColumns, endIndices } = useDeclaredColumns(header)
 
   const offsets = useColumnGeometry(allColumns, containerRef)
 
@@ -171,9 +222,9 @@ export const DataGridPinBehavior = <T extends object>({
           const rightEdge = offset.offset + offset.width
           const delta = clientWidth - rightOffset - rightEdge + scrollLeft
           wrapper.style.transform = `translateX(${delta}px)`
-          // Above the unpinned cells it now overlaps. Set here rather than in the generated
-          // stylesheet below because the virtualizer writes the wrapper's own `z-index` inline,
-          // which no plain rule can outrank without `!important`.
+          // Above the unpinned cells it now overlaps. Set here rather than in `DataGrid.scss`
+          // because the virtualizer writes the wrapper's own `z-index` inline, which no plain
+          // rule can outrank without `!important`.
           wrapper.style.zIndex = '2'
           styled.add(wrapper)
         })
@@ -205,23 +256,5 @@ export const DataGridPinBehavior = <T extends object>({
     }
   }, [containerRef, endPinnedInfo, offsets])
 
-  if (startIndices.length === 0 && endIndices.length === 0) return null
-
-  const rules: string[] = []
-
-  if (startIndices.length > 0) {
-    const lastStartIndex = Math.max(...startIndices)
-    rules.push(
-      `.${instanceClassName}.datagrid-scrolled-start ${colIndexSelector(lastStartIndex)} { box-shadow: var(--datagrid-pin-cue-shadow-start); }`
-    )
-  }
-
-  if (endIndices.length > 0) {
-    const firstEndIndex = Math.min(...endIndices)
-    rules.push(
-      `.${instanceClassName}.datagrid-scrolled-end ${colIndexSelector(firstEndIndex)} { box-shadow: var(--datagrid-pin-cue-shadow-end); }`
-    )
-  }
-
-  return <style>{rules.join('\n')}</style>
+  return null
 }

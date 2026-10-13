@@ -4,7 +4,6 @@ import React, {
   Ref,
   forwardRef,
   useEffect,
-  useId,
   useMemo,
   useRef,
   useState
@@ -23,7 +22,7 @@ import { ContextColor } from '../../types'
 import { TABLE_ALIGN_CLASS_NAMES } from '../../utils/tableClassName'
 import { DataGridBodyProps } from './DataGridBody'
 import { DataGridHeaderProps } from './DataGridHeader'
-import { DataGridPinBehavior } from './DataGridPinBehavior'
+import { DataGridPinBehavior, DataGridPinCueContext, usePinCueColumns } from './DataGridPinBehavior'
 import { DataGridTableLayout } from './DataGridTableLayout'
 import './DataGrid.scss'
 
@@ -179,12 +178,10 @@ const DataGridInner = <T extends object>(
   const gridRef = useRef<HTMLDivElement>(null)
   const ref = useForkedRef(forwardedRef, gridRef)
 
-  // A stable per-instance class, scoping DataGridPinBehavior's generated CSS so multiple grids on
-  // the same page (each with their own pinned columns) don't collide.
-  const rawId = useId()
-  const instanceClassName = `datagrid-${rawId.replace(/[^a-zA-Z0-9]/g, '')}`
+  // The boundary column of each pinned group, whose cells take the scroll-cue class.
+  const pinCueColumns = usePinCueColumns(children[0])
 
-  // Drives the pin=start/pin=end scroll-cue box-shadow — see DataGridPinBehavior — which should
+  // Drives the pin=start/pin=end scroll-cue box-shadow — see `usePinCueClassName` — which should
   // only appear once there's actually hidden content under the pinned column to cue.
   const [scrolledStart, setScrolledStart] = useState(false)
   const [scrolledEnd, setScrolledEnd] = useState(false)
@@ -211,7 +208,6 @@ const DataGridInner = <T extends object>(
 
   const _className = classNames(
     'datagrid',
-    instanceClassName,
     color,
     align && TABLE_ALIGN_CLASS_NAMES[align],
     {
@@ -230,39 +226,37 @@ const DataGridInner = <T extends object>(
 
   return (
     <Virtualizer layout={layout} shouldObserveItemSize={isVariableRowHeight}>
-      <AriaTable
-        aria-label={rest['aria-label']}
-        aria-labelledby={rest['aria-labelledby']}
-        className={_className || undefined}
-        disabledKeys={disabledKeys}
-        onSelectionChange={onSelectionChange}
-        onSortChange={onSortChange}
-        ref={ref}
-        selectedKeys={selectedKeys}
-        selectionMode={selectionMode}
-        sortDescriptor={sortDescriptor}
-        // react-aria joins the grid's descriptions without dropping an empty result, so a grid
-        // with none had `aria-describedby=""`.
-        render={(props) => (
-          <div
-            {...(props as React.ComponentProps<'div'>)}
-            aria-describedby={props['aria-describedby'] || undefined}
-          />
-        )}
-      >
-        {children}
-      </AriaTable>
+      <DataGridPinCueContext.Provider value={pinCueColumns}>
+        <AriaTable
+          aria-label={rest['aria-label']}
+          aria-labelledby={rest['aria-labelledby']}
+          className={_className || undefined}
+          disabledKeys={disabledKeys}
+          onSelectionChange={onSelectionChange}
+          onSortChange={onSortChange}
+          ref={ref}
+          selectedKeys={selectedKeys}
+          selectionMode={selectionMode}
+          sortDescriptor={sortDescriptor}
+          // react-aria joins the grid's descriptions without dropping an empty result, so a grid
+          // with none had `aria-describedby=""`.
+          render={(props) => (
+            <div
+              {...(props as React.ComponentProps<'div'>)}
+              aria-describedby={props['aria-describedby'] || undefined}
+            />
+          )}
+        >
+          {children}
+        </AriaTable>
+      </DataGridPinCueContext.Provider>
       {footer && (
         // A sibling of the grid, so it takes the color itself: nothing reaches it by inheritance.
         <div className={classNames('datagrid-footer', color, { borderless, context: !!color })}>
           {footer}
         </div>
       )}
-      <DataGridPinBehavior
-        containerRef={gridRef}
-        header={children[0]}
-        instanceClassName={instanceClassName}
-      />
+      <DataGridPinBehavior containerRef={gridRef} header={children[0]} />
     </Virtualizer>
   )
 }

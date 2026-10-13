@@ -573,19 +573,46 @@ describe('DataGrid', () => {
       expect(c.parentElement).not.toHaveStyle({ position: 'sticky' })
     })
 
-    test('generates scroll-cue rules for the boundary pinned column, scoped to this grid instance', () => {
+    test('gives the scroll-cue class to the boundary column of each pinned group, header and body', () => {
+      render(<PinnedDataGrid />)
+      // Column B is the last pin="start" (aria-colindex 2), D the first pin="end" (colindex 4).
+      expect(screen.getByRole('columnheader', { name: 'B' })).toHaveClass('datagrid-pin-cue-start')
+      expect(screen.getByRole('columnheader', { name: 'D' })).toHaveClass('datagrid-pin-cue-end')
+      expect(screen.getByRole('columnheader', { name: 'A' }).className).not.toMatch(/pin-cue/)
+      expect(screen.getByRole('columnheader', { name: 'C' }).className).not.toMatch(/pin-cue/)
+
+      const cells = screen.getAllByRole('gridcell')
+      expect(cells.length).toBeGreaterThan(0)
+      const cueOf = (cell: HTMLElement) =>
+        Array.from(cell.classList).filter((name) => name.startsWith('datagrid-pin-cue'))
+      for (const cell of cells) {
+        const expected = { '2': ['datagrid-pin-cue-start'], '4': ['datagrid-pin-cue-end'] }[
+          cell.getAttribute('aria-colindex') ?? ''
+        ]
+        expect(cueOf(cell)).toEqual(expected ?? [])
+      }
+      expect(cells.some((cell) => cell.getAttribute('aria-colindex') === '2')).toBe(true)
+      expect(cells.some((cell) => cell.getAttribute('aria-colindex') === '4')).toBe(true)
+    })
+
+    test('writes no <style> element and no class of its own for one grid', () => {
       render(<PinnedDataGrid />)
       const grid = screen.getByRole('grid')
-      const instanceClassName = Array.from(grid.classList).find((name) =>
-        /^datagrid-\w+$/.test(name)
-      )
-      expect(instanceClassName).toBeDefined()
-      // DataGridPinBehavior's <style> renders as a sibling of the grid, not inside it.
+      // The cue used to be a <style> beside the grid, scoped by a class made from `useId`. A
+      // <style> element in <body> is valid HTML only with its rules in @scope.
       // eslint-disable-next-line testing-library/no-node-access
-      const css = grid.parentElement?.querySelector('style')?.textContent ?? ''
-      // Column B is the last pin="start" (aria-colindex 2), D the first pin="end" (colindex 4).
-      expect(css).toContain(`.${instanceClassName}.datagrid-scrolled-start [aria-colindex="2"]`)
-      expect(css).toContain(`.${instanceClassName}.datagrid-scrolled-end [aria-colindex="4"]`)
+      expect(grid.parentElement?.querySelector('style')).toBeFalsy()
+      expect(Array.from(grid.classList)).toEqual(['datagrid'])
+    })
+
+    test('gives no scroll-cue class when no column is pinned', () => {
+      render(<BasicDataGrid />)
+      for (const cell of [
+        ...screen.getAllByRole('columnheader'),
+        ...screen.getAllByRole('gridcell')
+      ]) {
+        expect(cell.className).not.toMatch(/pin-cue/)
+      }
     })
 
     test('marks every rendered cell with the aria-colindex the pin rules target', () => {

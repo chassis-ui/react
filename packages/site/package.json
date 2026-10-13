@@ -32,19 +32,19 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "@astrojs/markdown-remark": "^7.3.1",
-    "@astrojs/mdx": "^8.0.2",
-    "@astrojs/react": "^7.0.0",
+    "@astrojs/markdown-remark": "^7.3.2",
+    "@astrojs/mdx": "^8.0.3",
+    "@astrojs/react": "^7.0.1",
     "@astrojs/sitemap": "^3.7.4",
     "@chassis-ui/docs": "^0.8.0",
     "@pagefind/component-ui": "^1.5.2",
     "@shikijs/transformers": "^4.5.0",
     "@types/hast": "^3.0.5",
     "@types/mdast": "^4.0.4",
-    "@types/node": "^26.6.4",
+    "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "astro": "^7.3.5",
+    "astro": "^7.3.8",
     "autoprefixer": "^10.6.1",
     "html-validate": "^11.16.2",
     "mdast-util-mdx-jsx": "^3.2.0",
@@ -53,7 +53,7 @@
     "postcss-prefix-custom-properties": "^0.1.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "react-stately": "^3.50.0",
+    "react-stately": "^3.51.0",
     "rehype-autolink-headings": "^7.1.0",
     "rimraf": "^6.0.1",
     "sass": "^1.105.1",
@@ -61,6 +61,6 @@
     "typescript": "^6.0.3",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
-    "vnu-jar": "^26.10.2"
+    "vnu-jar": "^26.10.9"
   }
 }
