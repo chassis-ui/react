@@ -9,7 +9,7 @@ import React, {
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../hooks'
-import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
+import { renderMenuItemContent } from './renderMenuItemContent'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,

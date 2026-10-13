@@ -54,10 +54,11 @@ cross axis. Items take only their natural width; `gap` controls the spacing betw
 `direction` takes an object in place of a value to switch the direction at one or more
 breakpoints: `base` is the direction from the narrowest width (`'horizontal'` when omitted), and
 a key named after a breakpoint (`sm`/`md`/`lg`/`xl`/`2xl`) is the direction from that breakpoint
-up, as in `direction={{ base: 'vertical', md: 'horizontal' }}`. `gap` takes the same object,
-`gap={{ base: 'sm', md: 'lg' }}`, for a gap that grows with the width. The breakpoints are
+up, as in `direction={{ base: 'vertical', md: 'horizontal' }}`. The breakpoints are
 [container queries](https://chassis-ui.com/css/docs/layout/breakpoints) rather than viewport
-media queries.
+media queries. `gap` takes the same object, `gap={{ base: 'sm', md: 'lg' }}`, but its `gap-*`
+classes in `@chassis-ui/css` follow the viewport, so a direction and a gap on one `Stack` can
+switch at different widths.
 
 Responsive direction switching requires a `.contains-inline` ancestor to establish the container
 query context — `<Stack>` doesn't apply this itself, since the containment has to live on a

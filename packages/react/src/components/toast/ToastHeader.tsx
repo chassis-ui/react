@@ -2,13 +2,13 @@ import React, { ElementType, ForwardRefRenderFunction, ReactElement, ReactNode }
 import classNames from 'classnames'
 
 import { CloseButton } from '../close-button/CloseButton'
-import { useToast } from '../../hooks'
+import { useToast } from './useToast'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
-import { ResolvedIcon } from '../../utils/iconSlot'
+import { ResolvedIcon } from '../icon/iconSlot'
 
 type ToastHeaderOwnProps<C extends ElementType> = {
   /**

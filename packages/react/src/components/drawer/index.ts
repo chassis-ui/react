@@ -12,7 +12,5 @@ export { DrawerHeader } from './DrawerHeader'
 export type { DrawerHeaderProps } from './DrawerHeader'
 export { DrawerTitle } from './DrawerTitle'
 export type { DrawerTitleProps } from './DrawerTitle'
-// Also exported from the package root; repeated here so this folder's subpath entry
-// (`@chassis-ui/react/<folder>`) covers the whole family without reaching back to the root.
-export { useDrawer } from '../../hooks/useDrawer'
-export type { UseDrawerResult } from '../../hooks/useDrawer'
+export { useDrawer } from './useDrawer'
+export type { UseDrawerResult } from './useDrawer'

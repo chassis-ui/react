@@ -105,7 +105,7 @@ cite rows of [`DECISIONS.md`](../../DECISIONS.md), which holds the history behin
 - A link-like component renders through `Link`, which registers with a surrounding `Scrollspy`
   and takes its mark (`src/utils/scrollspy.ts`); `NavLink`, `ListItem` and `MenuItem` take part
   that way with no code of their own.
-- A component's own icons render through `IconSlot` (`src/utils/iconSlot.tsx`) with a purpose key
+- A component's own icons render through `IconSlot` (`src/components/icon/iconSlot.tsx`) with a purpose key
   and the class chassis-css positions it by, never `<Icon>` directly, so consumers can swap them
   through `IconProvider` or the component's icon prop. A new purpose goes in `IconKey`/
   `DEFAULT_ICONS` (`src/utils/iconConfig.ts`).

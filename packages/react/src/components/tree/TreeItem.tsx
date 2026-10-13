@@ -24,7 +24,7 @@ import {
   useSlottedContext
 } from 'react-aria-components'
 
-import { IconSlot } from '../../utils/iconSlot'
+import { IconSlot } from '../icon/iconSlot'
 import { TreeConfigContext } from './context'
 
 export interface TreeItemProps<T extends object = object> {

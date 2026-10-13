@@ -2,7 +2,7 @@ import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
 import { IconValue } from '../../utils/iconConfig'
-import { IconSlot } from '../../utils/iconSlot'
+import { IconSlot } from '../icon/iconSlot'
 import { VisuallyHidden } from '../visually-hidden/VisuallyHidden'
 
 export interface NavbarTogglerProps extends HTMLAttributes<HTMLButtonElement> {

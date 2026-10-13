@@ -1,11 +1,11 @@
 import React, { ComponentType, ReactElement, ReactNode } from 'react'
 import { Item, Key, Section } from 'react-stately'
 
-import { ComboboxGroupProps } from '../components/combobox/ComboboxGroup'
-import { ComboboxItem, ComboboxItemProps } from '../components/combobox/ComboboxItem'
-import { MenuItemsDef } from '../components/menu/MenuItemDef'
-import { isElementOfType } from './lazyElement'
-import { renderMenuItemContent } from './renderMenuItemContent'
+import { ComboboxGroupProps } from './ComboboxGroup'
+import { ComboboxItem, ComboboxItemProps } from './ComboboxItem'
+import { MenuItemsDef } from '../menu/MenuItemDef'
+import { isElementOfType } from '../../utils/lazyElement'
+import { renderMenuItemContent } from '../menu/renderMenuItemContent'
 
 // Shared between Combobox.tsx/ComboboxListBox.tsx (which build/render this collection) and
 // Autocomplete.tsx (which reuses the same entry shape — see the comment on

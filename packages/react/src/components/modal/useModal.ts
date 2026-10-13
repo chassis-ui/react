@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { ModalContext, ModalContextProps } from '../components/modal/Modal'
+import { ModalContext, ModalContextProps } from './Modal'
 
 export type UseModalResult = ModalContextProps
 

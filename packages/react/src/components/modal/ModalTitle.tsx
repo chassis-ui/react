@@ -1,7 +1,7 @@
 import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { useModal } from '../../hooks'
+import { useModal } from './useModal'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,

@@ -1,10 +1,10 @@
 import React, { cloneElement, ReactElement } from 'react'
 import { mergeProps } from 'react-aria'
 
-import { Icon } from '../components/icon/Icon'
-import { useIconConfig } from '../hooks/useIconConfig'
-import { DEFAULT_ICONS, IconKey, IconValue } from './iconConfig'
-import { resolveLazy } from './lazyElement'
+import { Icon } from './Icon'
+import { useIconConfig } from '../../hooks/useIconConfig'
+import { DEFAULT_ICONS, IconKey, IconValue } from '../../utils/iconConfig'
+import { resolveLazy } from '../../utils/lazyElement'
 
 // Every icon this library's own components draw goes through here, never through `<Icon>`
 // directly, so a consumer can swap in their own icons (`IconProvider`'s `icons`/`component`, or a

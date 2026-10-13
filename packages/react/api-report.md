@@ -837,7 +837,7 @@ interface NotificationContextProps {
   close: () => void;
 }
 //#endregion
-//#region src/hooks/useNotification.d.ts
+//#region src/components/notification/useNotification.d.ts
 type UseNotificationResult = NotificationContextProps;
 export declare const useNotification: () => UseNotificationResult;
 //#endregion
@@ -5029,7 +5029,7 @@ type ModalTitleComponent = (<C extends ElementType = 'h2'>(props: ModalTitleProp
 };
 export declare const ModalTitle: ModalTitleComponent;
 //#endregion
-//#region src/hooks/useModal.d.ts
+//#region src/components/modal/useModal.d.ts
 type UseModalResult = ModalContextProps;
 export declare const useModal: () => UseModalResult;
 //#endregion
@@ -5753,7 +5753,7 @@ type DrawerTitleComponent = (<C extends ElementType = 'h2'>(props: DrawerTitlePr
 };
 export declare const DrawerTitle: DrawerTitleComponent;
 //#endregion
-//#region src/hooks/useDrawer.d.ts
+//#region src/components/drawer/useDrawer.d.ts
 type UseDrawerResult = DrawerContextProps;
 export declare const useDrawer: () => UseDrawerResult;
 //#endregion
@@ -6644,7 +6644,7 @@ interface ToastContextProps {
   close: () => void;
 }
 //#endregion
-//#region src/hooks/useToast.d.ts
+//#region src/components/toast/useToast.d.ts
 type UseToastResult = ToastContextProps;
 export declare const useToast: () => UseToastResult;
 //#endregion

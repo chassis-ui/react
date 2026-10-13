@@ -16,7 +16,7 @@ export default meta
 type Story = StoryObj<typeof Autocomplete>
 
 // `Autocomplete` reads `children` as data via `React.Children` (see `buildEntriesFromChildren` in
-// `utils/comboboxCollection.tsx`), so its options must be passed as real JSX children through
+// `combobox/comboboxCollection.tsx`), so its options must be passed as real JSX children through
 // `render` — an `args.children` value built with a `<>...</>` Fragment is a single Fragment
 // element, not the multiple elements `React.Children.forEach` expects, and silently yields zero
 // entries.

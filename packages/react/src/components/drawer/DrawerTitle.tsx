@@ -1,7 +1,7 @@
 import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { useDrawer } from '../../hooks'
+import { useDrawer } from './useDrawer'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,

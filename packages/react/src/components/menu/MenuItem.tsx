@@ -13,7 +13,7 @@ import {
   PolymorphicRef,
   PolymorphicRefWithFallback
 } from '../../utils/polymorphic'
-import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
+import { renderMenuItemContent } from './renderMenuItemContent'
 import { LinkProps, Link } from '../link/Link'
 
 type MenuItemOwnProps = {

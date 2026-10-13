@@ -22,8 +22,9 @@ whatever an existing component happens to do.
   (`useScrollspy`, `toastQueue`, the `MenuItemDef` types).
 - A module another family imports lives with the component that owns the behavior, and that
   component's guide names it: the two form render engines in `form-field/` and `form/`
-  (`FORMS.md`), `calendar/labels.tsx` for the date pickers. It doesn't move to `src/utils/` for
-  having a second consumer.
+  (`FORMS.md`), `calendar/labels.tsx` for the date pickers, `combobox/comboboxCollection.tsx` for
+  `Autocomplete`, `icon/iconSlot.tsx` for every component's own icons. It doesn't move to
+  `src/utils/` for having a second consumer, and nothing in `src/utils/` renders a component.
 - `src/hooks/` holds a hook with no owning component (`useHydrated`, `useControllableState`,
   `useFormField`), `src/utils/` everything else that is shared. One consumer or ten makes no
   difference: "is it a hook" decides the folder.
