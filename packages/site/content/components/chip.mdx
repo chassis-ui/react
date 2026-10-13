@@ -102,7 +102,10 @@ at md size.
 Set `pressed` to mark a toggle-style chip as active — e.g. a filter pill that stays highlighted
 while selected. It applies the `.active` class and sets `aria-pressed`, so assistive technology
 announces the toggle state. `Chip` doesn't toggle itself; flip `pressed` from an `onClick`
-handler.
+handler. A chip that isn't a button gets the class alone: a static chip, and a chip that is a
+link (`href`, or an `<a>` as `component` or the `asChild` element), which has no pressed state to
+announce. Give a link chip `role="button"` if it acts as a toggle, and it takes `aria-pressed`
+too.
 
 <Example>
   <PressedExample client:load />

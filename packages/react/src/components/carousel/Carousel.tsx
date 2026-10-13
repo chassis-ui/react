@@ -15,7 +15,7 @@ import classNames from 'classnames'
 import { useControllableState, useForkedRef, useIsomorphicLayoutEffect } from '../../hooks'
 import { focusRedirect } from '../../utils/focusRedirect'
 import { consumePointerClick } from '../../utils/pointerInteraction'
-import { CarouselContext, CarouselContextProps, CarouselEnds } from './context'
+import { CarouselContext, CarouselContextProps, CarouselControlKind, CarouselEnds } from './context'
 import {
   animateScrollTo,
   canLoop,
@@ -127,10 +127,13 @@ export interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const ACTIVE_RATIO_TOLERANCE = 0.05
-// How long the track must have stopped scrolling for a swipe to be over. `scrollend` would say so
+// How long the track must have stopped scrolling for a swipe to be over, and for a controlled
+// parent that hasn't followed it to be taken as not following. `scrollend` would say the first
 // outright, but not every supported browser has it, and it can come before the observer's last
-// report of the same frame.
-const SWIPE_SETTLE_MS = 150
+// report of the same frame. Half a second and not the 150 ms a scroll needs to settle: a parent
+// that keeps the index somewhere slow (the URL, a store behind a transition) answers `onSlide`
+// later than that, and the track went back and then forward again under it.
+const SWIPE_SETTLE_MS = 500
 
 export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
   (
@@ -274,6 +277,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     const deferOnSlidRef = useRef(false)
     const prevControlsRef = useRef<Set<HTMLButtonElement>>(new Set())
     const nextControlsRef = useRef<Set<HTMLButtonElement>>(new Set())
+    const playControlsRef = useRef<Set<HTMLButtonElement>>(new Set())
 
     const isFade = transition === 'fade'
     const itemsVisible = Math.max(1, items ?? 1)
@@ -755,7 +759,18 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       autoplayTickRef.current = autoplayTick
     })
 
+    // Under `ends="stop"` there is nothing to play from the last slide: a cycle started there
+    // ran one interval, with the indicator filling, for a tick that had no slide to go to.
+    const hasNothingToPlay = () => {
+      const length = itemCountRef.current
+      return !wraps && length > 0 && activeIndexRef.current >= Math.max(0, length - itemsVisible)
+    }
+
     const startCycle = () => {
+      if (hasNothingToPlay()) {
+        stopPlayingForGood()
+        return
+      }
       scheduleAutoplay()
       setCycling(true)
     }
@@ -804,12 +819,18 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     }, [viewportEl])
 
     // a11y: when a control at a disabled end is focused, move focus to the opposite control (if
-    // it stays enabled) or the viewport, so focus never lands on nothing.
+    // it stays enabled) or the viewport, so focus never lands on nothing. `CarouselPlayPause` is
+    // disabled at the end too, once autoplay is over there: the viewer who pressed Play and let
+    // it run to the last slide has focus on it. From there, as from the next control, the way on
+    // is back.
     useEffect(() => {
       if (ends !== 'stop') return
       const focused = document.activeElement as HTMLButtonElement | null
       const focusedIsPrev = atStart && !!focused && prevControlsRef.current.has(focused)
-      const focusedIsNext = atEnd && !!focused && nextControlsRef.current.has(focused)
+      const focusedIsNext =
+        atEnd &&
+        !!focused &&
+        (nextControlsRef.current.has(focused) || (!playing && playControlsRef.current.has(focused)))
       if (!focusedIsPrev && !focusedIsNext) return
 
       const oppositeSet = focusedIsPrev ? nextControlsRef.current : prevControlsRef.current
@@ -831,12 +852,16 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         if (!viewportEl.hasAttribute('tabindex')) viewportEl.setAttribute('tabindex', '-1')
         focusRedirect(viewportEl, viaPointer, { preventScroll: true })
       }
-    }, [atStart, atEnd, ends, viewportEl])
+    }, [atStart, atEnd, ends, playing, viewportEl])
 
     // Stable identity for the same reason as `registerViewport` above — the controls' own
     // registration effect depends on it.
-    const registerControl = useCallback((kind: 'prev' | 'next', element: HTMLButtonElement) => {
-      const set = kind === 'prev' ? prevControlsRef.current : nextControlsRef.current
+    const registerControl = useCallback((kind: CarouselControlKind, element: HTMLButtonElement) => {
+      const set = {
+        next: nextControlsRef.current,
+        play: playControlsRef.current,
+        prev: prevControlsRef.current
+      }[kind]
       set.add(element)
       return () => {
         set.delete(element)

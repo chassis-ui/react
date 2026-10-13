@@ -197,7 +197,7 @@
     },
     "invalid": {
       "defaultValue": null,
-      "description": "Set component validation state to invalid.",
+      "description": "Set component validation state to invalid. Left unset, the component shows as invalid by itself\nfrom a submit it held back (an empty `required` one, say) until it no longer would, or its\nform is reset. Set it, to `false` too, and it alone decides.",
       "name": "invalid",
       "parent": {
         "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
@@ -216,7 +216,7 @@
     },
     "invalidFeedback": {
       "defaultValue": null,
-      "description": "An error message for the field, rendered below the boxes when `invalid` is set.",
+      "description": "An error message for the field, rendered below the boxes when `invalid` is set, and after a\nsubmit the field held back, until it no longer would.",
       "name": "invalidFeedback",
       "parent": {
         "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
@@ -347,6 +347,25 @@
       "required": false,
       "type": {
         "name": "((value: string) => void)"
+      }
+    },
+    "required": {
+      "defaultValue": null,
+      "description": "Toggle the required state for the component. Every box is then required: a code with a box\nleft empty holds its form back from submitting, and the first empty box takes focus.",
+      "name": "required",
+      "parent": {
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
       }
     },
     "separator": {

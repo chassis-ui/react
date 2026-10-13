@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { act, render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
@@ -254,6 +254,210 @@ describe('Autocomplete', () => {
         ...container.querySelectorAll('input[type="hidden"][name="fruit"]')
       ] as HTMLInputElement[]
       expect(hiddenInputs.map((input) => input.value)).toEqual(['apple', 'banana'])
+    })
+  })
+
+  // The autocomplete had no `required` at all: nothing marked it for a screen reader, and its
+  // value input was `type="hidden"`, which a form doesn't validate, so one with nothing selected
+  // was submitted.
+  describe('required', () => {
+    const Order = ({
+      onSubmit = () => undefined,
+      ...props
+    }: Partial<React.ComponentProps<typeof Autocomplete>> & { onSubmit?: () => void }) => (
+      <form
+        aria-label="Order"
+        onSubmit={(event) => {
+          event.preventDefault()
+          onSubmit()
+        }}
+      >
+        <BasicAutocomplete
+          aria-label={undefined}
+          invalidFeedback="Pick a fruit."
+          label="Fruit"
+          name="fruit"
+          {...props}
+        />
+        <button type="submit">Save</button>
+        <button type="reset">Reset</button>
+      </form>
+    )
+    const form = () => screen.getByRole<HTMLFormElement>('form', { name: 'Order' })
+    const toggle = () => screen.getByRole('button', { name: 'Fruit' })
+    const save = () => screen.getByRole('button', { name: 'Save' })
+    const select = (name: string) => {
+      fireEvent.click(toggle())
+      fireEvent.click(screen.getByRole('option', { name }))
+    }
+    // `checkValidity()` fires `invalid` at the field's input, as a submit does, and the field
+    // marks itself on it: a state update.
+    const checkValidity = () => {
+      let valid = true
+      act(() => {
+        valid = form().checkValidity()
+      })
+      return valid
+    }
+    const submitted = () => [...new FormData(form()).entries()]
+    // What each case below is told apart from: a required autocomplete with nothing selected,
+    // which holds its form back. Rendered first, then the case in its place.
+    const insteadOfEmpty = (ui: React.ReactElement, empty: React.ReactElement) => {
+      const { unmount } = render(empty)
+      expect(checkValidity()).toBe(false)
+      unmount()
+      return render(ui)
+    }
+
+    describe.each([
+      ['single', {}],
+      ['multiple', { multiple: true }]
+    ])('%s', (_mode, mode) => {
+      test('with nothing selected it holds its form back, and its toggle takes focus', async () => {
+        const user = userEvent.setup()
+        const onSubmit = vi.fn()
+        render(<Order onSubmit={onSubmit} required {...mode} />)
+
+        expect(checkValidity()).toBe(false)
+        await user.click(save())
+        expect(onSubmit).not.toHaveBeenCalled()
+        expect(toggle()).toHaveFocus()
+      })
+
+      test('submits once an option is selected', async () => {
+        const user = userEvent.setup()
+        const onSubmit = vi.fn()
+        render(<Order onSubmit={onSubmit} required {...mode} />)
+        expect(checkValidity()).toBe(false)
+        select('Apple')
+
+        expect(checkValidity()).toBe(true)
+        await user.click(save())
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(submitted()).toEqual([['fruit', 'apple']])
+      })
+
+      test('submits a value it was given', () => {
+        insteadOfEmpty(
+          <Order defaultValue="banana" required {...mode} />,
+          <Order required {...mode} />
+        )
+        expect(checkValidity()).toBe(true)
+        expect(submitted()).toEqual([['fruit', 'banana']])
+      })
+
+      test.each([
+        ['disabled', { disabled: true, required: true }],
+        ['not required', {}]
+      ])('a %s one holds nothing back', (_state, props) => {
+        insteadOfEmpty(<Order {...props} {...mode} />, <Order required {...mode} />)
+        expect(checkValidity()).toBe(true)
+      })
+
+      test('holds the form back with no name, and submits nothing of its own', () => {
+        render(<Order name={undefined} required {...mode} />)
+        expect(checkValidity()).toBe(false)
+        select('Apple')
+        expect(checkValidity()).toBe(true)
+        expect(submitted()).toEqual([])
+      })
+
+      // The browser has no bubble to show on an input that isn't displayed.
+      test('shows as invalid after the submit it held back, until an option is selected', async () => {
+        const user = userEvent.setup()
+        render(<Order required {...mode} />)
+        expect(toggle()).not.toHaveClass('is-invalid')
+        expect(screen.queryByText('Pick a fruit.')).not.toBeInTheDocument()
+
+        await user.click(save())
+        expect(toggle()).toHaveClass('form-input', 'combobox', 'is-invalid')
+        expect(toggle()).toHaveAttribute('aria-invalid', 'true')
+        expect(screen.getByText('Pick a fruit.')).toHaveClass('invalid-feedback')
+        expect(toggle()).toHaveAccessibleDescription('Pick a fruit.')
+
+        select('Apple')
+        expect(toggle()).not.toHaveClass('is-invalid')
+        expect(toggle()).not.toHaveAttribute('aria-invalid')
+        expect(screen.queryByText('Pick a fruit.')).not.toBeInTheDocument()
+      })
+
+      test("the mark clears on the form's reset, and the form is still held back", async () => {
+        const user = userEvent.setup()
+        render(<Order required {...mode} />)
+        await user.click(save())
+        expect(toggle()).toHaveClass('is-invalid')
+
+        await user.click(screen.getByRole('button', { name: 'Reset' }))
+        expect(toggle()).not.toHaveClass('is-invalid')
+        expect(checkValidity()).toBe(false)
+      })
+
+      // The caller's own state wins: `invalid` once it is set, to `false` too, and `valid`.
+      test.each([
+        ['invalid={false}', { invalid: false }],
+        ['valid', { valid: true }]
+      ])('%s keeps the field as the caller shows it', async (_name, props) => {
+        const user = userEvent.setup()
+        const onSubmit = vi.fn()
+        const { rerender } = render(<Order onSubmit={onSubmit} required {...props} {...mode} />)
+        await user.click(save())
+        expect(onSubmit).not.toHaveBeenCalled()
+        expect(toggle()).not.toHaveClass('is-invalid')
+        expect(screen.queryByText('Pick a fruit.')).not.toBeInTheDocument()
+
+        // The submit was held back all the same: the mark shows once the caller lets go.
+        rerender(<Order onSubmit={onSubmit} required {...mode} />)
+        expect(toggle()).toHaveClass('is-invalid')
+      })
+
+      test('has no axe violations while marked, and logs no error', async () => {
+        const user = userEvent.setup()
+        const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+        const { container } = render(<Order required {...mode} />)
+        await user.click(save())
+        expect(toggle()).toHaveClass('is-invalid')
+        expect(await axe(container)).toHaveNoViolations()
+        expect(consoleError).not.toHaveBeenCalled()
+        consoleError.mockRestore()
+      })
+    })
+
+    // The toggle is a button, which ARIA gives no required state: the search input, the field's
+    // `combobox`, says it.
+    test('says it is required on the search input', () => {
+      const { rerender } = render(<Order required />)
+      fireEvent.click(toggle())
+      expect(screen.getByRole('combobox')).toBeRequired()
+      expect(toggle()).not.toHaveAttribute('aria-required')
+
+      rerender(<Order />)
+      expect(screen.getByRole('combobox')).not.toBeRequired()
+    })
+
+    // The value input of one mode isn't the element of the other.
+    test('still marks itself after `multiple` changes', async () => {
+      const user = userEvent.setup()
+      const { rerender } = render(<Order required />)
+      rerender(<Order multiple required />)
+      await user.click(save())
+      expect(toggle()).toHaveClass('is-invalid')
+
+      await user.click(screen.getByRole('button', { name: 'Reset' }))
+      expect(toggle()).not.toHaveClass('is-invalid')
+      rerender(<Order required />)
+      await user.click(save())
+      expect(toggle()).toHaveClass('is-invalid')
+    })
+
+    test('multiple: deselecting the last option holds the form back again', () => {
+      render(<Order multiple required />)
+      select('Apple')
+      expect(checkValidity()).toBe(true)
+
+      // The list stays open in this mode.
+      fireEvent.click(screen.getByRole('option', { name: 'Apple' }))
+      expect(submitted()).toEqual([])
+      expect(checkValidity()).toBe(false)
     })
   })
 

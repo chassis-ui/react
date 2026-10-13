@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { AriaTimeFieldProps, mergeProps, TimeValue, useLocale, useTimeField } from 'react-aria'
 import { useTimeFieldState } from 'react-stately'
 
-import { useForkedRef, useFormField } from '../../hooks'
+import { useForkedRef, useFormField, useRequiredValueInput } from '../../hooks'
 import { withoutSlotIds } from '../../utils/idRefs'
 import { validationClassName } from '../../utils/validationClassName'
 import { DateSegment } from '../datepicker/DateSegment'
@@ -64,7 +64,8 @@ export interface TimeFieldProps extends Omit<
    */
   invalid?: boolean
   /**
-   * An error message for the field, rendered below it when `invalid` is set.
+   * An error message for the field, rendered below it when `invalid` is set, and after a submit
+   * that an empty `required` field held back.
    */
   invalidFeedback?: ReactNode
   /**
@@ -99,7 +100,8 @@ export interface TimeFieldProps extends Omit<
   readOnly?: boolean
   /**
    * Toggle the required state for the component. An empty required field holds its form back
-   * from submitting, and takes focus.
+   * from submitting, takes focus and shows as invalid, with `invalidFeedback`, until it has a
+   * value or the form is reset. `invalid`, once set, and `valid` decide how it looks instead.
    */
   required?: boolean
   /**
@@ -126,15 +128,6 @@ export interface TimeFieldProps extends Omit<
 }
 
 type FieldProps = AriaTimeFieldProps<TimeValue>
-
-// See `holdsFormBack`. `onChange` because React takes an input with a `value` and no handler
-// for a mistake; nobody types in this one.
-const REQUIRED_INPUT_PROPS = {
-  hidden: true,
-  onChange: () => undefined,
-  required: true,
-  type: 'text'
-}
 
 // A time as `DateField` renders a date for the date pickers: a `.form-input` holding one editable
 // segment per unit, with the segments' styles shared (`DateSegment`). The `.form-input` is the
@@ -181,6 +174,24 @@ export const TimeField = forwardRef<HTMLDivElement, TimeFieldProps>(
     const inputRef = useRef<HTMLInputElement>(null)
     const { locale } = useLocale()
 
+    // `required` has to reach an input a form validates (FORMS.md, gotcha 9), and react-aria
+    // writes `aria-required` on the segments alone: an empty required field was submitted. The
+    // segments aren't form controls, and the input that carries the value is `type="hidden"`,
+    // which is barred from constraint validation. So a required field's input is a text input
+    // that isn't displayed (`useRequiredValueInput`), the one react-aria itself renders under
+    // `validationBehavior: 'native'`. That behavior isn't turned on: it also holds a form back
+    // for `invalid` and for a time outside `minValue`/`maxValue`, and shows the latter on blur
+    // where it shows as typed now. The browser has no bubble to show on an input that isn't
+    // displayed: react-aria's listener on `inputRef` focuses the first segment in its place, and
+    // `missing` marks the field invalid, as `invalid` does, until it has a value. A disabled
+    // input isn't validated, and a read-only field can't be filled in, so it keeps the hidden
+    // one.
+    const { inputProps: requiredInputProps, missing } = useRequiredValueInput(inputRef, {
+      invalid,
+      required: required && !readOnly,
+      valid
+    })
+
     // `label` stays out, as the other fields keep it: react-aria would name the field by a label
     // element of its own, which this component doesn't render.
     // `inputRef` is the hidden input's: react-aria resets the field with that input's form and
@@ -197,7 +208,7 @@ export const TimeField = forwardRef<HTMLDivElement, TimeFieldProps>(
       isDisabled: disabled,
       // `false` would override react-aria's own range check: react-stately takes a defined
       // `isInvalid` as the whole validation state.
-      isInvalid: invalid || undefined,
+      isInvalid: invalid || missing || undefined,
       isReadOnly: readOnly,
       isRequired: required,
       maxValue,
@@ -213,8 +224,9 @@ export const TimeField = forwardRef<HTMLDivElement, TimeFieldProps>(
       value
     }
     const state = useTimeFieldState({ ...baseProps, locale })
-    // A time outside `minValue`/`maxValue` is invalid too, shown as `invalid` is: the state
-    // knows before the ids are built, so the feedback describes the field either way.
+    // A time outside `minValue`/`maxValue` is invalid too, shown as `invalid` is, and so is a
+    // `missing` one, which the state was given: it knows before the ids are built, so the feedback
+    // describes the field either way.
     const showInvalid = invalid || state.displayValidation.isInvalid
     // A time outside the range isn't valid, whatever `valid` says.
     const showValid = valid && !showInvalid
@@ -241,18 +253,6 @@ export const TimeField = forwardRef<HTMLDivElement, TimeFieldProps>(
       state,
       fieldRef
     )
-
-    // `required` has to reach an input a form validates (FORMS.md, gotcha 9), and react-aria
-    // writes `aria-required` on the segments alone: an empty required field was submitted. The
-    // segments aren't form controls, and the input that carries the value is `type="hidden"`,
-    // which is barred from constraint validation. So a required field's input is a text input
-    // that isn't displayed, the one react-aria itself renders under `validationBehavior:
-    // 'native'`. That behavior isn't turned on: it also holds a form back for `invalid` and for a
-    // time outside `minValue`/`maxValue`, and shows the latter on blur where it shows as typed
-    // now. The browser has no bubble to show on an input that isn't displayed; react-aria's
-    // listener on `inputRef` focuses the first segment in its place. A disabled input isn't
-    // validated, and a read-only field can't be filled in, so it keeps the hidden one.
-    const holdsFormBack = required && !readOnly
 
     // The field's `aria-describedby` from react-aria holds its description of the value, added
     // once mounted, and the help and feedback given to it; the slot ids come out (FORMS.md, gotcha
@@ -291,7 +291,7 @@ export const TimeField = forwardRef<HTMLDivElement, TimeFieldProps>(
               ))}
             </div>
           </div>
-          <input {...inputProps} {...(holdsFormBack && REQUIRED_INPUT_PROPS)} ref={inputRef} />
+          <input {...inputProps} {...requiredInputProps} ref={inputRef} />
         </>
       ),
       help,

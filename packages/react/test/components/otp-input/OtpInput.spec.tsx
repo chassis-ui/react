@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen, fireEvent, within } from '@testing-library/react'
+import { act, render, screen, fireEvent, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
@@ -225,6 +225,137 @@ describe('OtpInput', () => {
       expect(screen.getByRole('textbox', { name: 'Digit 1' })).toHaveValue('1')
       rerender(<OtpInput aria-label="Code" length={3} value="12" />)
       expect(screen.getByRole('textbox', { name: 'Digit 2' })).toHaveValue('2')
+    })
+  })
+
+  // The code had no `required` at all: nothing marked its boxes for a screen reader or held a
+  // form back, and the input that carries `name` is `type="hidden"`, which a form doesn't
+  // validate.
+  describe('required', () => {
+    const Verify = ({
+      onSubmit = () => undefined,
+      ...props
+    }: React.ComponentProps<typeof OtpInput> & { onSubmit?: () => void }) => (
+      <form
+        aria-label="Verify"
+        onSubmit={(event) => {
+          event.preventDefault()
+          onSubmit()
+        }}
+      >
+        <OtpInput label="Code" length={4} name="code" {...props} />
+        <button type="submit">Save</button>
+      </form>
+    )
+    const form = () => screen.getByRole<HTMLFormElement>('form', { name: 'Verify' })
+    const box = (digit: number) => screen.getByRole('textbox', { name: `Digit ${digit}` })
+    const save = () => screen.getByRole('button', { name: 'Save' })
+    // react-aria listens for `invalid` on each box and updates its validation state.
+    const checkValidity = () => {
+      let valid = true
+      act(() => {
+        valid = form().checkValidity()
+      })
+      return valid
+    }
+    // What each case below is told apart from: an empty required code, which holds its form
+    // back. Rendered first, then the case in its place.
+    const insteadOfEmpty = (ui: React.ReactElement) => {
+      const { unmount } = render(<Verify required />)
+      expect(checkValidity()).toBe(false)
+      unmount()
+      return render(ui)
+    }
+
+    test('an empty required code holds its form back, and its first box takes focus', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Verify onSubmit={onSubmit} required />)
+
+      expect(checkValidity()).toBe(false)
+      await user.click(save())
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(box(1)).toHaveFocus()
+    })
+
+    // The native attribute says it, on each box: no `aria-required` beside it.
+    test('every box is required natively', () => {
+      const { rerender } = render(<Verify required />)
+      for (const input of screen.getAllByRole('textbox')) {
+        expect(input).toBeRequired()
+        expect(input).toHaveAttribute('required')
+        expect(input).not.toHaveAttribute('aria-required')
+      }
+      rerender(<Verify />)
+      for (const input of screen.getAllByRole('textbox')) {
+        expect(input).not.toBeRequired()
+      }
+    })
+
+    test('a code with a box left empty still holds it back, and that box takes focus', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Verify onSubmit={onSubmit} required />)
+      await user.click(box(1))
+      await user.keyboard('12')
+      expect(form()).toHaveFormValues({ code: '12' })
+
+      await user.click(save())
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(box(3)).toHaveFocus()
+    })
+
+    test('submits once every box is filled', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Verify onSubmit={onSubmit} required />)
+      expect(checkValidity()).toBe(false)
+      await user.click(box(1))
+      await user.keyboard('1234')
+
+      expect(checkValidity()).toBe(true)
+      await user.click(save())
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(form()).toHaveFormValues({ code: '1234' })
+    })
+
+    test('submits a code it was given', () => {
+      insteadOfEmpty(<Verify defaultValue="1234" required />)
+      expect(checkValidity()).toBe(true)
+    })
+
+    test.each([
+      ['disabled', { disabled: true, required: true }],
+      ['not required', {}]
+    ])('a %s one holds nothing back', (_state, props) => {
+      insteadOfEmpty(<Verify {...props} />)
+      expect(checkValidity()).toBe(true)
+    })
+
+    // Validation rests on the boxes, not on the input that carries `name`.
+    test('holds the form back with no name', () => {
+      render(<Verify name={undefined} required />)
+      expect(checkValidity()).toBe(false)
+    })
+
+    test('holds the form back in groups, masked', () => {
+      const { rerender } = render(<Verify groupSizes={[2, 2]} mask required />)
+      expect(checkValidity()).toBe(false)
+      rerender(<Verify groupSizes={[2, 2]} mask required value="1234" />)
+      expect(checkValidity()).toBe(true)
+    })
+
+    test('has no axe violations while required and invalid, and logs no error', async () => {
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+      const { container } = render(<Verify invalid invalidFeedback="Enter the code." required />)
+      expect(box(1)).toBeRequired()
+      expect(box(1)).toBeInvalid()
+      expect(screen.getByRole('group', { name: 'Code' })).toHaveAccessibleDescription(
+        'Enter the code.'
+      )
+      expect(await axe(container)).toHaveNoViolations()
+      expect(consoleError).not.toHaveBeenCalled()
+      consoleError.mockRestore()
     })
   })
 

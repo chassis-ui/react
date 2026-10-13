@@ -8,14 +8,20 @@ import {
 } from 'react-stately'
 import { toCalendarDate } from '@internationalized/date'
 
-import { useForkedRef, useFormField, useOpenStateProps, useOverlayPlacement } from '../../hooks'
+import {
+  useForkedRef,
+  useFormField,
+  useOpenStateProps,
+  useOverlayPlacement,
+  useRequiredValueInput
+} from '../../hooks'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
 import { withoutSlotIds } from '../../utils/idRefs'
 import { renderFormField } from '../form-field/renderFormField'
 import { Calendar } from '../calendar/Calendar'
 import { CalendarToggleButton } from './CalendarToggleButton'
 import { ClearButton } from './ClearButton'
-import { DateField } from './DateField'
+import { DateField, focusFirstSegment } from './DateField'
 import { renderDatePickerShell } from './renderDatePickerShell'
 import './DatePicker.scss'
 import { CalendarLabels, CalendarLabelsProvider, DEFAULT_CALENDAR_LABELS } from '../calendar/labels'
@@ -73,7 +79,8 @@ interface DatePickerBaseProps extends Omit<
    */
   invalid?: boolean
   /**
-   * An error message for the field, rendered below the date picker when `invalid` is set.
+   * An error message for the field, rendered below the date picker when `invalid` is set, and
+   * after a submit that an empty `required` date picker held back.
    */
   invalidFeedback?: ReactNode
   /**
@@ -128,6 +135,14 @@ interface DatePickerBaseProps extends Omit<
    * With `visible` set, the popover changes only when `visible` does.
    */
   onVisibleChange?: (visible: boolean) => void
+  /**
+   * Toggle the required state for the component. An empty required date picker holds its form
+   * back from submitting, takes focus and shows as invalid, with `invalidFeedback`, until it has
+   * a value or the form is reset. `invalid`, once set, and `valid` decide how it looks instead.
+   * With `selectionMode="multiple"` it asks for one date at least, and the calendar button takes
+   * the focus.
+   */
+  required?: boolean
   /**
    * Size the component sm or lg.
    */
@@ -281,6 +296,7 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       onOpenChange,
       onVisibleChange,
       placeholderValue,
+      required,
       selectionMode: _selectionMode,
       shouldForceLeadingZeros,
       size,
@@ -299,6 +315,27 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       [unavailableDates, isDateUnavailable]
     )
 
+    const groupRef = useRef<HTMLDivElement>(null)
+    const forkedGroupRef = useForkedRef(ref, groupRef)
+    const calendarRef = useRef<HTMLDivElement>(null)
+    const inputRef = useRef<HTMLInputElement>(null)
+    const overlayRef = useRef<HTMLDivElement>(null)
+    const toggleButtonRef = useRef<HTMLButtonElement>(null)
+
+    // `required` has to reach an input a form validates (FORMS.md, gotcha 9). react-aria writes
+    // `aria-required` on the segments, which aren't form controls, and the input that carries the
+    // value is `type="hidden"`, which a form doesn't validate. As in `TimeField`, a required
+    // picker's input is a text input that isn't displayed, and `missing` shows the picker as
+    // invalid from a submit that input held back until it has a value. The first segment takes
+    // the focus a browser would give an input it displays. A disabled input isn't validated; the
+    // picker has no read-only state to leave out.
+    const { inputProps: requiredInputProps, missing } = useRequiredValueInput(inputRef, {
+      focus: () => focusFirstSegment(groupRef.current),
+      invalid,
+      required,
+      valid
+    })
+
     // What both react-stately's state and react-aria's hook read: the hook hands the time props
     // on to the field's segments.
     const pickerProps = {
@@ -310,7 +347,8 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       isDisabled: disabled,
       // `false` would override the state's own check of the range and unavailable dates:
       // react-stately takes a defined `isInvalid` as the whole validation state.
-      isInvalid: invalid || undefined,
+      isInvalid: invalid || missing || undefined,
+      isRequired: required,
       maxValue,
       minValue,
       onChange,
@@ -327,15 +365,9 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       ...pickerProps
     })
     // A value outside `minValue`/`maxValue`, or on an unavailable date, is invalid too, shown as
-    // `invalid` is, as `TimeField` shows it.
+    // `invalid` is, as `TimeField` shows it. So is a `missing` one, which the state was given.
     const showInvalid = invalid || state.displayValidation.isInvalid
     const showValid = valid && !showInvalid
-
-    const groupRef = useRef<HTMLDivElement>(null)
-    const forkedGroupRef = useForkedRef(ref, groupRef)
-    const calendarRef = useRef<HTMLDivElement>(null)
-    const overlayRef = useRef<HTMLDivElement>(null)
-    const toggleButtonRef = useRef<HTMLButtonElement>(null)
 
     const {
       describedBy,
@@ -461,12 +493,14 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
                 ),
                 valid: showValid
               })}
-              {name && (
+              {(name || required) && (
                 <input
                   disabled={disabled}
                   name={name}
                   type="hidden"
                   value={state.value ? state.value.toString() : ''}
+                  {...requiredInputProps}
+                  ref={inputRef}
                 />
               )}
             </>
@@ -518,6 +552,7 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
       onChange,
       onOpenChange,
       onVisibleChange,
+      required,
       selectionMode: _selectionMode,
       size,
       unavailableDates,
@@ -554,8 +589,23 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
     const groupRef = useRef<HTMLDivElement>(null)
     const forkedGroupRef = useForkedRef(ref, groupRef)
     const calendarRef = useRef<HTMLDivElement>(null)
+    const inputRef = useRef<HTMLInputElement>(null)
     const overlayRef = useRef<HTMLDivElement>(null)
     const toggleButtonRef = useRef<HTMLButtonElement>(null)
+
+    // Required asks for one date at least. Each date has a hidden input of its own, so there is
+    // none while the picker is empty: it then renders the text input that isn't displayed, with
+    // no `name`, as nothing is submitted for an empty picker. See `DatePickerSingle`. The calendar
+    // button takes the focus, this variant's one element that can. Nothing here says "required"
+    // to a screen reader: ARIA allows `aria-required` on neither a button nor a group, so a
+    // caller's label or help has to.
+    const { inputProps: requiredInputProps, missing } = useRequiredValueInput(inputRef, {
+      focus: () => toggleButtonRef.current?.focus(),
+      invalid,
+      required: required && values.length === 0,
+      valid
+    })
+    const showInvalid = invalid || missing
 
     const {
       describedBy,
@@ -569,7 +619,7 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
       ariaLabelledBy: rest['aria-labelledby'],
       help,
       id,
-      invalid,
+      invalid: showInvalid,
       invalidFeedback,
       label,
       valid,
@@ -646,7 +696,7 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
                   role: 'group'
                 },
                 groupRef: forkedGroupRef,
-                invalid,
+                invalid: showInvalid,
                 isOpen: state.isOpen,
                 overlayDismissProps,
                 overlayRef,
@@ -672,11 +722,14 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
                     value={date.toString()}
                   />
                 ))}
+              {requiredInputProps && (
+                <input disabled={disabled} value="" {...requiredInputProps} ref={inputRef} />
+              )}
             </>
           ),
           help,
           ids: { feedback: feedbackId, help: helpId, label: labelId },
-          invalid,
+          invalid: showInvalid,
           invalidFeedback,
           label,
           valid,

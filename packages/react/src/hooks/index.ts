@@ -16,6 +16,8 @@ import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 import { useOpenStateProps } from './useOpenStateProps'
 import { useOverlayPlacement } from './useOverlayPlacement'
 import { usePagination } from './usePagination'
+import { useHeldBack } from './useHeldBack'
+import { useRequiredValueInput } from './useRequiredValueInput'
 import { useToastRegionQueue } from './useToastRegionQueue'
 import { useTransitionState } from './useTransitionState'
 
@@ -36,6 +38,8 @@ export {
   useOpenStateProps,
   useOverlayPlacement,
   usePagination,
+  useHeldBack,
+  useRequiredValueInput,
   useToastRegionQueue,
   useTransitionState
 }
@@ -48,6 +52,11 @@ export type {
 export type { UseFloatingOverlayOptions } from './useFloatingOverlay'
 export type { UseFormFieldOptions, UseFormFieldResult } from './useFormField'
 export type { UsePaginationResult } from './usePagination'
+export type { UseHeldBackOptions, UseHeldBackResult } from './useHeldBack'
+export type {
+  UseRequiredValueInputOptions,
+  UseRequiredValueInputResult
+} from './useRequiredValueInput'
 export type { UseToastRegionQueueResult } from './useToastRegionQueue'
 export type {
   TransitionPhase,

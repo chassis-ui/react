@@ -103,6 +103,53 @@ describe('RadioGroup', () => {
     })
   })
 
+  // `form` reached every radio through react-aria, but the group's props didn't declare it:
+  // TypeScript refused a group outside its `<form>` the one prop that joins it.
+  describe('form', () => {
+    test('a group outside its form joins it with every radio', () => {
+      render(
+        <>
+          <form aria-label="Checkout" id="checkout" />
+          <RadioGroup form="checkout" label="Plan" name="plan" required>
+            <Radio value="free" label="Free" />
+            <Radio value="pro" label="Pro" />
+          </RadioGroup>
+        </>
+      )
+      const form = screen.getByRole<HTMLFormElement>('form', { name: 'Checkout' })
+      expect(screen.getByRole('radiogroup', { name: 'Plan' })).toHaveAttribute('form', 'checkout')
+      expect(screen.getByRole('radio', { name: 'Free' })).toHaveAttribute('form', 'checkout')
+      expect(screen.getByRole('radio', { name: 'Pro' })).toHaveAttribute('form', 'checkout')
+      expect(form.checkValidity()).toBe(false)
+
+      fireEvent.click(screen.getByRole('radio', { name: 'Pro' }))
+      expect(form.checkValidity()).toBe(true)
+      // What the form submits: `toHaveFormValues` reads the controls inside the form element.
+      expect(new FormData(form).get('plan')).toBe('pro')
+    })
+
+    test("a radio's own form wins over the group's", () => {
+      render(
+        <RadioGroup form="checkout" label="Plan" name="plan">
+          <Radio value="free" label="Free" />
+          <Radio form="other" value="pro" label="Pro" />
+        </RadioGroup>
+      )
+      expect(screen.getByRole('radio', { name: 'Free' })).toHaveAttribute('form', 'checkout')
+      expect(screen.getByRole('radio', { name: 'Pro' })).toHaveAttribute('form', 'other')
+    })
+
+    test('a group without form leaves it off its radios', () => {
+      render(
+        <RadioGroup label="Plan" name="plan">
+          <Radio value="free" label="Free" />
+        </RadioGroup>
+      )
+      expect(screen.getByRole('radiogroup', { name: 'Plan' })).not.toHaveAttribute('form')
+      expect(screen.getByRole('radio', { name: 'Free' })).not.toHaveAttribute('form')
+    })
+  })
+
   describe('orientation', () => {
     test('orientation="horizontal" wraps items in a flex row', () => {
       render(

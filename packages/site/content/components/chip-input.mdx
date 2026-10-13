@@ -22,6 +22,8 @@ import { Example as DisabledExample } from '../../examples/components/chip-input
 
 Pass `label`/`help` to wrap the input in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `ChipInput` create a hidden `<input type="hidden">` per chip — all sharing that `name`, so a native form submission collects them together (`FormData.getAll('skills')`).
 
+With `required`, a chip input with no chips holds its form back from submitting, and its text input takes focus. Text typed there and not added as a chip is not a value. The field then shows as invalid, with its `invalidFeedback`, until it has a value or the form is reset; set `invalid` yourself, to `false` too, to decide how it looks instead.
+
 <Example>
   <FormFieldExample client:load />
 </Example>

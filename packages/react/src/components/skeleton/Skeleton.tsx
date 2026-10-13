@@ -59,20 +59,26 @@ type SkeletonComponent = (<C extends ElementType = 'span'>(
 ) => ReactElement | null) & { displayName?: string }
 
 // chassis-css has the fractions `w-1/12` to `w-11/12`; twelve twelfths is `w-100`. `span` takes
-// any number or string, and one that isn't a whole number from 1 to 12 (0, 13, `'50%'`) is still
-// written into the class below, which then has no rule: it says so in development. The template
-// stays as it is: `test/utils/tailwindClassNames.spec.tsx` lists it by its text (RD20).
+// any number or string, and one that isn't a whole number from 1 to 12 (0, 13, `'50%'`) was
+// written into the class below all the same, which then had no rule: it renders no class now,
+// and says so in development. The template stays as it is:
+// `test/utils/tailwindClassNames.spec.tsx` lists it by its text (RD20).
 const spanClassName = (span: WidthSpan, prefix: string) => {
   if (span === true) return `${prefix}flex-fill`
   if (span === 'auto') return `${prefix}w-auto`
   if (typeof span === 'number' || typeof span === 'string') {
     const twelfths = Number(span)
+    const hasRule =
+      Number.isInteger(twelfths) &&
+      twelfths >= 1 &&
+      twelfths <= 12 &&
+      String(twelfths) === String(span)
     devWarning(
-      !(Number.isInteger(twelfths) && twelfths >= 1 && twelfths <= 12) ||
-        String(twelfths) !== String(span),
+      !hasRule,
       `Skeleton: \`span\` takes a whole number of twelfths from 1 to 12, \`'auto'\` or ` +
         `\`true\`. @chassis-ui/css has no width class for ${JSON.stringify(span)}, so it sets none.`
     )
+    if (!hasRule) return null
     return Number(span) === 12 ? `${prefix}w-100` : `${prefix}w-${span}/12`
   }
   return null

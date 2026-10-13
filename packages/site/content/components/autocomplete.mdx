@@ -65,6 +65,8 @@ Pass an `items` array instead of composing children to build the option list fro
 
 Pass `label`/`help` to wrap the autocomplete in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `Autocomplete` create and manage hidden `<input>`s for native form submission — one in single-select mode, one per selected key in `multiple` mode.
 
+With `required`, an autocomplete with nothing selected holds its form back from submitting: the toggle takes focus and shows as invalid, with its `invalidFeedback`, until an option is selected or the form is reset. `invalid`, once set, and `valid` decide how it looks instead.
+
 <Example>
   <FormFieldExample client:load />
 </Example>

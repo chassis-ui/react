@@ -657,13 +657,14 @@ describe('Carousel', () => {
     // "Pause", and the first click on it only stopped what had already stopped. It also found
     // that out one interval late, on a tick that had no slide to go to, so the last slide's
     // indicator filled once more for nothing.
-    test('ends="stop": autoplay is over when it arrives at the last slide, and one click restarts', () => {
+    test('ends="stop": autoplay is over when it arrives at the last slide, and one click restarts it from an earlier one', () => {
       vi.useFakeTimers()
       const uninstallVisibility = stubVisibleGeometry()
       try {
         render(
           <Carousel autoplay interval={1000} ends="stop" data-testid="carousel">
             <CarouselPlayPause />
+            <CarouselControlPrev />
             <CarouselInner>
               <CarouselItem>Item-1</CarouselItem>
               <CarouselItem>Item-2</CarouselItem>
@@ -683,7 +684,12 @@ describe('Carousel', () => {
         expect(toggle).toHaveClass('paused')
         expect(screen.getByTestId('carousel')).not.toHaveClass('carousel-playing')
         expect(vi.getTimerCount()).toBe(0)
+        // Nothing left to play from here: see 'the play toggle at the end' below.
+        expect(toggle).toBeDisabled()
 
+        fireEvent.click(screen.getByRole('button', { name: 'Previous slide' }))
+        expect(screen.getByText('Item-2')).toHaveClass('active')
+        expect(toggle).toBeEnabled()
         fireEvent.click(toggle)
         expect(screen.getByRole('button', { name: 'Pause' })).toBeInTheDocument()
         expect(screen.getByTestId('carousel')).toHaveClass('carousel-playing')
@@ -727,6 +733,105 @@ describe('Carousel', () => {
         vi.useRealTimers()
         uninstallVisibility()
       }
+    })
+
+    // Pressed on the last slide of `ends="stop"`, Play started a cycle with no slide to go to:
+    // the indicator filled for one interval, and the tick at its end stopped it again.
+    describe('the play toggle at the end of ends="stop"', () => {
+      const tree = (props: Partial<React.ComponentProps<typeof Carousel>> = {}) => (
+        <Carousel ends="stop" interval={1000} {...props}>
+          <CarouselPlayPause />
+          <CarouselControlPrev />
+          <CarouselControlNext />
+          <CarouselInner>
+            <CarouselItem>Item-1</CarouselItem>
+            <CarouselItem>Item-2</CarouselItem>
+            <CarouselItem>Item-3</CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      )
+
+      test('is disabled on the last slide, as the next control is, and enabled before it', () => {
+        render(tree({ defaultActiveIndex: 2 }))
+        const toggle = screen.getByRole('button', { name: 'Play' })
+        expect(screen.getByRole('button', { name: 'Next slide' })).toBeDisabled()
+        expect(toggle).toBeDisabled()
+
+        fireEvent.click(screen.getByRole('button', { name: 'Previous slide' }))
+        expect(toggle).toBeEnabled()
+      })
+
+      test('stays enabled on the last slide of a carousel that wraps', () => {
+        render(tree({ defaultActiveIndex: 2, ends: 'wrap' }))
+        expect(screen.getByRole('button', { name: 'Play' })).toBeEnabled()
+      })
+
+      test('autoplay that starts on the last slide is over at once, with no interval run', () => {
+        vi.useFakeTimers()
+        const uninstallVisibility = stubVisibleGeometry()
+        try {
+          render(tree({ autoplay: true, defaultActiveIndex: 2 }))
+          const toggle = screen.getByRole('button', { name: 'Play' })
+          expect(toggle).toBeDisabled()
+          expect(toggle).toHaveClass('paused')
+          expect(vi.getTimerCount()).toBe(0)
+        } finally {
+          vi.useRealTimers()
+          uninstallVisibility()
+        }
+      })
+
+      test('keeps the pause toggle enabled while autoplay still runs', () => {
+        vi.useFakeTimers()
+        const uninstallVisibility = stubVisibleGeometry()
+        try {
+          render(tree({ autoplay: true, defaultActiveIndex: 1 }))
+          expect(screen.getByRole('button', { name: 'Pause' })).toBeEnabled()
+        } finally {
+          vi.useRealTimers()
+          uninstallVisibility()
+        }
+      })
+
+      test("composes with the caller's own disabled", () => {
+        render(
+          <Carousel ends="stop">
+            <CarouselPlayPause disabled />
+            <CarouselInner>
+              <CarouselItem>Item-1</CarouselItem>
+              <CarouselItem>Item-2</CarouselItem>
+            </CarouselInner>
+          </Carousel>
+        )
+        expect(screen.getByRole('button', { name: 'Play' })).toBeDisabled()
+      })
+
+      // The viewer who pressed Play and let it run has focus on the toggle when the last slide
+      // disables it.
+      test('hands focus to the previous control when autoplay ends with focus on the toggle', () => {
+        vi.useFakeTimers()
+        const uninstallVisibility = stubVisibleGeometry()
+        try {
+          render(tree({ defaultActiveIndex: 1 }))
+          const toggle = screen.getByRole('button', { name: 'Play' })
+          toggle.focus()
+          fireEvent.click(toggle)
+          expect(screen.getByRole('button', { name: 'Pause' })).toHaveFocus()
+
+          act(() => vi.advanceTimersByTime(1000))
+          expect(screen.getByText('Item-3')).toHaveClass('active')
+          expect(screen.getByRole('button', { name: 'Play' })).toBeDisabled()
+          expect(screen.getByRole('button', { name: 'Previous slide' })).toHaveFocus()
+        } finally {
+          vi.useRealTimers()
+          uninstallVisibility()
+        }
+      })
+
+      test('has no axe violations with the toggle disabled', async () => {
+        const { container } = render(tree({ defaultActiveIndex: 2 }))
+        expect(await axe(container)).toHaveNoViolations()
+      })
     })
 
     test('clears the pending autoplay timer on unmount, leaving nothing to fire or warn afterward', () => {
@@ -1215,6 +1320,47 @@ describe('Carousel', () => {
       expect(screen.getByText('Item-2')).toHaveClass('active')
       act(() => vi.runAllTimers())
       expect(inner.scrollLeft).toBe(ITEM_WIDTH)
+    })
+
+    // The wait was 150 ms, what a scroll needs to settle. A parent that keeps the index somewhere
+    // slow answers later than that, and the track went back and then forward again under it.
+    test('gives a parent that follows late half a second before taking the swipe back', () => {
+      const Slow = () => {
+        const [activeIndex, setActiveIndex] = React.useState(0)
+        return (
+          <ThreeItemCarousel
+            activeIndex={activeIndex}
+            onSlide={({ to }) => void setTimeout(() => setActiveIndex(to), 400)}
+          />
+        )
+      }
+      const scrollTo = vi.spyOn(HTMLElement.prototype, 'scrollTo')
+      render(<Slow />)
+      act(() => vi.runAllTimers())
+      scrollTo.mockClear()
+
+      const inner = swipeTo(1)
+      act(() => vi.advanceTimersByTime(399))
+      expect(screen.getByText('Item-1')).toHaveClass('active')
+      expect(inner.scrollLeft).toBe(ITEM_WIDTH)
+
+      act(() => vi.advanceTimersByTime(1))
+      expect(screen.getByText('Item-2')).toHaveClass('active')
+      act(() => vi.runAllTimers())
+      expect(inner.scrollLeft).toBe(ITEM_WIDTH)
+      expect(scrollTo).not.toHaveBeenCalled()
+      scrollTo.mockRestore()
+    })
+
+    test('takes a swipe nobody followed back after that half second, not before', () => {
+      render(<Guarded locked />)
+      act(() => vi.runAllTimers())
+
+      const inner = swipeTo(1)
+      act(() => vi.advanceTimersByTime(499))
+      expect(inner.scrollLeft).toBe(ITEM_WIDTH)
+      act(() => vi.runAllTimers())
+      expect(inner.scrollLeft).toBe(0)
     })
 
     test('leaves the track where a followed swipe put it', () => {

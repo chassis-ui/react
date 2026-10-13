@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
+import { act, render, screen, fireEvent, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
   CalendarDate,
@@ -799,6 +799,325 @@ describe('DatePicker', () => {
         <DatePicker aria-label="Event date" name="eventDate" value={new CalendarDate(2026, 8, 1)} />
       )
       expect(hidden.value).toBe('2026-08-01')
+    })
+  })
+
+  // The picker had no `required` at all: nothing marked it for a screen reader, and its value
+  // input was `type="hidden"`, which a form doesn't validate, so an empty one was submitted.
+  describe('required', () => {
+    const Booking = ({
+      onSubmit = () => undefined,
+      ...props
+    }: React.ComponentProps<typeof DatePicker> & { onSubmit?: () => void }) => (
+      <form
+        aria-label="Booking"
+        onSubmit={(event) => {
+          event.preventDefault()
+          onSubmit()
+        }}
+      >
+        <DatePicker invalidFeedback="Pick a day." label="Day" name="day" {...props} />
+        <button type="submit">Save</button>
+        <button type="reset">Reset</button>
+      </form>
+    )
+    const form = () => screen.getByRole<HTMLFormElement>('form', { name: 'Booking' })
+    const group = () => screen.getByRole('group', { name: 'Day' })
+    const save = () => screen.getByRole('button', { name: 'Save' })
+    const month = () => screen.getByRole('spinbutton', { name: /^month/ })
+    // `checkValidity()` fires `invalid` at the picker's input, as a submit does, and the picker
+    // marks itself on it: a state update.
+    const checkValidity = () => {
+      let valid = true
+      act(() => {
+        valid = form().checkValidity()
+      })
+      return valid
+    }
+    const submitted = () => [...new FormData(form()).entries()]
+    // What each case below is told apart from: an empty required picker, which holds its form
+    // back. Rendered first, then the case in its place.
+    const insteadOfEmpty = (ui: React.ReactElement, empty = <Booking required />) => {
+      const { unmount } = render(empty)
+      expect(checkValidity()).toBe(false)
+      unmount()
+      return render(ui)
+    }
+
+    describe('single', () => {
+      test('an empty required picker holds its form back, and takes focus', async () => {
+        const user = userEvent.setup()
+        const onSubmit = vi.fn()
+        render(<Booking onSubmit={onSubmit} required />)
+
+        expect(checkValidity()).toBe(false)
+        await user.click(save())
+        expect(onSubmit).not.toHaveBeenCalled()
+        expect(month()).toHaveFocus()
+      })
+
+      test('says it is required on every segment', () => {
+        const { rerender } = render(<Booking required />)
+        for (const segment of screen.getAllByRole('spinbutton')) {
+          expect(segment).toHaveAttribute('aria-required', 'true')
+        }
+        rerender(<Booking />)
+        for (const segment of screen.getAllByRole('spinbutton')) {
+          expect(segment).not.toHaveAttribute('aria-required')
+        }
+      })
+
+      test('a partly filled one still holds it back', async () => {
+        const user = userEvent.setup()
+        const onSubmit = vi.fn()
+        render(<Booking onSubmit={onSubmit} required />)
+        await user.click(month())
+        await user.keyboard('0724')
+
+        await user.click(save())
+        expect(onSubmit).not.toHaveBeenCalled()
+      })
+
+      test('submits once a date is typed', async () => {
+        const user = userEvent.setup()
+        const onSubmit = vi.fn()
+        render(<Booking onSubmit={onSubmit} required />)
+        expect(checkValidity()).toBe(false)
+        await user.click(month())
+        await user.keyboard('07242026')
+
+        expect(checkValidity()).toBe(true)
+        await user.click(save())
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(submitted()).toEqual([['day', '2026-07-24']])
+      })
+
+      test('submits a value it was given', () => {
+        insteadOfEmpty(<Booking defaultValue={new CalendarDate(2026, 7, 24)} required />)
+        expect(checkValidity()).toBe(true)
+        expect(submitted()).toEqual([['day', '2026-07-24']])
+      })
+
+      test('a disabled one holds nothing back', () => {
+        insteadOfEmpty(<Booking disabled required />)
+        expect(checkValidity()).toBe(true)
+      })
+
+      test('a picker that is not required submits empty', async () => {
+        const user = userEvent.setup()
+        const onSubmit = vi.fn()
+        insteadOfEmpty(<Booking onSubmit={onSubmit} />)
+        expect(checkValidity()).toBe(true)
+        await user.click(save())
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(submitted()).toEqual([['day', '']])
+      })
+
+      test('holds the form back with no name, and submits nothing of its own', async () => {
+        const user = userEvent.setup()
+        render(<Booking name={undefined} required />)
+        expect(checkValidity()).toBe(false)
+
+        await user.click(month())
+        await user.keyboard('07242026')
+        expect(checkValidity()).toBe(true)
+        expect(submitted()).toEqual([])
+      })
+
+      // `invalid` is how the picker looks, as on every other field: it holds nothing back.
+      test('invalid alone holds nothing back', () => {
+        insteadOfEmpty(<Booking defaultValue={new CalendarDate(2026, 7, 24)} invalid required />)
+        expect(checkValidity()).toBe(true)
+      })
+
+      // The browser has no bubble to show on an input that isn't displayed.
+      describe('after a submit it held back', () => {
+        test('shows as invalid, with the feedback, as `invalid` shows it', async () => {
+          const user = userEvent.setup()
+          render(<Booking required />)
+          expect(group()).not.toHaveClass('is-invalid')
+          expect(screen.queryByText('Pick a day.')).not.toBeInTheDocument()
+
+          await user.click(save())
+          expect(group()).toHaveClass('form-input', 'is-invalid')
+          expect(screen.getByText('Pick a day.')).toHaveClass('invalid-feedback')
+          expect(group()).toHaveAccessibleDescription('Pick a day.')
+          for (const segment of screen.getAllByRole('spinbutton')) {
+            expect(segment).toHaveAttribute('aria-invalid', 'true')
+            expect(segment).toHaveAccessibleDescription('Pick a day.')
+          }
+        })
+
+        test('`checkValidity()` marks it too', () => {
+          render(<Booking required />)
+          expect(checkValidity()).toBe(false)
+          expect(group()).toHaveClass('is-invalid')
+        })
+
+        test('clears once a date is typed', async () => {
+          const user = userEvent.setup()
+          render(<Booking required />)
+          await user.click(save())
+          await user.keyboard('0724')
+          expect(group()).toHaveClass('is-invalid')
+
+          await user.keyboard('2026')
+          expect(group()).not.toHaveClass('is-invalid')
+          expect(screen.queryByText('Pick a day.')).not.toBeInTheDocument()
+          for (const segment of screen.getAllByRole('spinbutton')) {
+            expect(segment).not.toHaveAttribute('aria-invalid')
+          }
+        })
+
+        test('clears once a day is picked in the calendar', async () => {
+          const user = userEvent.setup()
+          render(<Booking placeholderValue={new CalendarDate(2026, 7, 1)} required />)
+          await user.click(save())
+          expect(group()).toHaveClass('is-invalid')
+
+          openCalendar()
+          fireEvent.click(within(screen.getByRole('grid')).getByRole('button', { name: / 15, / }))
+          expect(submitted()).toEqual([['day', '2026-07-15']])
+          expect(group()).not.toHaveClass('is-invalid')
+        })
+
+        test("clears on the form's reset, and still holds the form back", async () => {
+          const user = userEvent.setup()
+          render(<Booking required />)
+          await user.click(save())
+          expect(group()).toHaveClass('is-invalid')
+
+          await user.click(screen.getByRole('button', { name: 'Reset' }))
+          expect(group()).not.toHaveClass('is-invalid')
+          expect(screen.queryByText('Pick a day.')).not.toBeInTheDocument()
+          expect(checkValidity()).toBe(false)
+        })
+
+        // The caller's own state wins: `invalid` once it is set, to `false` too, and `valid`.
+        test.each([
+          ['invalid={false}', { invalid: false }],
+          ['valid', { valid: true }]
+        ])('%s keeps the picker as the caller shows it', async (_name, props) => {
+          const user = userEvent.setup()
+          const onSubmit = vi.fn()
+          const { rerender } = render(<Booking onSubmit={onSubmit} required {...props} />)
+          await user.click(save())
+          expect(onSubmit).not.toHaveBeenCalled()
+          expect(group()).not.toHaveClass('is-invalid')
+          expect(screen.queryByText('Pick a day.')).not.toBeInTheDocument()
+
+          // The submit was held back all the same: the mark shows once the caller lets go.
+          rerender(<Booking onSubmit={onSubmit} required />)
+          expect(group()).toHaveClass('is-invalid')
+        })
+
+        test('has no axe violations while marked, and logs no error', async () => {
+          const user = userEvent.setup()
+          const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+          const { container } = render(<Booking required />)
+          await user.click(save())
+          expect(group()).toHaveClass('is-invalid')
+          expect(await axe(container)).toHaveNoViolations()
+          expect(consoleError).not.toHaveBeenCalled()
+          consoleError.mockRestore()
+        })
+      })
+    })
+
+    // The calendar button is this variant's one element that takes focus, and each date has a
+    // hidden input of its own: none while the picker is empty.
+    describe('selectionMode multiple', () => {
+      const Dates = (props: {
+        defaultValue?: CalendarDate[]
+        disabled?: boolean
+        onSubmit?: () => void
+        required?: boolean
+      }) => <Booking invalidFeedback="Pick a day at least." selectionMode="multiple" {...props} />
+      const calendarButton = () => screen.getByRole('button', { name: /calendar/i })
+      const pick = (day: RegExp) =>
+        fireEvent.click(within(screen.getByRole('grid')).getByRole('button', { name: day }))
+
+      test('an empty required picker holds its form back, and its button takes focus', async () => {
+        const user = userEvent.setup()
+        const onSubmit = vi.fn()
+        render(<Dates onSubmit={onSubmit} required />)
+
+        expect(checkValidity()).toBe(false)
+        await user.click(save())
+        expect(onSubmit).not.toHaveBeenCalled()
+        expect(calendarButton()).toHaveFocus()
+      })
+
+      test('shows as invalid after the submit it held back, until a date is picked', async () => {
+        const user = userEvent.setup()
+        const onSubmit = vi.fn()
+        render(<Dates onSubmit={onSubmit} required />)
+        expect(group()).not.toHaveClass('is-invalid')
+
+        await user.click(save())
+        expect(group()).toHaveClass('form-input', 'is-invalid')
+        expect(screen.getByText('Pick a day at least.')).toHaveClass('invalid-feedback')
+        expect(group()).toHaveAccessibleDescription('Pick a day at least.')
+        expect(calendarButton()).toHaveAccessibleDescription('Pick a day at least.')
+
+        openCalendar()
+        pick(/ 15, /)
+        expect(group()).not.toHaveClass('is-invalid')
+        expect(screen.queryByText('Pick a day at least.')).not.toBeInTheDocument()
+        expect(checkValidity()).toBe(true)
+        expect(submitted()).toHaveLength(1)
+
+        // Emptied again it holds the form back, and is marked by the next submit only.
+        pick(/ 15, /)
+        expect(submitted()).toEqual([])
+        expect(group()).not.toHaveClass('is-invalid')
+        expect(checkValidity()).toBe(false)
+        expect(group()).toHaveClass('is-invalid')
+      })
+
+      test("clears on the form's reset", async () => {
+        const user = userEvent.setup()
+        render(<Dates required />)
+        await user.click(save())
+        expect(group()).toHaveClass('is-invalid')
+        await user.click(screen.getByRole('button', { name: 'Reset' }))
+        expect(group()).not.toHaveClass('is-invalid')
+      })
+
+      test('submits the dates it was given, and nothing for the input that holds it back', () => {
+        insteadOfEmpty(
+          <Dates
+            defaultValue={[new CalendarDate(2026, 7, 5), new CalendarDate(2026, 7, 12)]}
+            required
+          />,
+          <Dates required />
+        )
+        expect(checkValidity()).toBe(true)
+        expect(submitted()).toEqual([
+          ['day', '2026-07-05'],
+          ['day', '2026-07-12']
+        ])
+      })
+
+      test.each([
+        ['disabled', { disabled: true, required: true }],
+        ['not required', {}]
+      ])('a %s one holds nothing back', (_state, props) => {
+        insteadOfEmpty(<Dates {...props} />, <Dates required />)
+        expect(checkValidity()).toBe(true)
+        expect(submitted()).toEqual([])
+      })
+
+      test('has no axe violations while marked, and logs no error', async () => {
+        const user = userEvent.setup()
+        const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+        const { container } = render(<Dates required />)
+        await user.click(save())
+        expect(group()).toHaveClass('is-invalid')
+        expect(await axe(container)).toHaveNoViolations()
+        expect(consoleError).not.toHaveBeenCalled()
+        consoleError.mockRestore()
+      })
     })
   })
 

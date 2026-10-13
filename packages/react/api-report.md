@@ -317,7 +317,8 @@ interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
    */
   invalid?: boolean;
   /**
-   * An error message for the field, rendered below the autocomplete when `invalid` is set.
+   * An error message for the field, rendered below the autocomplete when `invalid` is set, and
+   * after a submit that a `required` autocomplete with nothing selected held back.
    */
   invalidFeedback?: ReactNode;
   /**
@@ -357,6 +358,13 @@ interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
    * Text shown on the toggle when nothing is selected.
    */
   placeholder?: string;
+  /**
+   * Toggle the required state for the component. A required autocomplete with nothing selected
+   * holds its form back from submitting, takes focus on its toggle and shows as invalid, with
+   * `invalidFeedback`, until an option is selected or the form is reset. `invalid`, once set, and
+   * `valid` decide how it looks instead.
+   */
+  required?: boolean;
   /**
    * Placeholder for the search field inside the dropdown.
    */
@@ -1837,7 +1845,7 @@ type CardImageOwnProps<C extends ElementType> = {
    * sets the orientation from a breakpoint up — e.g. `{ base: 'top', lg: 'start' }` to switch an
    * image cap from `top` to `start` once the card lays out horizontally. Only `start` and `end`
    * can be set at a breakpoint, from `sm` to `xl`: `@chassis-ui/css` has no class for `top` or
-   * `bottom` there, nor for any value at `2xl`, and such a value does nothing and warns in
+   * `bottom` there, nor for any value at `2xl`: such a value renders no class and warns in
    * development.
    */
   orientation?: Responsive<CardImageOrientation>;
@@ -2305,7 +2313,8 @@ interface CarouselPlayPauseProps extends ButtonHTMLAttributes<HTMLButtonElement>
 /**
  * A discoverable toggle so a viewer can stop an autoplaying carousel, as required by WCAG 2.2
  * Success Criterion 2.2.2 (Pause, Stop, Hide). Reflects the current state automatically — a pause
- * icon while playing, a play icon once stopped.
+ * icon while playing, a play icon once stopped. On the last slide of an `ends="stop"` carousel
+ * there is nothing left to play, and the stopped toggle is disabled, as the next control is.
  */
 export declare const CarouselPlayPause: React.ForwardRefExoticComponent<CarouselPlayPauseProps & React.RefAttributes<HTMLButtonElement>>;
 //#endregion
@@ -2374,11 +2383,14 @@ interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVa
    */
   id?: string;
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean;
   /**
-   * An error message for the field, rendered below the chips when `invalid` is set.
+   * An error message for the field, rendered below the chips when `invalid` is set, and after a
+   * submit the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode;
   /**
@@ -2402,6 +2414,12 @@ interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVa
    * Placeholder shown in the input when empty.
    */
   placeholder?: string;
+  /**
+   * Toggle the required state for the component. A required chip input with no chips holds its
+   * form back from submitting, and its text input takes focus: text typed there and not added as
+   * a chip is not a value.
+   */
+  required?: boolean;
   /**
    * Character that creates a new chip when typed, or pasted text is split on. Set to `null` to
    * disable. Defaults to `,`.
@@ -2558,11 +2576,14 @@ interface FileInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'si
    */
   help?: ReactNode;
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean;
   /**
-   * An error message for the field, rendered below the input when `invalid` is set.
+   * An error message for the field, rendered below the input when `invalid` is set, and after a
+   * submit the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode;
   /**
@@ -2628,11 +2649,14 @@ interface ComboboxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVal
    */
   id?: string;
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean;
   /**
-   * An error message for the field, rendered below the combobox when `invalid` is set.
+   * An error message for the field, rendered below the combobox when `invalid` is set, and after a
+   * submit the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode;
   /**
@@ -2665,6 +2689,12 @@ interface ComboboxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVal
    * Placeholder shown in the input when nothing is selected.
    */
   placeholder?: string;
+  /**
+   * Toggle the required state for the component. A required combobox with no option selected
+   * holds its form back from submitting, and takes focus: text typed without selecting an option
+   * is not a value.
+   */
+  required?: boolean;
   /**
    * Size the component sm or lg.
    */
@@ -2735,7 +2765,8 @@ interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defa
    */
   invalid?: boolean;
   /**
-   * An error message for the field, rendered below the date picker when `invalid` is set.
+   * An error message for the field, rendered below the date picker when `invalid` is set, and
+   * after a submit that an empty `required` date picker held back.
    */
   invalidFeedback?: ReactNode;
   /**
@@ -2790,6 +2821,14 @@ interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defa
    * With `visible` set, the popover changes only when `visible` does.
    */
   onVisibleChange?: (visible: boolean) => void;
+  /**
+   * Toggle the required state for the component. An empty required date picker holds its form
+   * back from submitting, takes focus and shows as invalid, with `invalidFeedback`, until it has
+   * a value or the form is reset. `invalid`, once set, and `valid` decide how it looks instead.
+   * With `selectionMode="multiple"` it asks for one date at least, and the calendar button takes
+   * the focus.
+   */
+  required?: boolean;
   /**
    * Size the component sm or lg.
    */
@@ -2977,7 +3016,8 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
    */
   invalid?: boolean;
   /**
-   * An error message for the field, rendered below the date range picker when `invalid` is set.
+   * An error message for the field, rendered below the date range picker when `invalid` is set,
+   * and after a submit that a `required` date range picker with a date missing held back.
    */
   invalidFeedback?: ReactNode;
   /**
@@ -3052,6 +3092,13 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
    * selection (if any) is marked selected. Omit to not show a preset list.
    */
   presets?: DateRangePreset[];
+  /**
+   * Toggle the required state for the component. A required date range picker with its start or
+   * its end missing holds its form back from submitting, takes focus in the field that is empty
+   * and shows as invalid, with `invalidFeedback`, until it has both dates or the form is reset.
+   * `invalid`, once set, and `valid` decide how it looks instead.
+   */
+  required?: boolean;
   /**
    * Show a leading zero on the day, month and hour, as `03/05` rather than `3/5`, whatever the
    * locale does.
@@ -3140,11 +3187,14 @@ interface OtpInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVal
    */
   inputGroup?: boolean;
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean;
   /**
-   * An error message for the field, rendered below the boxes when `invalid` is set.
+   * An error message for the field, rendered below the boxes when `invalid` is set, and after a
+   * submit the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode;
   /**
@@ -3173,6 +3223,11 @@ interface OtpInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVal
    * Callback fired once every box is filled.
    */
   onComplete?: (value: string) => void;
+  /**
+   * Toggle the required state for the component. Every box is then required: a code with a box
+   * left empty holds its form back from submitting, and the first empty box takes focus.
+   */
+  required?: boolean;
   /**
    * Content of the separator rendered between groups when `groupSizes` is set. Defaults to `–`.
    */
@@ -3846,7 +3901,9 @@ interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'che
    */
   indeterminate?: boolean;
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean;
   /**
@@ -3907,11 +3964,19 @@ interface CheckboxGroupProps extends Omit<HTMLAttributes<HTMLFieldSetElement>, '
    */
   disabled?: boolean;
   /**
-   * An error message for the group, rendered below the options when `invalid` is set.
+   * An error message for the group, rendered below the options when `invalid` is set, and after
+   * a submit the group held back, until it no longer would.
    */
   errorMessage?: ReactNode;
   /**
-   * Set group validation state to invalid.
+   * The id of the `<form>` the group belongs to, for a group rendered outside it. Reaches every
+   * checkbox; a `Checkbox` with its own `form` keeps it.
+   */
+  form?: string;
+  /**
+   * Set group validation state to invalid. Left unset, the group shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean;
   /**
@@ -4255,11 +4320,19 @@ interface RadioGroupProps extends Omit<HTMLAttributes<HTMLFieldSetElement>, 'def
    */
   disabled?: boolean;
   /**
-   * An error message for the group, rendered below the options when `invalid` is set.
+   * An error message for the group, rendered below the options when `invalid` is set, and after
+   * a submit the group held back, until it no longer would.
    */
   errorMessage?: ReactNode;
   /**
-   * Set group validation state to invalid.
+   * The id of the `<form>` the group belongs to, for a group rendered outside it. Reaches every
+   * radio; a `Radio` with its own `form` keeps it.
+   */
+  form?: string;
+  /**
+   * Set group validation state to invalid. Left unset, the group shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean;
   /**
@@ -4410,11 +4483,14 @@ interface SelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'size
    */
   htmlSize?: number;
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean;
   /**
-   * An error message for the field, rendered below the select when `invalid` is set.
+   * An error message for the field, rendered below the select when `invalid` is set, and after a
+   * submit the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode;
   /**
@@ -4483,7 +4559,9 @@ interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'check
    */
   id?: string;
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean;
   /**
@@ -4549,11 +4627,14 @@ interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'de
    */
   help?: ReactNode;
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean;
   /**
-   * An error message for the field, rendered below the input when `invalid` is set.
+   * An error message for the field, rendered below the input when `invalid` is set, and after a
+   * submit the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode;
   /**
@@ -4614,11 +4695,14 @@ interface TextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>
    */
   help?: ReactNode;
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean;
   /**
-   * An error message for the field, rendered below the textarea when `invalid` is set.
+   * An error message for the field, rendered below the textarea when `invalid` is set, and after a
+   * submit the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode;
   /**
@@ -6763,7 +6847,9 @@ type ChipOwnProps<C extends ElementType> = {
   /**
    * Marks the chip as pressed for toggle-style usage (e.g. a filter chip). Applies the `.active`
    * class and sets `aria-pressed` so assistive technology announces the toggle state. A chip
-   * with no `onClick`, `href` or `component="button"` is not a control and gets the class alone.
+   * with no `onClick` or `component="button"` is not a button and gets the class alone: a static
+   * chip, and a link (`href`, or an `<a>` as `component` or the `asChild` element), which has no
+   * pressed state to announce unless you give it `role="button"`.
    */
   pressed?: boolean;
   /**
@@ -7378,11 +7464,14 @@ interface NumberFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, '
    */
   incrementIcon?: IconValue;
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean;
   /**
-   * An error message for the field, rendered below the input when `invalid` is set.
+   * An error message for the field, rendered below the input when `invalid` is set, and after a
+   * submit the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode;
   /**
@@ -7496,7 +7585,8 @@ interface TimeFieldProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVa
    */
   invalid?: boolean;
   /**
-   * An error message for the field, rendered below it when `invalid` is set.
+   * An error message for the field, rendered below it when `invalid` is set, and after a submit
+   * that an empty `required` field held back.
    */
   invalidFeedback?: ReactNode;
   /**
@@ -7531,7 +7621,8 @@ interface TimeFieldProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVa
   readOnly?: boolean;
   /**
    * Toggle the required state for the component. An empty required field holds its form back
-   * from submitting, and takes focus.
+   * from submitting, takes focus and shows as invalid, with `invalidFeedback`, until it has a
+   * value or the form is reset. `invalid`, once set, and `valid` decide how it looks instead.
    */
   required?: boolean;
   /**
@@ -7586,11 +7677,14 @@ interface SearchFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, '
    */
   help?: ReactNode;
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean;
   /**
-   * An error message for the field, rendered below it when `invalid` is set.
+   * An error message for the field, rendered below it when `invalid` is set, and after a submit
+   * the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode;
   /**

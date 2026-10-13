@@ -1,5 +1,5 @@
 ---
-'@chassis-ui/react': patch
+'@chassis-ui/react': minor
 ---
 
 Fixes to refs and `asChild`, the navigation components and the carousel.
@@ -15,7 +15,7 @@ Fixes to refs and `asChild`, the navigation components and the carousel.
 - `Carousel`:
   - Autoplay follows `interval`, `ends`, `items`, `transition` and `onSlide` as they change. It kept those of the render it started in.
   - A controlled carousel whose parent leaves `activeIndex` where it is keeps stepping from the slide that is shown.
-  - When autoplay reaches the last slide of `ends="stop"`, `CarouselPlayPause` shows Play, and one click starts it again.
+  - When autoplay reaches the last slide of `ends="stop"`, `CarouselPlayPause` shows Play. It is disabled on that slide while stopped, as `CarouselControlNext` is, and focus on it moves to the previous control: there is nothing left to play, and Play there ran one interval with no slide to go to. A cycle that would start on the last slide doesn't.
   - With `transition="fade"`, `onSlid` fires when the incoming slide has faded in. It fired with `onSlide`.
-  - In a right-to-left layout Left Arrow moves to the next slide and Right Arrow to the previous one, as the slides lie.
-- A `Button` that is a link (`href`, or an `<a>` as `component` or the `asChild` element) no longer gets `aria-pressed`, which the link role doesn't take and axe reports. `pressed` still applies the `.active` class; give the button `role="button"` for it to be announced as pressed.
+  - Breaking: in a right-to-left layout Left Arrow moves to the next slide and Right Arrow to the previous one, as the slides lie.
+- Breaking: a `Button` that is a link (`href`, or an `<a>` as `component` or the `asChild` element) no longer gets `aria-pressed`, which the link role doesn't take and axe reports. `pressed` still applies the `.active` class; give the button `role="button"` for it to be announced as pressed.

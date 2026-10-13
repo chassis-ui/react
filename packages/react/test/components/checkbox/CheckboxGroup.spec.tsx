@@ -146,6 +146,95 @@ describe('CheckboxGroup', () => {
     })
   })
 
+  // Each checkbox was given the group's invalid state as its own, and react-aria registers an
+  // invalid item with the group: the group then stayed invalid for as long as its items were,
+  // which was for good.
+  describe('invalid', () => {
+    const tree = (invalid?: boolean) => (
+      <CheckboxGroup errorMessage="Pick one." invalid={invalid} label="Notifications">
+        <Checkbox value="email" label="Email" />
+        <Checkbox value="sms" label="SMS" />
+      </CheckboxGroup>
+    )
+
+    test('comes off the checkboxes when the group is no longer invalid', () => {
+      const { rerender } = render(tree(true))
+      const email = screen.getByRole('checkbox', { name: 'Email' })
+      expect(email).toHaveAttribute('aria-invalid', 'true')
+      expect(email).toHaveClass('is-invalid')
+      expect(screen.getByText('Pick one.')).toBeVisible()
+
+      rerender(tree())
+      expect(email).not.toHaveAttribute('aria-invalid')
+      expect(email).not.toHaveClass('is-invalid')
+      expect(screen.queryByText('Pick one.')).not.toBeInTheDocument()
+
+      rerender(tree(true))
+      expect(email).toHaveAttribute('aria-invalid', 'true')
+    })
+
+    test("keeps a checkbox's own invalid, whatever the group's is", () => {
+      render(
+        <CheckboxGroup label="Notifications">
+          <Checkbox value="email" label="Email" />
+          <Checkbox invalid value="sms" label="SMS" />
+        </CheckboxGroup>
+      )
+      expect(screen.getByRole('checkbox', { name: 'SMS' })).toHaveAttribute('aria-invalid', 'true')
+      expect(screen.getByRole('checkbox', { name: 'SMS' })).toHaveClass('is-invalid')
+    })
+  })
+
+  // `form` reached every checkbox through react-aria, but the group's props didn't declare it:
+  // TypeScript refused a group outside its `<form>` the one prop that joins it.
+  describe('form', () => {
+    test('a group outside its form joins it with every checkbox', () => {
+      render(
+        <>
+          <form aria-label="Settings" id="settings" />
+          <CheckboxGroup form="settings" label="Notifications" name="channels" required>
+            <Checkbox value="email" label="Email" />
+            <Checkbox value="sms" label="SMS" />
+          </CheckboxGroup>
+        </>
+      )
+      const form = screen.getByRole<HTMLFormElement>('form', { name: 'Settings' })
+      expect(screen.getByRole('group', { name: 'Notifications' })).toHaveAttribute(
+        'form',
+        'settings'
+      )
+      expect(screen.getByRole('checkbox', { name: 'Email' })).toHaveAttribute('form', 'settings')
+      expect(screen.getByRole('checkbox', { name: 'SMS' })).toHaveAttribute('form', 'settings')
+      expect(form.checkValidity()).toBe(false)
+
+      fireEvent.click(screen.getByRole('checkbox', { name: 'SMS' }))
+      expect(form.checkValidity()).toBe(true)
+      // What the form submits: `toHaveFormValues` reads the controls inside the form element.
+      expect(new FormData(form).getAll('channels')).toEqual(['sms'])
+    })
+
+    test("a checkbox's own form wins over the group's", () => {
+      render(
+        <CheckboxGroup form="settings" label="Notifications" name="channels">
+          <Checkbox value="email" label="Email" />
+          <Checkbox form="other" value="sms" label="SMS" />
+        </CheckboxGroup>
+      )
+      expect(screen.getByRole('checkbox', { name: 'Email' })).toHaveAttribute('form', 'settings')
+      expect(screen.getByRole('checkbox', { name: 'SMS' })).toHaveAttribute('form', 'other')
+    })
+
+    test('a group without form leaves it off its checkboxes', () => {
+      render(
+        <CheckboxGroup label="Notifications" name="channels">
+          <Checkbox value="email" label="Email" />
+        </CheckboxGroup>
+      )
+      expect(screen.getByRole('group', { name: 'Notifications' })).not.toHaveAttribute('form')
+      expect(screen.getByRole('checkbox', { name: 'Email' })).not.toHaveAttribute('form')
+    })
+  })
+
   describe('orientation', () => {
     test('orientation="horizontal" wraps items in a flex row', () => {
       render(

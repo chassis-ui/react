@@ -10,7 +10,7 @@ import React, {
 } from 'react'
 import classNames from 'classnames'
 
-import { useControllableState, useForkedRef, useFormField } from '../../hooks'
+import { useControllableState, useForkedRef, useFormField, useHeldBack } from '../../hooks'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 import { OtpBox } from './OtpBox'
@@ -64,11 +64,14 @@ export interface OtpInputProps extends Omit<
    */
   inputGroup?: boolean
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean
   /**
-   * An error message for the field, rendered below the boxes when `invalid` is set.
+   * An error message for the field, rendered below the boxes when `invalid` is set, and after a
+   * submit the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode
   /**
@@ -97,6 +100,11 @@ export interface OtpInputProps extends Omit<
    * Callback fired once every box is filled.
    */
   onComplete?: (value: string) => void
+  /**
+   * Toggle the required state for the component. Every box is then required: a code with a box
+   * left empty holds its form back from submitting, and the first empty box takes focus.
+   */
+  required?: boolean
   /**
    * Content of the separator rendered between groups when `groupSizes` is set. Defaults to `–`.
    */
@@ -136,7 +144,7 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
       help,
       id,
       inputGroup,
-      invalid,
+      invalid: invalidProp,
       invalidFeedback,
       label,
       length = 6,
@@ -144,6 +152,7 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
       name,
       onChange,
       onComplete,
+      required,
       separator = '–',
       size,
       valid,
@@ -163,6 +172,10 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
     const focusBox = (index: number) => boxRefs.current[index]?.focus()
     const containerRef = useRef<HTMLDivElement>(null)
     const forkedRef = useForkedRef(ref, containerRef)
+    // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`):
+    // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
+    // The container hears every box.
+    const { invalid } = useHeldBack(containerRef, { invalid: invalidProp, valid })
 
     const commit = (nextBoxes: string[]) => {
       const next = nextBoxes.join('')
@@ -263,6 +276,7 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
           ref={(el) => {
             boxRefs.current[i] = el
           }}
+          required={required}
           size={size}
           valid={valid}
           value={boxes[i] ?? ''}

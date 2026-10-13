@@ -50,7 +50,9 @@ type ChipOwnProps<C extends ElementType> = {
   /**
    * Marks the chip as pressed for toggle-style usage (e.g. a filter chip). Applies the `.active`
    * class and sets `aria-pressed` so assistive technology announces the toggle state. A chip
-   * with no `onClick`, `href` or `component="button"` is not a control and gets the class alone.
+   * with no `onClick` or `component="button"` is not a button and gets the class alone: a static
+   * chip, and a link (`href`, or an `<a>` as `component` or the `asChild` element), which has no
+   * pressed state to announce unless you give it `role="button"`.
    */
   pressed?: boolean
   /**
@@ -154,9 +156,12 @@ function ChipRender<C extends ElementType = 'span'>(
   if (isAnchor) {
     const Anchor = Component as 'a'
     return (
+      // `aria-pressed` is a state of the button role, which a link doesn't have (axe's
+      // `aria-allowed-attr`): an anchor gets it only when the caller made it a button, as
+      // `Button` does. `.active` still shows it.
       <Anchor
         {...(rest as Record<string, unknown>)}
-        aria-pressed={pressed}
+        aria-pressed={(rest as { role?: string }).role === 'button' ? pressed : undefined}
         className={_className}
         {...linkProps}
         onClick={handleClick as MouseEventHandler<HTMLAnchorElement>}

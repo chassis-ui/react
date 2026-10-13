@@ -449,7 +449,7 @@
     },
     "invalidFeedback": {
       "defaultValue": null,
-      "description": "An error message for the field, rendered below the date picker when `invalid` is set.",
+      "description": "An error message for the field, rendered below the date picker when `invalid` is set, and\nafter a submit that an empty `required` date picker held back.",
       "name": "invalidFeedback",
       "parent": {
         "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
@@ -635,6 +635,25 @@
       "required": false,
       "type": {
         "name": "((visible: boolean) => void)"
+      }
+    },
+    "required": {
+      "defaultValue": null,
+      "description": "Toggle the required state for the component. An empty required date picker holds its form\nback from submitting, takes focus and shows as invalid, with `invalidFeedback`, until it has\na value or the form is reset. `invalid`, once set, and `valid` decide how it looks instead.\nWith `selectionMode=\"multiple\"` it asks for one date at least, and the calendar button takes\nthe focus.",
+      "name": "required",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
+        "name": "DatePickerBaseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
+          "name": "DatePickerBaseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
       }
     },
     "size": {

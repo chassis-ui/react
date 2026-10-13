@@ -75,6 +75,11 @@ keeps the time itself left to right, as it is written.
 With `name`, the field submits its value as an ISO 8601 time, `21:30:00`, from a hidden input.
 `form` links it to a form elsewhere on the page. Resetting the form restores `defaultValue`.
 
+With `required`, an empty field holds its form back from submitting: the first segment takes focus
+and the field shows as invalid, with its `invalidFeedback`, until it has a time or the form is
+reset. `invalid`, once set, and `valid` decide how the field looks instead. A disabled or
+read-only field holds nothing back.
+
 <Example>
   <FormExample client:load />
 </Example>

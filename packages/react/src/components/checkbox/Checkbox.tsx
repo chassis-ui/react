@@ -15,7 +15,7 @@ import {
 } from 'react-aria'
 import { CheckboxGroupState, useToggleState } from 'react-stately'
 
-import { useForkedRef } from '../../hooks'
+import { useForkedRef, useHeldBack } from '../../hooks'
 import { ContextColor } from '../../types'
 import { validationClassName } from '../../utils/validationClassName'
 
@@ -57,7 +57,9 @@ export interface CheckboxProps extends Omit<
    */
   indeterminate?: boolean
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean
   /**
@@ -105,7 +107,7 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
       disabled,
       id,
       indeterminate,
-      invalid,
+      invalid: invalidProp,
       isSelected,
       label,
       onChange,
@@ -118,6 +120,9 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
+    // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`):
+    // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
+    const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
 
     const toggleState = useToggleState({
       defaultSelected,
@@ -234,7 +239,11 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
         children: resolvedLabel,
         isDisabled: disabled,
         isIndeterminate: indeterminate,
-        isInvalid: invalid,
+        // The item's own `invalid`, not the group's read back from `groupState`: react-aria
+        // registers an invalid item with the group, whose state then stays invalid for as long
+        // as the item is, so a group's `invalid` handed back to its items never came off them
+        // again. The hook shows the group's state on each item by itself.
+        isInvalid: itemInvalid,
         value: rest.value as string
       } as AriaCheckboxGroupItemProps,
       groupState,

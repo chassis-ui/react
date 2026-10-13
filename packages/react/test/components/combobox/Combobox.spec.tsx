@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { act, render, screen, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import { renderToString as toHtml } from 'react-dom/server'
 
@@ -301,6 +302,148 @@ describe('Combobox', () => {
         'input[type="hidden"][name="fruit"]'
       ) as HTMLInputElement
       expect(hidden.value).toBe('')
+    })
+  })
+
+  // The combobox had no `required` at all: nothing marked it for a screen reader or held a form
+  // back, and one with nothing selected was submitted.
+  describe('required', () => {
+    const Order = ({
+      onSubmit = () => undefined,
+      ...props
+    }: Partial<React.ComponentProps<typeof Combobox>> & { onSubmit?: () => void }) => (
+      <form
+        aria-label="Order"
+        onSubmit={(event) => {
+          event.preventDefault()
+          onSubmit()
+        }}
+      >
+        <BasicCombobox aria-label={undefined} label="Fruit" name="fruit" {...props} />
+        <button type="submit">Save</button>
+      </form>
+    )
+    const form = () => screen.getByRole<HTMLFormElement>('form', { name: 'Order' })
+    const input = () => screen.getByRole<HTMLInputElement>('combobox', { name: 'Fruit' })
+    const save = () => screen.getByRole('button', { name: 'Save' })
+    // react-aria listens for `invalid` on the input and updates its validation state.
+    const checkValidity = () => {
+      let valid = true
+      act(() => {
+        valid = form().checkValidity()
+      })
+      return valid
+    }
+    // What each case below is told apart from: a required combobox with nothing selected, which
+    // holds its form back. Rendered first, then the case in its place.
+    const insteadOfEmpty = (ui: React.ReactElement) => {
+      const { unmount } = render(<Order required />)
+      expect(checkValidity()).toBe(false)
+      unmount()
+      return render(ui)
+    }
+
+    test('with nothing selected it holds its form back, and its input takes focus', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Order onSubmit={onSubmit} required />)
+
+      await user.click(save())
+      expect(onSubmit).not.toHaveBeenCalled()
+      // react-aria's listener focuses the form's first invalid input, which opens the list.
+      expect(input()).toHaveFocus()
+      expect(checkValidity()).toBe(false)
+    })
+
+    // The native attribute says it, on the element that takes focus: no `aria-required` beside it.
+    test('is required natively, on the input', () => {
+      const { rerender } = render(<Order required />)
+      expect(input()).toBeRequired()
+      expect(input()).toHaveAttribute('required')
+      expect(input()).not.toHaveAttribute('aria-required')
+
+      rerender(<Order />)
+      expect(input()).not.toBeRequired()
+    })
+
+    test('submits once an option is selected', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Order onSubmit={onSubmit} required />)
+      // The input takes focus as the first invalid one, which opens the list.
+      expect(checkValidity()).toBe(false)
+      await user.click(screen.getByRole('option', { name: 'Apple' }))
+
+      expect(checkValidity()).toBe(true)
+      await user.click(save())
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(form()).toHaveFormValues({ fruit: 'apple' })
+    })
+
+    test('submits a value it was given', () => {
+      insteadOfEmpty(<Order defaultValue="banana" required />)
+      expect(checkValidity()).toBe(true)
+      expect(form()).toHaveFormValues({ fruit: 'banana' })
+    })
+
+    test.each([
+      ['disabled', { disabled: true, required: true }],
+      ['not required', {}]
+    ])('a %s one holds nothing back', (_state, props) => {
+      insteadOfEmpty(<Order {...props} />)
+      expect(checkValidity()).toBe(true)
+    })
+
+    // What a form submits under `name` is the selected option, not the text in the input: text
+    // alone would satisfy the native attribute and go with nothing under `name`.
+    test('text typed without selecting an option is not a value', async () => {
+      const user = userEvent.setup()
+      render(<Order required />)
+      await user.type(input(), 'ap')
+      expect(input()).toHaveValue('ap')
+      expect(form()).toHaveFormValues({ fruit: '' })
+      expect(checkValidity()).toBe(false)
+      expect(input().validity.customError).toBe(true)
+
+      await user.click(screen.getByRole('option', { name: 'Apple' }))
+      expect(form()).toHaveFormValues({ fruit: 'apple' })
+      expect(input().validity.customError).toBe(false)
+      expect(checkValidity()).toBe(true)
+    })
+
+    test('text with no selection is only invalid on a required combobox', async () => {
+      const user = userEvent.setup()
+      const { rerender } = render(<Order required />)
+      await user.type(input(), 'ap')
+      expect(input().validity.customError).toBe(true)
+
+      rerender(<Order />)
+      expect(input()).toHaveValue('ap')
+      expect(input().validity.customError).toBe(false)
+      expect(checkValidity()).toBe(true)
+    })
+
+    test('clearing the text of a selection holds the form back again', async () => {
+      const user = userEvent.setup()
+      render(<Order defaultValue="banana" required />)
+      await user.clear(input())
+      expect(form()).toHaveFormValues({ fruit: '' })
+      expect(checkValidity()).toBe(false)
+    })
+
+    test('holds the form back with no name', () => {
+      render(<Order name={undefined} required />)
+      expect(checkValidity()).toBe(false)
+    })
+
+    test('has no axe violations while required and invalid, and logs no error', async () => {
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+      const { container } = render(<Order invalid invalidFeedback="Pick a fruit." required />)
+      expect(checkValidity()).toBe(false)
+      expect(input()).toHaveAccessibleDescription('Pick a fruit.')
+      expect(await axe(container)).toHaveNoViolations()
+      expect(consoleError).not.toHaveBeenCalled()
+      consoleError.mockRestore()
     })
   })
 

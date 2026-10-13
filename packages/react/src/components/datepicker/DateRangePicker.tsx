@@ -2,7 +2,13 @@ import React, { forwardRef, HTMLAttributes, ReactNode, useMemo, useRef } from 'r
 import { mergeProps, RangeValue, useDateRangePicker, useDialog } from 'react-aria'
 import { DateValue, useDateRangePickerState } from 'react-stately'
 
-import { useForkedRef, useFormField, useOpenStateProps, useOverlayPlacement } from '../../hooks'
+import {
+  useForkedRef,
+  useFormField,
+  useOpenStateProps,
+  useOverlayPlacement,
+  useRequiredValueInput
+} from '../../hooks'
 import { DateRangePreset } from '../../utils/dateRangePresets'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
 import { withoutSlotIds } from '../../utils/idRefs'
@@ -10,7 +16,7 @@ import { renderFormField } from '../form-field/renderFormField'
 import { RangeCalendar } from '../calendar/RangeCalendar'
 import { CalendarToggleButton } from './CalendarToggleButton'
 import { ClearButton } from './ClearButton'
-import { DateField } from './DateField'
+import { DateField, focusFirstSegment } from './DateField'
 import { renderDatePickerShell } from './renderDatePickerShell'
 import './DatePicker.scss'
 import './DateRangePicker.scss'
@@ -92,7 +98,8 @@ export interface DateRangePickerProps extends Omit<
    */
   invalid?: boolean
   /**
-   * An error message for the field, rendered below the date range picker when `invalid` is set.
+   * An error message for the field, rendered below the date range picker when `invalid` is set,
+   * and after a submit that a `required` date range picker with a date missing held back.
    */
   invalidFeedback?: ReactNode
   /**
@@ -167,6 +174,13 @@ export interface DateRangePickerProps extends Omit<
    * selection (if any) is marked selected. Omit to not show a preset list.
    */
   presets?: DateRangePreset[]
+  /**
+   * Toggle the required state for the component. A required date range picker with its start or
+   * its end missing holds its form back from submitting, takes focus in the field that is empty
+   * and shows as invalid, with `invalidFeedback`, until it has both dates or the form is reset.
+   * `invalid`, once set, and `valid` decide how it looks instead.
+   */
+  required?: boolean
   /**
    * Show a leading zero on the day, month and hour, as `03/05` rather than `3/5`, whatever the
    * locale does.
@@ -243,6 +257,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       onVisibleChange,
       placeholderValue,
       presets,
+      required,
       shouldForceLeadingZeros,
       size,
       unavailableDates,
@@ -260,6 +275,30 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       [unavailableDates, isDateUnavailable]
     )
 
+    const groupRef = useRef<HTMLDivElement>(null)
+    const forkedGroupRef = useForkedRef(ref, groupRef)
+    const calendarRef = useRef<HTMLDivElement>(null)
+    const endFieldRef = useRef<HTMLDivElement>(null)
+    const endInputRef = useRef<HTMLInputElement>(null)
+    const overlayRef = useRef<HTMLDivElement>(null)
+    const startInputRef = useRef<HTMLInputElement>(null)
+    const toggleButtonRef = useRef<HTMLButtonElement>(null)
+
+    // As in `DatePicker`: a required picker's two inputs are text inputs that aren't displayed,
+    // which a form validates where it doesn't a `type="hidden"` one (FORMS.md, gotcha 9), so it
+    // is held back until both dates are in. Each input reports the submit it held back, and puts
+    // the focus in its own field: the start's first segment is the group's first.
+    const requiredOptions = { invalid, required, valid }
+    const start = useRequiredValueInput(startInputRef, {
+      ...requiredOptions,
+      focus: () => focusFirstSegment(groupRef.current)
+    })
+    const end = useRequiredValueInput(endInputRef, {
+      ...requiredOptions,
+      focus: () => focusFirstSegment(endFieldRef.current)
+    })
+    const missing = start.missing || end.missing
+
     // What both react-stately's state and react-aria's hook read: the hook hands the time props
     // on to the fields' segments.
     const pickerProps = {
@@ -271,7 +310,8 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       isDisabled: disabled,
       // `false` would override the state's own check of the range, unavailable dates and an end
       // before the start: react-stately takes a defined `isInvalid` as the whole validation state.
-      isInvalid: invalid || undefined,
+      isInvalid: invalid || missing || undefined,
+      isRequired: required,
       maxValue,
       minValue,
       onChange,
@@ -288,15 +328,10 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       ...pickerProps
     })
     // A range outside `minValue`/`maxValue`, over an unavailable date or ending before it starts
-    // is invalid too, shown as `invalid` is, as `TimeField` shows a time out of range.
+    // is invalid too, shown as `invalid` is, as `TimeField` shows a time out of range. So is a
+    // range with a date `missing`, which the state was given.
     const showInvalid = invalid || state.displayValidation.isInvalid
     const showValid = valid && !showInvalid
-
-    const groupRef = useRef<HTMLDivElement>(null)
-    const forkedGroupRef = useForkedRef(ref, groupRef)
-    const calendarRef = useRef<HTMLDivElement>(null)
-    const overlayRef = useRef<HTMLDivElement>(null)
-    const toggleButtonRef = useRef<HTMLButtonElement>(null)
 
     const {
       describedBy,
@@ -412,6 +447,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
                         descriptionProps,
                         errorMessageProps
                       )}
+                      fieldRef={endFieldRef}
                     />
                   </>
                 ),
@@ -438,19 +474,23 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
                 ),
                 valid: showValid
               })}
-              {name && (
+              {(name || required) && (
                 <>
                   <input
                     disabled={disabled}
-                    name={`${name}Start`}
+                    name={name && `${name}Start`}
                     type="hidden"
                     value={state.value?.start ? state.value.start.toString() : ''}
+                    {...start.inputProps}
+                    ref={startInputRef}
                   />
                   <input
                     disabled={disabled}
-                    name={`${name}End`}
+                    name={name && `${name}End`}
                     type="hidden"
                     value={state.value?.end ? state.value.end.toString() : ''}
+                    {...end.inputProps}
+                    ref={endInputRef}
                   />
                 </>
               )}

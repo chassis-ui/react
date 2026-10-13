@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import { CalendarDateTime, Time } from '@internationalized/date'
@@ -280,13 +280,22 @@ describe('TimeField', () => {
     )
     const form = () => screen.getByRole<HTMLFormElement>('form', { name: 'Booking' })
     const save = () => screen.getByRole('button', { name: 'Save' })
+    // `checkValidity()` fires `invalid` at the field's input, as a submit does, and the field
+    // marks itself on it: a state update.
+    const checkValidity = () => {
+      let valid = true
+      act(() => {
+        valid = form().checkValidity()
+      })
+      return valid
+    }
 
     test('an empty required field holds its form back, and takes focus', async () => {
       const user = userEvent.setup()
       const onSubmit = vi.fn()
       render(<Booking onSubmit={onSubmit} required />)
 
-      expect(form().checkValidity()).toBe(false)
+      expect(checkValidity()).toBe(false)
       await user.click(save())
       expect(onSubmit).not.toHaveBeenCalled()
       // The browser has no bubble to show on an input that isn't displayed, so the first
@@ -322,13 +331,13 @@ describe('TimeField', () => {
       form().id = 'booking'
       await user.click(screen.getByRole('spinbutton', { name: /^hour/ }))
       await user.keyboard('0930')
-      expect(form().checkValidity()).toBe(true)
+      expect(checkValidity()).toBe(true)
       await user.click(save())
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(form()).toHaveFormValues({ start: '09:30:00' })
 
       await user.click(screen.getByRole('button', { name: 'Reset' }))
-      expect(form().checkValidity()).toBe(false)
+      expect(checkValidity()).toBe(false)
     })
 
     test('submits a value it was given', async () => {
@@ -347,7 +356,7 @@ describe('TimeField', () => {
       const user = userEvent.setup()
       const onSubmit = vi.fn()
       render(<Booking onSubmit={onSubmit} required {...props} />)
-      expect(form().checkValidity()).toBe(true)
+      expect(checkValidity()).toBe(true)
       await user.click(save())
       expect(onSubmit).toHaveBeenCalledTimes(1)
     })
@@ -376,7 +385,136 @@ describe('TimeField', () => {
           <TimeField aria-label="Start" form="booking" name="start" required />
         </>
       )
-      expect(form().checkValidity()).toBe(false)
+      expect(checkValidity()).toBe(false)
+    })
+
+    // The form stayed and nothing said why: the browser has no bubble to show on an input that
+    // isn't displayed, and react-stately's `displayValidation` stays empty outside
+    // `validationBehavior: 'native'`.
+    describe('after a submit it held back', () => {
+      const group = () => screen.getByRole('group', { name: 'Start' })
+      const Held = (props: Partial<React.ComponentProps<typeof Booking>>) => (
+        <>
+          <Booking
+            aria-label={undefined}
+            invalidFeedback="Pick a time."
+            label="Start"
+            onSubmit={() => undefined}
+            required
+            {...props}
+          />
+          <button form="booking" type="reset">
+            Reset
+          </button>
+        </>
+      )
+
+      test('shows as invalid, with the feedback, as `invalid` shows it', async () => {
+        const user = userEvent.setup()
+        render(<Held />)
+        expect(group()).not.toHaveClass('is-invalid')
+        expect(screen.queryByText('Pick a time.')).not.toBeInTheDocument()
+
+        await user.click(save())
+        expect(group()).toHaveClass('form-input', 'time-field', 'is-invalid')
+        expect(screen.getByText('Pick a time.')).toHaveClass('invalid-feedback')
+        expect(group()).toHaveAccessibleDescription('Pick a time.')
+        for (const segment of screen.getAllByRole('spinbutton')) {
+          expect(segment).toHaveAttribute('aria-invalid', 'true')
+          expect(segment).toHaveAccessibleDescription('Pick a time.')
+        }
+        expect(screen.getByRole('spinbutton', { name: /^hour/ })).toHaveFocus()
+      })
+
+      test('`checkValidity()` and `reportValidity()` mark it too', () => {
+        render(<Held />)
+        expect(checkValidity()).toBe(false)
+        expect(group()).toHaveClass('is-invalid')
+      })
+
+      test('stays marked while partly filled, and clears once it has a value', async () => {
+        const user = userEvent.setup()
+        render(<Held />)
+        await user.click(save())
+        await user.keyboard('09')
+        expect(group()).toHaveClass('is-invalid')
+
+        await user.keyboard('30')
+        expect(form()).toHaveFormValues({ start: '09:30:00' })
+        expect(group()).not.toHaveClass('is-invalid')
+        expect(screen.queryByText('Pick a time.')).not.toBeInTheDocument()
+        for (const segment of screen.getAllByRole('spinbutton')) {
+          expect(segment).not.toHaveAttribute('aria-invalid')
+        }
+      })
+
+      test('is marked again by the next submit held back, not by being emptied', async () => {
+        const user = userEvent.setup()
+        render(<Held />)
+        await user.click(save())
+        await user.keyboard('0930')
+        expect(form()).toHaveFormValues({ start: '09:30:00' })
+        await user.keyboard('{Backspace}{Backspace}{Backspace}{Backspace}')
+        expect(form()).toHaveFormValues({ start: '' })
+        expect(group()).not.toHaveClass('is-invalid')
+
+        await user.click(save())
+        expect(group()).toHaveClass('is-invalid')
+      })
+
+      test("clears on the form's reset, and still holds the form back", async () => {
+        const user = userEvent.setup()
+        render(<Held />)
+        form().id = 'booking'
+        await user.click(save())
+        expect(group()).toHaveClass('is-invalid')
+
+        await user.click(screen.getByRole('button', { name: 'Reset' }))
+        expect(group()).not.toHaveClass('is-invalid')
+        expect(screen.queryByText('Pick a time.')).not.toBeInTheDocument()
+        expect(checkValidity()).toBe(false)
+      })
+
+      // The caller's own state wins: `invalid` once it is set, to `false` too, and `valid`.
+      test.each([
+        ['invalid={false}', { invalid: false }],
+        ['valid', { valid: true }]
+      ])('%s keeps the field as the caller shows it', async (_name, props) => {
+        const user = userEvent.setup()
+        const onSubmit = vi.fn()
+        const { rerender } = render(<Held onSubmit={onSubmit} {...props} />)
+        await user.click(save())
+        expect(onSubmit).not.toHaveBeenCalled()
+        expect(group()).not.toHaveClass('is-invalid')
+        expect(screen.queryByText('Pick a time.')).not.toBeInTheDocument()
+
+        // The submit was held back all the same: the mark shows once the caller lets go.
+        rerender(<Held onSubmit={onSubmit} />)
+        expect(group()).toHaveClass('is-invalid')
+      })
+
+      test('valid stays valid, with its feedback, until the caller lets go', async () => {
+        const user = userEvent.setup()
+        const { rerender } = render(<Held valid validFeedback="Looks right." />)
+        await user.click(save())
+        expect(group()).toHaveClass('is-valid')
+        expect(screen.getByText('Looks right.')).toHaveClass('valid-feedback')
+
+        rerender(<Held validFeedback="Looks right." />)
+        expect(group()).toHaveClass('is-invalid')
+        expect(screen.queryByText('Looks right.')).not.toBeInTheDocument()
+      })
+
+      test('has no axe violations while marked, and updates inside act', async () => {
+        const user = userEvent.setup()
+        const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+        const { container } = render(<Held />)
+        await user.click(save())
+        expect(group()).toHaveClass('is-invalid')
+        expect(await axe(container)).toHaveNoViolations()
+        expect(consoleError).not.toHaveBeenCalled()
+        consoleError.mockRestore()
+      })
     })
 
     test('has no axe violations, and warns of no uncontrolled input', async () => {

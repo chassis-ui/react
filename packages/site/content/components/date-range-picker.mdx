@@ -25,6 +25,8 @@ import { Example as ControlledOpenExample } from '../../examples/components/date
 
 Pass `label`/`help` to wrap the picker in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `DateRangePicker` create and manage a pair of hidden inputs for native form submission — `${name}Start` and `${name}End`, each an ISO 8601 date string (`2026-07-24`), with a time `2026-07-24T09:30:00` (see [Time](#time)).
 
+With `required`, a picker with its start or its end missing holds its form back from submitting: the empty field takes focus and the picker shows as invalid, with its `invalidFeedback`, until it has both dates or the form is reset. `invalid`, once set, and `valid` decide how it looks instead.
+
 <Example>
   <FormFieldExample client:load />
 </Example>

@@ -1,7 +1,13 @@
-import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes, ReactNode } from 'react'
+import React, {
+  ChangeEventHandler,
+  forwardRef,
+  InputHTMLAttributes,
+  ReactNode,
+  useRef
+} from 'react'
 import classNames from 'classnames'
 
-import { useFormField } from '../../hooks'
+import { useForkedRef, useFormField, useHeldBack } from '../../hooks'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 
@@ -19,11 +25,14 @@ export interface FileInputProps extends Omit<InputHTMLAttributes<HTMLInputElemen
    */
   help?: ReactNode
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean
   /**
-   * An error message for the field, rendered below the input when `invalid` is set.
+   * An error message for the field, rendered below the input when `invalid` is set, and after a
+   * submit the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode
   /**
@@ -54,9 +63,27 @@ export interface FileInputProps extends Omit<InputHTMLAttributes<HTMLInputElemen
 
 export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
   (
-    { className, help, id, invalid, invalidFeedback, label, size, valid, validFeedback, ...rest },
+    {
+      className,
+      help,
+      id,
+      invalid: invalidProp,
+      invalidFeedback,
+      label,
+      size,
+      valid,
+      validFeedback,
+      ...rest
+    },
     ref
   ) => {
+    const inputRef = useRef<HTMLInputElement>(null)
+    const forkedRef = useForkedRef(ref, inputRef)
+    // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`). The
+    // browser's own message stays: no react-aria hook is given this control to cancel it. It is
+    // on the first invalid control of the form alone, and gone at the next click.
+    const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
+
     const { describedBy, feedbackId, helpId, inputId } = useFormField({
       ariaDescribedBy: rest['aria-describedby'],
       help,
@@ -82,7 +109,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           aria-invalid={invalid || undefined}
           className={_className}
           id={inputId}
-          ref={ref}
+          ref={forkedRef}
           type="file"
         />
       ),

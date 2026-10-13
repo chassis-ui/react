@@ -11,7 +11,7 @@ import { AriaSearchFieldProps, mergeProps, useButton, useSearchField } from 'rea
 import { useSearchFieldState } from 'react-stately'
 
 import './SearchField.scss'
-import { useForkedRef, useFormField } from '../../hooks'
+import { useForkedRef, useFormField, useHeldBack } from '../../hooks'
 import { IconValue } from '../../utils/iconConfig'
 import { IconSlot } from '../icon/iconSlot'
 import { mergeUnhandledProps, TEXT_FIELD_PROPS } from '../../utils/unhandledProps'
@@ -48,11 +48,14 @@ export interface SearchFieldProps extends Omit<
    */
   help?: ReactNode
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean
   /**
-   * An error message for the field, rendered below it when `invalid` is set.
+   * An error message for the field, rendered below it when `invalid` is set, and after a submit
+   * the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode
   /**
@@ -132,7 +135,7 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
       disabled,
       help,
       id,
-      invalid,
+      invalid: invalidProp,
       invalidFeedback,
       label,
       onChange,
@@ -151,6 +154,9 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
+    // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`):
+    // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
+    const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
 
     const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
       ariaDescribedBy: rest['aria-describedby'],

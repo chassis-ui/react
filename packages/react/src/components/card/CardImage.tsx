@@ -29,7 +29,7 @@ type CardImageOwnProps<C extends ElementType> = {
    * sets the orientation from a breakpoint up — e.g. `{ base: 'top', lg: 'start' }` to switch an
    * image cap from `top` to `start` once the card lays out horizontally. Only `start` and `end`
    * can be set at a breakpoint, from `sm` to `xl`: `@chassis-ui/css` has no class for `top` or
-   * `bottom` there, nor for any value at `2xl`, and such a value does nothing and warns in
+   * `bottom` there, nor for any value at `2xl`: such a value renders no class and warns in
    * development.
    */
   orientation?: Responsive<CardImageOrientation>
@@ -47,22 +47,24 @@ type CardImageComponent = (<C extends ElementType = 'img'>(
 // chassis-css has the four orientation classes at the base, and of the breakpoint ones only what
 // a card needs once it lays out in a row from some width up: `start` and `end`, from `sm` to
 // `xl`. The type takes every value at every breakpoint, and narrowing it would break the callers
-// it compiles for today (`VERSIONING.md`), so the rest still renders its class, which has no
-// rule, and says so in development. `test/components/card/CardImage.spec.tsx` holds this list to
-// the installed stylesheet.
+// it compiles for today (`VERSIONING.md`), so the rest is accepted, renders no class (the one it
+// rendered had no rule) and says so in development. `test/components/card/CardImage.spec.tsx`
+// holds this list to the installed stylesheet.
 const BREAKPOINT_ORIENTATIONS: readonly CardImageOrientation[] = ['start', 'end']
 const ORIENTATION_PREFIXES: readonly string[] = ['sm:', 'md:', 'lg:', 'xl:']
 
 const orientationClassName = (orientation: CardImageOrientation, prefix: string) => {
   const className = `${prefix}card-image-${orientation}`
+  const hasRule =
+    prefix === '' ||
+    (BREAKPOINT_ORIENTATIONS.includes(orientation) && ORIENTATION_PREFIXES.includes(prefix))
   devWarning(
-    prefix !== '' &&
-      !(BREAKPOINT_ORIENTATIONS.includes(orientation) && ORIENTATION_PREFIXES.includes(prefix)),
-    `CardImage: \`orientation\` rendered the class "${className}", which @chassis-ui/css ` +
-      "doesn't have, so it does nothing. Only `start` and `end` have breakpoint classes, from " +
-      '`sm` to `xl`; `top` and `bottom` apply at `base` alone.'
+    !hasRule,
+    `CardImage: \`orientation\` has no class to render for "${className}", which ` +
+      "@chassis-ui/css doesn't have, so the value does nothing. Only `start` and `end` have " +
+      'breakpoint classes, from `sm` to `xl`; `top` and `bottom` apply at `base` alone.'
   )
-  return className
+  return hasRule ? className : null
 }
 
 function CardImageRender<C extends ElementType = 'img'>(

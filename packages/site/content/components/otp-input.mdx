@@ -41,6 +41,8 @@ Pass `groupSizes` (e.g. `[3, 3]`) to split the boxes into groups with a `–` se
 
 Pass `label`/`help` to wrap the group in a `.form-field` with an associated `FormLabel` (linked via `aria-labelledby`, since there's no single input to target with `htmlFor`) and `FormHelp`. Pass `name` to have `OtpInput` create a hidden `<input type="hidden">` kept in sync with the code, for native form submission.
 
+With `required`, every box is required: a code with a box left empty holds its form back from submitting, and the first empty box takes focus. The field then shows as invalid, with its `invalidFeedback`, until it has a value or the form is reset; set `invalid` yourself, to `false` too, to decide how it looks instead.
+
 <Example>
   <FormFieldExample client:load />
 </Example>

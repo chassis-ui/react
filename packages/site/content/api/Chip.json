@@ -133,7 +133,7 @@
     },
     "pressed": {
       "defaultValue": null,
-      "description": "Marks the chip as pressed for toggle-style usage (e.g. a filter chip). Applies the `.active`\nclass and sets `aria-pressed` so assistive technology announces the toggle state. A chip\nwith no `onClick`, `href` or `component=\"button\"` is not a control and gets the class alone.",
+      "description": "Marks the chip as pressed for toggle-style usage (e.g. a filter chip). Applies the `.active`\nclass and sets `aria-pressed` so assistive technology announces the toggle state. A chip\nwith no `onClick` or `component=\"button\"` is not a button and gets the class alone: a static\nchip, and a link (`href`, or an `<a>` as `component` or the `asChild` element), which has no\npressed state to announce unless you give it `role=\"button\"`.",
       "name": "pressed",
       "declarations": [
         {

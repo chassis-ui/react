@@ -2,6 +2,10 @@ import { createContext, useContext } from 'react'
 
 export type CarouselEnds = 'loop' | 'wrap' | 'stop'
 
+// The buttons the carousel moves focus away from when the end of an `ends="stop"` track
+// disables the focused one.
+export type CarouselControlKind = 'prev' | 'next' | 'play'
+
 export interface CarouselContextProps {
   activeIndex: number
   atEnd: boolean
@@ -12,7 +16,7 @@ export interface CarouselContextProps {
   next: () => void
   playing: boolean
   prev: () => void
-  registerControl: (kind: 'prev' | 'next', element: HTMLButtonElement) => () => void
+  registerControl: (kind: CarouselControlKind, element: HTMLButtonElement) => () => void
   registerViewport: (node: HTMLDivElement | null) => void
   to: (index: number) => void
   togglePlayPause: () => void

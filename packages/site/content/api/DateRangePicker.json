@@ -327,7 +327,7 @@
     },
     "invalidFeedback": {
       "defaultValue": null,
-      "description": "An error message for the field, rendered below the date range picker when `invalid` is set.",
+      "description": "An error message for the field, rendered below the date range picker when `invalid` is set,\nand after a submit that a `required` date range picker with a date missing held back.",
       "name": "invalidFeedback",
       "parent": {
         "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
@@ -570,6 +570,25 @@
       "required": false,
       "type": {
         "name": "DateRangePreset[]"
+      }
+    },
+    "required": {
+      "defaultValue": null,
+      "description": "Toggle the required state for the component. A required date range picker with its start or\nits end missing holds its form back from submitting, takes focus in the field that is empty\nand shows as invalid, with `invalidFeedback`, until it has both dates or the form is reset.\n`invalid`, once set, and `valid` decide how it looks instead.",
+      "name": "required",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
       }
     },
     "shouldForceLeadingZeros": {

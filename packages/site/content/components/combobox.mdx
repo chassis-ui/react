@@ -58,6 +58,8 @@ Pass an `items` array instead of composing children to build the option list fro
 
 Pass `label`/`help` to wrap the combobox in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `Combobox` create and manage a hidden `<input>` for native form submission — its value stays in sync with the selection.
 
+With `required`, a combobox with no option selected holds its form back from submitting, and its input takes focus. Text typed without selecting an option is not a value: the form submits the selected option's id. The field then shows as invalid, with its `invalidFeedback`, until it has a value or the form is reset; set `invalid` yourself, to `false` too, to decide how it looks instead.
+
 <Example>
   <FormFieldExample client:load />
 </Example>

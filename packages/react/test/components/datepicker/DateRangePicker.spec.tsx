@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
+import { act, render, screen, fireEvent, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {
   CalendarDate,
@@ -637,6 +637,219 @@ describe('DateRangePicker', () => {
       )
       expect(startInput.value).toBe('2026-08-01')
       expect(endInput.value).toBe('2026-08-05')
+    })
+  })
+
+  // The picker had no `required` at all: nothing marked it for a screen reader, and its two
+  // value inputs were `type="hidden"`, which a form doesn't validate, so an empty range was
+  // submitted.
+  describe('required', () => {
+    const Trip = ({
+      onSubmit = () => undefined,
+      ...props
+    }: React.ComponentProps<typeof DateRangePicker> & { onSubmit?: () => void }) => (
+      <form
+        aria-label="Trip"
+        onSubmit={(event) => {
+          event.preventDefault()
+          onSubmit()
+        }}
+      >
+        <DateRangePicker invalidFeedback="Pick both dates." label="Dates" name="trip" {...props} />
+        <button type="submit">Save</button>
+        <button type="reset">Reset</button>
+      </form>
+    )
+    const form = () => screen.getByRole<HTMLFormElement>('form', { name: 'Trip' })
+    const group = () => screen.getByRole('group', { name: 'Dates' })
+    const save = () => screen.getByRole('button', { name: 'Save' })
+    const months = () => screen.getAllByRole('spinbutton', { name: /^month/ })
+    // `checkValidity()` fires `invalid` at the picker's inputs, as a submit does, and the picker
+    // marks itself on it: a state update.
+    const checkValidity = () => {
+      let valid = true
+      act(() => {
+        valid = form().checkValidity()
+      })
+      return valid
+    }
+    const july = { end: new CalendarDate(2026, 7, 15), start: new CalendarDate(2026, 7, 10) }
+    // What each case below is told apart from: an empty required picker, which holds its form
+    // back. Rendered first, then the case in its place.
+    const insteadOfEmpty = (ui: React.ReactElement) => {
+      const { unmount } = render(<Trip required />)
+      expect(checkValidity()).toBe(false)
+      unmount()
+      return render(ui)
+    }
+
+    test('an empty required picker holds its form back, and its start takes focus', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Trip onSubmit={onSubmit} required />)
+
+      expect(checkValidity()).toBe(false)
+      await user.click(save())
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(months()[0]).toHaveFocus()
+    })
+
+    test('says it is required on every segment of both fields', () => {
+      const { rerender } = render(<Trip required />)
+      for (const segment of screen.getAllByRole('spinbutton')) {
+        expect(segment).toHaveAttribute('aria-required', 'true')
+      }
+      rerender(<Trip />)
+      for (const segment of screen.getAllByRole('spinbutton')) {
+        expect(segment).not.toHaveAttribute('aria-required')
+      }
+    })
+
+    // Both inputs must be filled: a start alone is no range.
+    test('a start with no end still holds it back, and the end takes focus', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Trip onSubmit={onSubmit} required />)
+      await user.click(months()[0]!)
+      await user.keyboard('07102026')
+      expect(form()).toHaveFormValues({ tripEnd: '', tripStart: '2026-07-10' })
+
+      await user.click(save())
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(months()[1]).toHaveFocus()
+      expect(group()).toHaveClass('is-invalid')
+    })
+
+    test('submits once both dates are typed', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Trip onSubmit={onSubmit} required />)
+      expect(checkValidity()).toBe(false)
+      await user.click(months()[0]!)
+      await user.keyboard('0710202607152026')
+
+      expect(checkValidity()).toBe(true)
+      await user.click(save())
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(form()).toHaveFormValues({ tripEnd: '2026-07-15', tripStart: '2026-07-10' })
+    })
+
+    test('submits a range it was given', () => {
+      insteadOfEmpty(<Trip defaultValue={july} required />)
+      expect(checkValidity()).toBe(true)
+    })
+
+    test('a disabled one holds nothing back', () => {
+      insteadOfEmpty(<Trip disabled required />)
+      expect(checkValidity()).toBe(true)
+    })
+
+    test('a picker that is not required submits empty', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      insteadOfEmpty(<Trip onSubmit={onSubmit} />)
+      expect(checkValidity()).toBe(true)
+      await user.click(save())
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+
+    test('holds the form back with no name, and submits nothing of its own', () => {
+      const { rerender } = render(<Trip name={undefined} required />)
+      expect(checkValidity()).toBe(false)
+
+      rerender(<Trip name={undefined} required value={july} />)
+      expect(checkValidity()).toBe(true)
+      expect([...new FormData(form()).entries()]).toEqual([])
+    })
+
+    // The browser has no bubble to show on an input that isn't displayed.
+    describe('after a submit it held back', () => {
+      test('shows as invalid, with the feedback, as `invalid` shows it', async () => {
+        const user = userEvent.setup()
+        render(<Trip required />)
+        expect(group()).not.toHaveClass('is-invalid')
+        expect(screen.queryByText('Pick both dates.')).not.toBeInTheDocument()
+
+        await user.click(save())
+        expect(group()).toHaveClass('form-input', 'is-invalid')
+        expect(screen.getByText('Pick both dates.')).toHaveClass('invalid-feedback')
+        expect(group()).toHaveAccessibleDescription('Pick both dates.')
+        for (const segment of screen.getAllByRole('spinbutton')) {
+          expect(segment).toHaveAttribute('aria-invalid', 'true')
+          expect(segment).toHaveAccessibleDescription('Pick both dates.')
+        }
+      })
+
+      test('stays marked with the start alone, and clears once both dates are in', async () => {
+        const user = userEvent.setup()
+        render(<Trip required />)
+        await user.click(save())
+        await user.keyboard('07102026')
+        expect(group()).toHaveClass('is-invalid')
+
+        await user.keyboard('07152026')
+        expect(form()).toHaveFormValues({ tripEnd: '2026-07-15', tripStart: '2026-07-10' })
+        expect(group()).not.toHaveClass('is-invalid')
+        expect(screen.queryByText('Pick both dates.')).not.toBeInTheDocument()
+        for (const segment of screen.getAllByRole('spinbutton')) {
+          expect(segment).not.toHaveAttribute('aria-invalid')
+        }
+      })
+
+      test('clears once a range is picked in the calendar', async () => {
+        const user = userEvent.setup()
+        render(<Trip placeholderValue={new CalendarDate(2026, 7, 1)} required />)
+        await user.click(save())
+        expect(group()).toHaveClass('is-invalid')
+
+        openCalendar()
+        const grid = screen.getByRole('grid')
+        fireEvent.click(within(grid).getByRole('button', { name: / 10, / }))
+        fireEvent.click(within(grid).getByRole('button', { name: / 15, / }))
+        expect(form()).toHaveFormValues({ tripEnd: '2026-07-15', tripStart: '2026-07-10' })
+        expect(group()).not.toHaveClass('is-invalid')
+      })
+
+      test("clears on the form's reset, and still holds the form back", async () => {
+        const user = userEvent.setup()
+        render(<Trip required />)
+        await user.click(save())
+        expect(group()).toHaveClass('is-invalid')
+
+        await user.click(screen.getByRole('button', { name: 'Reset' }))
+        expect(group()).not.toHaveClass('is-invalid')
+        expect(screen.queryByText('Pick both dates.')).not.toBeInTheDocument()
+        expect(checkValidity()).toBe(false)
+      })
+
+      // The caller's own state wins: `invalid` once it is set, to `false` too, and `valid`.
+      test.each([
+        ['invalid={false}', { invalid: false }],
+        ['valid', { valid: true }]
+      ])('%s keeps the picker as the caller shows it', async (_name, props) => {
+        const user = userEvent.setup()
+        const onSubmit = vi.fn()
+        const { rerender } = render(<Trip onSubmit={onSubmit} required {...props} />)
+        await user.click(save())
+        expect(onSubmit).not.toHaveBeenCalled()
+        expect(group()).not.toHaveClass('is-invalid')
+        expect(screen.queryByText('Pick both dates.')).not.toBeInTheDocument()
+
+        // The submit was held back all the same: the mark shows once the caller lets go.
+        rerender(<Trip onSubmit={onSubmit} required />)
+        expect(group()).toHaveClass('is-invalid')
+      })
+
+      test('has no axe violations while marked, and logs no error', async () => {
+        const user = userEvent.setup()
+        const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+        const { container } = render(<Trip required />)
+        await user.click(save())
+        expect(group()).toHaveClass('is-invalid')
+        expect(await axe(container)).toHaveNoViolations()
+        expect(consoleError).not.toHaveBeenCalled()
+        consoleError.mockRestore()
+      })
     })
   })
 

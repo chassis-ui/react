@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { act } from 'react'
 import { render, screen, fireEvent, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
 import { ChipInput, FloatingInput } from '../../../src/index'
@@ -324,6 +325,165 @@ describe('ChipInput', () => {
 
       rerender(<ChipInput aria-label="Skills" onChange={onChange} value={['React', 'CSS']} />)
       expect(screen.getByRole('row', { name: /CSS/ })).toBeInTheDocument()
+    })
+  })
+
+  // The chip input had no `required` at all: nothing marked it for a screen reader or held a
+  // form back, and the chips' own inputs are `type="hidden"`, which a form doesn't validate.
+  describe('required', () => {
+    const Profile = ({
+      onSubmit = () => undefined,
+      ...props
+    }: React.ComponentProps<typeof ChipInput> & { onSubmit?: () => void }) => (
+      <form
+        aria-label="Profile"
+        onSubmit={(event) => {
+          event.preventDefault()
+          onSubmit()
+        }}
+      >
+        <ChipInput label="Skills" name="skills" {...props} />
+        <button type="submit">Save</button>
+      </form>
+    )
+    const form = () => screen.getByRole<HTMLFormElement>('form', { name: 'Profile' })
+    const input = () => screen.getByRole<HTMLInputElement>('textbox', { name: 'Skills' })
+    const save = () => screen.getByRole('button', { name: 'Save' })
+    // react-aria listens for `invalid` on the input and updates its validation state.
+    const checkValidity = () => {
+      let valid = true
+      act(() => {
+        valid = form().checkValidity()
+      })
+      return valid
+    }
+    const submitted = () => [...new FormData(form()).entries()]
+    // What each case below is told apart from: a required chip input with no chips, which holds
+    // its form back. Rendered first, then the case in its place.
+    const insteadOfEmpty = (ui: React.ReactElement) => {
+      const { unmount } = render(<Profile required />)
+      expect(checkValidity()).toBe(false)
+      unmount()
+      return render(ui)
+    }
+
+    test('with no chips it holds its form back, and its input takes focus', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Profile onSubmit={onSubmit} required />)
+
+      expect(checkValidity()).toBe(false)
+      await user.click(save())
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(input()).toHaveFocus()
+    })
+
+    // Required asks for one chip, which HTML has no attribute for: the input carries the native
+    // `required` while there are none, as each checkbox of a required `CheckboxGroup` does while
+    // none is checked. With chips it is `aria-required` that still says the field is required.
+    test('is required natively while it has no chips, and by aria-required once it has', async () => {
+      const user = userEvent.setup()
+      render(<Profile required />)
+      expect(input()).toHaveAttribute('required')
+      expect(input()).not.toHaveAttribute('aria-required')
+
+      await user.type(input(), 'React{Enter}')
+      expect(input()).not.toHaveAttribute('required')
+      expect(input()).toHaveAttribute('aria-required', 'true')
+      expect(input()).toBeRequired()
+    })
+
+    test('says so only while it is required', () => {
+      const { rerender } = render(<Profile required />)
+      expect(input()).toBeRequired()
+      rerender(<Profile />)
+      expect(input()).not.toBeRequired()
+    })
+
+    test('submits once a chip is added, and is held back again once the last is removed', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Profile onSubmit={onSubmit} required />)
+      expect(checkValidity()).toBe(false)
+      await user.type(input(), 'React{Enter}')
+
+      expect(checkValidity()).toBe(true)
+      await user.click(save())
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(submitted()).toEqual([['skills', 'React']])
+
+      await user.click(
+        within(screen.getByRole('row', { name: /React/ })).getByRole('button', { name: /Remove/ })
+      )
+      expect(submitted()).toEqual([])
+      expect(checkValidity()).toBe(false)
+    })
+
+    test('submits the chips it was given', () => {
+      insteadOfEmpty(<Profile defaultValue={['React']} required />)
+      expect(checkValidity()).toBe(true)
+    })
+
+    test.each([
+      ['disabled', { disabled: true, required: true }],
+      ['not required', {}]
+    ])('a %s one holds nothing back', (_state, props) => {
+      insteadOfEmpty(<Profile {...props} />)
+      expect(checkValidity()).toBe(true)
+    })
+
+    // The input isn't empty, so the native attribute alone would let the form go, with nothing
+    // under `name`.
+    test('text typed and never added as a chip is not a value', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      render(<Profile onSubmit={onSubmit} required />)
+      await user.type(input(), 'React')
+      expect(input()).toHaveValue('React')
+      expect(submitted()).toEqual([])
+      expect(input().validity.valueMissing).toBe(false)
+      expect(input().validity.customError).toBe(true)
+
+      await user.click(save())
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(input()).toHaveFocus()
+
+      await user.type(input(), '{Enter}')
+      expect(submitted()).toEqual([['skills', 'React']])
+      expect(input().validity.customError).toBe(false)
+      await user.click(save())
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+
+    test('text typed beside a chip, or in a field that is not required, holds nothing back', async () => {
+      const user = userEvent.setup()
+      const { rerender } = render(<Profile required value={[]} />)
+      await user.type(input(), 'Vue')
+      expect(input().validity.customError).toBe(true)
+
+      rerender(<Profile required value={['React']} />)
+      expect(input()).toHaveValue('Vue')
+      expect(input().validity.customError).toBe(false)
+      expect(checkValidity()).toBe(true)
+
+      rerender(<Profile value={[]} />)
+      expect(input()).toHaveValue('Vue')
+      expect(checkValidity()).toBe(true)
+    })
+
+    test('holds the form back with no name', () => {
+      render(<Profile name={undefined} required />)
+      expect(checkValidity()).toBe(false)
+    })
+
+    test('has no axe violations while required and invalid, and logs no error', async () => {
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+      const { container } = render(<Profile invalid invalidFeedback="Add a skill." required />)
+      expect(checkValidity()).toBe(false)
+      expect(input()).toHaveAccessibleDescription('Add a skill.')
+      expect(await axe(container)).toHaveNoViolations()
+      expect(consoleError).not.toHaveBeenCalled()
+      consoleError.mockRestore()
     })
   })
 

@@ -102,7 +102,7 @@
     },
     "errorMessage": {
       "defaultValue": null,
-      "description": "An error message for the group, rendered below the options when `invalid` is set.",
+      "description": "An error message for the group, rendered below the options when `invalid` is set, and after\na submit the group held back, until it no longer would.",
       "name": "errorMessage",
       "parent": {
         "fileName": "packages/react/src/components/checkbox/CheckboxGroup.tsx",
@@ -119,9 +119,28 @@
         "name": "ReactNode"
       }
     },
+    "form": {
+      "defaultValue": null,
+      "description": "The id of the `<form>` the group belongs to, for a group rendered outside it. Reaches every\ncheckbox; a `Checkbox` with its own `form` keeps it.",
+      "name": "form",
+      "parent": {
+        "fileName": "packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
     "invalid": {
       "defaultValue": null,
-      "description": "Set group validation state to invalid.",
+      "description": "Set group validation state to invalid. Left unset, the group shows as invalid by itself\nfrom a submit it held back (an empty `required` one, say) until it no longer would, or its\nform is reset. Set it, to `false` too, and it alone decides.",
       "name": "invalid",
       "parent": {
         "fileName": "packages/react/src/components/checkbox/CheckboxGroup.tsx",

@@ -107,7 +107,7 @@ With `ends="wrap"` the carousel jumps from the last slide back to the first, and
 
 ### Stop
 
-With `ends="stop"` the carousel hard-stops at the first and last slide: `CarouselControlPrev` disables on the first slide and `CarouselControlNext` on the last, via the native `disabled` attribute. When a focused control becomes disabled, focus shifts to the opposite control so it isn't lost. Autoplay ends when it arrives at the last slide, and `CarouselPlayPause` reads Play from then on.
+With `ends="stop"` the carousel hard-stops at the first and last slide: `CarouselControlPrev` disables on the first slide and `CarouselControlNext` on the last, via the native `disabled` attribute. When a focused control becomes disabled, focus shifts to the opposite control so it isn't lost. Autoplay ends when it arrives at the last slide, and `CarouselPlayPause` reads Play from then on. With nothing left to play, the stopped toggle is disabled on the last slide too, and enabled again once the carousel moves back.
 
 <Example>
   <StopExample client:load />

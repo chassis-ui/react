@@ -3,6 +3,7 @@ import React, {
   HTMLAttributes,
   InputHTMLAttributes,
   ReactNode,
+  useEffect,
   useId,
   useMemo,
   useRef
@@ -11,7 +12,7 @@ import classNames from 'classnames'
 import { useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Key, useComboBoxState } from 'react-stately'
 
-import { useFloatingOverlay, useForkedRef, useFormField } from '../../hooks'
+import { useFloatingOverlay, useForkedRef, useFormField, useHeldBack } from '../../hooks'
 import { useHydrated } from '../../hooks/useHydrated'
 import { joinIds } from '../../utils/idRefs'
 import {
@@ -72,11 +73,14 @@ export interface ComboboxProps extends Omit<
    */
   id?: string
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean
   /**
-   * An error message for the field, rendered below the combobox when `invalid` is set.
+   * An error message for the field, rendered below the combobox when `invalid` is set, and after a
+   * submit the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode
   /**
@@ -110,6 +114,12 @@ export interface ComboboxProps extends Omit<
    */
   placeholder?: string
   /**
+   * Toggle the required state for the component. A required combobox with no option selected
+   * holds its form back from submitting, and takes focus: text typed without selecting an option
+   * is not a value.
+   */
+  required?: boolean
+  /**
    * Size the component sm or lg.
    */
   size?: 'sm' | 'lg'
@@ -127,6 +137,9 @@ export interface ComboboxProps extends Omit<
   value?: Key | null
 }
 
+// See `unselectedText`.
+const UNSELECTED_TEXT_MESSAGE = 'Select an option from the list.'
+
 export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
   (
     {
@@ -139,7 +152,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       disabled,
       help,
       id,
-      invalid,
+      invalid: invalidProp,
       invalidFeedback,
       items,
       label,
@@ -147,6 +160,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       noResultsText = 'No results found',
       onChange,
       placeholder,
+      required,
       size,
       valid,
       validFeedback,
@@ -188,6 +202,9 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const forkedWrapperRef = useForkedRef(ref, wrapperRef)
     const inputRef = useRef<HTMLInputElement>(null)
     const listBoxRef = useRef<HTMLElement>(null)
+    // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`):
+    // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
+    const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
     const popoverRef = useRef<HTMLDivElement>(null)
     const noResultsId = useId()
     const hydrated = useHydrated()
@@ -213,10 +230,24 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
         listBoxRef,
         popoverRef,
         isDisabled: disabled,
+        isRequired: required,
         placeholder
       },
       state
     )
+
+    // `required` asks for what the form submits under `name`: the selected option's id, not the
+    // text in the input. The native attribute on the input covers an empty one, and the two agree
+    // nearly always, since react-stately puts the selection's text back, none without one, when
+    // the list closes: on blur, Enter and Escape. Not while the user is still typing, though, and
+    // a form submitted then (a shortcut or a timer that calls `requestSubmit()`) would go with
+    // text in the input and nothing under `name`. A custom validity covers that: text with no
+    // selection is invalid too. The message is never shown: react-aria cancels the input's
+    // `invalid` event, which keeps a browser's bubble away, and focuses the input instead.
+    const unselectedText = Boolean(required) && state.value == null && state.inputValue !== ''
+    useEffect(() => {
+      inputRef.current?.setCustomValidity(unselectedText ? UNSELECTED_TEXT_MESSAGE : '')
+    }, [unselectedText])
 
     const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
       targetRef: wrapperRef,
@@ -279,7 +310,14 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
               {...inputHtmlProps}
               aria-describedby={inputDescribedBy}
               aria-invalid={invalid || undefined}
+              // The native `required` below says the same.
+              aria-required={undefined}
               ref={inputRef}
+              // On the visible input, not the hidden one that carries `name`: a hidden input is
+              // barred from constraint validation (FORMS.md, gotcha 9). react-aria writes
+              // `aria-required` alone, which no form checks. A disabled input isn't validated;
+              // the combobox has no read-only state to leave out.
+              required={required || undefined}
             />
           </div>
           <Portal container={portalContainer}>

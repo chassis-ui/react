@@ -3,6 +3,7 @@ import React, {
   HTMLAttributes,
   KeyboardEvent,
   ReactNode,
+  useEffect,
   useMemo,
   useRef,
   useState
@@ -11,7 +12,7 @@ import classNames from 'classnames'
 import { useTextField } from 'react-aria'
 import { Item, Key, useListState } from 'react-stately'
 
-import { useControllableState, useForkedRef, useFormField } from '../../hooks'
+import { useControllableState, useForkedRef, useFormField, useHeldBack } from '../../hooks'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 import { ChipList, ChipItem } from './ChipList'
@@ -73,11 +74,14 @@ export interface ChipInputProps extends Omit<
    */
   id?: string
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean
   /**
-   * An error message for the field, rendered below the chips when `invalid` is set.
+   * An error message for the field, rendered below the chips when `invalid` is set, and after a
+   * submit the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode
   /**
@@ -102,6 +106,12 @@ export interface ChipInputProps extends Omit<
    */
   placeholder?: string
   /**
+   * Toggle the required state for the component. A required chip input with no chips holds its
+   * form back from submitting, and its text input takes focus: text typed there and not added as
+   * a chip is not a value.
+   */
+  required?: boolean
+  /**
    * Character that creates a new chip when typed, or pasted text is split on. Set to `null` to
    * disable. Defaults to `,`.
    */
@@ -124,6 +134,9 @@ export interface ChipInputProps extends Omit<
   value?: string[]
 }
 
+// See `unaddedText`.
+const UNADDED_TEXT_MESSAGE = 'Add the text as a chip.'
+
 export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
   (
     {
@@ -137,13 +150,14 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
       disabled,
       help,
       id,
-      invalid,
+      invalid: invalidProp,
       invalidFeedback,
       label,
       maxChips,
       name,
       onChange,
       placeholder,
+      required,
       separator = ',',
       size,
       valid,
@@ -200,6 +214,9 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
     const forkedRef = useForkedRef(ref, containerRef)
     const inputRef = useRef<HTMLInputElement>(null)
     const [inputValue, setInputValue] = useState('')
+    // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`):
+    // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
+    const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
 
     const focusLastChip = (extend: boolean) => {
       if (tags.length === 0) return
@@ -311,6 +328,7 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
         id: inputId,
         isDisabled: disabled,
         isInvalid: invalid,
+        isRequired: required,
         onChange: setInputValue,
         onFocus: () => listState.selectionManager.clearSelection(),
         onKeyDown: handleKeyDown,
@@ -319,6 +337,21 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
       },
       inputRef
     )
+
+    // Required asks for one chip at least, which HTML has no attribute for. The text input is
+    // the field's one input a form validates (the chips' own are `type="hidden"`, which is barred
+    // from it: FORMS.md, gotcha 9), so it carries the native `required` while there are no chips,
+    // as each checkbox of a required `CheckboxGroup` does while none is checked. That alone would
+    // let text through that was typed and never added: the input isn't empty, and nothing is
+    // submitted under `name`. A custom validity covers it: text with no chips is invalid too. The
+    // message is never shown: react-aria cancels the input's `invalid` event, which keeps a
+    // browser's bubble away, and focuses the input instead. A disabled input isn't validated;
+    // the field has no read-only state to leave out.
+    const needsChip = Boolean(required) && tags.length === 0
+    const unaddedText = needsChip && inputValue !== ''
+    useEffect(() => {
+      inputRef.current?.setCustomValidity(unaddedText ? UNADDED_TEXT_MESSAGE : '')
+    }, [unaddedText])
 
     return renderFormField({
       children: (
@@ -350,9 +383,13 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
           <input
             {...inputProps}
             aria-describedby={describedBy}
+            // With no chips the native `required` says it; with chips react-aria's
+            // `aria-required` still does, of a field that stays required.
+            aria-required={needsChip ? undefined : inputProps['aria-required']}
             className="ghost-input"
             onPaste={handlePaste}
             ref={inputRef}
+            required={needsChip || undefined}
           />
           {name &&
             items.map((item) => (

@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { AriaSwitchProps, useSwitch } from 'react-aria'
 import { useToggleState } from 'react-stately'
 
-import { useForkedRef } from '../../hooks'
+import { useForkedRef, useHeldBack } from '../../hooks'
 import { ContextColor } from '../../types'
 import { mergeUnhandledProps, TOGGLE_PROPS } from '../../utils/unhandledProps'
 import { validationClassName } from '../../utils/validationClassName'
@@ -31,7 +31,9 @@ export interface SwitchProps extends Omit<
    */
   id?: string
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean
   /**
@@ -166,7 +168,7 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
       defaultSelected,
       disabled,
       id,
-      invalid,
+      invalid: invalidProp,
       isSelected,
       label,
       onChange,
@@ -179,6 +181,9 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
+    // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`):
+    // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
+    const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
     // `label` is this package's name for what react-aria calls `children`. Accept either, so the
     // shape React developers reach for first names the control instead of vanishing.
     const resolvedLabel = label ?? children
@@ -235,7 +240,7 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
       defaultSelected,
       disabled,
       id,
-      invalid,
+      invalid: invalidProp,
       isSelected,
       label,
       onChange,
@@ -248,13 +253,17 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
+    // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`). The
+    // browser's own message stays: no react-aria hook is given this control to cancel it. It is
+    // on the first invalid control of the form alone, and gone at the next click.
+    const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
     // `label` is this package's name for what react-aria calls `children`. Accept either, so the
     // shape React developers reach for first names the control instead of vanishing.
     const resolvedLabel = label ?? children
 
     const radioProps = {
       ...rest,
-      'aria-invalid': invalid,
+      'aria-invalid': invalid || undefined,
       checked: isSelected,
       defaultChecked: defaultSelected,
       disabled,

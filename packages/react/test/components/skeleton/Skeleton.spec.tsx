@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { Skeleton } from '../../../src/index'
@@ -81,20 +81,26 @@ describe('Skeleton', () => {
     })
 
     // `span` is typed loosely and any number or string was written into `w-{span}/12`:
-    // chassis-css has that class for 1 to 11, and `w-100` for 12.
+    // chassis-css has that class for 1 to 11, and `w-100` for 12. Another value renders no
+    // width class, and warns.
     describe('a span chassis-css has no width class for', () => {
-      test.each([[0], [13], [-1], [2.5], ['50%'], ['half'], ['']])('warns for %j', (span) => {
-        const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
-        render(<Skeleton span={span} />)
-        expect(warn).toHaveBeenCalledTimes(1)
-        expect(warn).toHaveBeenCalledWith(expect.stringContaining('Skeleton: `span`'))
-        expect(warn).toHaveBeenCalledWith(expect.stringContaining(JSON.stringify(span)))
-        warn.mockRestore()
-      })
+      test.each([[0], [13], [-1], [2.5], ['50%'], ['half'], ['']])(
+        'renders no width class and warns for %j',
+        (span) => {
+          const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+          render(<Skeleton data-testid="skeleton" span={span} />)
+          expect(screen.getByTestId('skeleton').className).toBe('skeleton')
+          expect(warn).toHaveBeenCalledTimes(1)
+          expect(warn).toHaveBeenCalledWith(expect.stringContaining('Skeleton: `span`'))
+          expect(warn).toHaveBeenCalledWith(expect.stringContaining(JSON.stringify(span)))
+          warn.mockRestore()
+        }
+      )
 
-      test('warns for one given at a breakpoint', () => {
+      test('keeps the other widths and warns for one given at a breakpoint', () => {
         const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
-        render(<Skeleton span={{ base: 12, md: 14 }} />)
+        render(<Skeleton data-testid="skeleton" span={{ base: 12, md: 14, lg: 6 }} />)
+        expect(screen.getByTestId('skeleton').className).toBe('skeleton w-100 lg:w-6/12')
         expect(warn).toHaveBeenCalledTimes(1)
         expect(warn).toHaveBeenCalledWith(expect.stringContaining('14'))
         warn.mockRestore()

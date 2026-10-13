@@ -2,7 +2,7 @@ import React, { forwardRef, InputHTMLAttributes, ReactNode, useRef } from 'react
 import classNames from 'classnames'
 import { AriaTextFieldProps, useTextField } from 'react-aria'
 
-import { useForkedRef, useFormField } from '../../hooks'
+import { useForkedRef, useFormField, useHeldBack } from '../../hooks'
 import { mergeUnhandledProps, TEXT_FIELD_PROPS } from '../../utils/unhandledProps'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
@@ -40,11 +40,14 @@ export interface TextInputProps extends Omit<
    */
   help?: ReactNode
   /**
-   * Set component validation state to invalid.
+   * Set component validation state to invalid. Left unset, the component shows as invalid by itself
+   * from a submit it held back (an empty `required` one, say) until it no longer would, or its
+   * form is reset. Set it, to `false` too, and it alone decides.
    */
   invalid?: boolean
   /**
-   * An error message for the field, rendered below the input when `invalid` is set.
+   * An error message for the field, rendered below the input when `invalid` is set, and after a
+   * submit the field held back, until it no longer would.
    */
   invalidFeedback?: ReactNode
   /**
@@ -106,7 +109,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       disabled,
       help,
       id,
-      invalid,
+      invalid: invalidProp,
       invalidFeedback,
       label,
       plainText,
@@ -122,6 +125,9 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
+    // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`):
+    // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
+    const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
 
     const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
       ariaDescribedBy: rest['aria-describedby'],

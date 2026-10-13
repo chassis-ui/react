@@ -20,12 +20,19 @@ plus the opt-in validation icon and which components support each.
 
 ## Browser defaults
 
-With no extra configuration, a `<Form>` falls back to the browser's own validation UI on submit.
-Depending on browser and OS, this renders as a native tooltip pointing at the first invalid field;
-the message text comes from the browser, though it can still be customized in JavaScript via
-[`setCustomValidity()`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setCustomValidity).
-These styles can't be customized with CSS — reach for [Custom styles](#custom-styles) instead when
-a design needs Chassis's own feedback styling.
+With no extra configuration, a `<Form>` relies on the browser's own constraint validation: a form
+with an invalid field, such as an empty `required` one, isn't submitted, and its first invalid field
+takes focus. Every field that held the form back then shows as invalid, with its `invalidFeedback`
+if it has one, until it no longer would or the form is reset. Set `invalid` on a field, to `false`
+too, and that prop alone decides how it looks.
+
+The browser's own message, a native tooltip beside the first invalid field, appears only on a field
+that is a plain native control: `Select`, `FileInput` and a `Switch` with `type="radio"`. The other
+fields are built on react-aria, which cancels it. Its text comes from the browser, though it can
+still be customized in JavaScript via
+[`setCustomValidity()`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setCustomValidity),
+and it can't be styled with CSS. Reach for [Custom styles](#custom-styles) when a design needs
+Chassis's own feedback styling for every state.
 
 <Example>
   <BrowserDefaultsExample client:load />

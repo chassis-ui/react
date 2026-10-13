@@ -178,7 +178,7 @@
     },
     "invalidFeedback": {
       "defaultValue": null,
-      "description": "An error message for the field, rendered below the autocomplete when `invalid` is set.",
+      "description": "An error message for the field, rendered below the autocomplete when `invalid` is set, and\nafter a submit that a `required` autocomplete with nothing selected held back.",
       "name": "invalidFeedback",
       "parent": {
         "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
@@ -330,6 +330,25 @@
       "required": false,
       "type": {
         "name": "string"
+      }
+    },
+    "required": {
+      "defaultValue": null,
+      "description": "Toggle the required state for the component. A required autocomplete with nothing selected\nholds its form back from submitting, takes focus on its toggle and shows as invalid, with\n`invalidFeedback`, until an option is selected or the form is reset. `invalid`, once set, and\n`valid` decide how it looks instead.",
+      "name": "required",
+      "parent": {
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "name": "AutocompleteProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "name": "AutocompleteProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
       }
     },
     "searchPlaceholder": {

@@ -11,7 +11,7 @@ import classNames from 'classnames'
 import { mergeProps, useButton, useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Key, useComboBoxState } from 'react-stately'
 
-import { useFloatingOverlay, useForkedRef, useFormField } from '../../hooks'
+import { useFloatingOverlay, useForkedRef, useFormField, useRequiredValueInput } from '../../hooks'
 import {
   buildEntriesFromChildren,
   buildEntriesFromItemsDef,
@@ -97,7 +97,8 @@ export interface AutocompleteProps extends Omit<
    */
   invalid?: boolean
   /**
-   * An error message for the field, rendered below the autocomplete when `invalid` is set.
+   * An error message for the field, rendered below the autocomplete when `invalid` is set, and
+   * after a submit that a `required` autocomplete with nothing selected held back.
    */
   invalidFeedback?: ReactNode
   /**
@@ -137,6 +138,13 @@ export interface AutocompleteProps extends Omit<
    * Text shown on the toggle when nothing is selected.
    */
   placeholder?: string
+  /**
+   * Toggle the required state for the component. A required autocomplete with nothing selected
+   * holds its form back from submitting, takes focus on its toggle and shows as invalid, with
+   * `invalidFeedback`, until an option is selected or the form is reset. `invalid`, once set, and
+   * `valid` decide how it looks instead.
+   */
+  required?: boolean
   /**
    * Placeholder for the search field inside the dropdown.
    */
@@ -193,6 +201,7 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
     noResultsText = 'No results found',
     onChange,
     placeholder,
+    required,
     searchPlaceholder,
     size,
     valid,
@@ -243,13 +252,34 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
   const inputRef = useRef<HTMLInputElement>(null)
   const listBoxRef = useRef<HTMLElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
+  const valueInputRef = useRef<HTMLInputElement>(null)
+
+  // What is submitted under `name`: a key that isn't in the list is still a value.
+  const selectedKeys = asKeyArray(state.value)
+
+  // `required` has to reach an input a form validates (FORMS.md, gotcha 9). The toggle is no form
+  // control, the search input holds a query and not the value, and the input that carries the
+  // value is `type="hidden"`, which a form doesn't validate. As in `TimeField`, a required
+  // autocomplete's value input is a text input that isn't displayed, and `missing` shows the
+  // field as invalid from a submit that input held back until an option is selected. The toggle
+  // takes the focus a browser would give an input it displays. With `multiple` each key has a
+  // hidden input of its own and none while nothing is selected: the text input is then rendered
+  // alone, with no `name`, as nothing is submitted for an empty selection. A disabled input isn't
+  // validated; the field has no read-only state to leave out.
+  const { inputProps: requiredInputProps, missing } = useRequiredValueInput(valueInputRef, {
+    focus: () => triggerRef.current?.focus(),
+    invalid,
+    required: required && (!multiple || selectedKeys.length === 0),
+    valid
+  })
+  const showInvalid = invalid || missing
 
   const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
     ariaDescribedBy: rest['aria-describedby'],
     ariaLabelledBy: rest['aria-labelledby'],
     help,
     id,
-    invalid,
+    invalid: showInvalid,
     invalidFeedback,
     label,
     valid,
@@ -266,6 +296,9 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
       listBoxRef,
       popoverRef,
       isDisabled: disabled,
+      // `aria-required` on the search input, the `combobox` of this field. The toggle states
+      // nothing: ARIA doesn't allow the attribute on a button.
+      isRequired: required,
       placeholder: searchPlaceholder
     },
     state
@@ -397,7 +430,7 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
             'form-input',
             'combobox',
             { sm: size === 'sm', lg: size === 'lg', disabled },
-            { 'is-invalid': invalid, 'is-valid': valid },
+            { 'is-invalid': showInvalid, 'is-valid': valid },
             className
           )}
           // `mergeProps`, so the caller's `onClick`, `onKeyDown` and `onFocus` run beside the
@@ -413,7 +446,7 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
           aria-label={rest['aria-label']}
           aria-labelledby={labelledBy}
           aria-describedby={describedBy}
-          aria-invalid={invalid || undefined}
+          aria-invalid={showInvalid || undefined}
           ref={forkedTriggerRef}
         >
           <span className={classNames('combobox-value', { 'combobox-placeholder': !hasSelection })}>
@@ -442,19 +475,28 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
             )}
           </div>
         </Portal>
-        {name &&
-          (multiple ? (
-            asKeyArray(state.value).map((key) => (
-              <input key={key} type="hidden" name={name} value={key} disabled={disabled} />
-            ))
-          ) : (
+        {multiple ? (
+          <>
+            {name &&
+              selectedKeys.map((key) => (
+                <input key={key} type="hidden" name={name} value={key} disabled={disabled} />
+              ))}
+            {requiredInputProps && (
+              <input disabled={disabled} value="" {...requiredInputProps} ref={valueInputRef} />
+            )}
+          </>
+        ) : (
+          (name || required) && (
             <input
               type="hidden"
               name={name}
-              value={asKeyArray(state.value)[0] ?? ''}
+              value={selectedKeys[0] ?? ''}
               disabled={disabled}
+              {...requiredInputProps}
+              ref={valueInputRef}
             />
-          ))}
+          )
+        )}
       </>
     ),
     help,
@@ -464,7 +506,7 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
     // `role="group"` pattern in FORMS.md. Passing `inputId` here would point `<label for>` at
     // the hidden search input instead, which sits inert until the popover opens.
     ids: { feedback: feedbackId, help: helpId, label: labelId },
-    invalid,
+    invalid: showInvalid,
     invalidFeedback,
     label,
     valid,

@@ -95,15 +95,37 @@ describe('Chip', () => {
       expect(button).toHaveAttribute('aria-pressed', 'true')
     })
 
-    test('marks an anchor chip pressed and exposes aria-pressed', () => {
-      render(
-        <Chip href="/bazinga" pressed>
+    // `aria-pressed` is a state of the button role: on a link, axe reports `aria-allowed-attr`.
+    test.each([
+      ['with href', <Chip href="/bazinga" pressed children="Filter" key="href" />],
+      [
+        'as component="a"',
+        <Chip component="a" href="/bazinga" pressed children="Filter" key="a" />
+      ],
+      [
+        'as the asChild element',
+        <Chip asChild pressed key="asChild">
+          <a href="/bazinga">Filter</a>
+        </Chip>
+      ]
+    ])('a link %s takes the class and no aria-pressed', async (_form, chip) => {
+      const { container } = render(chip)
+
+      const link = screen.getByRole('link', { name: 'Filter' })
+      expect(link).toHaveClass('chip', 'active')
+      expect(link).not.toHaveAttribute('aria-pressed')
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('an anchor the caller made a button keeps aria-pressed', async () => {
+      const { container } = render(
+        <Chip href="#bazinga" role="button" pressed>
           Filter
         </Chip>
       )
-      const link = screen.getByRole('link', { name: 'Filter' })
-      expect(link).toHaveClass('active')
-      expect(link).toHaveAttribute('aria-pressed', 'true')
+
+      expect(screen.getByRole('button', { name: 'Filter' })).toHaveAttribute('aria-pressed', 'true')
+      expect(await axe(container)).toHaveNoViolations()
     })
   })
 

@@ -37,7 +37,7 @@ describe('CardImage', () => {
 
     // `orientation` takes any of its four values at any breakpoint, and chassis-css has the
     // breakpoint classes of two of them, at four of the five: the rest rendered a class with no
-    // rule and said nothing.
+    // rule and said nothing. It renders no class now, and warns.
     describe('an orientation chassis-css has no class for', () => {
       const BREAKPOINTS = ['sm', 'md', 'lg', 'xl', '2xl'] as const
       const ORIENTATIONS = ['top', 'bottom', 'start', 'end'] as const
@@ -56,17 +56,19 @@ describe('CardImage', () => {
 
       // Against the stylesheet itself, so the list in the component can't fall behind it.
       test.each(combinations)(
-        'warns at %s for %s exactly when it has none',
+        'at %s for %s, renders the class when chassis-css has it, and warns when not',
         (breakpoint, value) => {
           const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
           const className = `${breakpoint}:card-image-${value}`
           render(<CardImage alt="test" orientation={{ base: 'top', [breakpoint]: value }} />)
 
-          // The class is written either way: only the warning is new.
-          expect(screen.getByRole('img')).toHaveClass('card-image-top', className)
+          const image = screen.getByRole('img')
           if (css.includes(`.${breakpoint}\\:card-image-${value}`)) {
+            expect(image.className).toBe(`card-image-top ${className}`)
             expect(warn).not.toHaveBeenCalled()
           } else {
+            // The base class alone: a class with no rule isn't rendered.
+            expect(image.className).toBe('card-image-top')
             expect(warn).toHaveBeenCalledTimes(1)
             expect(warn).toHaveBeenCalledWith(expect.stringContaining(className))
           }
@@ -81,6 +83,7 @@ describe('CardImage', () => {
         expect(messages).toHaveLength(2)
         expect(messages[0]).toContain('lg:card-image-top')
         expect(messages[1]).toContain('2xl:card-image-end')
+        expect(screen.getByRole('img').className).toBe('card-image-start')
         warn.mockRestore()
       })
 

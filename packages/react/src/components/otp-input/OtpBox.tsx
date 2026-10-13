@@ -12,6 +12,7 @@ interface OtpBoxProps {
   onChangeValue: (value: string) => void
   onKeyDownBox: (event: KeyboardEvent<HTMLInputElement>) => void
   onPasteBox: (event: ClipboardEvent<HTMLInputElement>) => void
+  required?: boolean
   size?: 'sm' | 'lg'
   valid?: boolean
   value: string
@@ -27,6 +28,7 @@ export const OtpBox = forwardRef(
       onChangeValue,
       onKeyDownBox,
       onPasteBox,
+      required,
       size,
       valid,
       value
@@ -44,6 +46,7 @@ export const OtpBox = forwardRef(
         autoComplete: index === 0 || mask ? 'one-time-code' : 'off',
         isDisabled: disabled,
         isInvalid: invalid,
+        isRequired: required,
         maxLength: 1,
         onChange: onChangeValue,
         onFocus: (event) => (event.target as HTMLInputElement).select(),
@@ -60,12 +63,19 @@ export const OtpBox = forwardRef(
         // The group describes the boxes. react-aria's own ids here are never rendered (FORMS.md,
         // gotcha 6).
         aria-describedby={undefined}
+        // The native `required` below says the same.
+        aria-required={undefined}
         className={classNames('form-input', size, validationClassName(invalid, valid))}
         data-focus-visible={isFocusVisible || undefined}
         inputMode="numeric"
         onPaste={onPasteBox}
         pattern="\d*"
         ref={ref}
+        // A required code is one with every box filled, so each box is required: a form is held
+        // back by the first empty one, which react-aria's listener then focuses. The hidden input
+        // that carries `name` is barred from constraint validation (FORMS.md, gotcha 9), and
+        // react-aria writes `aria-required` alone, which no form checks.
+        required={required || undefined}
       />
     )
   }
