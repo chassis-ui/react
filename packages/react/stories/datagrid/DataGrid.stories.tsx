@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import type { Selection, SortDescriptor } from 'react-aria-components'
-import { expect } from 'storybook/test'
+import { expect, waitFor } from 'storybook/test'
 
 import { DataGrid } from '../../src/components/datagrid/DataGrid'
 import { DataGridBody } from '../../src/components/datagrid/DataGridBody'
@@ -320,7 +320,21 @@ export const PinnedColumnsScrolled: Story = {
     }, [])
     return <DataGrid {...args} ref={ref} />
   },
-  args: PinnedColumns.args
+  args: PinnedColumns.args,
+  // The scroll cue is a class on the cells of the boundary column and a rule of DataGrid.scss,
+  // which only a browser applies. Scrolled to the end, content is hidden under `pin="start"`
+  // alone.
+  play: async function ({ canvas }) {
+    const id = canvas.getByRole('columnheader', { name: 'Id' })
+    const status = canvas.getByRole('columnheader', { name: 'Status' })
+    await expect(id).toHaveClass('datagrid-pin-cue-start')
+    await expect(status).toHaveClass('datagrid-pin-cue-end')
+    await waitFor(() => expect(getComputedStyle(id).boxShadow).not.toBe('none'))
+    await expect(getComputedStyle(canvas.getByRole('rowheader', { name: '0' })).boxShadow).not.toBe(
+      'none'
+    )
+    await expect(getComputedStyle(status).boxShadow).toBe('none')
+  }
 }
 
 export const HeaderFooterScrolled: Story = {

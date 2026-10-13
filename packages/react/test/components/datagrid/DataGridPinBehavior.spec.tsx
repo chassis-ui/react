@@ -61,7 +61,7 @@ const Harness = ({ columns, dynamicHeader, mountedColumns }: HarnessProps) => {
           )
         )}
       </div>
-      <DataGridPinBehavior containerRef={containerRef} header={header} instanceClassName="test" />
+      <DataGridPinBehavior containerRef={containerRef} header={header} />
     </div>
   )
 }
@@ -73,20 +73,6 @@ describe('DataGridPinBehavior', () => {
 
   afterEach(() => {
     vi.useRealTimers()
-  })
-
-  test('renders nothing when no column is pinned', () => {
-    render(
-      <Harness
-        columns={[
-          { id: 'a', defaultWidth: 100 },
-          { id: 'b', defaultWidth: 100 }
-        ]}
-      />
-    )
-    // A <style> tag has no ARIA role and isn't reachable by an accessible query.
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(screen.queryByTestId('pin-container')?.querySelector('style')).not.toBeInTheDocument()
   })
 
   test('renders nothing for the dynamic columns/render-function header form', () => {
@@ -179,8 +165,10 @@ describe('DataGridPinBehavior', () => {
     expect(screen.getByTestId('cell-a').style.transform).toBe('')
   })
 
-  test('generates scroll-cue box-shadow rules keyed on aria-colindex, scoped to the instance', () => {
-    render(
+  // The scroll cue is a class on the boundary cells and a rule in DataGrid.scss. A <style> element
+  // in <body> is valid HTML only with its rules in @scope.
+  test('writes no <style> element, with or without pinned columns', () => {
+    const { rerender } = render(
       <Harness
         columns={[
           { id: 'a', defaultWidth: 100, pin: 'start' },
@@ -190,14 +178,18 @@ describe('DataGridPinBehavior', () => {
     )
     // A <style> tag has no ARIA role and isn't reachable by an accessible query.
     // eslint-disable-next-line testing-library/no-node-access
-    const style = screen.getByTestId('pin-container').querySelector('style')
-    expect(style).toBeInTheDocument()
-    const css = style?.textContent ?? ''
-    expect(css).toContain('.test.datagrid-scrolled-start [aria-colindex="1"]')
-    expect(css).toContain('.test.datagrid-scrolled-end [aria-colindex="2"]')
-    // The z-index moved out of this stylesheet: it's set inline alongside the transform, since the
-    // virtualizer writes the wrapper's own z-index inline too.
-    expect(css).not.toContain('z-index')
+    expect(screen.queryByTestId('pin-container')?.querySelector('style')).not.toBeInTheDocument()
+
+    rerender(
+      <Harness
+        columns={[
+          { id: 'a', defaultWidth: 100 },
+          { id: 'b', defaultWidth: 100 }
+        ]}
+      />
+    )
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(screen.queryByTestId('pin-container')?.querySelector('style')).not.toBeInTheDocument()
   })
 
   test('raises the pinned wrapper above the cells it overlaps', () => {
