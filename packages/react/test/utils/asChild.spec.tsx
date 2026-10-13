@@ -10,6 +10,7 @@ import {
   Button,
   Card,
   CloseButton,
+  Grid,
   Link,
   List,
   ListItem,
@@ -17,7 +18,8 @@ import {
   Placeholder,
   Spinner,
   Stepper,
-  StepperItem
+  StepperItem,
+  Tooltip
 } from '../../src/index'
 
 // Stands in for a router link (e.g. `next/link`): a component the caller renders as an *element*
@@ -421,6 +423,73 @@ describe('asChild keeps the semantics of the element it renders', () => {
 
     expect(screen.getByRole('link', { name: 'Log in' })).toHaveAttribute('aria-disabled', 'true')
     expect(mounted).toHaveBeenCalledTimes(1)
+  })
+
+  // A `Slot` per kind was a different component once the child's `href` came or went, and React
+  // remounted the child.
+  test.each([
+    ['Button', Button],
+    ['NavLink, which hands its Slot on to Link', NavLink]
+  ] as const)(
+    'keeps a component child mounted when its href comes and goes: %s',
+    (_name, Component) => {
+      const mounted = vi.fn()
+      function Tracked(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+        React.useEffect(mounted, [])
+        return <a data-testid="tracked" {...props} />
+      }
+      const Subject = Component as React.ElementType
+      const tree = (href?: string) => (
+        <Subject asChild disabled>
+          <Tracked href={href}>Log in</Tracked>
+        </Subject>
+      )
+      const { rerender } = render(tree())
+      const element = screen.getByTestId('tracked')
+      // With no link target the child isn't a link, and isn't taken out of the tab order as one.
+      expect(element).not.toHaveAttribute('tabindex')
+
+      rerender(tree('/login'))
+      expect(screen.getByTestId('tracked')).toBe(element)
+      // With one it is, and gets what `component="a"` gets.
+      expect(element).toHaveAttribute('aria-disabled', 'true')
+      expect(element).toHaveAttribute('tabindex', '-1')
+
+      rerender(tree())
+      expect(screen.getByTestId('tracked')).toBe(element)
+      expect(element).not.toHaveAttribute('tabindex')
+      expect(mounted).toHaveBeenCalledTimes(1)
+    }
+  )
+
+  // react-aria's `mergeProps` takes the child's `style` whole.
+  test("merges the component's inline styles with the child's own, the child's winning", () => {
+    render(
+      <>
+        <Grid asChild gap="3rem" rows={8}>
+          <section data-testid="grid" style={{ color: 'red', gridTemplateRows: '1fr' }} />
+        </Grid>
+        <Grid asChild gap="3rem">
+          <section data-testid="unstyled" />
+        </Grid>
+      </>
+    )
+
+    const grid = screen.getByTestId('grid')
+    expect(grid.style.getPropertyValue('--cx-grid-gap')).toBe('3rem')
+    expect(grid.style.color).toBe('red')
+    expect(grid.style.gridTemplateRows).toBe('1fr')
+    expect(screen.getByTestId('unstyled').style.getPropertyValue('--cx-grid-gap')).toBe('3rem')
+  })
+
+  test("merges a trigger's styles the same way", () => {
+    render(
+      <Tooltip content="Hint">
+        <button style={{ color: 'red' }}>Save</button>
+      </Tooltip>
+    )
+
+    expect(screen.getByRole('button', { name: 'Save' }).style.color).toBe('red')
   })
 
   test('puts nothing of its own on the element', () => {

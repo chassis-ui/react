@@ -205,4 +205,49 @@ describe('suppressFocusRingGlobally', () => {
 
     addEventListenerSpy.mockRestore()
   })
+
+  // A hot reload, or two copies of the package in one bundle. Each evaluation used to hold its
+  // own listeners and its own record of what it had suppressed: the second saved the `none` the
+  // first had set, and restored that last.
+  describe('evaluated a second time', () => {
+    const evaluateAgain = async () => {
+      vi.resetModules()
+      return import('../../src/utils/suppressFocusRingGlobally')
+    }
+
+    test('installs no second set of listeners', async () => {
+      const addEventListenerSpy = vi.spyOn(document, 'addEventListener')
+
+      await evaluateAgain()
+
+      expect(addEventListenerSpy).not.toHaveBeenCalled()
+      addEventListenerSpy.mockRestore()
+    })
+
+    test('restores the outline of a pressed element on blur', async () => {
+      await evaluateAgain()
+      const button = add('button')
+
+      fireEvent.pointerDown(button)
+      button.focus()
+      expect(button.style.outline).toBe('none')
+
+      button.blur()
+      expect(button.style.outline).toBe('2px solid red')
+    })
+
+    test("shares what is suppressed with the first evaluation's listeners", async () => {
+      const second = await evaluateAgain()
+      const button = add('button')
+
+      // The first evaluation's listener suppresses it; the second's `suppressFocusRing` (a
+      // `focusRedirect` from the other copy) is asked for the same element before it blurs.
+      fireEvent.pointerDown(button)
+      button.focus()
+      second.suppressFocusRing(button)
+      button.blur()
+
+      expect(button.style.outline).toBe('2px solid red')
+    })
+  })
 })

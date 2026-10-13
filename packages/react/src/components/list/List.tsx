@@ -11,7 +11,6 @@ import { ContextColor, ContextStyle } from '../../types'
 import {
   hasHref,
   isInteractiveKind,
-  linkElement,
   resolveElementTag,
   resolveKindFromProps
 } from '../../utils/elementKind'
@@ -162,26 +161,22 @@ function ListRender<C extends ElementType = 'ul'>(
     className
   )
 
+  // Through `ListItem`, like the composed form: a linked item is a `Link`, so a disabled one is
+  // out of the tab order and doesn't navigate, and each registers with a surrounding `Scrollspy`.
+  // An item with no `href` is a `<div>` where the root isn't a list, as below.
   const autoContent = items
-    ? items.map((item, idx) => {
-        const itemClass = classNames('list-item', item.color && 'context', item.color, {
-          'list-action': hasHref(item.href),
-          active: item.active,
-          disabled: item.disabled
-        })
-        const Tag = linkElement(undefined, item.href, isListSemantic ? 'li' : 'div')
-        return (
-          <Tag
-            key={item.id ?? idx}
-            className={itemClass}
-            {...(hasHref(item.href) && { href: item.href })}
-            {...(item.active ? { 'aria-current': 'page' } : {})}
-            {...(item.disabled ? { 'aria-disabled': true } : {})}
-          >
-            {item.label}
-          </Tag>
-        )
-      })
+    ? items.map((item, idx) => (
+        <ListItem
+          key={item.id ?? idx}
+          component={hasHref(item.href) || isListSemantic ? undefined : 'div'}
+          href={item.href}
+          color={item.color}
+          active={item.active}
+          disabled={item.disabled}
+        >
+          {item.label}
+        </ListItem>
+      ))
     : null
 
   // When the root switched to `div` because of an interactive child, every plain `<ListItem>`

@@ -39,8 +39,25 @@ function takesText(el: HTMLElement): boolean {
   return el instanceof HTMLTextAreaElement || el.isContentEditable
 }
 
-// Each suppressed element with what puts its styles back.
-const suppressed = new Map<HTMLElement, () => void>()
+// What the listeners and `suppressFocusRing` share. It is kept on the document, not in this
+// module: a module evaluated twice (a hot reload, two copies of the package in one bundle) would
+// otherwise hold two sets of it, each with listeners of its own. The second then saved, as the
+// outline to restore, the `none` the first had just set, and its restore ran last: the outline
+// stayed off for good. Every evaluation finds the same state here, and only the first installs.
+interface FocusRingState {
+  installed: boolean
+  // The element the last press landed on, until a key is pressed.
+  pressed: HTMLElement | null
+  // Each suppressed element with what puts its styles back.
+  suppressed: Map<HTMLElement, () => void>
+}
+
+const STATE_KEY = Symbol.for('@chassis-ui/react/focus-ring')
+
+function stateOf(doc: Document): FocusRingState {
+  const holder = doc as Document & { [STATE_KEY]?: FocusRingState }
+  return (holder[STATE_KEY] ??= { installed: false, pressed: null, suppressed: new Map() })
+}
 
 // Which ring-painting style properties a given call suppresses. The global listeners only ever
 // need `outline` (that's the whole of chassis-css's `:focus-visible` ring); a
@@ -69,7 +86,9 @@ export function suppressFocusRing(
   // rapid re-press, the pointer re-entering a cell, or a repeated `focusRedirect` onto the same
   // element) would otherwise capture, as the value to restore, the `none` the first call set —
   // leaving the ring permanently suppressed. One shared map across every caller, so a
-  // global-listener suppression and a `focusRedirect` one can't stack on each other either.
+  // global-listener suppression and a `focusRedirect` one can't stack on each other either, nor
+  // can those of two evaluations of this module.
+  const { suppressed } = stateOf(el.ownerDocument)
   if (suppressed.has(el)) return
 
   const previous = styles.map((style) => [style, el.style[style]] as const)
@@ -85,20 +104,18 @@ export function suppressFocusRing(
   el.addEventListener('blur', restore)
 }
 
-// The element the last press landed on, until a key is pressed.
-let pressed: HTMLElement | null = null
-
 function handlePointerDown(event: PointerEvent) {
+  const state = stateOf(document)
   // An element removed while in focus never blurs: without this it would be held until a key
   // is pressed.
-  for (const [el, restore] of [...suppressed]) if (!el.isConnected) restore()
+  for (const [el, restore] of [...state.suppressed]) if (!el.isConnected) restore()
   const target = event.target
-  pressed = target instanceof Element ? target.closest<HTMLElement>(FOCUSABLE_SELECTOR) : null
+  state.pressed = target instanceof Element ? target.closest<HTMLElement>(FOCUSABLE_SELECTOR) : null
 }
 
 function handleFocusIn(event: FocusEvent) {
   const el = event.target
-  if (el !== pressed || !(el instanceof HTMLElement)) return
+  if (el !== stateOf(document).pressed || !(el instanceof HTMLElement)) return
   if (takesText(el) || !el.matches(':focus-visible')) return
   suppressFocusRing(el)
 }
@@ -106,15 +123,16 @@ function handleFocusIn(event: FocusEvent) {
 // The keyboard is in use again: whether a ring shows is `:focus-visible`'s to say, for the element
 // in focus too.
 function handleKeyDown() {
-  pressed = null
-  for (const restore of [...suppressed.values()]) restore()
+  const state = stateOf(document)
+  state.pressed = null
+  for (const restore of [...state.suppressed.values()]) restore()
 }
 
-let installed = false
-
 export function install(): void {
-  if (installed || typeof document === 'undefined') return
-  installed = true
+  if (typeof document === 'undefined') return
+  const state = stateOf(document)
+  if (state.installed) return
+  state.installed = true
   document.addEventListener('pointerdown', handlePointerDown, true)
   document.addEventListener('focusin', handleFocusIn, true)
   document.addEventListener('keydown', handleKeyDown, true)

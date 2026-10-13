@@ -415,6 +415,16 @@ describe('NavOverflow', () => {
       expect(shown()).toEqual(['Home', 'Dashboard', 'Products'])
     })
 
+    // With no more items than `threshold`, the threshold was skipped, and they all moved.
+    test.each([LABELS.length, LABELS.length + 3])(
+      'leaves every item of a list no longer than threshold (%i)',
+      (threshold) => {
+        renderNav(150, { threshold })
+        expect(shown()).toEqual(LABELS)
+        expect(inMenu()).toEqual([])
+      }
+    )
+
     test('measures again when threshold changes', () => {
       const { rerender } = renderNav(150)
       expect(shown()).toEqual(['Home'])

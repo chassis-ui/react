@@ -47,7 +47,9 @@ type ButtonOwnProps<C extends ElementType> = {
   /**
    * Marks the button as pressed for toggle-style usage (e.g. a formatting toolbar button).
    * Applies the `.active` class and sets `aria-pressed` so assistive technology announces
-   * "button, pressed" rather than treating the button as a navigation link.
+   * "button, pressed" rather than treating the button as a navigation link. A link (`href`, or
+   * an `<a>` as `component` or the `asChild` element) has no pressed state to announce: it gets
+   * the class alone, unless you give it `role="button"`.
    */
   pressed?: boolean
   /**
@@ -159,13 +161,16 @@ function ButtonRender<C extends ElementType = 'button'>(
   // the `Slot` holding the caller's element of that kind. `ref` is cast per branch since it's
   // declared for the generic `C`, not the specific element each branch actually renders (true by
   // construction — each branch's ref only ever populates with a matching instance). The props
-  // common to all three (className/aria-pressed/onClick) are factored out here so a future
-  // addition only needs to change one place, not three.
+  // common to all three (className/onClick) are factored out here so a future addition only
+  // needs to change one place, not three.
   const sharedProps = {
     className: _className,
-    'aria-pressed': pressed,
     onClick: handleClick
   }
+  // `aria-pressed` is a state of the button role, which a `<button>`, a button `<input>` and an
+  // element given button semantics below have. A link doesn't take it (axe's `aria-allowed-attr`),
+  // so an anchor gets it only when the caller made it a button.
+  const pressedProps = { 'aria-pressed': pressed }
 
   if (kind === 'button') {
     const NativeButton = Component as 'button'
@@ -173,6 +178,7 @@ function ButtonRender<C extends ElementType = 'button'>(
       <NativeButton
         {...(rest as Record<string, unknown>)}
         {...sharedProps}
+        {...pressedProps}
         type={type}
         disabled={disabled}
         ref={ref as Ref<HTMLButtonElement>}
@@ -192,6 +198,7 @@ function ButtonRender<C extends ElementType = 'button'>(
       <NativeInput
         {...(rest as Record<string, unknown>)}
         {...sharedProps}
+        {...pressedProps}
         type={type}
         disabled={disabled}
         ref={ref as Ref<HTMLInputElement>}
@@ -209,6 +216,7 @@ function ButtonRender<C extends ElementType = 'button'>(
       <Anchor
         {...(rest as Record<string, unknown>)}
         {...sharedProps}
+        {...((rest as { role?: string }).role === 'button' && pressedProps)}
         {...linkProps}
         {...(disabled && { 'aria-disabled': true, tabIndex: -1 })}
         ref={ref as Ref<HTMLAnchorElement>}
@@ -224,7 +232,7 @@ function ButtonRender<C extends ElementType = 'button'>(
         ? ({ disabled, onClick, ...rest } as Record<string, unknown>)
         : (mergeProps(rest, buttonProps) as Record<string, unknown>))}
       className={_className}
-      aria-pressed={pressed}
+      {...pressedProps}
       {...linkProps}
       ref={isComponentReference ? ref : forkedRef}
     >

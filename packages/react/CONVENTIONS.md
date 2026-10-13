@@ -145,8 +145,10 @@ or `resolveElementTag(Component)` when it needs a tag that has no kind, such as 
 (`src/utils/elementKind.ts`).
 
 The reason is `asChild`. Under it, `component` is a `Slot` that stands in for the caller's child
-element and carries that element's kind and tag, so `Component === 'a'` is false for a slotted
-`<a>` and the component would skip its own link handling. For the same reason a branch renders
+element, so `Component === 'a'` is false for a slotted `<a>` and the component would skip its own
+link handling. A host element's `Slot` carries its tag and kind. Component elements share one
+`Slot`, so a router link isn't remounted when its `href` comes or goes, and their kind is read
+from the element while the render function runs: ask for it there, not in an effect or a handler. For the same reason a branch renders
 `Component` typed as its tag (`const Anchor = Component as 'a'`), not a literal `<a>`. A parent
 that reads a child's props (`List` reading its `ListItem`s) uses `resolveKindFromProps`.
 

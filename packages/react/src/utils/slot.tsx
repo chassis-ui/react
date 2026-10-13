@@ -1,6 +1,7 @@
 import React, {
   cloneElement,
   createContext,
+  CSSProperties,
   forwardRef,
   Fragment,
   isValidElement,
@@ -22,11 +23,14 @@ import { resolveLazy } from './lazyElement'
 // element in its place, with the props the component computed (className, handlers, ARIA
 // attributes, ref) merged onto it.
 //
-// There is one `Slot` per tag, and two for component elements (a link, anything else), and the
-// component gets the one that matches the child. A render function reads the child's kind and
-// tag back with `resolveElementKind(Component)`/`resolveElementTag(Component)` (see
-// `./elementKind`) and gives a slotted `<a>` the handling it gives `component="a"`. Both travel
-// on the component rather than in a prop, so nothing extra can reach the DOM.
+// There is one `Slot` per tag, and one for every component element, and the component gets the
+// one that matches the child. A render function reads the child's kind and tag back with
+// `resolveElementKind(Component)`/`resolveElementTag(Component)` (see `./elementKind`) and gives a
+// slotted `<a>` the handling it gives `component="a"`. A tag's kind travels on its `Slot` rather
+// than in a prop, so nothing extra can reach the DOM. A component element's kind is whether it
+// has a link target, which can change between renders, so it is read from the element while the
+// render function runs (`withSlottedElement`): a `Slot` per kind would remount the child when its
+// `href` came or went.
 //
 // The child element travels through context rather than a prop because a render function spreads
 // its `rest` props onto `component` in its own way (some filter them, some don't forward every
@@ -63,6 +67,12 @@ function createSlot(slotKind: ElementKind, slotTag: string | undefined) {
     // Descriptions add up too: a child's own `aria-describedby` keeps the component's (a
     // `Tooltip`'s) rather than replacing it.
     const props: Record<string, unknown> = { ...mergeProps(slotProps, element.props) }
+    // `mergeProps` takes the child's `style` whole, which dropped the inline styles the component
+    // computed (a `Grid`'s `--cx-grid-gap`, a `GridItem`'s `gridTemplateRows`) under a child with
+    // any style of its own. Property by property instead, the child's winning.
+    const slotStyle = slotProps.style as CSSProperties | undefined
+    const childStyle = element.props.style as CSSProperties | undefined
+    if (slotStyle && childStyle) props.style = { ...slotStyle, ...childStyle }
     // Written only when there is one: a key set to `undefined` would replace a description the
     // child's own component writes before spreading its props.
     const describedBy = joinIds(
@@ -91,28 +101,26 @@ function createSlot(slotKind: ElementKind, slotTag: string | undefined) {
   return Object.assign(Slot, { slotKind, slotTag })
 }
 
-// Created on first use and kept: a `Slot` has to be the same component on every render, or React
-// would remount the child. Keyed by tag, or by kind for a component element (a tag can't start
-// with a colon).
-const slots = new Map<string, ReturnType<typeof createSlot>>()
+// The `Slot` of every component element, and the one `renderSlotted` renders for any element. A
+// `Slot` has to be the same component on every render, or React would remount the child, and one
+// chosen by the element's kind would change when its `href` came or went.
+const ComponentSlot = createSlot('component', undefined)
+
+// Created on first use and kept, for the same reason. A host element changes with its tag
+// anyway, so its `Slot` can carry the tag and the kind.
+const tagSlots = new Map<string, ReturnType<typeof createSlot>>()
 
 // The `Slot` a component renders for this child element.
 export function getSlot(element: SlotElement) {
-  const kind = resolveSlottedKind(element)
-  const tag = typeof element.type === 'string' ? element.type : undefined
-  const key = tag ?? `:${kind}`
-  let slot = slots.get(key)
+  const tag = element.type
+  if (typeof tag !== 'string') return ComponentSlot
+  let slot = tagSlots.get(tag)
   if (!slot) {
-    slot = createSlot(kind, tag)
-    slots.set(key, slot)
+    slot = createSlot(resolveSlottedKind(element), tag)
+    tagSlots.set(tag, slot)
   }
   return slot
 }
-
-// The `Slot` `renderSlotted` renders. One for every element: the trigger of a `Tooltip` has no
-// kind for a render function to read, and a `Slot` chosen by kind would change, remounting the
-// caller's trigger, when its `href` came or went.
-const TriggerSlot = createSlot('component', undefined)
 
 // Renders an element the component doesn't own, such as the trigger of a `Tooltip` or a
 // `Popover`, the way `asChild` renders a child: with the component's `props` merged into the
@@ -129,9 +137,9 @@ export function renderSlotted(
   const slotted = defined.length ? cloneElement(element, Object.fromEntries(defined)) : element
   return (
     <SlotProvider value={slotted}>
-      <TriggerSlot {...props} ref={ref}>
+      <ComponentSlot {...props} ref={ref}>
         {element.props.children as ReactNode}
-      </TriggerSlot>
+      </ComponentSlot>
     </SlotProvider>
   )
 }

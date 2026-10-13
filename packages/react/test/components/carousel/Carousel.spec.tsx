@@ -396,6 +396,22 @@ describe('Carousel', () => {
       expect(item2).not.toHaveClass('active')
     })
 
+    // `directionBetween` mirrors the direction of travel in a right-to-left layout; the keys
+    // didn't follow, so Left Arrow went back to a slide that sits to the right.
+    test('mirrors the arrow keys in a right-to-left layout', async () => {
+      render(<ThreeItemCarousel data-testid="carousel" style={{ direction: 'rtl' }} />)
+      const carousel = screen.getByTestId('carousel')
+      const item1 = screen.getByText('Item-1')
+      const item2 = screen.getByText('Item-2')
+
+      fireEvent.keyDown(carousel, { key: 'ArrowLeft' })
+      await waitFor(() => expect(item2).toHaveClass('active'))
+
+      fireEvent.keyDown(carousel, { key: 'ArrowRight' })
+      await waitFor(() => expect(item1).toHaveClass('active'))
+      expect(item2).not.toHaveClass('active')
+    })
+
     test('is disabled entirely when keyboard={false}', () => {
       const { container } = render(<ThreeItemCarousel keyboard={false} />)
       // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
@@ -550,6 +566,116 @@ describe('Carousel', () => {
         act(() => vi.advanceTimersByTime(1000))
         expect(onMouseLeave).toHaveBeenCalledTimes(1)
         expect(screen.getByText('Item-2')).toHaveClass('active')
+      } finally {
+        vi.useRealTimers()
+        uninstallVisibility()
+      }
+    })
+
+    // Each tick used to run the closure of the render that started the cycle.
+    describe('props that change while it runs', () => {
+      const Autoplaying = (props: Partial<React.ComponentProps<typeof Carousel>>) => (
+        <Carousel autoplay interval={1000} {...props}>
+          <CarouselPlayPause />
+          <CarouselInner>
+            <CarouselItem>Item-1</CarouselItem>
+            <CarouselItem>Item-2</CarouselItem>
+            <CarouselItem>Item-3</CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      )
+      let uninstallVisibility: () => void
+
+      beforeEach(() => {
+        vi.useFakeTimers()
+        uninstallVisibility = stubVisibleGeometry()
+      })
+
+      afterEach(() => {
+        vi.useRealTimers()
+        uninstallVisibility()
+      })
+
+      test('reports to the onSlide of the latest render', () => {
+        const first = vi.fn()
+        const second = vi.fn()
+        const { rerender } = render(<Autoplaying onSlide={first} />)
+        rerender(<Autoplaying onSlide={second} />)
+
+        act(() => vi.advanceTimersByTime(1000))
+        expect(first).not.toHaveBeenCalled()
+        expect(second).toHaveBeenCalledWith(expect.objectContaining({ from: 0, to: 1 }))
+
+        // And on every tick after the first, which the first render's closure scheduled.
+        const third = vi.fn()
+        rerender(<Autoplaying onSlide={third} />)
+        act(() => vi.advanceTimersByTime(1000))
+        expect(second).toHaveBeenCalledTimes(1)
+        expect(third).toHaveBeenCalledWith(expect.objectContaining({ from: 1, to: 2 }))
+      })
+
+      test('waits the new interval, from the slide being shown', () => {
+        const { rerender } = render(<Autoplaying />)
+        act(() => vi.advanceTimersByTime(1000))
+        expect(screen.getByText('Item-2')).toHaveClass('active')
+
+        rerender(<Autoplaying interval={3000} />)
+        act(() => vi.advanceTimersByTime(1000))
+        expect(screen.getByText('Item-2')).toHaveClass('active')
+        act(() => vi.advanceTimersByTime(2000))
+        expect(screen.getByText('Item-3')).toHaveClass('active')
+
+        // And keeps to it.
+        rerender(<Autoplaying interval={500} />)
+        act(() => vi.advanceTimersByTime(500))
+        expect(screen.getByText('Item-1')).toHaveClass('active')
+        act(() => vi.advanceTimersByTime(500))
+        expect(screen.getByText('Item-2')).toHaveClass('active')
+      })
+
+      test('stops at the last slide once ends becomes "stop"', () => {
+        const { rerender } = render(<Autoplaying ends="wrap" />)
+        act(() => vi.advanceTimersByTime(2000))
+        expect(screen.getByText('Item-3')).toHaveClass('active')
+
+        // One tick: the first render's closure wrapped round to the first slide here.
+        rerender(<Autoplaying ends="stop" />)
+        act(() => vi.advanceTimersByTime(1000))
+        expect(screen.getByText('Item-3')).toHaveClass('active')
+        expect(screen.getByRole('button', { name: 'Play' })).toBeInTheDocument()
+        act(() => vi.advanceTimersByTime(5000))
+        expect(screen.getByText('Item-3')).toHaveClass('active')
+      })
+    })
+
+    // Autoplay with nowhere left to go paused its timer and stayed `playing`: the button read
+    // "Pause", and the first click on it only stopped what had already stopped.
+    test('ends="stop": the play/pause control says Play once the last slide is reached, and one click restarts', () => {
+      vi.useFakeTimers()
+      const uninstallVisibility = stubVisibleGeometry()
+      try {
+        render(
+          <Carousel autoplay interval={1000} ends="stop" data-testid="carousel">
+            <CarouselPlayPause />
+            <CarouselInner>
+              <CarouselItem>Item-1</CarouselItem>
+              <CarouselItem>Item-2</CarouselItem>
+            </CarouselInner>
+          </Carousel>
+        )
+        act(() => vi.advanceTimersByTime(1000))
+        expect(screen.getByText('Item-2')).toHaveClass('active')
+        expect(screen.getByRole('button', { name: 'Pause' })).toBeInTheDocument()
+
+        // The tick that finds nothing after the last slide.
+        act(() => vi.advanceTimersByTime(1000))
+        const toggle = screen.getByRole('button', { name: 'Play' })
+        expect(toggle).toHaveClass('paused')
+        expect(screen.getByTestId('carousel')).not.toHaveClass('carousel-playing')
+
+        fireEvent.click(toggle)
+        expect(screen.getByRole('button', { name: 'Pause' })).toBeInTheDocument()
+        expect(screen.getByTestId('carousel')).toHaveClass('carousel-playing')
       } finally {
         vi.useRealTimers()
         uninstallVisibility()
@@ -838,7 +964,156 @@ describe('Carousel', () => {
     })
   })
 
+  describe('a controlled parent that does not follow', () => {
+    // The request used to be written to the carousel's own record of the active slide before
+    // the parent answered, and a parent that said no rendered nothing to put it back.
+    test('the next step still starts from the slide being shown', async () => {
+      const onSlide = vi.fn()
+      function Guarded({ locked }: { locked: boolean }) {
+        const [activeIndex, setActiveIndex] = React.useState(0)
+        return (
+          <Carousel
+            activeIndex={activeIndex}
+            ends="stop"
+            onSlide={(detail) => {
+              onSlide(detail)
+              if (!locked) setActiveIndex(detail.to)
+            }}
+          >
+            <CarouselControlPrev />
+            <CarouselControlNext />
+            <CarouselInner>
+              <CarouselItem>Item-1</CarouselItem>
+              <CarouselItem>Item-2</CarouselItem>
+              <CarouselItem>Item-3</CarouselItem>
+            </CarouselInner>
+          </Carousel>
+        )
+      }
+      const { rerender } = render(<Guarded locked />)
+      const next = screen.getByRole('button', { name: 'Next slide' })
+      // Each click in a task of its own, as a browser delivers them.
+      const click = () => act(async () => void fireEvent.click(next))
+
+      await click()
+      await click()
+      expect(screen.getByText('Item-1')).toHaveClass('active')
+      // Asked for the second slide both times: the first request moved nothing.
+      expect(onSlide.mock.calls.map(([detail]) => [detail.from, detail.to])).toEqual([
+        [0, 1],
+        [0, 1]
+      ])
+
+      rerender(<Guarded locked={false} />)
+      await click()
+      expect(onSlide).toHaveBeenLastCalledWith(expect.objectContaining({ from: 0, to: 1 }))
+      expect(screen.getByText('Item-2')).toHaveClass('active')
+    })
+
+    test.each([
+      ['uncontrolled', undefined],
+      ['controlled', 0]
+    ])('two steps asked for in one tick still advance twice: %s', (_mode, initial) => {
+      function Subject() {
+        const [activeIndex, setActiveIndex] = React.useState(initial)
+        return (
+          <Carousel
+            activeIndex={activeIndex}
+            onSlide={initial === undefined ? undefined : ({ to }) => setActiveIndex(to)}
+          >
+            <CarouselControlNext />
+            <CarouselInner>
+              <CarouselItem>Item-1</CarouselItem>
+              <CarouselItem>Item-2</CarouselItem>
+              <CarouselItem>Item-3</CarouselItem>
+            </CarouselInner>
+          </Carousel>
+        )
+      }
+      render(<Subject />)
+      const next = screen.getByRole('button', { name: 'Next slide' })
+
+      // One `act`: nothing renders between the two clicks.
+      act(() => {
+        next.click()
+        next.click()
+      })
+      expect(screen.getByText('Item-3')).toHaveClass('active')
+    })
+  })
+
   describe('fade transition', () => {
+    // `onSlid` fired on the commit `onSlide` did, with the crossfade still to run.
+    test('fires onSlid when the incoming slide has faded in, not when the fade starts', () => {
+      // jsdom has no stylesheet: the slides are given the transition chassis-css gives them.
+      const original = window.getComputedStyle
+      const computed = vi.spyOn(window, 'getComputedStyle').mockImplementation((element) => {
+        const style = original(element)
+        if (!(element as HTMLElement).classList.contains('carousel-item')) return style
+        return new Proxy(style, {
+          get: (target, property) =>
+            property === 'transitionDuration'
+              ? '0.6s'
+              : property === 'transitionDelay'
+                ? '0s'
+                : Reflect.get(target, property)
+        })
+      })
+      const onSlide = vi.fn()
+      const onSlid = vi.fn()
+      try {
+        render(
+          <Carousel transition="fade" onSlide={onSlide} onSlid={onSlid}>
+            <CarouselControlNext />
+            <CarouselInner>
+              <CarouselItem>Item-1</CarouselItem>
+              <CarouselItem>Item-2</CarouselItem>
+              <CarouselItem>Item-3</CarouselItem>
+            </CarouselInner>
+          </Carousel>
+        )
+        const next = screen.getByRole('button', { name: 'Next slide' })
+
+        fireEvent.click(next)
+        expect(screen.getByText('Item-2')).toHaveClass('active')
+        expect(onSlide).toHaveBeenCalledTimes(1)
+        expect(onSlid).not.toHaveBeenCalled()
+
+        // The outgoing slide's transition isn't the one waited on.
+        fireEvent.transitionEnd(screen.getByText('Item-1'))
+        expect(onSlid).not.toHaveBeenCalled()
+        fireEvent.transitionEnd(screen.getByText('Item-2'))
+        expect(onSlid).toHaveBeenCalledTimes(1)
+        expect(onSlid).toHaveBeenCalledWith(expect.objectContaining({ from: 0, to: 1 }))
+
+        // A step taken mid-fade overtakes it: only the slide that is reached is reported.
+        fireEvent.click(next)
+        fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+        fireEvent.transitionEnd(screen.getByText('Item-3'))
+        fireEvent.transitionEnd(screen.getByText('Item-1'))
+        expect(onSlid).toHaveBeenCalledTimes(2)
+        expect(onSlid).toHaveBeenLastCalledWith(expect.objectContaining({ to: 0 }))
+      } finally {
+        computed.mockRestore()
+      }
+    })
+
+    test('fires onSlid at once when the slides have no transition', () => {
+      const onSlid = vi.fn()
+      render(
+        <Carousel transition="fade" onSlid={onSlid}>
+          <CarouselControlNext />
+          <CarouselInner>
+            <CarouselItem>Item-1</CarouselItem>
+            <CarouselItem>Item-2</CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      )
+
+      fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+      expect(onSlid).toHaveBeenCalledWith(expect.objectContaining({ from: 0, to: 1 }))
+    })
+
     test('applies the carousel-fade class on the root', () => {
       const { container } = render(
         <Carousel transition="fade">

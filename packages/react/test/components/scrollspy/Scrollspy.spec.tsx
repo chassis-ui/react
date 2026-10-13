@@ -330,6 +330,27 @@ describe('Scrollspy', () => {
       expect(link('One')).not.toHaveClass('active')
     })
 
+    // The `items` form of `List` rendered a bare `<a>`, which registered with nothing.
+    test("marks an item of a List's items", () => {
+      render(
+        <>
+          <Scrollspy>
+            <List
+              items={[
+                { label: 'One', href: '#one' },
+                { label: 'Two', href: '#two' }
+              ]}
+            />
+          </Scrollspy>
+          <Sections ids={['one', 'two']} />
+        </>
+      )
+      scrollTo(300)
+      expect(link('Two')).toHaveClass('list-item', 'list-action', 'active')
+      expect(link('Two')).toHaveAttribute('aria-current', 'true')
+      expect(link('One')).not.toHaveClass('active')
+    })
+
     test('marks a link given with asChild, whose href only the element has', () => {
       render(
         <>

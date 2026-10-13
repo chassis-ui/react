@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { List, ListItem } from '../../../src/index'
@@ -111,6 +111,58 @@ describe('List', () => {
     test('stays a ul when no item has href', () => {
       render(<List items={[{ label: 'Dashboard' }, { label: 'Profile' }]} />)
       expect(screen.getByText('Dashboard').parentElement?.tagName).toBe('UL')
+    })
+
+    // The `items` form rendered a bare `<a>`, which had only the look of a disabled link.
+    test('a disabled linked item is out of the tab order and does not navigate', () => {
+      render(
+        <List
+          items={[
+            { label: 'Billing', href: '#billing', disabled: true },
+            { label: 'Profile', href: '#profile' }
+          ]}
+        />
+      )
+
+      const billing = screen.getByRole('link', { name: 'Billing' })
+      expect(billing).toHaveAttribute('aria-disabled', 'true')
+      expect(billing).toHaveAttribute('tabindex', '-1')
+      expect(billing).toHaveClass('list-item', 'list-action', 'disabled')
+      // `fireEvent` answers whether the default action, the navigation, was left to happen.
+      expect(fireEvent.click(billing)).toBe(false)
+
+      const profile = screen.getByRole('link', { name: 'Profile' })
+      expect(profile).not.toHaveAttribute('tabindex')
+      expect(fireEvent.click(profile)).toBe(true)
+    })
+
+    test('renders what the composed form renders', () => {
+      const { container: fromItems } = render(
+        <List
+          items={[
+            { label: 'Dashboard', href: '#a', active: true },
+            { label: 'Billing', href: '#b', disabled: true, color: 'warning' },
+            { label: 'Plain', color: 'danger', active: true },
+            { label: 'Off', disabled: true }
+          ]}
+        />
+      )
+      const { container: composed } = render(
+        <List>
+          <ListItem href="#a" active>
+            Dashboard
+          </ListItem>
+          <ListItem href="#b" disabled color="warning">
+            Billing
+          </ListItem>
+          <ListItem color="danger" active>
+            Plain
+          </ListItem>
+          <ListItem disabled>Off</ListItem>
+        </List>
+      )
+
+      expect(fromItems.innerHTML).toBe(composed.innerHTML)
     })
 
     test('keys items by id, preserving DOM node identity when items reorder', () => {

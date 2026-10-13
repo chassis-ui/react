@@ -30,9 +30,33 @@ function kindOfTag(tag: string): ElementKind {
 
 type SlotLike = { slotKind?: ElementKind; slotTag?: string }
 
+type SlottedElement = ReactElement<Record<string, unknown>>
+
+// The element the `Slot` of the render function now running stands in for. A host element's
+// `Slot` carries its kind, which can't change without the element changing. A component element's
+// kind follows its `href` and `to`, which come and go, and a `Slot` chosen by them would be a new
+// component, remounting the caller's child, each time they did. So component elements share one
+// `Slot`, and their kind is read from the element itself while the render function runs.
+let slotted: SlottedElement | null = null
+
+// Runs a render function whose `component` is a `Slot` standing in for `element`. Only
+// `createPolymorphicComponent` calls it.
+export function withSlottedElement<T>(element: SlottedElement | null, render: () => T): T {
+  const previous = slotted
+  slotted = element
+  try {
+    return render()
+  } finally {
+    slotted = previous
+  }
+}
+
 export function resolveElementKind(component: ElementType): ElementKind {
   if (typeof component === 'string') return kindOfTag(component)
-  return (component as SlotLike).slotKind ?? 'component'
+  const kind = (component as SlotLike).slotKind
+  // `component` only for the `Slot` of a component element: a tag is never that kind.
+  if (kind === 'component' && slotted) return resolveSlottedKind(slotted)
+  return kind ?? 'component'
 }
 
 // The HTML tag that gets rendered, for a render function whose markup depends on a tag that has
@@ -60,7 +84,7 @@ export function resolveLinkKind(
 }
 
 // The kind of the element a caller handed to `asChild`.
-export function resolveSlottedKind(element: ReactElement<Record<string, unknown>>): ElementKind {
+export function resolveSlottedKind(element: SlottedElement): ElementKind {
   return resolveLinkKind(element.type as ElementType, element.props.href, element.props)
 }
 

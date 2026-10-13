@@ -9,7 +9,8 @@ import {
 } from 'react'
 
 import { devWarning } from './devWarning'
-import { getSlot, getSlotChild, SlotProvider } from './slot'
+import { withSlottedElement } from './elementKind'
+import { getSlot, getSlotChild, isSlot, SlotProvider, useSlotElement } from './slot'
 
 // Ref type inferred from a polymorphic component's currently-selected `component` element type.
 export type PolymorphicRef<C extends ElementType> = ComponentPropsWithRef<C>['ref']
@@ -67,7 +68,9 @@ export type PolymorphicComponentProps<C extends ElementType, OwnProps extends ob
  * classes, props and ref as it would for `component` — the `Slot` then clones the caller's child
  * element with all of that merged on (see `./slot`). No render function needs to know `asChild`
  * exists. One that treats elements differently (`disabled` on a `<button>` versus an `<a>`) asks
- * `resolveElementKind(Component)`, which answers for a tag and for a `Slot` alike.
+ * `resolveElementKind(Component)`, which answers for a tag and for a `Slot` alike. It has to ask
+ * while it renders: the kind of a component element is read from the element then, not kept on
+ * its `Slot`.
  */
 export function createPolymorphicComponent<T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -76,8 +79,15 @@ export function createPolymorphicComponent<T>(
 ): T {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Component = forwardRef<Element, any>(({ asChild, ...props }, ref) => {
+    // The `asChild` element of a component above, for when that component hands its `Slot` on as
+    // this one's `component` (`ListItem` and `NavLink` render a `Link` that way).
+    const inherited = useSlotElement()
     const child = asChild ? getSlotChild(props.children, displayName) : null
-    if (!child) return render(props, ref)
+    if (!child) {
+      return isSlot(props.component)
+        ? withSlottedElement(inherited, () => render(props, ref))
+        : render(props, ref)
+    }
 
     devWarning(
       props.component !== undefined,
@@ -85,16 +95,20 @@ export function createPolymorphicComponent<T>(
         `\`component\` is ignored.`
     )
 
+    // The render function reads the child's kind off the `Slot` while it runs (see
+    // `withSlottedElement`).
     return createElement(
       SlotProvider,
       { value: child },
-      render(
-        {
-          ...props,
-          component: getSlot(child),
-          children: (child.props as PropsWithChildren).children
-        },
-        ref
+      withSlottedElement(child, () =>
+        render(
+          {
+            ...props,
+            component: getSlot(child),
+            children: (child.props as PropsWithChildren).children
+          },
+          ref
+        )
       )
     )
   }) as unknown as T & { displayName?: string }

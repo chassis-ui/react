@@ -30,6 +30,7 @@ import {
   scrollDeltaFor
 } from './carouselEngine'
 import { devWarning } from '../../utils/devWarning'
+import { executeAfterTransition, getTransitionDuration } from '../../utils/dialogTransition'
 import { isElementOfType } from '../../utils/lazyElement'
 import { CarouselInner } from './CarouselInner'
 import { readSlides } from './slides'
@@ -100,7 +101,9 @@ export interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
    */
   itemsPeek?: string
   /**
-   * Move to the previous/next slide with the Left/Right arrow keys while focus is inside the carousel.
+   * Move to the previous/next slide with the Left/Right arrow keys while focus is inside the
+   * carousel. The keys follow the slides: in a right-to-left layout the next slide is to the
+   * left, and Left Arrow moves to it.
    */
   keyboard?: boolean
   /**
@@ -172,11 +175,25 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     // and reattaching the viewport ref instead of running once per mount.
     const registerViewport = useCallback((node: HTMLDivElement | null) => setViewportEl(node), [])
 
+    const isControlled = activeIndexProp !== undefined
     const [activeIndex, setActiveIndex] = useControllableState(activeIndexProp, defaultActiveIndex)
     const activeIndexRef = useRef(activeIndex)
+    // The index of the last commit, which `activeIndexRef` may run ahead of (see
+    // `setActiveIndexInternal`).
+    const committedIndexRef = useRef(activeIndex)
     useIsomorphicLayoutEffect(() => {
       activeIndexRef.current = activeIndex
+      committedIndexRef.current = activeIndex
     }, [activeIndex])
+
+    // A timer, an observer and a running animation outlive the render that started them. The
+    // callbacks they report to are read from here, so they are the latest render's.
+    const onSlideRef = useRef(onSlide)
+    const onSlidRef = useRef(onSlid)
+    useIsomorphicLayoutEffect(() => {
+      onSlideRef.current = onSlide
+      onSlidRef.current = onSlid
+    })
 
     // Counted from the DOM once the viewport is mounted (the layout effect below), which never
     // happens on the server: `CarouselIndicators` rendered an empty list there. The first render
@@ -238,6 +255,15 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       // stale `activeIndexRef.current` and target the same index instead of advancing twice.
       activeIndexRef.current = next
       setActiveIndex(next)
+      // A controlled carousel only asks. A parent that leaves `activeIndex` where it is renders
+      // nothing, so no effect would put the ref back and every later step would start from a
+      // slide that isn't shown. The ref runs ahead for the rest of this tick, which is all the
+      // back-to-back calls above need, and is the prop's again after it.
+      if (isControlled) {
+        queueMicrotask(() => {
+          activeIndexRef.current = committedIndexRef.current
+        })
+      }
     }
 
     // Index math alone (not real geometry) drives `atStart`/`atEnd` so end-control state and
@@ -326,7 +352,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
                 direction: directionBetween(from, bestIndex, isRTL(viewportEl))
               }
               lastTransitionRef.current = detail
-              onSlide?.(detail)
+              onSlideRef.current?.(detail)
               skipScrollSyncRef.current = true
               setActiveIndexInternal(bestIndex)
             }
@@ -411,11 +437,10 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
             syncingScrollRef.current = false
             cancelScrollSyncRef.current = null
             deferOnSlidRef.current = false
-            onSlid?.(lastTransitionRef.current)
+            onSlidRef.current?.(lastTransitionRef.current)
           }
         )
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [viewportEl, activeIndex, itemCount, center, isFade])
 
     useEffect(() => {
@@ -424,7 +449,21 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         return
       }
       if (deferOnSlidRef.current) return
-      onSlid?.(lastTransitionRef.current)
+      const detail = lastTransitionRef.current
+      // A crossfade is over when the incoming slide's opacity transition is: `onSlid` used to
+      // fire on the commit `onSlide` did. It waits on the element's own transition, so a themed
+      // duration is followed, and one that has none (reduced motion) doesn't wait. The cleanup
+      // drops a fade another step overtook, as a scroll overtaken mid-flight reports nothing.
+      const incoming = isFade && viewportEl ? getCarouselItems(viewportEl)[activeIndex] : undefined
+      if (incoming) {
+        return executeAfterTransition(
+          incoming,
+          () => onSlidRef.current?.(detail),
+          getTransitionDuration(incoming) > 0
+        )
+      }
+      onSlid?.(detail)
+      return undefined
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeIndex])
 
@@ -567,6 +606,11 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       setCycling(false)
     }
 
+    // What the autoplay timer does when it fires. The timer is set in one render and fires in a
+    // later one, and each tick used to run the closure of the render that started the cycle:
+    // its `interval`, `ends`, `items`, `transition` and `onSlide`, whatever they had become.
+    const autoplayTickRef = useRef<(fromIndex: number) => void>(() => undefined)
+
     const scheduleAutoplay = (fromIndex: number = activeIndexRef.current) => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
 
@@ -575,38 +619,46 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       const ms = attr && !Number.isNaN(Number(attr)) ? Number(attr) : interval
       carouselRef.current?.style.setProperty('--cx-carousel-interval', `${ms}ms`)
 
-      timeoutRef.current = setTimeout(() => {
-        const length = itemCountRef.current
-        const effectiveLast = Math.max(0, length - itemsVisible)
-        const upcoming = normalizeIndex(activeIndexRef.current + 1, effectiveLast + 1, wraps)
-        const canAdvance =
-          typeof document === 'undefined' ||
-          (document.visibilityState === 'visible' && isElementVisible(carouselRef.current))
-
-        if (!canAdvance) {
-          scheduleAutoplay(fromIndex)
-          return
-        }
-
-        goNext()
-
-        if (upcoming === null) {
-          pauseCycle()
-          return
-        }
-
-        scheduleAutoplay(upcoming)
-      }, ms)
-    }
-
-    const startCycle = () => {
-      scheduleAutoplay()
-      setCycling(true)
+      timeoutRef.current = setTimeout(() => autoplayTickRef.current(fromIndex), ms)
     }
 
     const stopPlayingForGood = () => {
       setPlaying(false)
       pauseCycle()
+    }
+
+    const autoplayTick = (fromIndex: number) => {
+      const length = itemCountRef.current
+      const effectiveLast = Math.max(0, length - itemsVisible)
+      const upcoming = normalizeIndex(activeIndexRef.current + 1, effectiveLast + 1, wraps)
+      const canAdvance =
+        typeof document === 'undefined' ||
+        (document.visibilityState === 'visible' && isElementVisible(carouselRef.current))
+
+      if (!canAdvance) {
+        scheduleAutoplay(fromIndex)
+        return
+      }
+
+      goNext()
+
+      // Nothing after the last slide of `ends="stop"`: autoplay is over, not paused, and
+      // `CarouselPlayPause` says so. Left `playing`, it still read "Pause", and took one click to
+      // stop what had stopped and another to start again.
+      if (upcoming === null) {
+        stopPlayingForGood()
+        return
+      }
+
+      scheduleAutoplay(upcoming)
+    }
+    useIsomorphicLayoutEffect(() => {
+      autoplayTickRef.current = autoplayTick
+    })
+
+    const startCycle = () => {
+      scheduleAutoplay()
+      setCycling(true)
     }
 
     const togglePlayPause = () => {
@@ -624,6 +676,13 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       return () => pauseCycle()
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [viewportEl])
+
+    // A new `interval` applies to the slide being shown, not from the one after it. A slide's own
+    // `interval` still wins, in `scheduleAutoplay`.
+    useEffect(() => {
+      if (timeoutRef.current) scheduleAutoplay()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [interval])
 
     useEffect(() => {
       if (!viewportEl) return undefined
@@ -687,8 +746,11 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 
       event.preventDefault()
       stopPlayingForGood()
-      if (event.key === 'ArrowLeft') goPrev()
-      else goNext()
+      // The key that points where the next slide is: to the right, or to the left in a
+      // right-to-left layout, as `directionBetween` reports the direction of travel.
+      const nextKey = isRTL(event.currentTarget) ? 'ArrowLeft' : 'ArrowRight'
+      if (event.key === nextKey) goNext()
+      else goPrev()
     }
 
     const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {

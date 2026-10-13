@@ -124,7 +124,9 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
     >(
       () =>
         defaultExpandedKeys ??
-        items?.filter((item) => item.open).map((item, index) => item.id ?? index) ??
+        // The key before the filter: an item with no `id` is keyed by its index in `items`, not
+        // by its place among the open ones.
+        items?.flatMap((item, index) => (item.open ? [item.id ?? index] : [])) ??
         []
     )
     const currentExpandedKeys = isExpandedControlled ? expandedKeys : uncontrolledExpandedKeys

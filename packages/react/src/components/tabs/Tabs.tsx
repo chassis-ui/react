@@ -101,19 +101,31 @@ function TabsRender<C extends ElementType = 'div'>(
     (child): child is ReactElement<TabProps> => React.isValidElement(child)
   )
 
-  const tabDisabledKeys = tabs.filter((tab) => tab.props.disabled).map((tab) => tab.props.id)
-  const allDisabledKeys = disabledKeys ? [...disabledKeys, ...tabDisabledKeys] : tabDisabledKeys
+  // react-stately keys its collection by the React `key` of each `Item`, which is a string
+  // whatever it was given. An `id` is a `Key`, so it may be a number: every id is compared with
+  // the collection as a string, or `<Tab id={1}>` never matched its own key (no panel, and a
+  // `disabled` that didn't hold).
+  const tabDisabledKeys = tabs.filter((tab) => tab.props.disabled).map((tab) => collectionKey(tab))
+  const allDisabledKeys = disabledKeys
+    ? [...Array.from(disabledKeys, String), ...tabDisabledKeys]
+    : tabDisabledKeys
 
   // With no key given, react-stately selects the first enabled tab in an effect, which never runs
   // on the server: the server HTML had no selected tab and no panel. Choosing that tab here, by
   // react-stately's own rule (the first enabled tab, or the first tab when all are disabled),
   // selects it on the first render.
-  const initialKey = defaultSelectedKey ?? firstEnabledKey(tabs, new Set(allDisabledKeys))
+  const initialKey =
+    defaultSelectedKey == null
+      ? firstEnabledKey(tabs, new Set(allDisabledKeys))
+      : String(defaultSelectedKey)
+
+  // The id as the `Tab` has it, so a number given comes back a number.
+  const idOfKey = (key: Key): Key => tabs.find((tab) => collectionKey(tab) === key)?.props.id ?? key
 
   const state = useTabListState<ReactElement<TabProps>>({
     children: (tab) => (
       <Item
-        key={tab.props.id}
+        key={collectionKey(tab)}
         textValue={typeof tab.props.children === 'string' ? tab.props.children : undefined}
       >
         {tab.props.children}
@@ -122,8 +134,8 @@ function TabsRender<C extends ElementType = 'div'>(
     items: tabs,
     defaultSelectedKey: initialKey,
     disabledKeys: allDisabledKeys,
-    selectedKey,
-    onSelectionChange
+    selectedKey: selectedKey == null ? selectedKey : String(selectedKey),
+    onSelectionChange: onSelectionChange && ((key) => onSelectionChange(idOfKey(key)))
   })
 
   // react-stately's own selection of that tab reported it through `onSelectionChange`, which a key
@@ -134,7 +146,7 @@ function TabsRender<C extends ElementType = 'div'>(
     if (reportedInitialKeyRef.current) return
     reportedInitialKeyRef.current = true
     if (selectedKey == null && defaultSelectedKey == null && initialKey != null) {
-      onSelectionChange?.(initialKey)
+      onSelectionChange?.(idOfKey(initialKey))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -175,8 +187,15 @@ function findTabList(child: unknown, depth = 2): TabListElement | undefined {
   return undefined
 }
 
-function firstEnabledKey(tabs: ReactElement<TabProps>[], disabled: Set<Key>): Key | undefined {
-  return (tabs.find((tab) => !disabled.has(tab.props.id)) ?? tabs[0])?.props.id
+// The key react-stately's collection has for a tab.
+const collectionKey = (tab: ReactElement<TabProps>): string => String(tab.props.id)
+
+function firstEnabledKey(
+  tabs: ReactElement<TabProps>[],
+  disabled: Set<string>
+): string | undefined {
+  const first = tabs.find((tab) => !disabled.has(collectionKey(tab))) ?? tabs[0]
+  return first && collectionKey(first)
 }
 
 export const Tabs = createPolymorphicComponent<TabsComponent>(

@@ -20,7 +20,82 @@ const BasicTabs = (props: Partial<React.ComponentProps<typeof Tabs>> = {}) => (
   </Tabs>
 )
 
+// react-stately's collection keys are strings; an `id` is a `Key`, so it may be a number.
+const NumericTabs = (props: Partial<React.ComponentProps<typeof Tabs>> = {}) => (
+  <Tabs {...props}>
+    <TabList aria-label="Numbered tabs">
+      <Tab id={1} disabled>
+        One
+      </Tab>
+      <Tab id={2}>Two</Tab>
+      <Tab id={3}>Three</Tab>
+    </TabList>
+    <TabPanel id={1}>Panel one</TabPanel>
+    <TabPanel id={2}>Panel two</TabPanel>
+    <TabPanel id={3}>Panel three</TabPanel>
+  </Tabs>
+)
+
 describe('Tabs', () => {
+  describe('numeric ids', () => {
+    test('selects the first enabled tab, shows its panel and reports its id as given', () => {
+      const onSelectionChange = vi.fn()
+      render(<NumericTabs onSelectionChange={onSelectionChange} />)
+
+      expect(screen.getByRole('tab', { name: 'Two' })).toHaveAttribute('aria-selected', 'true')
+      const panel = screen.getByRole('tabpanel')
+      expect(panel).toHaveTextContent('Panel two')
+      expect(panel).toHaveAccessibleName('Two')
+      expect(screen.getByRole('tab', { name: 'Two' })).toHaveAttribute('aria-controls', panel.id)
+      expect(onSelectionChange).toHaveBeenCalledTimes(1)
+      expect(onSelectionChange).toHaveBeenCalledWith(2)
+    })
+
+    test('keeps a disabled tab from being selected', () => {
+      const onSelectionChange = vi.fn()
+      render(<NumericTabs defaultSelectedKey={2} onSelectionChange={onSelectionChange} />)
+
+      const one = screen.getByRole('tab', { name: 'One' })
+      expect(one).toHaveAttribute('aria-disabled', 'true')
+      fireEvent.click(one)
+      expect(onSelectionChange).not.toHaveBeenCalled()
+      expect(screen.getByRole('tabpanel')).toHaveTextContent('Panel two')
+    })
+
+    test('takes disabledKeys, defaultSelectedKey and a controlled selectedKey as numbers', () => {
+      function Controlled() {
+        const [selected, setSelected] = React.useState<string | number>(3)
+        return (
+          <>
+            <NumericTabs
+              disabledKeys={[2]}
+              selectedKey={selected}
+              onSelectionChange={setSelected}
+            />
+            <output>{typeof selected}</output>
+          </>
+        )
+      }
+      render(<Controlled />)
+
+      expect(screen.getByRole('tabpanel')).toHaveTextContent('Panel three')
+      const two = screen.getByRole('tab', { name: 'Two' })
+      expect(two).toHaveAttribute('aria-disabled', 'true')
+      fireEvent.click(two)
+      expect(screen.getByRole('tabpanel')).toHaveTextContent('Panel three')
+      expect(screen.getByRole('status')).toHaveTextContent('number')
+    })
+
+    test('reports the id of a clicked tab as a number', () => {
+      const onSelectionChange = vi.fn()
+      render(<NumericTabs defaultSelectedKey={2} onSelectionChange={onSelectionChange} />)
+
+      fireEvent.click(screen.getByRole('tab', { name: 'Three' }))
+      expect(onSelectionChange).toHaveBeenCalledWith(3)
+      expect(screen.getByRole('tabpanel')).toHaveTextContent('Panel three')
+    })
+  })
+
   describe('rendering', () => {
     test('renders tabs with correct ARIA roles', async () => {
       render(<BasicTabs />)

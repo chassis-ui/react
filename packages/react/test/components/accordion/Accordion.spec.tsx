@@ -45,6 +45,30 @@ describe('Accordion', () => {
     })
   })
 
+  describe('items with no id', () => {
+    // Keyed by index in `items`. The initial set was read after the closed items were filtered
+    // out, so the open item was recorded under its place among the open ones.
+    test('an item that starts open is the one expanded when the open set is tracked', () => {
+      const onExpandedChange = vi.fn()
+      render(
+        <Accordion
+          onExpandedChange={onExpandedChange}
+          items={[
+            { header: 'Header A', body: 'Body A' },
+            { header: 'Header B', body: 'Body B' },
+            { header: 'Header C', body: 'Body C', open: true }
+          ]}
+        />
+      )
+
+      // A `<details>` is a group.
+      const [first, second, third] = screen.getAllByRole('group')
+      expect(first).not.toHaveAttribute('open')
+      expect(second).not.toHaveAttribute('open')
+      expect(third).toHaveAttribute('open')
+    })
+  })
+
   describe('controlled expansion', () => {
     const items = [
       { id: 'a', header: 'Header A', body: 'Body A' },

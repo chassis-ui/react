@@ -165,7 +165,7 @@ A controlled `activeIndex` needs an `onSlide` or `onSlid` handler feeding the ne
 
 Carousel accessibility centers on keyboard control, focus preservation at the ends, and ARIA state that mirrors the current slide.
 
-With `keyboard` enabled (the default), Left Arrow and Right Arrow move to the previous and next slide while focus is inside the carousel; either key turns autoplay off for good, the same as a control click. Arrow keys inside a nested `<input>`, `<textarea>`, `<select>`, or `[contenteditable]` element are left alone so native form navigation keeps working.
+With `keyboard` enabled (the default), Left Arrow and Right Arrow move to the previous and next slide while focus is inside the carousel; either key turns autoplay off for good, the same as a control click. The keys follow the slides: in a right-to-left layout the next slide is to the left, so Left Arrow moves to the next slide and Right Arrow to the previous one. Arrow keys inside a nested `<input>`, `<textarea>`, `<select>`, or `[contenteditable]` element are left alone so native form navigation keeps working.
 
 `CarouselIndicators` sets `aria-current="true"` on the active indicator and gives each one its own `aria-label` identifying the slide it jumps to (`Slide 1`, overridable through its `label` prop). `CarouselControlPrev`/`CarouselControlNext` carry a `visually-hidden` label by default (`Previous slide`/`Next slide`, overridable through their own `label` prop) so the icon-only buttons still have an accessible name.
 

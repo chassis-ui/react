@@ -86,6 +86,50 @@ describe('Button', () => {
       expect(button).toHaveAttribute('aria-pressed', 'true')
     })
 
+    // `aria-pressed` is a state of the button role: on a link, axe reports `aria-allowed-attr`.
+    test.each([
+      ['with href', <Button href="/bold" pressed children="Bold" key="href" />],
+      ['as component="a"', <Button component="a" href="/bold" pressed children="Bold" key="a" />],
+      [
+        'as the asChild element',
+        <Button asChild pressed key="asChild">
+          <a href="/bold">Bold</a>
+        </Button>
+      ]
+    ])('a link %s takes the class and no aria-pressed', async (_form, button) => {
+      const { container } = render(button)
+
+      const link = screen.getByRole('link', { name: 'Bold' })
+      expect(link).toHaveClass('button', 'active')
+      expect(link).not.toHaveAttribute('aria-pressed')
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('an anchor the caller made a button keeps aria-pressed', async () => {
+      const { container } = render(
+        <Button href="#bold" role="button" pressed>
+          Bold
+        </Button>
+      )
+
+      expect(screen.getByRole('button', { name: 'Bold' })).toHaveAttribute('aria-pressed', 'true')
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test.each([
+      ['a <button>', <Button pressed children="Bold" key="button" />],
+      ['an <input>', <Button component="input" pressed value="Bold" key="input" />],
+      [
+        'an element given button semantics',
+        <Button component="div" pressed onClick={() => {}} children="Bold" key="div" />
+      ]
+    ])('%s has aria-pressed and no axe violations', async (_form, button) => {
+      const { container } = render(button)
+
+      expect(screen.getByRole('button', { name: 'Bold' })).toHaveAttribute('aria-pressed', 'true')
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
     test('does not set aria-current, unlike a nav-style active link', () => {
       render(<Button pressed>Bold</Button>)
       expect(screen.getByRole('button', { name: 'Bold' })).not.toHaveAttribute('aria-current')

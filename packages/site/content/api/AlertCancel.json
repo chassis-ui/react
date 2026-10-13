@@ -105,7 +105,7 @@
     },
     "pressed": {
       "defaultValue": null,
-      "description": "Marks the button as pressed for toggle-style usage (e.g. a formatting toolbar button).\nApplies the `.active` class and sets `aria-pressed` so assistive technology announces\n\"button, pressed\" rather than treating the button as a navigation link.",
+      "description": "Marks the button as pressed for toggle-style usage (e.g. a formatting toolbar button).\nApplies the `.active` class and sets `aria-pressed` so assistive technology announces\n\"button, pressed\" rather than treating the button as a navigation link. A link (`href`, or\nan `<a>` as `component` or the `asChild` element) has no pressed state to announce: it gets\nthe class alone, unless you give it `role=\"button\"`.",
       "name": "pressed",
       "declarations": [
         {

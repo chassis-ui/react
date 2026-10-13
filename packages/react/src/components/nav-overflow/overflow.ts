@@ -65,7 +65,9 @@ export function overflowingIds({
     return used > available + SLACK
   })
 
-  if (items.length - overflowing.length < threshold && items.length > threshold) {
+  // Fewer than `threshold` would be left: the first `threshold` stay whatever the width. A list
+  // that has no more than that keeps every item, as `slice` leaves none to move.
+  if (items.length - overflowing.length < threshold) {
     overflowing = items.slice(threshold).filter((item) => !item.keep)
   }
 

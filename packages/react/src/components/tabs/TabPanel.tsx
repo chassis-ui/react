@@ -37,9 +37,11 @@ export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
     const { state, isInitialSelectionRef } = useTabsContext()
     const panelRef = useRef<HTMLDivElement>(null)
     const forkedRef = useForkedRef(ref, panelRef)
-    const { tabPanelProps } = useTabPanel({ id }, state, panelRef)
+    // As a string: the selected key is the collection's, which is one whatever the `Tab` was given.
+    const key = String(id)
+    const { tabPanelProps } = useTabPanel({ id: key }, state, panelRef)
 
-    const isSelected = state.selectedKey === id
+    const isSelected = state.selectedKey === key
     const { phase } = useTransitionState({
       appear: !isInitialSelectionRef.current,
       in: isSelected,

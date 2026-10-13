@@ -960,7 +960,9 @@ type ButtonOwnProps<C extends ElementType> = {
   /**
    * Marks the button as pressed for toggle-style usage (e.g. a formatting toolbar button).
    * Applies the `.active` class and sets `aria-pressed` so assistive technology announces
-   * "button, pressed" rather than treating the button as a navigation link.
+   * "button, pressed" rather than treating the button as a navigation link. A link (`href`, or
+   * an `<a>` as `component` or the `asChild` element) has no pressed state to announce: it gets
+   * the class alone, unless you give it `role="button"`.
    */
   pressed?: boolean;
   /**
@@ -2067,7 +2069,9 @@ interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
    */
   itemsPeek?: string;
   /**
-   * Move to the previous/next slide with the Left/Right arrow keys while focus is inside the carousel.
+   * Move to the previous/next slide with the Left/Right arrow keys while focus is inside the
+   * carousel. The keys follow the slides: in a right-to-left layout the next slide is to the
+   * left, and Left Arrow moves to it.
    */
   keyboard?: boolean;
   /**
