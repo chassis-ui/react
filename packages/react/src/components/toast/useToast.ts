@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { ToastContext, ToastContextProps } from '../components/toast/context'
+import { ToastContext, ToastContextProps } from './context'
 
 export type UseToastResult = ToastContextProps
 

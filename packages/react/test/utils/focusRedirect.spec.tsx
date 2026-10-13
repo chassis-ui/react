@@ -70,10 +70,10 @@ describe('focusRedirect', () => {
     document.body.removeChild(el)
   })
 
-  // The suppression set is shared with the global `pointerdown` listener, so a press that
-  // suppresses an element and a redirect that lands back on that same element can't stack. The
-  // redirect still has to move focus, even though it skips the (already done) ring work.
-  test('still focuses an element the global pointerdown listener already suppressed', () => {
+  // The suppressed elements are shared with the global listeners, so a press on an element and a
+  // redirect that lands back on that same element can't stack. The redirect still has to move
+  // focus, whichever of the two did the ring work.
+  test('still focuses an element that was pressed just before', () => {
     const el = document.createElement('button')
     const other = document.createElement('button')
     document.body.append(other, el)

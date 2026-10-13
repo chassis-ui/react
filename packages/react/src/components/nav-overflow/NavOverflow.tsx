@@ -28,7 +28,7 @@ import {
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
-import { useHydrated } from '../portal/Portal'
+import { useHydrated } from '../../hooks/useHydrated'
 import { NavOverflowMore, NavOverflowMoreContext, NavOverflowMoreState } from './more'
 import { MeasuredItem, overflowingIds } from './overflow'
 

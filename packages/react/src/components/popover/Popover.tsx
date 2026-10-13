@@ -22,7 +22,8 @@ import {
 import { insideEventProps, isEventInside } from '../../utils/insideEvents'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { pushOverlay } from '../../utils/overlayStack'
-import { Portal, useHydrated } from '../portal/Portal'
+import { useHydrated } from '../../hooks/useHydrated'
+import { Portal } from '../portal/Portal'
 import { getTriggerChild, renderSlotted } from '../../utils/slot'
 
 interface PopoverPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {

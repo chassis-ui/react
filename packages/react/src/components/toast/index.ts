@@ -20,7 +20,5 @@ export { Toaster } from './Toaster'
 export type { ToasterProps } from './Toaster'
 export { addToast, closeToast, toastQueue } from './toastQueue'
 export type { ToastContent } from './toastQueue'
-// Also exported from the package root; repeated here so this folder's subpath entry
-// (`@chassis-ui/react/<folder>`) covers the whole family without reaching back to the root.
-export { useToast } from '../../hooks/useToast'
-export type { UseToastResult } from '../../hooks/useToast'
+export { useToast } from './useToast'
+export type { UseToastResult } from './useToast'

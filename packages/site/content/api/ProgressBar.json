@@ -101,6 +101,21 @@
         "name": "ElementType"
       }
     },
+    "indeterminate": {
+      "defaultValue": null,
+      "description": "Shows that work is under way without saying how much: the bar fills the track and sweeps\nacross it, or shows its stripes when `striped` is set. `value` is ignored.",
+      "name": "indeterminate",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/progress/ProgressBar.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "striped": {
       "defaultValue": null,
       "description": "Adds a diagonal stripe pattern over the bar's background.",

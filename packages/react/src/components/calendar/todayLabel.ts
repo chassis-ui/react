@@ -2,7 +2,7 @@ import { CalendarDate, isSameDay, isToday } from '@internationalized/date'
 import { useLocalizedStringFormatter } from 'react-aria'
 import type { CalendarState, RangeCalendarState } from 'react-stately'
 
-import { useHydrated } from '../portal/Portal'
+import { useHydrated } from '../../hooks/useHydrated'
 import { todayLabelStrings } from './todayLabelStrings'
 
 // Stands in for the date in a wrapper string, to split the wrapper around it.

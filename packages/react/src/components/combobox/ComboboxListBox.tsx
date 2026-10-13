@@ -4,8 +4,8 @@ import { AriaListBoxOptions, useListBox, useOption } from 'react-aria'
 import { ComboBoxState, Node } from 'react-stately'
 
 import { getVirtualFocusStyle } from '../../utils/virtualFocusStyle'
-import { ComboboxEntry, ComboboxSelectionMode } from '../../utils/comboboxCollection'
-import { IconSlot } from '../../utils/iconSlot'
+import { ComboboxEntry, ComboboxSelectionMode } from './comboboxCollection'
+import { IconSlot } from '../icon/iconSlot'
 
 interface ComboboxListBoxProps<M extends ComboboxSelectionMode = 'single'> {
   listBoxProps: AriaListBoxOptions<ComboboxEntry>

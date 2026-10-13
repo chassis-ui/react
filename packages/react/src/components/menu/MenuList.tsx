@@ -11,13 +11,14 @@ import { mergeProps } from 'react-aria'
 
 import { useForkedRef } from '../../hooks'
 import { insideEventProps } from '../../utils/insideEvents'
-import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
+import { renderMenuItemContent } from './renderMenuItemContent'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
-import { Portal, useHydrated } from '../portal/Portal'
+import { useHydrated } from '../../hooks/useHydrated'
+import { Portal } from '../portal/Portal'
 import { MenuContext } from './Menu'
 import { MenuDivider } from './MenuDivider'
 import { MenuHeader } from './MenuHeader'

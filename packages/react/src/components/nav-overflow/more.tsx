@@ -12,7 +12,7 @@ import classNames from 'classnames'
 
 import { useIsomorphicLayoutEffect } from '../../hooks'
 import { IconValue } from '../../utils/iconConfig'
-import { IconSlot } from '../../utils/iconSlot'
+import { IconSlot } from '../icon/iconSlot'
 import { NavOverflowLinkProps, NavOverflowMoreProps } from '../../utils/navOverflow'
 import { Placement } from '../../utils/overlayPlacement'
 import { Menu } from '../menu/Menu'

@@ -116,12 +116,10 @@ export default defineConfig([
     rules: testingLibraryWarnRules,
     files: ['**/*.spec.ts', '**/*.spec.tsx']
   }, // Enterprise migration (see .claude/plans/chassis-react-enterprise-migration.md, Phase 0/1):
-  // `Cx`-prefixed identifiers were dropped from packages/react/src by Phase 1's scripted rename.
-  // Flipped from `warn` to `error` in Phase 1 Batch G, once the rename actually cleared the
-  // ~870 pre-existing occurrences — this now guards against reintroducing the prefix rather than
-  // tracking a migration in progress. Neither this nor the rule below catches string literals
-  // (`cx-*` class names, `data-cx-*` attributes) — see CONVENTIONS.md and the plan's Ground Truth
-  // section for those.
+  // `Cx`-prefixed identifiers were dropped from packages/react/src by a scripted rename (~870
+  // occurrences); this guards against reintroducing the prefix. Neither this nor the rule below
+  // reads string literals: the remaining `cx-*` class names are chassis-css's own, and the
+  // `data-cx-*` attributes are its selectors (packages/react/CONVENTIONS.md, "Naming").
   {
     files: ['packages/react/src/**/*.ts', 'packages/react/src/**/*.tsx'],
     rules: {

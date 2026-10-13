@@ -1,8 +1,9 @@
 import React, { ElementType, ForwardRefRenderFunction, ReactElement, useContext } from 'react'
 import classNames from 'classnames'
 
-import { useIsomorphicLayoutEffect, useModal } from '../../hooks'
+import { useIsomorphicLayoutEffect } from '../../hooks'
 import { ModalTitleContext } from './Modal'
+import { useModal } from './useModal'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,

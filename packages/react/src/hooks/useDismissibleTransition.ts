@@ -1,6 +1,6 @@
 import { ForwardedRef, useCallback, useEffect, useId, useRef } from 'react'
 
-import { useHydrated } from '../components/portal/Portal'
+import { useHydrated } from './useHydrated'
 import { warnDroppedVisibleRequest } from '../utils/visibleState'
 import { useControllableState } from './useControllableState'
 import { useForkedRef } from './useForkedRef'

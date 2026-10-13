@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import { useHydrated } from '../components/portal/Portal'
+import { useHydrated } from './useHydrated'
 
 export type RegisterDialogTitle = (id: string) => () => void
 

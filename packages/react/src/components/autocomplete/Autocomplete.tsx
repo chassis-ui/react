@@ -18,7 +18,7 @@ import {
   ComboboxEntry,
   comboboxCollectionChildren,
   getDisabledKeys
-} from '../../utils/comboboxCollection'
+} from '../combobox/comboboxCollection'
 import {
   COMBOBOX_MENU_OVERLAY_STYLE,
   resolveMenuOverlayPositioning,

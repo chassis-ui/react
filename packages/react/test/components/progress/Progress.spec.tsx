@@ -142,6 +142,73 @@ describe('Progress', () => {
     })
   })
 
+  describe('indeterminate', () => {
+    const getBar = () =>
+      within(screen.getByRole('progressbar')).getByText('', { selector: '.progress-bar' })
+
+    test('leaves the value attributes out and keeps the accessible name', () => {
+      render(<Progress aria-label="Loading page" indeterminate />)
+      const progress = screen.getByRole('progressbar', { name: 'Loading page' })
+      expect(progress).not.toHaveAttribute('aria-valuenow')
+      expect(progress).not.toHaveAttribute('aria-valuemin')
+      expect(progress).not.toHaveAttribute('aria-valuemax')
+    })
+
+    test('marks the bar and sets no width on it, whatever the value', () => {
+      render(<Progress aria-label="Test" indeterminate value={40} />)
+      const bar = getBar()
+      expect(bar).toHaveClass('progress-bar', 'indeterminate')
+      expect(bar).not.toHaveAttribute('style')
+      expect(screen.getByRole('progressbar')).not.toHaveAttribute('aria-valuenow')
+    })
+
+    test('composes with color, striped and animated', () => {
+      render(<Progress animated aria-label="Test" color="success" indeterminate striped />)
+      expect(getBar()).toHaveClass('indeterminate', 'bg-success', 'striped', 'animated')
+    })
+
+    test('shows no value inside the bar or in the caption', () => {
+      render(<Progress aria-label="Test" indeterminate inlineValue showValue value={40} />)
+      expect(screen.queryByText('40%')).not.toBeInTheDocument()
+    })
+
+    test('keeps the element and the caption row of showValue when the value arrives', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      const { rerender } = render(
+        <Progress aria-label="Test" indeterminate ref={ref} showValue value={40} />
+      )
+      const element = ref.current
+      expect(element).toBe(screen.getByRole('progressbar'))
+      rerender(<Progress aria-label="Test" ref={ref} showValue value={40} />)
+      expect(ref.current).toBe(element)
+      expect(screen.getByText('40%')).toHaveClass('font-strong')
+    })
+
+    test('keeps the label in the caption, without a value beside it', () => {
+      render(<Progress indeterminate label="Uploading" showValue value={40} />)
+      expect(screen.getByRole('progressbar', { name: 'Uploading' })).toBeInTheDocument()
+      expect(screen.getByText('Uploading')).toHaveClass('font-strong')
+      expect(screen.queryByText('40%')).not.toBeInTheDocument()
+    })
+
+    test('still renders custom children inside the bar', () => {
+      render(
+        <Progress aria-label="Test" indeterminate striped>
+          Working
+        </Progress>
+      )
+      expect(screen.getByText('Working')).toBeInTheDocument()
+    })
+
+    test('a bar that stops being indeterminate reports its value again', () => {
+      const { rerender } = render(<Progress aria-label="Test" indeterminate value={40} />)
+      rerender(<Progress aria-label="Test" value={40} />)
+      expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '40')
+      expect(getBar()).not.toHaveClass('indeterminate')
+      expect(getBar()).toHaveStyle('width: 40%')
+    })
+  })
+
   describe('caption wrapper', () => {
     // Whether an extra wrapper div sits above `.progress` has no accessible role of its own
     // to query by - direct node access is the only way to check for it.
@@ -197,6 +264,11 @@ describe('Progress', () => {
 
     test('has no axe violations with a label and showValue', async () => {
       const { container } = render(<Progress label="Upload progress" showValue value={50} />)
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('has no axe violations when indeterminate', async () => {
+      const { container } = render(<Progress indeterminate label="Uploading" />)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

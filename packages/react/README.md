@@ -44,8 +44,8 @@ import '@chassis-ui/react/style.css'
 
 `@chassis-ui/react/style.css` covers the pieces with no `@chassis-ui/css` equivalent: the
 calendars and date pickers, `TimeField`, `NumberField`, `SearchField`, `DataGrid`, `Tree`,
-`Notification`'s fade, `Divider`'s label and `Table`'s sort and selection UI. Without it those
-pieces render unstyled; everything else is styled by `@chassis-ui/css` alone.
+`Notification`'s fade, `Divider`'s label, `Table`'s sort and selection UI and `Progress`'s
+indeterminate bar. Without it those pieces render unstyled; everything else is styled by `@chassis-ui/css` alone.
 
 ## Usage
 

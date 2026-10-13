@@ -149,6 +149,16 @@ describe('MenuToggle', () => {
   })
 
   describe('click behavior', () => {
+    // react-aria focuses the toggle by script while the press starts, and a browser then matches
+    // `:focus-visible` on it, which is what the global listeners act on. jsdom doesn't.
+    const matchFocusVisible = (el: HTMLElement) =>
+      vi
+        .spyOn(el, 'matches')
+        .mockImplementation(
+          (selector) =>
+            selector === ':focus-visible' || HTMLElement.prototype.matches.call(el, selector)
+        )
+
     test('suppresses the focus ring on a real pointer click, restoring it on blur', async () => {
       const user = userEvent.setup()
       render(
@@ -160,6 +170,7 @@ describe('MenuToggle', () => {
         </Menu>
       )
       const toggle = screen.getByRole('button', { name: 'Test' })
+      matchFocusVisible(toggle)
       // See `actUserEvent.ts` for why this needs it instead of a plain `act(...)` wrapper.
       await actUserEvent(() => user.click(toggle))
       expect(toggle).toHaveFocus()
@@ -198,6 +209,7 @@ describe('MenuToggle', () => {
         </Menu>
       )
       const toggle = screen.getByRole('button', { name: 'Test' })
+      matchFocusVisible(toggle)
       // Opens, then re-clicking while still focused closes it again — the exact re-click-while-
       // focused case `wasOpenRef` handles, and the one that used to stack a second blur listener.
       await actUserEvent(() => user.click(toggle))

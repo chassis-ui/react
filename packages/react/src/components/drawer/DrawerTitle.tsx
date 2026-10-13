@@ -1,8 +1,9 @@
 import React, { ElementType, ForwardRefRenderFunction, ReactElement, useContext } from 'react'
 import classNames from 'classnames'
 
-import { useDrawer, useIsomorphicLayoutEffect } from '../../hooks'
+import { useIsomorphicLayoutEffect } from '../../hooks'
 import { DrawerTitleContext } from './Drawer'
+import { useDrawer } from './useDrawer'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,

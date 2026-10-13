@@ -837,7 +837,7 @@ interface NotificationContextProps {
   close: () => void;
 }
 //#endregion
-//#region src/hooks/useNotification.d.ts
+//#region src/components/notification/useNotification.d.ts
 type UseNotificationResult = NotificationContextProps;
 export declare const useNotification: () => UseNotificationResult;
 //#endregion
@@ -5030,7 +5030,7 @@ type ModalTitleComponent = (<C extends ElementType = 'h2'>(props: ModalTitleProp
 };
 export declare const ModalTitle: ModalTitleComponent;
 //#endregion
-//#region src/hooks/useModal.d.ts
+//#region src/components/modal/useModal.d.ts
 type UseModalResult = ModalContextProps;
 export declare const useModal: () => UseModalResult;
 //#endregion
@@ -5479,6 +5479,13 @@ type ProgressOwnProps<C extends ElementType> = {
    */
   height?: number;
   /**
+   * Shows that work is under way without saying how much, for a request with no progress events.
+   * The bar sweeps across the track, or fills it with stripes when `striped` is set, and the
+   * `aria-valuenow`, `aria-valuemin` and `aria-valuemax` attributes are left out. `value` and
+   * `inlineValue` are ignored, and `showValue` keeps its place in the caption row empty.
+   */
+  indeterminate?: boolean;
+  /**
    * Shows the current value as text inside the bar, independently of `showValue` — combine both
    * to get a `label` + `showValue` caption above the bar alongside an `inlineValue` reading
    * inside it.
@@ -5529,6 +5536,11 @@ type ProgressBarOwnProps<C extends ElementType> = {
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
   component?: C;
+  /**
+   * Shows that work is under way without saying how much: the bar fills the track and sweeps
+   * across it, or shows its stripes when `striped` is set. `value` is ignored.
+   */
+  indeterminate?: boolean;
   /**
    * Adds a diagonal stripe pattern over the bar's background.
    */
@@ -5742,7 +5754,7 @@ type DrawerTitleComponent = (<C extends ElementType = 'h2'>(props: DrawerTitlePr
 };
 export declare const DrawerTitle: DrawerTitleComponent;
 //#endregion
-//#region src/hooks/useDrawer.d.ts
+//#region src/components/drawer/useDrawer.d.ts
 type UseDrawerResult = DrawerContextProps;
 export declare const useDrawer: () => UseDrawerResult;
 //#endregion
@@ -6633,7 +6645,7 @@ interface ToastContextProps {
   close: () => void;
 }
 //#endregion
-//#region src/hooks/useToast.d.ts
+//#region src/components/toast/useToast.d.ts
 type UseToastResult = ToastContextProps;
 export declare const useToast: () => UseToastResult;
 //#endregion
@@ -6688,6 +6700,15 @@ interface TooltipProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' |
   visible?: boolean;
 }
 export declare const Tooltip: React.ForwardRefExoticComponent<TooltipProps & React.RefAttributes<HTMLDivElement>>;
+//#endregion
+//#region src/hooks/useHydrated.d.ts
+/**
+ * `false` on the server and during hydration, `true` afterwards and in a client-only render. React
+ * hydrates against the server snapshot, then re-renders with the client one once hydration has
+ * finished, so a component can render something that only exists in the browser without
+ * mismatching the server's HTML.
+ */
+export declare function useHydrated(): boolean;
 //#endregion
 //#region src/components/chip/Chip.d.ts
 type ChipOwnProps<C extends ElementType> = {
@@ -6838,11 +6859,12 @@ type StackOwnProps<C extends ElementType> = {
    */
   direction?: Responsive<'horizontal' | 'vertical'>;
   /**
-   * Spacing between children, mapped to the `gap-*` utility classes.
+   * Spacing between children, mapped to the `gap-*` utility classes. Takes an object per
+   * breakpoint, as `direction` does: `{ base: 'sm', md: 'lg' }`.
    *
-   * @type { Spacing | 0 }
+   * @type { Responsive<Spacing | 0> }
    */
-  gap?: 0 | Spacing;
+  gap?: Responsive<0 | Spacing>;
 };
 type StackProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, StackOwnProps<C>>;
 type StackComponent = (<C extends ElementType = 'div'>(props: StackProps<C> & {
@@ -6853,13 +6875,6 @@ type StackComponent = (<C extends ElementType = 'div'>(props: StackProps<C> & {
 export declare const Stack: StackComponent;
 //#endregion
 //#region src/components/portal/Portal.d.ts
-/**
- * `false` on the server and during hydration, `true` afterwards and in a client-only render. React
- * hydrates against the server snapshot, then re-renders with the client one once hydration has
- * finished, so a component can render something that only exists in the browser without
- * mismatching the server's HTML.
- */
-export declare function useHydrated(): boolean;
 interface PortalProps {
   /**
    * The content to render in the portal.

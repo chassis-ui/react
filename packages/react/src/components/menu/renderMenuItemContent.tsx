@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 
-import { IconSlot } from './iconSlot'
+import { IconSlot } from '../icon/iconSlot'
 
 export interface MenuItemContentDef {
   /**

@@ -18,7 +18,8 @@ import {
   NotificationStack,
   addNotification,
   closeNotification,
-  notificationQueue
+  notificationQueue,
+  useNotification
 } from './components/notification'
 import { Badge } from './components/badge'
 import { Breadcrumb, BreadcrumbItem } from './components/breadcrumb'
@@ -96,13 +97,27 @@ import { Icon, IconProvider } from './components/icon'
 import { Placeholder } from './components/placeholder'
 import { Link } from './components/link'
 import { List, ListItem } from './components/list'
-import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from './components/modal'
+import {
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+  useModal
+} from './components/modal'
 import { Nav, NavItem, NavLink, NavTitle } from './components/nav'
 import { Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler } from './components/navbar'
 import { Pagination, PaginationItem } from './components/pagination'
 import { Popover } from './components/popover'
 import { Progress, ProgressBar } from './components/progress'
-import { Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle } from './components/drawer'
+import {
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  useDrawer
+} from './components/drawer'
 import { Skeleton, SkeletonLoader } from './components/skeleton'
 import { Spinner } from './components/spinner'
 import { StaticTable } from './components/static-table'
@@ -118,14 +133,15 @@ import {
   Toaster,
   addToast,
   closeToast,
-  toastQueue
+  toastQueue,
+  useToast
 } from './components/toast'
 import { Tooltip } from './components/tooltip'
-import { useDrawer, useModal, useNotification, usePagination, useToast } from './hooks'
+import { useHydrated, usePagination } from './hooks'
 import { Chip } from './components/chip'
 import { Flex } from './components/flex'
 import { Stack } from './components/stack'
-import { Portal, useHydrated } from './components/portal'
+import { Portal } from './components/portal'
 import { VisuallyHidden } from './components/visually-hidden'
 import {
   Alert,
@@ -430,7 +446,8 @@ export type {
   DrawerFooterProps,
   DrawerHeaderProps,
   DrawerProps,
-  DrawerTitleProps
+  DrawerTitleProps,
+  UseDrawerResult
 } from './components/drawer'
 export type { FileInputProps } from './components/file-input'
 export type { FlexProps } from './components/flex'
@@ -471,7 +488,8 @@ export type {
   ModalFooterProps,
   ModalHeaderProps,
   ModalProps,
-  ModalTitleProps
+  ModalTitleProps,
+  UseModalResult
 } from './components/modal'
 export type {
   NavItemDef,
@@ -493,7 +511,8 @@ export type {
   NotificationProps,
   NotificationStackProps,
   NotificationTextProps,
-  NotificationTitleProps
+  NotificationTitleProps,
+  UseNotificationResult
 } from './components/notification'
 export type { OtpInputProps } from './components/otp-input'
 export type { PaginationItemProps, PaginationProps } from './components/pagination'
@@ -528,7 +547,8 @@ export type {
   ToastHeaderProps,
   ToastIconProps,
   ToastProps,
-  ToasterProps
+  ToasterProps,
+  UseToastResult
 } from './components/toast'
 export type { TooltipProps } from './components/tooltip'
 export type { PortalProps } from './components/portal'
@@ -571,12 +591,6 @@ export type {
 // Backs the `placement` prop on `Menu`/`MenuSubmenu`/`Popover`/`Tooltip`. Lives in `utils/`
 // rather than a component barrel because all four share it.
 export type { Placement } from './utils/overlayPlacement'
-// Result types for the five hooks exported as values above. Mirrors what `hooks/index.ts` itself
-// exposes for them — the other hooks in that folder stay internal, so their types do too.
-export type {
-  UseDrawerResult,
-  UseModalResult,
-  UseNotificationResult,
-  UsePaginationResult,
-  UseToastResult
-} from './hooks'
+// The result type of the one `hooks/` hook exported as a value above; the other hooks of that
+// folder stay internal, so their types do too.
+export type { UsePaginationResult } from './hooks'

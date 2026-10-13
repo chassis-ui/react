@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { DrawerContext, DrawerContextProps } from '../components/drawer/Drawer'
+import { DrawerContext, DrawerContextProps } from './Drawer'
 
 export type UseDrawerResult = DrawerContextProps
 

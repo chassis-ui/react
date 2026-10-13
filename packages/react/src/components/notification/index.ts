@@ -19,7 +19,5 @@ export { NotificationStack } from './NotificationStack'
 export type { NotificationStackProps } from './NotificationStack'
 export { addNotification, closeNotification, notificationQueue } from './notificationQueue'
 export type { NotificationContent } from './notificationQueue'
-// Also exported from the package root; repeated here so this folder's subpath entry
-// (`@chassis-ui/react/<folder>`) covers the whole family without reaching back to the root.
-export { useNotification } from '../../hooks/useNotification'
-export type { UseNotificationResult } from '../../hooks/useNotification'
+export { useNotification } from './useNotification'
+export type { UseNotificationResult } from './useNotification'

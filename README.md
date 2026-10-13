@@ -42,8 +42,8 @@ function App() {
 ```
 
 A few pieces — the calendars and date pickers, `TimeField`, `NumberField`, `SearchField`,
-`DataGrid`, `Tree`, `Notification`'s fade, `Divider`'s label and `Table`'s sort/selection UI —
-have no `@chassis-ui/css` visual equivalent, so `@chassis-ui/react` ships its own compiled
+`DataGrid`, `Tree`, `Notification`'s fade, `Divider`'s label, `Table`'s sort/selection UI and
+`Progress`'s indeterminate bar — have no `@chassis-ui/css` visual equivalent, so `@chassis-ui/react` ships its own compiled
 stylesheet for just those pieces. Import it once alongside the `@chassis-ui/css` stylesheet
 above:
 

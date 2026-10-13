@@ -27,8 +27,8 @@
     --cell-padding-y: var(--table-cell-padding-y, #{$table-cell-padding-y});
     --cell-padding-x: var(--table-cell-padding-x, #{$table-cell-padding-x});
     // scss-docs-start datagrid-pin-cue-variables
-    // Read by DataGridPinBehavior's generated stylesheet — not exposed via `--table-*` since
-    // pinned columns have no `Table` equivalent to stay consistent with.
+    // Read by the scroll-cue rules below — not exposed via `--table-*` since pinned columns have
+    // no `Table` equivalent to stay consistent with.
     --datagrid-pin-cue-shadow-start: inset 6px 0 6px -6px rgb(0 0 0 / 30%);
     --datagrid-pin-cue-shadow-end: inset -6px 0 6px -6px rgb(0 0 0 / 30%);
     // scss-docs-end datagrid-pin-cue-variables
@@ -156,10 +156,20 @@
     // leading edge, and a pure-CSS `position: sticky; right: 0` doesn't work for a trailing pin
     // either (see `DataGridPinBehavior`'s doc comment for why) — so it's positioned imperatively
     // by that component instead, via a scroll-driven `transform` (and the `z-index` that goes
-    // with it) on each `pin="end"` cell. The scroll-cue `box-shadow` is generated there too, as a
-    // per-instance-scoped stylesheet keyed on `aria-colindex`, applied uniformly to both row groups
-    // since a header row and a body row share the same rendered shape. Nothing about pinning is in
-    // this file — only the custom properties those generated rules read, above.
+    // with it) on each `pin="end"` cell.
+    //
+    // The scroll cue is the one part of pinning written here: a shadow on the boundary column of
+    // each pinned group (the last `pin="start"` column, the first `pin="end"` column), shown once
+    // the grid has scrolled far enough to hide content under it. `DataGridColumn` and
+    // `DataGridCell` put the class on that column's cells in both row groups (see
+    // `usePinCueClassName`), and `DataGrid` toggles the `datagrid-scrolled-*` classes on scroll.
+    &.datagrid-scrolled-start .datagrid-pin-cue-start {
+      box-shadow: var(--datagrid-pin-cue-shadow-start);
+    }
+
+    &.datagrid-scrolled-end .datagrid-pin-cue-end {
+      box-shadow: var(--datagrid-pin-cue-shadow-end);
+    }
 
     // No `width: 1%` here, unlike `.table-selection-cell` — that's a native `<table>` auto-layout
     // trick (an unstyled cell shrinks to content, so `1%` beats the browser down to the

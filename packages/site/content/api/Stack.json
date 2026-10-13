@@ -52,7 +52,7 @@
     },
     "gap": {
       "defaultValue": null,
-      "description": "Spacing between children, mapped to the `gap-*` utility classes.",
+      "description": "Spacing between children, mapped to the `gap-*` utility classes. Takes an object per\nbreakpoint, as `direction` does: `{ base: 'sm', md: 'lg' }`.",
       "name": "gap",
       "declarations": [
         {
@@ -62,7 +62,7 @@
       ],
       "required": false,
       "type": {
-        "name": "{ Spacing | 0 }"
+        "name": "{ Responsive<Spacing | 0> }"
       }
     },
     "asChild": {

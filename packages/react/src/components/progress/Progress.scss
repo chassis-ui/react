@@ -1,0 +1,49 @@
+@use "@chassis-ui/css/scss/config" as *;
+@use "@chassis-ui/css/scss/mixins" as *;
+
+// chassis-css draws a progress bar by its `width` and has no state for progress of unknown
+// extent. `.progress-bar.indeterminate` adds that one state, as a modifier beside chassis-css's
+// own `.striped` and `.animated`, so it can move there unchanged. The bar fills the track and its
+// animation draws the moving part with `transform` alone, which the compositor keeps running
+// while the main thread is busy, when such a bar is most often on screen.
+@layer components {
+  // The part is a quarter of the track at the ends and half of it in the middle, scaled about the
+  // bar's center: it enters from outside one edge and leaves past the other.
+  @keyframes progress-bar-indeterminate {
+    0% { transform: translateX(-62.5%) scaleX(.25); }
+    50% { transform: translateX(0) scaleX(.5); }
+    100% { transform: translateX(62.5%) scaleX(.25); }
+  }
+
+  .progress-bar.indeterminate {
+    // scss-docs-start progress-indeterminate-css-vars
+    --indeterminate-animation: var(--progress-indeterminate-animation, 1.5s linear infinite progress-bar-indeterminate);
+    // scss-docs-end progress-indeterminate-css-vars
+    // The whole track, by `min-width`: chassis-css transitions the bar's `width`, and a bar that
+    // gets a value grows to it from nothing, where a `width` of 100% would shrink to it.
+    width: 0;
+    min-width: 100%;
+
+    // A striped bar keeps the whole track: its stripes, moving when `.animated` is set, say that
+    // work is under way.
+    &:not(.striped) {
+      @media (prefers-reduced-motion: no-preference) {
+        animation: var(--indeterminate-animation);
+
+        // Mirrored about the center of the track, so an animation written for left to right
+        // runs right to left, whichever one `--progress-indeterminate-animation` names.
+        [dir="rtl"] & {
+          scale: -1 1;
+        }
+      }
+
+      // Still stripes instead of the sweep: a bar that fills the track and is plain would read
+      // as finished. They are no smaller than on a bar of the default height, or a thin bar
+      // would show none.
+      @media (prefers-reduced-motion: reduce) {
+        @include gradient-striped();
+        background-size: max(var(--height), #{$progress-height}) max(var(--height), #{$progress-height});
+      }
+    }
+  }
+}

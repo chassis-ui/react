@@ -13,10 +13,10 @@ import { useNumberFieldState } from 'react-stately'
 import './NumberField.scss'
 import { useForkedRef, useFormField } from '../../hooks'
 import { IconValue } from '../../utils/iconConfig'
-import { IconSlot } from '../../utils/iconSlot'
+import { IconSlot } from '../icon/iconSlot'
 import { mergeUnhandledProps, TEXT_FIELD_PROPS } from '../../utils/unhandledProps'
 import { validationClassName } from '../../utils/validationClassName'
-import { useHydrated } from '../portal/Portal'
+import { useHydrated } from '../../hooks/useHydrated'
 import { renderFormField } from '../form-field/renderFormField'
 
 export interface NumberFieldProps extends Omit<

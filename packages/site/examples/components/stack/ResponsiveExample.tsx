@@ -3,7 +3,7 @@ import { Stack } from '@chassis-ui/react'
 export const Example = () => {
   return (
     <div className="contains-inline">
-      <Stack direction={{ base: 'vertical', sm: 'horizontal' }} gap="md">
+      <Stack direction={{ base: 'vertical', sm: 'horizontal' }} gap={{ base: 'sm', sm: 'md' }}>
         <button type="button" className="button primary">
           Primary action
         </button>
