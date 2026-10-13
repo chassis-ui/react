@@ -7,8 +7,10 @@ import React, {
   useEffect
 } from 'react'
 import classNames from 'classnames'
+import { mergeProps } from 'react-aria'
 
 import { useForkedRef } from '../../hooks'
+import { insideEventProps } from '../../utils/insideEvents'
 import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
 import {
   createPolymorphicComponent,
@@ -127,7 +129,9 @@ function MenuListRender<C extends ElementType = 'div'>(
       className={classNames('menu', { show: shown }, className)}
       style={menuStyle}
       data-cx-placement={placementAttr}
-      {...rest}
+      // Marks the events that reach the list through React's tree, for the `Menu` or the
+      // `ContextMenu` to tell an overlay opened from an item from the page outside.
+      {...(mergeProps(rest, insideEventProps(overlayRef)) as Record<string, unknown>)}
       onKeyDown={handleKeyDown}
       ref={forkedRef}
     >

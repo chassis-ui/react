@@ -12,14 +12,21 @@ import classNames from 'classnames'
 import { AriaButtonProps, useMenuTrigger, useOverlayPosition } from 'react-aria'
 import { useMenuTriggerState } from 'react-stately'
 
-import { useForkedRef, useIsomorphicLayoutEffect, useOpenStateProps } from '../../hooks'
+import {
+  useFloatingOverlay,
+  useForkedRef,
+  useIsomorphicLayoutEffect,
+  useOpenStateProps
+} from '../../hooks'
 import { executeAfterTransition } from '../../utils/dialogTransition'
+import { isEventInside } from '../../utils/insideEvents'
 import {
   Placement,
   resolveMenuOverlayPositioning,
   toAriaPlacement
 } from '../../utils/overlayPlacement'
 import { NavOverflowBoundary } from '../../utils/navOverflow'
+import { pushOverlay } from '../../utils/overlayStack'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -57,7 +64,8 @@ type MenuOwnProps<C extends ElementType> = {
   component?: C
   /**
    * Teleports the menu panel to a container element on open. Accepts an element reference, or
-   * `true` to append to `document.body`.
+   * `true` to append to `document.body`, or to the open dialog the menu is in, so the panel
+   * stays in that dialog's top layer.
    */
   container?: boolean | Element
   /**
@@ -130,6 +138,12 @@ export interface MenuContextProps {
   menuTriggerProps: AriaButtonProps
   overlayRef: React.MutableRefObject<HTMLElement | null>
   placementAttr: string
+  /**
+   * The open dialog the menu is in, or `document.body`; `null` until the menu first opens. A
+   * `MenuSubmenu` portals its panel there, so inside a modal dialog it is in the top layer with
+   * the menu rather than under it, where the page is inert.
+   */
+  portalContainer?: Element | null
   reference: 'toggle' | 'parent'
   /**
    * Registers (or, passing `null`, unregisters) a nested `MenuSubmenu`'s own portaled panel
@@ -260,7 +274,11 @@ function MenuRender<C extends ElementType = typeof Fragment>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isOpen])
 
-  const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
+  const {
+    overlayProps,
+    placement: resolvedPlacement,
+    updatePosition
+  } = useOverlayPosition({
     targetRef,
     overlayRef,
     placement: toAriaPlacement(placement),
@@ -308,6 +326,24 @@ function MenuRender<C extends ElementType = typeof Fragment>(
     focusReturnOwedRef.current = false
   }, [state.isOpen])
 
+  // The open dialog the toggle is in, if any, as `Popover` and `ContextMenu` resolve it: a list
+  // teleported by `container` goes into that dialog rather than `document.body`, which lies
+  // under a modal dialog's top layer, and the menu closes when the dialog does, teleported or
+  // not, so a reopened dialog doesn't show a menu left open. `onShow`/`onHide` stay with the
+  // effect above.
+  const portalContainer = useFloatingOverlay({
+    close: hide,
+    isOpen: state.isOpen,
+    triggerRef: toggleNodeRef
+  })
+
+  // The list is mounted again when it moves into the dialog, as a new element in another
+  // containing block: placed again here, after its ref is set and before the paint.
+  useIsomorphicLayoutEffect(() => {
+    if (state.isOpen) updatePosition()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [portalContainer])
+
   // Deferred so the click that opened the menu doesn't immediately close it, and scoped
   // to match menu.js's `clearMenus`: skip the toggle itself, honor `inside`/`outside`
   // modes, and let Tab or clicks on form controls inside the menu pass through untouched.
@@ -326,6 +362,11 @@ function MenuRender<C extends ElementType = typeof Fragment>(
       const isMenuTarget =
         !!menuNode?.contains(target) ||
         Array.from(submenuOverlaysRef.current.values()).some((node) => node.contains(target))
+
+      // An overlay opened from the menu (a popover on an item, a picker's list) is portaled out
+      // of the list, and React still renders it under it (`insideEvents`). A click there is
+      // neither a click on an item nor one outside the menu: it is that overlay's.
+      if (!isMenuTarget && isEventInside(event, overlayRef)) return
 
       if (autoClose === 'inside' && !isMenuTarget) return
       if (autoClose === 'outside' && isMenuTarget) return
@@ -357,21 +398,17 @@ function MenuRender<C extends ElementType = typeof Fragment>(
   // Escape should always close the menu, independent of `autoClose`'s inside/outside/false
   // modes. `MenuList`'s own `onKeyDown` handling only fires when focus is already inside the
   // panel (e.g. opened via ArrowDown) — a mouse-press open via `useMenuTrigger` leaves focus on
-  // the trigger button, where that handler is unreachable. Listening on `window` catches Escape
-  // regardless of where focus currently is.
+  // the trigger button, where that handler is unreachable. The stack of open overlays listens on
+  // `window`, which catches Escape regardless of where focus currently is, and gives it to this
+  // menu only while nothing opened since is still open, and never to the popover or the dialog
+  // around the menu as well.
   useEffect(() => {
     if (!state.isOpen) return undefined
 
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return
-      close()
-    }
-
-    window.addEventListener('keydown', handleEscape)
-
-    return () => {
-      window.removeEventListener('keydown', handleEscape)
-    }
+    return pushOverlay({
+      nodes: () => [overlayRef.current, toggleNodeRef.current],
+      onEscape: close
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isOpen])
 
@@ -379,7 +416,7 @@ function MenuRender<C extends ElementType = typeof Fragment>(
     () => ({
       autoClose,
       close,
-      container,
+      container: container === true ? (portalContainer ?? true) : container,
       focusStrategy: state.focusStrategy as MenuFocusStrategy | null,
       hide,
       menuId: menuProps.id ?? '',
@@ -387,6 +424,7 @@ function MenuRender<C extends ElementType = typeof Fragment>(
       menuTriggerProps,
       overlayRef,
       placementAttr,
+      portalContainer,
       reference,
       registerOverlay,
       show,
@@ -405,6 +443,7 @@ function MenuRender<C extends ElementType = typeof Fragment>(
       menuStyle,
       menuTriggerProps,
       placementAttr,
+      portalContainer,
       reference,
       state.isOpen
     ]

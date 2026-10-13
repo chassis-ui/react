@@ -133,6 +133,7 @@ export const Alert = forwardRef<HTMLDialogElement, AlertProps>(
       onClose,
       onClosePrevented,
       onHidden,
+      onKeyDown,
       onShow,
       onShown,
       onVisibleChange,
@@ -142,24 +143,33 @@ export const Alert = forwardRef<HTMLDialogElement, AlertProps>(
     },
     ref
   ) => {
-    const { close, forkedRef, handleBackdropClick, handleCancel, hiding, staticBounce } =
-      useDialogElement({
-        backdrop,
-        defaultVisible,
-        instant,
-        isModal: true,
-        keyboard,
-        onClick,
-        onClose,
-        onClosePrevented,
-        onHidden,
-        onShow,
-        onShown,
-        onVisibleChange,
-        open,
-        ref,
-        visible
-      })
+    const {
+      close,
+      forkedRef,
+      handleBackdropClick,
+      handleCancel,
+      handleKeyDown,
+      handleNativeClose,
+      hiding,
+      staticBounce
+    } = useDialogElement({
+      backdrop,
+      defaultVisible,
+      instant,
+      isModal: true,
+      keyboard,
+      onClick,
+      onClose,
+      onClosePrevented,
+      onHidden,
+      onKeyDown,
+      onShow,
+      onShown,
+      onVisibleChange,
+      open,
+      ref,
+      visible
+    })
 
     const [parts, setParts] = useState<{ id: string; kind: AlertPartKind; node: HTMLElement }[]>([])
     const registerPart = useCallback((kind: AlertPartKind, node: HTMLElement, id: string) => {
@@ -197,6 +207,8 @@ export const Alert = forwardRef<HTMLDialogElement, AlertProps>(
           )}
           onCancel={handleCancel}
           onClick={handleBackdropClick}
+          onClose={handleNativeClose}
+          onKeyDown={handleKeyDown}
           ref={forkedRef}
         >
           {children}

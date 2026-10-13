@@ -8,7 +8,9 @@ import {
   MenuList,
   MenuItem,
   MenuSubmenu,
-  MenuSubmenuBack
+  MenuSubmenuBack,
+  MenuToggle,
+  Modal
 } from '../../../src/index'
 
 // The nested submenu panel is a `.menu` div with role="menu" (see MenuList), but a menu can
@@ -105,6 +107,43 @@ describe('MenuSubmenu', () => {
         </Menu>
       )
       expect(nestedMenu).not.toHaveClass('show')
+    })
+
+    // Regression test: a submenu heard only of the root `Menu` closing. Its panel is portaled
+    // out of its parent submenu's, so it stayed on screen after that submenu had closed.
+    test('a submenu nested in a submenu closes when that submenu closes', () => {
+      render(
+        <Menu visible>
+          <MenuList>
+            <MenuSubmenu trigger="File">
+              <MenuSubmenu trigger="Recent">
+                <MenuItem>Report</MenuItem>
+              </MenuSubmenu>
+            </MenuSubmenu>
+            <MenuSubmenu trigger="Edit">
+              <MenuItem>Cut</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
+        </Menu>
+      )
+      const fileMenu = getNestedMenu('Recent')
+      const recentMenu = getNestedMenu('Report')
+
+      fireEvent.click(screen.getByText('File'))
+      fireEvent.click(screen.getByText('Recent'))
+      expect(fileMenu).toHaveClass('show')
+      expect(recentMenu).toHaveClass('show')
+
+      // A sibling opening closes `File`, and `Recent` with it.
+      fireEvent.click(screen.getByText('Edit'))
+      expect(fileMenu).not.toHaveClass('show')
+      expect(recentMenu).not.toHaveClass('show')
+      expect(screen.getByText('Recent')).toHaveAttribute('aria-expanded', 'false')
+
+      // Opened again, `File` shows its own items only.
+      fireEvent.click(screen.getByText('File'))
+      expect(fileMenu).toHaveClass('show')
+      expect(recentMenu).not.toHaveClass('show')
     })
 
     test('closes sibling submenus when a new one opens', () => {
@@ -254,6 +293,29 @@ describe('MenuSubmenu', () => {
       // panel to be a real DOM descendant of `.menu`/`.submenu` — a portal would break that.
       expect(container.contains(nestedMenu)).toBe(true)
       expect(nestedMenu.closest('.submenu')).not.toBeNull()
+    })
+
+    // Regression test: the panel always went to `document.body`, which lies under the top layer
+    // a modal dialog is in: a submenu of a menu in a `Modal` opened behind the backdrop, inert.
+    test('a submenu of a menu in an open dialog is portaled into that dialog', () => {
+      render(
+        <Modal instant visible>
+          <Menu>
+            <MenuToggle>Toggle</MenuToggle>
+            <MenuList>
+              <MenuSubmenu trigger="File">
+                <MenuItem>New</MenuItem>
+              </MenuSubmenu>
+            </MenuList>
+          </Menu>
+        </Modal>
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Toggle' }))
+      fireEvent.click(screen.getByText('File'))
+      const nestedMenu = getNestedMenu('New')
+      expect(nestedMenu).toHaveClass('show')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(nestedMenu.parentElement).toBe(screen.getByRole('dialog'))
     })
 
     test('a non-stacked submenu panel is still portaled to document.body', () => {

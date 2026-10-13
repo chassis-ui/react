@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Menu, MenuList, MenuItem, MenuToggle } from '../../../src/index'
+import { Menu, MenuList, MenuItem, MenuToggle, Modal } from '../../../src/index'
 
 describe('MenuList', () => {
   describe('rendering', () => {
@@ -199,6 +199,43 @@ describe('MenuList', () => {
       // parentage - no Testing Library query expresses "is a child of".
       // eslint-disable-next-line testing-library/no-node-access
       expect(screen.getByRole('menu', { hidden: true }).parentElement).toBe(document.body)
+    })
+
+    test('portals to the element given as container', () => {
+      const target = document.createElement('div')
+      document.body.append(target)
+      render(
+        <Menu container={target} visible>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      expect(target).toContainElement(screen.getByRole('menu'))
+      target.remove()
+    })
+
+    // Regression test: `container` always meant `document.body`, which lies under the top layer
+    // a modal dialog is in: the list of a menu in a `Modal` opened behind it.
+    test('portals into the open dialog the menu is in, where its top layer is', () => {
+      render(
+        <Modal instant visible>
+          <Menu container>
+            <MenuToggle>Toggle</MenuToggle>
+            <MenuList>
+              <MenuItem>A</MenuItem>
+            </MenuList>
+          </Menu>
+        </Modal>
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Toggle' }))
+      const list = screen.getByRole('menu')
+      expect(list).toHaveClass('show')
+      // The dialog itself, not somewhere deeper in it.
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(list.parentElement).toBe(screen.getByRole('dialog'))
+      expect(screen.getByRole('menuitem', { name: 'A' })).toBeInTheDocument()
     })
   })
 

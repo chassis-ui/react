@@ -41,3 +41,8 @@ export interface SubmenuActionsContextValue {
 }
 
 export const SubmenuActionsContext = createContext<SubmenuActionsContextValue | null>(null)
+
+// Whether the `.submenu` a nested `MenuSubmenu` is in is open. A submenu's panel is portaled out
+// of its parent's, so nothing hides it when the parent closes: it follows this, as the first
+// level follows the `Menu` itself. `true` at the top level, where there is no parent submenu.
+export const SubmenuVisibleContext = createContext(true)

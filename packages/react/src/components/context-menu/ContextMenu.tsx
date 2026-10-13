@@ -18,7 +18,9 @@ import {
   useIsomorphicLayoutEffect,
   useOpenStateProps
 } from '../../hooks'
+import { isEventInside } from '../../utils/insideEvents'
 import { resolveMenuOverlayPositioning, toAriaPlacement } from '../../utils/overlayPlacement'
+import { pushOverlay } from '../../utils/overlayStack'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -279,9 +281,13 @@ function ContextMenuRender<C extends ElementType = 'div'>(
       !!overlayRef.current?.contains(target) ||
       Array.from(submenuOverlaysRef.current.values()).some((node) => node.contains(target))
 
+    // An overlay opened from the menu (a popover on an item) is portaled out of the list, and
+    // React still renders it under it (`insideEvents`): a press there isn't one outside.
+    const isInOverlayOfMenu = (event: Event) => isEventInside(event, overlayRef)
+
     const handlePointerDown = (event: PointerEvent) => {
       const target = event.target as Node
-      if (isInMenu(target) || autoClose === 'inside') return
+      if (isInMenu(target) || isInOverlayOfMenu(event) || autoClose === 'inside') return
       // A right-click inside the region asks for the menu at a new place: the `contextmenu`
       // event that follows moves it.
       if (event.button === 2 && regionRef.current?.contains(target)) return
@@ -298,7 +304,7 @@ function ContextMenuRender<C extends ElementType = 'div'>(
 
     // Tab has moved focus out of the menu by the time the key comes up.
     const handleKeyUp = (event: KeyboardEvent) => {
-      if (event.key !== 'Tab' || isInMenu(event.target as Node)) return
+      if (event.key !== 'Tab' || isInMenu(event.target as Node) || isInOverlayOfMenu(event)) return
       hide()
     }
 
@@ -314,16 +320,15 @@ function ContextMenuRender<C extends ElementType = 'div'>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isOpen, autoClose])
 
-  // Escape closes the menu wherever focus is, independent of `autoClose`, as in `Menu`.
+  // Escape closes the menu wherever focus is, independent of `autoClose`, as in `Menu`: through
+  // the stack of open overlays, so the key closes the innermost one only.
   useEffect(() => {
     if (!state.isOpen) return undefined
 
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') close()
-    }
-
-    window.addEventListener('keydown', handleEscape)
-    return () => window.removeEventListener('keydown', handleEscape)
+    return pushOverlay({
+      nodes: () => [overlayRef.current, regionRef.current],
+      onEscape: close
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isOpen])
 
@@ -463,6 +468,7 @@ function ContextMenuRender<C extends ElementType = 'div'>(
       menuTriggerProps: {},
       overlayRef,
       placementAttr,
+      portalContainer,
       reference: 'toggle',
       registerOverlay,
       show: (focusStrategy) => state.open(focusStrategy ?? 'first'),

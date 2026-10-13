@@ -52,7 +52,7 @@
     },
     "container": {
       "defaultValue": null,
-      "description": "Teleports the menu panel to a container element on open. Accepts an element reference, or\n`true` to append to `document.body`.",
+      "description": "Teleports the menu panel to a container element on open. Accepts an element reference, or\n`true` to append to `document.body`, or to the open dialog the menu is in, so the panel\nstays in that dialog's top layer.",
       "name": "container",
       "declarations": [
         {

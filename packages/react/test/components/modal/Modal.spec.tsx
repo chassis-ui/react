@@ -282,6 +282,183 @@ describe('Modal', () => {
       expect(onClose).toHaveBeenCalledTimes(1)
       vi.useRealTimers()
     })
+    // The browser closing the dialog by itself, as jsdom never does: a second Escape in a row
+    // (its `cancel` can't be prevented), a `<form method="dialog">`, a caller's own `close()`.
+    const closeNatively = (dialog: HTMLDialogElement) =>
+      act(() => {
+        dialog.open = false
+        dialog.dispatchEvent(new Event('close'))
+      })
+
+    // Regression test: the show effect returned early for a dialog that was still open, so the
+    // pending end of the exit closed a modal whose `visible` was `true` again.
+    test('reopened while its exit runs, it stays open', () => {
+      vi.useFakeTimers()
+      const onHidden = vi.fn()
+      const onShown = vi.fn()
+      const props = { onHidden, onShown }
+      const { rerender } = render(
+        <Modal {...props} visible>
+          Test
+        </Modal>
+      )
+      act(() => vi.runAllTimers())
+      const dialog = getDialog()
+      expect(onShown).toHaveBeenCalledTimes(1)
+
+      rerender(
+        <Modal {...props} visible={false}>
+          Test
+        </Modal>
+      )
+      expect(dialog).toHaveClass('hiding')
+      rerender(
+        <Modal {...props} visible>
+          Test
+        </Modal>
+      )
+      expect(dialog).not.toHaveClass('hiding')
+      act(() => vi.runAllTimers())
+
+      expect(dialog).toHaveAttribute('open')
+      expect(onHidden).not.toHaveBeenCalled()
+      expect(onShown).toHaveBeenCalledTimes(2)
+      expect(document.documentElement).toHaveStyle({ overflow: 'hidden' })
+
+      // And it still closes when asked to.
+      rerender(
+        <Modal {...props} visible={false}>
+          Test
+        </Modal>
+      )
+      act(() => vi.runAllTimers())
+      expect(dialog).not.toHaveAttribute('open')
+      expect(onHidden).toHaveBeenCalledTimes(1)
+      expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
+      vi.useRealTimers()
+    })
+
+    // Regression test: only `onVisibleChange` was guarded, so every Escape or backdrop click
+    // during the exit fired `onClose` again.
+    test('close requests repeated during the exit fire onClose once', () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      const onVisibleChange = vi.fn()
+      render(
+        <Modal defaultVisible onClose={onClose} onVisibleChange={onVisibleChange}>
+          Test
+        </Modal>
+      )
+      const dialog = getDialog()
+      fireEvent(dialog, new Event('cancel', { cancelable: true }))
+      expect(dialog).toHaveClass('hiding')
+      fireEvent(dialog, new Event('cancel', { cancelable: true }))
+      fireEvent.click(dialog)
+      act(() => vi.runAllTimers())
+      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(onVisibleChange).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+
+    // Regression test: nothing listened for the native `close` event, so a modal the browser
+    // closed stayed `visible`, with the page scroll-locked and `onHidden` never fired.
+    test('follows a close the browser makes by itself', () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      const onHidden = vi.fn()
+      const onVisibleChange = vi.fn()
+      const Example = () => {
+        const [visible, setVisible] = React.useState(true)
+        return (
+          <>
+            <button type="button" onClick={() => setVisible(true)}>
+              Open
+            </button>
+            <Modal
+              onClose={onClose}
+              onHidden={onHidden}
+              onVisibleChange={(next) => {
+                onVisibleChange(next)
+                setVisible(next)
+              }}
+              visible={visible}
+            >
+              Test
+            </Modal>
+          </>
+        )
+      }
+      render(<Example />)
+      const dialog = getDialog()
+      const showModalSpy = vi.spyOn(dialog, 'showModal')
+      expect(document.documentElement).toHaveStyle({ overflow: 'hidden' })
+
+      closeNatively(dialog)
+      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(onVisibleChange).toHaveBeenCalledExactlyOnceWith(false)
+      expect(onHidden).toHaveBeenCalledTimes(1)
+      expect(dialog).not.toHaveClass('hiding')
+      expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
+
+      // The state followed, so the modal opens again.
+      fireEvent.click(screen.getByRole('button', { name: 'Open' }))
+      expect(showModalSpy).toHaveBeenCalledTimes(1)
+      expect(dialog).toHaveAttribute('open')
+      vi.useRealTimers()
+    })
+
+    test("the close event of the modal's own close() is not a second close", () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      const onHidden = vi.fn()
+      const { rerender } = render(
+        <Modal onClose={onClose} onHidden={onHidden} visible>
+          Test
+        </Modal>
+      )
+      rerender(
+        <Modal onClose={onClose} onHidden={onHidden} visible={false}>
+          Test
+        </Modal>
+      )
+      act(() => vi.runAllTimers())
+      expect(onClose).not.toHaveBeenCalled()
+      expect(onHidden).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+
+    // Regression test: StrictMode runs the show effect twice on mount. The cleanup between the
+    // two dropped the wait for the enter transition, and the second run found the dialog open.
+    test('fires onShow and onShown once under StrictMode, mounted visible', () => {
+      vi.useFakeTimers()
+      const onShow = vi.fn()
+      const onShown = vi.fn()
+      render(
+        <React.StrictMode>
+          <Modal onShow={onShow} onShown={onShown} visible>
+            Test
+          </Modal>
+        </React.StrictMode>
+      )
+      act(() => vi.runAllTimers())
+      expect(onShow).toHaveBeenCalledTimes(1)
+      expect(onShown).toHaveBeenCalledTimes(1)
+      expect(getDialog()).toHaveAttribute('open')
+      vi.useRealTimers()
+    })
+
+    test("runs the caller's own onKeyDown ahead of the Escape handling", () => {
+      const onClose = vi.fn()
+      const onKeyDown = vi.fn()
+      render(
+        <Modal instant modal={false} onClose={onClose} onKeyDown={onKeyDown} visible>
+          Test
+        </Modal>
+      )
+      fireEvent.keyDown(getDialog(), { key: 'Escape' })
+      expect(onKeyDown).toHaveBeenCalledTimes(1)
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
   })
 
   describe('focus management', () => {
@@ -366,7 +543,9 @@ describe('Modal', () => {
       expect(dialog).toHaveAccessibleName('Delete item')
     })
 
-    test('a caller-supplied ModalTitle id opts out of the generated one', () => {
+    // Regression tests: `aria-labelledby` always named the generated id, which no element has
+    // when there is no `ModalTitle` or the title has an id of its own.
+    test('a caller-supplied ModalTitle id still names the modal', () => {
       render(
         <Modal visible>
           <ModalHeader>
@@ -376,6 +555,58 @@ describe('Modal', () => {
         </Modal>
       )
       expect(screen.getByText('Delete item')).toHaveAttribute('id', 'custom-title')
+      expect(getDialog()).toHaveAttribute('aria-labelledby', 'custom-title')
+      expect(getDialog()).toHaveAccessibleName('Delete item')
+    })
+
+    test('has no aria-labelledby without a ModalTitle, and loses it with the title', () => {
+      const { rerender } = render(
+        <Modal aria-label="Settings" visible>
+          <ModalBody>Body</ModalBody>
+        </Modal>
+      )
+      const dialog = getDialog()
+      expect(dialog).not.toHaveAttribute('aria-labelledby')
+      expect(dialog).toHaveAccessibleName('Settings')
+
+      rerender(
+        <Modal visible>
+          <ModalTitle>Delete item</ModalTitle>
+          <ModalBody>Body</ModalBody>
+        </Modal>
+      )
+      expect(dialog).toHaveAccessibleName('Delete item')
+
+      rerender(
+        <Modal visible>
+          <ModalBody>Body</ModalBody>
+        </Modal>
+      )
+      expect(dialog).not.toHaveAttribute('aria-labelledby')
+    })
+
+    test("a caller's aria-label names the modal, over its title", () => {
+      render(
+        <Modal aria-label="Settings" visible>
+          <ModalTitle>Delete item</ModalTitle>
+          <ModalBody>Body</ModalBody>
+        </Modal>
+      )
+      expect(getDialog()).not.toHaveAttribute('aria-labelledby')
+      expect(getDialog()).toHaveAccessibleName('Settings')
+    })
+
+    test("a caller's aria-labelledby replaces the title's", () => {
+      render(
+        <>
+          <span id="elsewhere">Elsewhere</span>
+          <Modal aria-labelledby="elsewhere" visible>
+            <ModalTitle>Delete item</ModalTitle>
+            <ModalBody>Body</ModalBody>
+          </Modal>
+        </>
+      )
+      expect(getDialog()).toHaveAccessibleName('Elsewhere')
     })
   })
 })

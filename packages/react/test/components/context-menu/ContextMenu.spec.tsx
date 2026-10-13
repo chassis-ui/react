@@ -3,13 +3,16 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import {
+  Button,
   ContextMenu,
   MenuDivider,
   MenuHeader,
   MenuItem,
   MenuList,
   MenuSubmenu,
-  MenuSubmenuBack
+  MenuSubmenuBack,
+  Modal,
+  Popover
 } from '../../../src/index'
 
 // The region with a menu of three items, and a button inside the region so a keyboard user has
@@ -544,6 +547,90 @@ describe('ContextMenu', () => {
       fireEvent.click(closeIt)
       expect(isOpen()).toBe(false)
       expect(closeIt).toHaveFocus()
+    })
+  })
+
+  // Regression tests: the menu listened for Escape on `window` by itself, as `Popover` and `Menu`
+  // did, and a non-modal dialog for any keydown inside it, so one press closed the whole chain.
+  describe('Escape among other overlays', () => {
+    test('closes the menu only, and leaves the popover its region is in to the next press', () => {
+      render(
+        <Popover content={<Subject />} title="popover title">
+          <Button>Open</Button>
+        </Popover>
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Open' }))
+      settle()
+      rightClick(region())
+      settle()
+      expect(isOpen()).toBe(true)
+
+      fireEvent.keyDown(window, { key: 'Escape' })
+      settle()
+      expect(isOpen()).toBe(false)
+      expect(screen.getByText('popover title')).toBeInTheDocument()
+
+      fireEvent.keyDown(window, { key: 'Escape' })
+      settle()
+      expect(screen.queryByText('popover title')).not.toBeInTheDocument()
+    })
+
+    test('closes the menu only in a non-modal Modal, wherever focus is', () => {
+      const onClose = vi.fn()
+      render(
+        <Modal instant modal={false} onClose={onClose} visible>
+          <Subject />
+        </Modal>
+      )
+      const inside = screen.getByRole('button', { name: 'Inside' })
+
+      // With focus on an item, the list handles the key itself.
+      rightClick(region())
+      settle()
+      fireEvent.keyDown(screen.getByRole('menuitem', { name: 'Cut' }), { key: 'Escape' })
+      expect(isOpen()).toBe(false)
+      expect(onClose).not.toHaveBeenCalled()
+
+      // With focus elsewhere in the dialog, the key reaches the stack on `window`.
+      rightClick(region())
+      settle()
+      fireEvent.keyDown(inside, { key: 'Escape' })
+      expect(isOpen()).toBe(false)
+      expect(onClose).not.toHaveBeenCalled()
+
+      fireEvent.keyDown(inside, { key: 'Escape' })
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  // Regression test: inside was the list's and the submenus' DOM subtrees only, so a press in an
+  // overlay opened from an item, which is portaled out of the list, was a press outside.
+  describe('overlays opened from the list', () => {
+    test('a press inside a popover opened from an item does not close the menu', () => {
+      render(
+        <ContextMenu autoClose="outside" data-testid="region">
+          <button type="button">Inside</button>
+          <MenuList>
+            <Popover content="details">
+              <MenuItem>Info</MenuItem>
+            </Popover>
+          </MenuList>
+        </ContextMenu>
+      )
+      rightClick(region())
+      settle()
+      fireEvent.click(screen.getByRole('menuitem', { name: 'Info' }))
+      settle()
+      const details = screen.getByText('details')
+      expect(menu()).not.toContainElement(details)
+
+      fireEvent.pointerDown(details)
+      settle()
+      expect(isOpen()).toBe(true)
+
+      fireEvent.pointerDown(document.body)
+      settle()
+      expect(isOpen()).toBe(false)
     })
   })
 

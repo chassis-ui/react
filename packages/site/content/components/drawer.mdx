@@ -130,11 +130,11 @@ Add `fullscreen` to expand the panel to fill the viewport, animating in and out 
 
 ## Responsive
 
-Set `responsive` to a breakpoint (`'sm' | 'md' | 'lg' | 'xl' | '2xl'`) to render as a drawer only below that breakpoint — above it, the panel renders inline as a flex container instead (`.drawer-header` hidden, `.drawer-body` laid out as a row). This is the basis for navigation that collapses off-screen on narrow viewports and expands inline on wide ones, as used by [Navbar]([[docsref:/components/navbar]])'s collapsible menu region.
+Set `responsive` to a breakpoint (`'sm' | 'md' | 'lg' | 'xl' | '2xl'`) to render as a drawer only below that breakpoint — above it, the panel renders inline as a flex container instead (`.drawer-header` hidden, `.drawer-body` laid out as a row). This is the basis for navigation that collapses off-screen on narrow viewports and expands inline on wide ones, as used by [Navbar]([[docsref:/components/navbar]])'s collapsible menu region. A drawer that is open when the viewport grows past the breakpoint asks to close, as on any other close request, so it doesn't stay over the page as a modal dialog.
 
 ## Accessibility
 
-The `<dialog>` element carries an implicit `role="dialog"` when opened with `showModal()`. `<Drawer>` generates an id and wires it to `aria-labelledby` automatically — render a `<DrawerTitle>` anywhere inside and it picks up that id, giving the drawer an accessible name with no manual wiring. Pass an explicit `id` to `<DrawerTitle>` to opt out, or set your own `aria-labelledby` on `<Drawer>` to point elsewhere.
+The `<dialog>` element carries an implicit `role="dialog"` when opened with `showModal()`. `<Drawer>` is labelled by its `<DrawerTitle>` automatically — render one anywhere inside and `aria-labelledby` names it, under a generated id or the `id` you give the title, giving the drawer an accessible name with no manual wiring. A drawer with no title has no `aria-labelledby`: name it with `aria-label`, which also wins over a title, or set your own `aria-labelledby` on `<Drawer>` to point elsewhere.
 
 Focus moves to the drawer on open — to the first element with `data-autofocus` (or an `autofocus` attribute in server-rendered HTML), otherwise to the drawer itself. React's `autoFocus` prop isn't enough in a page rendered in the browser: React writes no `autofocus` attribute there. After the drawer closes, focus returns to whichever element was focused when it opened. Opening a second drawer while one is already open automatically closes the first.
 

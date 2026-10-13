@@ -9,6 +9,7 @@ import React, {
 import classNames from 'classnames'
 
 import { useDialogElement } from '../../hooks'
+import { RegisterDialogTitle, useDialogTitle } from '../../hooks/useDialogTitle'
 
 export interface DrawerProps extends Omit<
   DialogHTMLAttributes<HTMLDialogElement>,
@@ -121,6 +122,10 @@ export interface DrawerContextProps {
 
 export const DrawerContext = createContext<DrawerContextProps>({ close: () => {} })
 
+// How a rendered `DrawerTitle` tells its `Drawer` the id it has (`useDialogTitle`). Apart from
+// `DrawerContext`, whose value `useDrawer` returns to callers.
+export const DrawerTitleContext = createContext<RegisterDialogTitle>(() => () => {})
+
 // Currently-open drawers, so opening one can auto-close any other open drawer
 // ("When a second drawer opens while one is already open, the first closes automatically").
 const openDrawers = new Set<{ dialog: HTMLDialogElement; close: () => void }>()
@@ -140,6 +145,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
       onClose,
       onClosePrevented,
       onHidden,
+      onKeyDown,
       onShow,
       onShown,
       onVisibleChange,
@@ -154,31 +160,44 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
     },
     ref
   ) => {
-    const { close, dialogRef, forkedRef, handleBackdropClick, handleCancel, hiding, staticBounce } =
-      useDialogElement({
-        backdrop,
-        defaultVisible,
-        instant,
-        isModal: Boolean(backdrop) || !scroll,
-        keyboard,
-        onBeforeShow: (dialog) => {
-          for (const entry of openDrawers) {
-            if (entry.dialog !== dialog) entry.close()
-          }
-        },
-        onClick,
-        onClose,
-        onClosePrevented,
-        onHidden,
-        onShow,
-        onShown,
-        onVisibleChange,
-        open,
-        ref,
-        visible
-      })
+    const {
+      close,
+      dialogRef,
+      forkedRef,
+      handleBackdropClick,
+      handleCancel,
+      handleKeyDown,
+      handleNativeClose,
+      hiding,
+      staticBounce
+    } = useDialogElement({
+      backdrop,
+      defaultVisible,
+      instant,
+      isModal: Boolean(backdrop) || !scroll,
+      keyboard,
+      onBeforeShow: (dialog) => {
+        for (const entry of openDrawers) {
+          if (entry.dialog !== dialog) entry.close()
+        }
+      },
+      onClick,
+      onClose,
+      onClosePrevented,
+      onHidden,
+      onKeyDown,
+      onShow,
+      onShown,
+      onVisibleChange,
+      open,
+      ref,
+      visible
+    })
 
     const titleId = useId()
+    // Labelled by the title that is rendered, under the id it has, unless the caller names the
+    // dialog itself: `aria-labelledby` would outrank that `aria-label`.
+    const [labelledBy, registerTitle] = useDialogTitle(titleId)
 
     const closeRef = useRef(close)
     closeRef.current = close
@@ -193,6 +212,22 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
         openDrawers.delete(entry)
       }
     }, [dialogRef])
+
+    // A `responsive` drawer is one only below its breakpoint: above it chassis-css lays the
+    // element out in the page. One that is open when the viewport grows past the breakpoint
+    // would stay in the top layer, over an inert and scroll-locked page, so it asks to close, as
+    // chassis-css's own drawer does on `resize`. Read from the computed `position` like there,
+    // not from a width: the breakpoints are the theme's.
+    useEffect(() => {
+      if (!responsive) return undefined
+      const handleResize = () => {
+        const dialog = dialogRef.current
+        if (!dialog?.open || getComputedStyle(dialog).position === 'fixed') return
+        closeRef.current()
+      }
+      window.addEventListener('resize', handleResize)
+      return () => window.removeEventListener('resize', handleResize)
+    }, [dialogRef, responsive])
 
     // `hiding` has to stay on the class list for the whole exit transition: the native `open`
     // attribute — and with it, the `[class*="drawer"]:not([open], .hiding)` escape hatch
@@ -218,17 +253,21 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
 
     return (
       <DrawerContext.Provider value={{ close, titleId }}>
-        <dialog
-          aria-labelledby={titleId}
-          {...rest}
-          open={open}
-          className={_className}
-          onCancel={handleCancel}
-          onClick={handleBackdropClick}
-          ref={forkedRef}
-        >
-          {children}
-        </dialog>
+        <DrawerTitleContext.Provider value={registerTitle}>
+          <dialog
+            aria-labelledby={rest['aria-label'] ? undefined : labelledBy}
+            {...rest}
+            open={open}
+            className={_className}
+            onCancel={handleCancel}
+            onClick={handleBackdropClick}
+            onClose={handleNativeClose}
+            onKeyDown={handleKeyDown}
+            ref={forkedRef}
+          >
+            {children}
+          </dialog>
+        </DrawerTitleContext.Provider>
       </DrawerContext.Provider>
     )
   }

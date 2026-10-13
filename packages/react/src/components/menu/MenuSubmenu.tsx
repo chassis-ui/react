@@ -20,7 +20,12 @@ import {
 } from '../../utils/overlayPlacement'
 import { Portal } from '../portal/Portal'
 import { focusMenuItem, getMenuItems, handleMenuKeyDown } from './menuNavigation'
-import { SubmenuActionsContext, SubmenuGroupContext, useSubmenuGroupProvider } from './submenuGroup'
+import {
+  SubmenuActionsContext,
+  SubmenuGroupContext,
+  SubmenuVisibleContext,
+  useSubmenuGroupProvider
+} from './submenuGroup'
 
 export interface MenuSubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   /**
@@ -90,7 +95,8 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
     const overlayRef = useRef<HTMLElement | null>(null)
     const parentGroup = useContext(SubmenuGroupContext)
     const ownGroup = useSubmenuGroupProvider()
-    const { registerOverlay, visible: parentMenuVisible } = useContext(MenuContext)
+    const { portalContainer, registerOverlay, visible: parentMenuVisible } = useContext(MenuContext)
+    const parentSubmenuVisible = useContext(SubmenuVisibleContext)
     const { direction } = useLocale()
     const isRtl = direction === 'rtl'
     const effectivePlacement = placement ?? (isRtl ? 'left-start' : 'right-start')
@@ -155,12 +161,13 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
     useEffect(() => cancelFocusFirstRaf, [cancelFocusFirstRaf])
 
     // The submenu's own open state is local and doesn't otherwise hear about its ancestor
-    // `Menu` closing (via Escape, outside click, etc.) — without this it's left open and
-    // fully visible (it's portaled to `document.body`, so nothing hides it for free) even
-    // after the menu it belongs to has disappeared.
+    // `Menu` closing (via Escape, outside click, etc.), or about the submenu it is nested in
+    // closing (the pointer leaving it, a sibling opening, ArrowLeft) — without this it's left
+    // open and fully visible (it's portaled to `document.body`, so nothing hides it for free)
+    // even after the menu or the submenu it belongs to has disappeared.
     useEffect(() => {
-      if (!parentMenuVisible) close()
-    }, [parentMenuVisible, close])
+      if (!parentMenuVisible || !parentSubmenuVisible) close()
+    }, [parentMenuVisible, parentSubmenuVisible, close])
 
     const supportsHover =
       typeof window !== 'undefined' &&
@@ -266,7 +273,9 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
             >
               <SubmenuActionsContext.Provider value={actionsValue}>
                 <SubmenuGroupContext.Provider value={ownGroup}>
-                  {children}
+                  <SubmenuVisibleContext.Provider value={visible}>
+                    {children}
+                  </SubmenuVisibleContext.Provider>
                 </SubmenuGroupContext.Provider>
               </SubmenuActionsContext.Provider>
             </div>
@@ -279,8 +288,16 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
           // context clipping the way a portaled one does; accepted since `stacked` targets mobile
           // nav/drawer usage, not floating dropdowns.
           // On the server and during hydration the panel renders inline next to its trigger, which
-          // is what the server's HTML holds; `Portal` moves it to `document.body` afterwards.
-          return stacked ? panel : <Portal fallback={panel}>{panel}</Portal>
+          // is what the server's HTML holds; `Portal` moves it to `document.body` afterwards, or
+          // to the open dialog the menu is in: under a modal dialog's top layer the panel would be
+          // behind the backdrop, and inert.
+          return stacked ? (
+            panel
+          ) : (
+            <Portal container={portalContainer} fallback={panel}>
+              {panel}
+            </Portal>
+          )
         })()}
       </div>
     )

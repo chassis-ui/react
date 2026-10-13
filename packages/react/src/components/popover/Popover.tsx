@@ -19,7 +19,9 @@ import {
   useOpenStateProps,
   useTransitionState
 } from '../../hooks'
+import { insideEventProps, isEventInside } from '../../utils/insideEvents'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
+import { pushOverlay } from '../../utils/overlayStack'
 import { Portal, useHydrated } from '../portal/Portal'
 import { getTriggerChild, renderSlotted } from '../../utils/slot'
 
@@ -163,41 +165,44 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
   })
 
   // Escape should always close the popover, regardless of where focus currently is — a
-  // mouse-opened popover leaves focus on the trigger, not inside the panel. Mirrors
-  // `Menu.tsx`'s own window-level Escape handling. `onExited` below already returns focus to the
-  // trigger once the exit transition finishes, so this doesn't need to do that itself.
+  // mouse-opened popover leaves focus on the trigger, not inside the panel. Through the stack of
+  // open overlays, so the key closes this popover only while nothing opened since is still open
+  // (a menu or another popover in its content), and never the dialog around it with it.
+  // `onExited` below already returns focus to the trigger once the exit transition finishes, so
+  // this doesn't need to do that itself.
   useEffect(() => {
     if (!state.isOpen) return undefined
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return
-      state.close()
-    }
-
-    window.addEventListener('keydown', handleEscape)
-    return () => window.removeEventListener('keydown', handleEscape)
+    return pushOverlay({
+      nodes: () => [floatingRef.current, triggerRef.current],
+      onEscape: () => state.close()
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isOpen, state.close])
 
-  // Deferred so the click that opened the popover doesn't immediately close it again — mirrors
-  // `Menu.tsx`'s own outside-click handling.
+  // A press outside closes the popover. A press rather than a click, as `ContextMenu` reads it:
+  // an element its own click handler takes out of the document (a chip's remove button) is no
+  // longer inside anything by the time a click listener here would ask. Inside is the trigger,
+  // and anything React renders under the panel, wherever it is portaled (`insideEvents`): a
+  // popover or a menu opened from the content, a date picker's calendar.
+  // Deferred so a press whose own handler opens the popover doesn't close it again on its way
+  // up to `window`.
   useEffect(() => {
     if (!state.isOpen) return undefined
 
-    const handleDismiss = (event: MouseEvent) => {
+    const handleDismiss = (event: PointerEvent) => {
       const target = event.target as Node
       if (triggerRef.current?.contains(target)) return
-      if (floatingRef.current?.contains(target)) return
+      if (floatingRef.current?.contains(target) || isEventInside(event, floatingRef)) return
       state.close()
     }
 
     const id = window.setTimeout(() => {
-      window.addEventListener('click', handleDismiss)
+      window.addEventListener('pointerdown', handleDismiss)
     })
 
     return () => {
       window.clearTimeout(id)
-      window.removeEventListener('click', handleDismiss)
+      window.removeEventListener('pointerdown', handleDismiss)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isOpen, state.close])
@@ -285,7 +290,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
             arrowProps={arrowProps}
             title={title}
             content={content}
-            {...rest}
+            {...mergeProps(rest, insideEventProps(floatingRef))}
           />
         )}
       </Portal>

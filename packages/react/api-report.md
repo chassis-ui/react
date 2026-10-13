@@ -3295,7 +3295,8 @@ type MenuOwnProps<C extends ElementType> = {
   component?: C;
   /**
    * Teleports the menu panel to a container element on open. Accepts an element reference, or
-   * `true` to append to `document.body`.
+   * `true` to append to `document.body`, or to the open dialog the menu is in, so the panel
+   * stays in that dialog's top layer.
    */
   container?: Element | boolean;
   /**

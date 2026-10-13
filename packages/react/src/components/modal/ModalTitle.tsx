@@ -1,7 +1,8 @@
-import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement, useContext } from 'react'
 import classNames from 'classnames'
 
-import { useModal } from '../../hooks'
+import { useIsomorphicLayoutEffect, useModal } from '../../hooks'
+import { ModalTitleContext } from './Modal'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -33,11 +34,19 @@ function ModalTitleRender<C extends ElementType = 'h2'>(
   ref: PolymorphicRef<C>
 ) {
   const { titleId } = useModal()
+  const registerTitle = useContext(ModalTitleContext)
   const Component = component ?? 'h2'
   const _className = classNames('modal-title', className)
+  const resolvedId = id ?? titleId
+
+  // The modal is labelled by this title, under the id it has here.
+  useIsomorphicLayoutEffect(
+    () => (resolvedId ? registerTitle(resolvedId) : undefined),
+    [registerTitle, resolvedId]
+  )
 
   return (
-    <Component className={_className} id={id ?? titleId} {...rest} ref={ref}>
+    <Component className={_className} id={resolvedId} {...rest} ref={ref}>
       {children}
     </Component>
   )

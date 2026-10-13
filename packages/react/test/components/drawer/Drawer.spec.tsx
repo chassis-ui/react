@@ -26,7 +26,7 @@ describe('Drawer', () => {
       const dialog = getDialog()
       expect(dialog).toHaveClass('drawer', 'drawer-start')
       expect(dialog).not.toHaveAttribute('open')
-      expect(dialog).toHaveAttribute('aria-labelledby')
+      expect(dialog).not.toHaveAttribute('aria-labelledby')
     })
 
     test('applies fullscreen, sheet, translucent and responsive classes with className', () => {
@@ -56,7 +56,7 @@ describe('Drawer', () => {
       )
       expect(dialog).not.toHaveClass('drawer')
       expect(dialog).toHaveAttribute('tabindex', '-1')
-      expect(dialog).toHaveAttribute('aria-labelledby')
+      expect(dialog).not.toHaveAttribute('aria-labelledby')
     })
   })
 
@@ -374,6 +374,118 @@ describe('Drawer', () => {
       expect(screen.getByRole('dialog', { name: 'B' })).toBeInTheDocument()
       vi.useRealTimers()
     })
+    // Regression test: the show effect returned early for a dialog that was still open, so the
+    // pending end of the exit closed a drawer whose `visible` was `true` again.
+    test('reopened while its exit runs, it stays open', () => {
+      vi.useFakeTimers()
+      const onHidden = vi.fn()
+      const { rerender } = render(
+        <Drawer onHidden={onHidden} placement="start" visible>
+          Test
+        </Drawer>
+      )
+      act(() => vi.runAllTimers())
+      const dialog = getDialog()
+
+      rerender(
+        <Drawer onHidden={onHidden} placement="start" visible={false}>
+          Test
+        </Drawer>
+      )
+      expect(dialog).toHaveClass('hiding')
+      rerender(
+        <Drawer onHidden={onHidden} placement="start" visible>
+          Test
+        </Drawer>
+      )
+      act(() => vi.runAllTimers())
+
+      expect(dialog).toHaveAttribute('open')
+      expect(dialog).not.toHaveClass('hiding')
+      expect(onHidden).not.toHaveBeenCalled()
+      expect(document.documentElement).toHaveStyle({ overflow: 'hidden' })
+      vi.useRealTimers()
+    })
+
+    // Regression test: nothing listened for the native `close` event (a second Escape in a row,
+    // whose `cancel` a page can't prevent), so the drawer stayed `visible` and scroll-locked.
+    test('follows a close the browser makes by itself', () => {
+      const onClose = vi.fn()
+      const onHidden = vi.fn()
+      render(
+        <Drawer defaultVisible onClose={onClose} onHidden={onHidden} placement="start">
+          Test
+        </Drawer>
+      )
+      const dialog = getDialog()
+      expect(document.documentElement).toHaveStyle({ overflow: 'hidden' })
+      act(() => {
+        dialog.open = false
+        dialog.dispatchEvent(new Event('close'))
+      })
+      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(onHidden).toHaveBeenCalledTimes(1)
+      expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
+    })
+
+    // Regression tests: a `responsive` drawer opened below its breakpoint stayed in the top
+    // layer, over a scroll-locked page, once the viewport had grown past the breakpoint, where
+    // chassis-css lays it out in the page. jsdom applies no stylesheet: `position` stands in for
+    // what chassis-css computes on each side of the breakpoint.
+    describe('responsive', () => {
+      const resizeTo = (dialog: HTMLDialogElement, position: 'fixed' | 'static') => {
+        dialog.style.position = position
+        fireEvent(window, new Event('resize'))
+      }
+
+      test('asks to close when the viewport grows past the breakpoint', () => {
+        const onClose = vi.fn()
+        render(
+          <Drawer onClose={onClose} placement="start" responsive="lg" visible>
+            Test
+          </Drawer>
+        )
+        const dialog = getDialog()
+        resizeTo(dialog, 'fixed')
+        expect(onClose).not.toHaveBeenCalled()
+        resizeTo(dialog, 'static')
+        expect(onClose).toHaveBeenCalledTimes(1)
+      })
+
+      test('an uncontrolled one closes itself and unlocks the page', () => {
+        vi.useFakeTimers()
+        render(
+          <Drawer defaultVisible placement="start" responsive="lg">
+            Test
+          </Drawer>
+        )
+        const dialog = getDialog()
+        dialog.style.position = 'fixed'
+        expect(document.documentElement).toHaveStyle({ overflow: 'hidden' })
+        resizeTo(dialog, 'static')
+        act(() => vi.runAllTimers())
+        expect(dialog).not.toHaveAttribute('open')
+        expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
+        vi.useRealTimers()
+      })
+
+      test('leaves a closed drawer, and one that is not responsive, alone', () => {
+        const onClose = vi.fn()
+        const { rerender } = render(
+          <Drawer onClose={onClose} placement="start" responsive="lg">
+            Test
+          </Drawer>
+        )
+        resizeTo(getDialog(), 'static')
+        rerender(
+          <Drawer onClose={onClose} placement="start" visible>
+            Test
+          </Drawer>
+        )
+        resizeTo(getDialog(), 'static')
+        expect(onClose).not.toHaveBeenCalled()
+      })
+    })
   })
 
   describe('focus management', () => {
@@ -448,7 +560,9 @@ describe('Drawer', () => {
       expect(dialog).toHaveAccessibleName('Filters')
     })
 
-    test('a caller-supplied DrawerTitle id opts out of the generated one', () => {
+    // Regression tests: `aria-labelledby` always named the generated id, which no element has
+    // when there is no `DrawerTitle` or the title has an id of its own.
+    test('a caller-supplied DrawerTitle id still names the drawer', () => {
       render(
         <Drawer placement="start" visible>
           <DrawerHeader>
@@ -458,6 +572,45 @@ describe('Drawer', () => {
         </Drawer>
       )
       expect(screen.getByText('Filters')).toHaveAttribute('id', 'custom-title')
+      expect(getDialog()).toHaveAttribute('aria-labelledby', 'custom-title')
+      expect(getDialog()).toHaveAccessibleName('Filters')
+    })
+
+    test('has no aria-labelledby without a DrawerTitle, and loses it with the title', () => {
+      const { rerender } = render(
+        <Drawer aria-label="Filters" placement="start" visible>
+          <DrawerBody>Body</DrawerBody>
+        </Drawer>
+      )
+      const dialog = getDialog()
+      expect(dialog).not.toHaveAttribute('aria-labelledby')
+      expect(dialog).toHaveAccessibleName('Filters')
+
+      rerender(
+        <Drawer placement="start" visible>
+          <DrawerTitle>Sort</DrawerTitle>
+          <DrawerBody>Body</DrawerBody>
+        </Drawer>
+      )
+      expect(dialog).toHaveAccessibleName('Sort')
+
+      rerender(
+        <Drawer placement="start" visible>
+          <DrawerBody>Body</DrawerBody>
+        </Drawer>
+      )
+      expect(dialog).not.toHaveAttribute('aria-labelledby')
+    })
+
+    test("a caller's aria-label names the drawer, over its title", () => {
+      render(
+        <Drawer aria-label="Filters" placement="start" visible>
+          <DrawerTitle>Sort</DrawerTitle>
+          <DrawerBody>Body</DrawerBody>
+        </Drawer>
+      )
+      expect(getDialog()).not.toHaveAttribute('aria-labelledby')
+      expect(getDialog()).toHaveAccessibleName('Filters')
     })
   })
 })

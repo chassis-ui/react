@@ -2,6 +2,7 @@ import React, { createContext, DialogHTMLAttributes, forwardRef, useId } from 'r
 import classNames from 'classnames'
 
 import { useDialogElement } from '../../hooks'
+import { RegisterDialogTitle, useDialogTitle } from '../../hooks/useDialogTitle'
 
 export interface ModalProps extends Omit<
   DialogHTMLAttributes<HTMLDialogElement>,
@@ -104,6 +105,10 @@ export interface ModalContextProps {
 
 export const ModalContext = createContext<ModalContextProps>({ close: () => {} })
 
+// How a rendered `ModalTitle` tells its `Modal` the id it has (`useDialogTitle`). Apart from
+// `ModalContext`, whose value `useModal` returns to callers.
+export const ModalTitleContext = createContext<RegisterDialogTitle>(() => () => {})
+
 export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
   (
     {
@@ -119,6 +124,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
       onClose,
       onClosePrevented,
       onHidden,
+      onKeyDown,
       onShow,
       onShown,
       onVisibleChange,
@@ -130,26 +136,38 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
     },
     ref
   ) => {
-    const { close, forkedRef, handleBackdropClick, handleCancel, hiding, staticBounce } =
-      useDialogElement({
-        backdrop,
-        defaultVisible,
-        instant,
-        isModal: modal,
-        keyboard,
-        onClick,
-        onClose,
-        onClosePrevented,
-        onHidden,
-        onShow,
-        onShown,
-        onVisibleChange,
-        open,
-        ref,
-        visible
-      })
+    const {
+      close,
+      forkedRef,
+      handleBackdropClick,
+      handleCancel,
+      handleKeyDown,
+      handleNativeClose,
+      hiding,
+      staticBounce
+    } = useDialogElement({
+      backdrop,
+      defaultVisible,
+      instant,
+      isModal: modal,
+      keyboard,
+      onClick,
+      onClose,
+      onClosePrevented,
+      onHidden,
+      onKeyDown,
+      onShow,
+      onShown,
+      onVisibleChange,
+      open,
+      ref,
+      visible
+    })
 
     const titleId = useId()
+    // Labelled by the title that is rendered, under the id it has, unless the caller names the
+    // dialog itself: `aria-labelledby` would outrank that `aria-label`.
+    const [labelledBy, registerTitle] = useDialogTitle(titleId)
 
     const _className = classNames(
       'modal',
@@ -169,17 +187,21 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
 
     return (
       <ModalContext.Provider value={{ close, titleId }}>
-        <dialog
-          aria-labelledby={titleId}
-          {...rest}
-          open={open}
-          className={_className}
-          onCancel={handleCancel}
-          onClick={handleBackdropClick}
-          ref={forkedRef}
-        >
-          {children}
-        </dialog>
+        <ModalTitleContext.Provider value={registerTitle}>
+          <dialog
+            aria-labelledby={rest['aria-label'] ? undefined : labelledBy}
+            {...rest}
+            open={open}
+            className={_className}
+            onCancel={handleCancel}
+            onClick={handleBackdropClick}
+            onClose={handleNativeClose}
+            onKeyDown={handleKeyDown}
+            ref={forkedRef}
+          >
+            {children}
+          </dialog>
+        </ModalTitleContext.Provider>
       </ModalContext.Provider>
     )
   }

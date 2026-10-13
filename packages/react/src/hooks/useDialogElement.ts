@@ -1,5 +1,7 @@
 import {
   ForwardedRef,
+  KeyboardEvent as ReactKeyboardEvent,
+  KeyboardEventHandler,
   MouseEvent as ReactMouseEvent,
   MouseEventHandler,
   SyntheticEvent,
@@ -13,6 +15,7 @@ import { useControllableState } from './useControllableState'
 import { useForkedRef } from './useForkedRef'
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 import { executeAfterTransition } from '../utils/dialogTransition'
+import { hasOverlayWithin, pushOverlay } from '../utils/overlayStack'
 
 export interface UseDialogElementOptions {
   /**
@@ -54,6 +57,11 @@ export interface UseDialogElementOptions {
   onClose?: () => void
   onClosePrevented?: () => void
   onHidden?: () => void
+  /**
+   * The caller's own `onKeyDown`, chained ahead of the Escape handling of a non-modal dialog, for
+   * the reason `onClick` is.
+   */
+  onKeyDown?: KeyboardEventHandler<HTMLDialogElement>
   onShow?: () => void
   onShown?: () => void
   /**
@@ -72,6 +80,10 @@ export interface UseDialogElementOptions {
    */
   visible?: boolean
 }
+
+// Where a dialog is in its show/hide cycle. The native dialog is open in every phase but
+// `closed`: it stays in the top layer for as long as its exit lasts.
+type DialogPhase = 'closed' | 'opening' | 'open' | 'closing'
 
 // The element each open dialog returns focus to when it closes.
 const restoreTargets = new WeakMap<HTMLDialogElement, HTMLElement | null>()
@@ -93,15 +105,15 @@ function resolveRestoreTarget(trigger: HTMLElement | null): HTMLElement | null {
   return target
 }
 
-// Shared open/close machinery for a native `<dialog>`-based component — `Modal` and `Drawer`
-// otherwise duplicated this near-verbatim: forked ref, the show/begin-hide effect (showModal()
-// vs. show(), initial focus, scroll lock), the finish-hide effect (waits out the exit
-// transition), the non-modal Escape-key listener (the native `cancel` event only fires for
-// dialogs opened with `showModal()`), and the static-backdrop "bounce" used by both the
-// backdrop-click handler and the Escape/`cancel` handler. What's left in each caller is only
-// what's genuinely component-specific: `Modal`/`Drawer`'s own `_className` building, and
-// `Drawer`'s cross-instance "auto-close every other open drawer" registry (wired in via
-// `onBeforeShow`, since it needs to run at one precise point inside the show effect).
+// Shared open/close machinery for a native `<dialog>`-based component — `Modal`, `Alert` and
+// `Drawer` otherwise duplicated this near-verbatim: forked ref, the show/begin-hide effect
+// (showModal() vs. show(), initial focus, scroll lock), the effect that waits out the enter and
+// exit transitions, the non-modal Escape-key handler (the native `cancel` event only fires for
+// dialogs opened with `showModal()`), the native `close` event, and the static-backdrop "bounce"
+// used by both the backdrop-click handler and the Escape/`cancel` handler. What's left in each
+// caller is only what's genuinely component-specific: `Modal`/`Drawer`'s own `_className`
+// building, and `Drawer`'s cross-instance "auto-close every other open drawer" registry (wired in
+// via `onBeforeShow`, since it needs to run at one precise point inside the show effect).
 //
 // A dialog has no trigger of its own, so the only change it asks for is a close: Escape, a
 // backdrop click, a close button. That request fires `onClose` and `onVisibleChange(false)`.
@@ -118,6 +130,7 @@ export const useDialogElement = ({
   onClose,
   onClosePrevented,
   onHidden,
+  onKeyDown,
   onShow,
   onShown,
   onVisibleChange,
@@ -133,7 +146,17 @@ export const useDialogElement = ({
     defaultVisible ?? open ?? false,
     onVisibleChange
   )
-  const [hiding, setHiding] = useState(false)
+  // A dialog rendered with the native `open` attribute is open before any effect has run.
+  const [phase, setPhaseState] = useState<DialogPhase>(open ? 'open' : 'closed')
+  // Mirrors `phase` at the moment it is set, not at the next render, as `useTransitionState`
+  // does: StrictMode runs the show effect twice on mount, and the second run has to see that the
+  // first has shown the dialog. It is also what tells a reopening during the exit from a first
+  // opening, and the browser's `close` event from the one that follows our own `close()`.
+  const phaseRef = useRef(phase)
+  const setPhase = (next: DialogPhase) => {
+    phaseRef.current = next
+    setPhaseState(next)
+  }
   const [staticBounce, setStaticBounce] = useState(false)
   const [scrollLocked, setScrollLocked] = useState(false)
   const openedAsModalRef = useRef(false)
@@ -143,11 +166,12 @@ export const useDialogElement = ({
   // below) — usePreventScroll releases it automatically on unmount too, even mid-transition.
   usePreventScroll({ isDisabled: !scrollLocked })
 
+  // Several things can ask an open dialog to close while it is closing; only the first is a
+  // request, for `onClose` as for `onVisibleChange`.
   const close = () => {
+    if (!_visible) return
     onClose?.()
-    // Several things can ask an open dialog to close while it is closing; only the first is a
-    // change.
-    if (_visible) setVisible(false)
+    setVisible(false)
   }
 
   const triggerStaticBounce = () => {
@@ -158,114 +182,153 @@ export const useDialogElement = ({
     executeAfterTransition(dialog, () => setStaticBounce(false), !instant)
   }
 
-  // Read through refs, kept current every render, so the keydown listener below — which only
-  // resubscribes when `keyboard` changes — never invokes a stale `close`/`triggerStaticBounce`
-  // closure if `onClose`/`onClosePrevented`/`instant` change identity without `keyboard` also
-  // changing. Same pattern as `Drawer`'s own `closeRef` and `useFloatingOverlay`'s `closeRef`.
-  const closeRef = useRef(close)
-  closeRef.current = close
-  const triggerStaticBounceRef = useRef(triggerStaticBounce)
-  triggerStaticBounceRef.current = triggerStaticBounce
+  // Read through a ref, kept current every render, so a transition that ends renders later
+  // calls the callbacks of that moment, and a caller can pass them inline.
+  const callbacks = { onBeforeShow, onHidden, onShow, onShown }
+  const callbacksRef = useRef(callbacks)
+  callbacksRef.current = callbacks
+
+  const finishHide = (dialog: HTMLDialogElement) => {
+    // Focus goes back only if this dialog still has it, or nothing does: another dialog
+    // opened from this one (the next alert of a chain) keeps its own. Mirrors `Popover`.
+    const active = document.activeElement
+    const ownsFocus = !active || active === document.body || dialog.contains(active)
+    // Settled before `close()`, so the native `close` event it fires isn't taken for the
+    // browser's (`handleNativeClose`).
+    setPhase('closed')
+    if (dialog.open) {
+      dialog.close()
+    }
+    if (openedAsModalRef.current) {
+      setScrollLocked(false)
+    }
+    callbacksRef.current.onHidden?.()
+    const trigger = ownsFocus ? resolveRestoreTarget(triggerRef.current) : null
+    if (trigger && document.contains(trigger)) {
+      trigger.focus()
+    }
+  }
 
   // Show / begin-hide
   useIsomorphicLayoutEffect(() => {
     const dialog = dialogRef.current
-    if (!dialog) return undefined
+    if (!dialog) return
+
+    const current = phaseRef.current
+    const isShown = current === 'opening' || current === 'open'
+    if (_visible === isShown) return
 
     if (_visible) {
-      if (dialog.open) return undefined
+      callbacksRef.current.onBeforeShow?.(dialog)
 
-      onBeforeShow?.(dialog)
+      // Reopened while its exit runs, the dialog is still open: it stays as it is, with the
+      // trigger and the scroll lock of its first opening, and leaving the `closing` phase drops
+      // the wait that would have closed it.
+      if (!dialog.open) {
+        triggerRef.current =
+          document.activeElement instanceof HTMLElement ? document.activeElement : null
 
-      triggerRef.current =
-        document.activeElement instanceof HTMLElement ? document.activeElement : null
+        restoreTargets.set(dialog, triggerRef.current)
 
-      restoreTargets.set(dialog, triggerRef.current)
+        openedAsModalRef.current = isModal
+        if (isModal) {
+          dialog.showModal()
+          setScrollLocked(true)
+        } else {
+          dialog.show()
+        }
 
-      openedAsModalRef.current = isModal
-      if (isModal) {
-        dialog.showModal()
-        setScrollLocked(true)
-      } else {
-        dialog.show()
+        // `data-autofocus` too: React doesn't write the `autofocus` attribute in a client render
+        // (it calls `focus()` on mount, which a closed dialog ignores), so `autoFocus` alone only
+        // works in server-rendered HTML.
+        // Only this dialog's own: one inside a nested dialog (an `Alert` in a `Modal`) is hidden
+        // while that dialog is closed, and focusing it would fail silently.
+        const autofocusEl = [
+          ...dialog.querySelectorAll<HTMLElement>(
+            '[autofocus], [data-autofocus]:not([data-autofocus="false"])'
+          )
+        ].find((element) => element.closest('dialog') === dialog)
+        if (autofocusEl) {
+          autofocusEl.focus()
+        } else {
+          dialog.setAttribute('tabindex', '-1')
+          dialog.focus()
+        }
       }
 
-      // `data-autofocus` too: React doesn't write the `autofocus` attribute in a client render (it
-      // calls `focus()` on mount, which a closed dialog ignores), so `autoFocus` alone only works
-      // in server-rendered HTML.
-      // Only this dialog's own: one inside a nested dialog (an `Alert` in a `Modal`) is hidden
-      // while that dialog is closed, and focusing it would fail silently.
-      const autofocusEl = [
-        ...dialog.querySelectorAll<HTMLElement>(
-          '[autofocus], [data-autofocus]:not([data-autofocus="false"])'
-        )
-      ].find((element) => element.closest('dialog') === dialog)
-      if (autofocusEl) {
-        autofocusEl.focus()
-      } else {
-        dialog.setAttribute('tabindex', '-1')
-        dialog.focus()
-      }
-
-      onShow?.()
-      setHiding(false)
-
-      return executeAfterTransition(dialog, () => onShown?.(), !instant)
+      callbacksRef.current.onShow?.()
+      setPhase('opening')
+      return
     }
 
-    if (!dialog.open) return undefined
-    setHiding(true)
-    return undefined
+    // Closed by the browser already, with its `close` event still to come.
+    if (!dialog.open) {
+      finishHide(dialog)
+      return
+    }
+    setPhase('closing')
   }, [_visible])
 
-  // Finish hide once the exit transition (or lack thereof) completes
-  useEffect(() => {
-    const dialog = dialogRef.current
-    if (!hiding || !dialog) return undefined
-
-    return executeAfterTransition(
-      dialog,
-      () => {
-        // Focus goes back only if this dialog still has it, or nothing does: another dialog
-        // opened from this one (the next alert of a chain) keeps its own. Mirrors `Popover`.
-        const active = document.activeElement
-        const ownsFocus = !active || active === document.body || dialog.contains(active)
-        if (dialog.open) {
-          dialog.close()
-        }
-        if (openedAsModalRef.current) {
-          setScrollLocked(false)
-        }
-        setHiding(false)
-        onHidden?.()
-        const trigger = ownsFocus ? resolveRestoreTarget(triggerRef.current) : null
-        if (trigger && document.contains(trigger)) {
-          trigger.focus()
-        }
-      },
-      !instant
-    )
-  }, [hiding])
-
-  // Escape key for non-modal (show()) dialogs — the native `cancel` event below only
-  // fires for dialogs opened with showModal().
+  // Finish the show or the hide once the transition (or lack thereof) completes. A phase that is
+  // left before that drops its wait: a dialog closed while it opens never reports `onShown`, and
+  // one reopened while it closes is never closed.
   useEffect(() => {
     const dialog = dialogRef.current
     if (!dialog) return undefined
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape' || openedAsModalRef.current) return
-      event.preventDefault()
-      if (!keyboard) {
-        triggerStaticBounceRef.current()
-        return
-      }
-      closeRef.current()
+    if (phase === 'opening') {
+      return executeAfterTransition(
+        dialog,
+        () => {
+          setPhase('open')
+          callbacksRef.current.onShown?.()
+        },
+        !instant
+      )
     }
+    if (phase === 'closing') {
+      return executeAfterTransition(dialog, () => finishHide(dialog), !instant)
+    }
+    return undefined
+  }, [phase])
 
-    dialog.addEventListener('keydown', handleKeyDown)
-    return () => dialog.removeEventListener('keydown', handleKeyDown)
-  }, [keyboard])
+  // A modal dialog holds a place among the open overlays for as long as it is open, so Escape
+  // doesn't reach a popover or a menu left open under it (`overlayStack`).
+  const isOpen = phase !== 'closed'
+  useEffect(() => {
+    if (!isOpen || !openedAsModalRef.current) return undefined
+    return pushOverlay({ nodes: () => [dialogRef.current] })
+  }, [isOpen])
+
+  // The native `close` event. After our own `close()` the phase is settled and there is nothing
+  // left to do. Otherwise the browser closed the dialog by itself: a second Escape in a row,
+  // whose `cancel` it doesn't let a page prevent, a `<form method="dialog">`, or a caller's own
+  // `close()`. The state follows: a close request, the scroll lock released, `onHidden`. A
+  // caller that holds `visible` through that request has a closed dialog until `visible` changes.
+  const handleNativeClose = () => {
+    const dialog = dialogRef.current
+    if (!dialog || phaseRef.current === 'closed') return
+    close()
+    finishHide(dialog)
+  }
+
+  // Escape key for non-modal (show()) dialogs — the native `cancel` event below only fires for
+  // dialogs opened with showModal(). A React handler, so an Escape that something inside the
+  // dialog has handled and stopped never arrives, wherever that thing is portaled. One it has
+  // only prevented, or that an overlay open inside this dialog is about to take on `window`
+  // (`overlayStack`), is left alone too: Escape closes the innermost overlay only.
+  const handleKeyDown = (event: ReactKeyboardEvent<HTMLDialogElement>) => {
+    onKeyDown?.(event)
+    if (event.key !== 'Escape' || event.defaultPrevented || openedAsModalRef.current) return
+    const dialog = dialogRef.current
+    if (dialog && hasOverlayWithin(dialog)) return
+    event.preventDefault()
+    if (!keyboard) {
+      triggerStaticBounce()
+      return
+    }
+    close()
+  }
 
   const handleCancel = (event: SyntheticEvent<HTMLDialogElement>) => {
     event.preventDefault()
@@ -286,5 +349,15 @@ export const useDialogElement = ({
     close()
   }
 
-  return { close, dialogRef, forkedRef, handleBackdropClick, handleCancel, hiding, staticBounce }
+  return {
+    close,
+    dialogRef,
+    forkedRef,
+    handleBackdropClick,
+    handleCancel,
+    handleKeyDown,
+    handleNativeClose,
+    hiding: phase === 'closing',
+    staticBounce
+  }
 }

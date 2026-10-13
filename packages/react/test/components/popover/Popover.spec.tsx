@@ -1,11 +1,23 @@
 import * as React from 'react'
+import { flushSync } from 'react-dom'
 import { act, render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Popover, Button } from '../../../src/index'
+import { Popover, Button, Menu, MenuItem, MenuList, MenuToggle, Modal } from '../../../src/index'
 
 const openPopover = () => {
   fireEvent.click(screen.getByRole('button', { name: 'Test' }))
+}
+
+// A press as a browser reports it: `pointerdown`, which the popover reads for a press outside,
+// then `click`.
+const press = (target: Element) => {
+  fireEvent.pointerDown(target)
+  fireEvent.click(target)
+}
+
+const settle = () => {
+  act(() => vi.runAllTimers())
 }
 
 describe('Popover', () => {
@@ -127,7 +139,8 @@ describe('Popover', () => {
       vi.useRealTimers()
     })
 
-    test('a click outside the trigger and panel closes the popover', () => {
+    // On the press, not the click that follows it.
+    test('a press outside the trigger and panel closes the popover', () => {
       vi.useFakeTimers()
       render(
         <Popover content="content" title="title">
@@ -138,9 +151,57 @@ describe('Popover', () => {
       act(() => vi.runAllTimers())
       expect(screen.getByRole('dialog')).toBeInTheDocument()
 
-      fireEvent.click(document.body)
+      fireEvent.pointerDown(document.body)
       act(() => vi.runAllTimers())
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      vi.useRealTimers()
+    })
+
+    test('a press on the trigger leaves closing to its click', () => {
+      vi.useFakeTimers()
+      render(
+        <Popover content="content" title="title">
+          <Button>Test</Button>
+        </Popover>
+      )
+      openPopover()
+      settle()
+      fireEvent.pointerDown(screen.getByRole('button', { name: 'Test' }))
+      settle()
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+      openPopover()
+      settle()
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      vi.useRealTimers()
+    })
+
+    // Regression test: outside was read on `click`, by DOM containment. A control that takes
+    // itself out of the document in its own click handler was in no panel by then, so using it
+    // closed the popover. A browser renders the handler's update before `window` hears the click;
+    // a dispatched event doesn't, so the handler flushes it.
+    test('an element removed by its own click is not a press outside', () => {
+      vi.useFakeTimers()
+      const Removable = () => {
+        const [shown, setShown] = React.useState(true)
+        return shown ? (
+          <button type="button" onClick={() => flushSync(() => setShown(false))}>
+            Remove
+          </button>
+        ) : (
+          <span>Removed</span>
+        )
+      }
+      render(
+        <Popover content={<Removable />}>
+          <Button>Test</Button>
+        </Popover>
+      )
+      openPopover()
+      settle()
+      press(screen.getByRole('button', { name: 'Remove' }))
+      settle()
+      expect(screen.getByText('Removed')).toBeInTheDocument()
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
       vi.useRealTimers()
     })
 
@@ -181,13 +242,228 @@ describe('Popover', () => {
 
       const elsewhere = screen.getByRole('button', { name: 'Elsewhere' })
       act(() => elsewhere.focus())
-      fireEvent.click(elsewhere)
+      press(elsewhere)
       act(() => vi.runAllTimers())
 
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
       // eslint-disable-next-line testing-library/no-node-access
       expect(document.activeElement).toBe(elsewhere)
       vi.useRealTimers()
+    })
+  })
+
+  // Regression tests: inside was the panel's and the trigger's DOM subtree only, so a press in
+  // an overlay opened from the content, which is portaled out of the panel, closed the popover.
+  describe('overlays opened from the content', () => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+    })
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    const Nested = () => (
+      <Popover
+        content={
+          <Popover content="inner content">
+            <Button>Inner</Button>
+          </Popover>
+        }
+        title="outer title"
+      >
+        <Button>Test</Button>
+      </Popover>
+    )
+
+    const openNested = () => {
+      render(<Nested />)
+      openPopover()
+      settle()
+      press(screen.getByRole('button', { name: 'Inner' }))
+      settle()
+      expect(screen.getByText('inner content')).toBeInTheDocument()
+    }
+
+    test('a press inside a nested popover leaves both open', () => {
+      openNested()
+      // The inner panel is beside the outer one in the document, not inside it.
+      expect(screen.getByRole('dialog', { name: 'outer title' })).not.toContainElement(
+        screen.getByText('inner content')
+      )
+      press(screen.getByText('inner content'))
+      settle()
+      expect(screen.getByText('inner content')).toBeInTheDocument()
+      expect(screen.getByText('outer title')).toBeInTheDocument()
+    })
+
+    test('a press in the outer popover closes the nested one only', () => {
+      openNested()
+      press(screen.getByText('outer title'))
+      settle()
+      expect(screen.queryByText('inner content')).not.toBeInTheDocument()
+      expect(screen.getByText('outer title')).toBeInTheDocument()
+    })
+
+    test('a press outside both closes both', () => {
+      openNested()
+      press(document.body)
+      settle()
+      expect(screen.queryByText('inner content')).not.toBeInTheDocument()
+      expect(screen.queryByText('outer title')).not.toBeInTheDocument()
+    })
+
+    test('a press on an item of a Menu teleported out of the content leaves the popover open', () => {
+      render(
+        <Popover
+          content={
+            <Menu container>
+              <MenuToggle>Options</MenuToggle>
+              <MenuList>
+                <MenuItem>Rename</MenuItem>
+              </MenuList>
+            </Menu>
+          }
+        >
+          <Button>Test</Button>
+        </Popover>
+      )
+      openPopover()
+      settle()
+      fireEvent.click(screen.getByRole('button', { name: 'Options' }))
+      settle()
+      const item = screen.getByRole('menuitem', { name: 'Rename' })
+      expect(screen.getByRole('dialog')).not.toContainElement(item)
+
+      press(item)
+      settle()
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+    })
+  })
+
+  // Regression tests: every open overlay listened for Escape on `window` by itself, and a
+  // non-modal dialog for any keydown inside it, so one press closed the whole chain.
+  describe('Escape among other overlays', () => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+    })
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    const escape = (target: Element | Window = window) =>
+      fireEvent.keyDown(target, { key: 'Escape' })
+
+    test('closes the innermost popover only', () => {
+      render(
+        <Popover
+          content={
+            <Popover content="inner content">
+              <Button>Inner</Button>
+            </Popover>
+          }
+          title="outer title"
+        >
+          <Button>Test</Button>
+        </Popover>
+      )
+      openPopover()
+      settle()
+      press(screen.getByRole('button', { name: 'Inner' }))
+      settle()
+
+      escape()
+      settle()
+      expect(screen.queryByText('inner content')).not.toBeInTheDocument()
+      expect(screen.getByText('outer title')).toBeInTheDocument()
+
+      escape()
+      settle()
+      expect(screen.queryByText('outer title')).not.toBeInTheDocument()
+    })
+
+    test('closes a popover in a non-modal Modal, and leaves the modal to the next press', () => {
+      const onClose = vi.fn()
+      render(
+        <Modal instant modal={false} onClose={onClose} visible>
+          <Popover content="content">
+            <Button>Test</Button>
+          </Popover>
+        </Modal>
+      )
+      const trigger = screen.getByRole('button', { name: 'Test' })
+      openPopover()
+      settle()
+      expect(screen.getByText('content')).toBeInTheDocument()
+
+      escape(trigger)
+      settle()
+      expect(screen.queryByText('content')).not.toBeInTheDocument()
+      expect(onClose).not.toHaveBeenCalled()
+
+      escape(trigger)
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
+
+    // A modal dialog closes on the browser's `cancel`, which follows an Escape keydown nothing
+    // has prevented. jsdom sends none, so the test reads whether the keydown was prevented.
+    test('prevents the Escape it takes in a modal Modal, so the browser sends the modal no cancel', () => {
+      render(
+        <Modal instant visible>
+          <Popover content="content">
+            <Button>Test</Button>
+          </Popover>
+        </Modal>
+      )
+      const trigger = screen.getByRole('button', { name: 'Test' })
+      openPopover()
+      settle()
+
+      expect(escape(trigger)).toBe(false)
+      settle()
+      expect(screen.queryByText('content')).not.toBeInTheDocument()
+      // With no overlay left inside it, the key is the modal's.
+      expect(escape(trigger)).toBe(true)
+    })
+
+    test('a modal opened over an open popover keeps Escape from it', () => {
+      const { rerender } = render(
+        <>
+          <Popover content="content" defaultVisible>
+            <Button>Test</Button>
+          </Popover>
+          <Modal instant>Modal</Modal>
+        </>
+      )
+      settle()
+      rerender(
+        <>
+          <Popover content="content" defaultVisible>
+            <Button>Test</Button>
+          </Popover>
+          <Modal instant visible>
+            Modal
+          </Modal>
+        </>
+      )
+      expect(escape()).toBe(true)
+      settle()
+      expect(screen.getByText('content')).toBeInTheDocument()
+    })
+
+    test('leaves an Escape that something else has prevented alone', () => {
+      render(
+        <Popover content="content">
+          <Button>Test</Button>
+        </Popover>
+      )
+      openPopover()
+      settle()
+      const prevent = (event: KeyboardEvent) => event.preventDefault()
+      document.addEventListener('keydown', prevent)
+      escape(document.body)
+      document.removeEventListener('keydown', prevent)
+      settle()
+      expect(screen.getByText('content')).toBeInTheDocument()
     })
   })
 

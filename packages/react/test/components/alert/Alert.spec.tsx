@@ -264,6 +264,61 @@ describe('Alert', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Close' }))
       expect(onClose).toHaveBeenCalledTimes(1)
     })
+
+    // Regression test: the show effect returned early for a dialog that was still open, so the
+    // pending end of the exit closed an alert whose `visible` was `true` again.
+    test('reopened while its exit runs, it stays open', () => {
+      vi.useFakeTimers()
+      const onHidden = vi.fn()
+      // With its transition: an instant alert has no exit to reopen during.
+      const { rerender } = render(<ConfirmDelete instant={false} onHidden={onHidden} visible />)
+      act(() => vi.runAllTimers())
+      const dialog = getDialog()
+
+      rerender(<ConfirmDelete instant={false} onHidden={onHidden} visible={false} />)
+      expect(dialog).toHaveClass('hiding')
+      rerender(<ConfirmDelete instant={false} onHidden={onHidden} visible />)
+      act(() => vi.runAllTimers())
+
+      expect(dialog).toHaveAttribute('open')
+      expect(dialog).not.toHaveClass('hiding')
+      expect(onHidden).not.toHaveBeenCalled()
+      expect(document.documentElement).toHaveStyle({ overflow: 'hidden' })
+      vi.useRealTimers()
+    })
+
+    // Regression test: nothing listened for the native `close` event. An alert blocks Escape by
+    // default, and a browser closes the dialog by itself on the second one in a row: the alert
+    // stayed `visible`, with the page scroll-locked.
+    test('follows a close the browser makes by itself', () => {
+      const onClose = vi.fn()
+      const onHidden = vi.fn()
+      render(<ConfirmDelete defaultVisible onClose={onClose} onHidden={onHidden} />)
+      const dialog = getDialog()
+      expect(document.documentElement).toHaveStyle({ overflow: 'hidden' })
+      act(() => {
+        dialog.open = false
+        dialog.dispatchEvent(new Event('close'))
+      })
+      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(onHidden).toHaveBeenCalledTimes(1)
+      expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
+    })
+
+    // Regression test: StrictMode runs the show effect twice on mount, and the cleanup between
+    // the two dropped the wait for the enter transition.
+    test('fires onShown once under StrictMode, mounted visible', () => {
+      vi.useFakeTimers()
+      const onShown = vi.fn()
+      render(
+        <React.StrictMode>
+          <ConfirmDelete instant={false} onShown={onShown} visible />
+        </React.StrictMode>
+      )
+      act(() => vi.runAllTimers())
+      expect(onShown).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
   })
 
   describe('focus', () => {

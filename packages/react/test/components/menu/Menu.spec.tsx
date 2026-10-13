@@ -1,9 +1,18 @@
 import * as React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { act, render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { Menu, MenuToggle, MenuList, MenuItem, MenuSubmenu } from '../../../src/index'
+import {
+  Button,
+  Menu,
+  MenuToggle,
+  MenuList,
+  MenuItem,
+  MenuSubmenu,
+  Modal,
+  Popover
+} from '../../../src/index'
 import { actUserEvent } from '../../actUserEvent'
 
 describe('Menu', () => {
@@ -263,6 +272,147 @@ describe('Menu', () => {
 
       fireEvent.click(screen.getByText('Toggle'))
       expect(wrapper).toHaveClass('show')
+    })
+  })
+
+  // Regression tests: `Menu` listened for Escape on `window` by itself, as `Popover` did, and a
+  // non-modal dialog for any keydown inside it, so one press closed the menu and what it was in.
+  describe('Escape among other overlays', () => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+    })
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    const settle = () => {
+      act(() => vi.runAllTimers())
+    }
+    const fixture = (
+      <Menu>
+        <MenuToggle>Toggle</MenuToggle>
+        <MenuList>
+          <MenuItem>A</MenuItem>
+        </MenuList>
+      </Menu>
+    )
+
+    test('closes a menu in a popover, and leaves the popover to the next press', () => {
+      render(
+        <Popover content={fixture} title="popover title">
+          <Button>Open</Button>
+        </Popover>
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Open' }))
+      settle()
+      fireEvent.click(screen.getByRole('button', { name: 'Toggle' }))
+      settle()
+      expect(screen.getByRole('menu')).toHaveClass('show')
+
+      fireEvent.keyDown(window, { key: 'Escape' })
+      settle()
+      expect(screen.getByRole('menu', { hidden: true })).not.toHaveClass('show')
+      expect(screen.getByText('popover title')).toBeInTheDocument()
+
+      fireEvent.keyDown(window, { key: 'Escape' })
+      settle()
+      expect(screen.queryByText('popover title')).not.toBeInTheDocument()
+    })
+
+    test('closes a menu in a non-modal Modal and leaves the modal open, wherever focus is', () => {
+      const onClose = vi.fn()
+      render(
+        <Modal instant modal={false} onClose={onClose} visible>
+          {fixture}
+        </Modal>
+      )
+      const toggle = screen.getByRole('button', { name: 'Toggle' })
+
+      // Opened by a click, focus stays on the toggle: the key reaches the stack on `window`.
+      fireEvent.click(toggle)
+      fireEvent.keyDown(toggle, { key: 'Escape' })
+      expect(screen.getByRole('menu', { hidden: true })).not.toHaveClass('show')
+      expect(onClose).not.toHaveBeenCalled()
+
+      // With focus on an item, the list handles the key itself.
+      fireEvent.click(toggle)
+      fireEvent.keyDown(screen.getByRole('menuitem', { name: 'A' }), { key: 'Escape' })
+      expect(screen.getByRole('menu', { hidden: true })).not.toHaveClass('show')
+      expect(onClose).not.toHaveBeenCalled()
+
+      fireEvent.keyDown(toggle, { key: 'Escape' })
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  // Regression test: inside was the list's and the submenus' DOM subtrees only, so a click in an
+  // overlay opened from an item, which is portaled out of the list, was a click outside.
+  describe('overlays opened from the list', () => {
+    test('a click inside a popover opened from an item is neither on an item nor outside', () => {
+      vi.useFakeTimers()
+      const press = (target: Element) => {
+        fireEvent.pointerDown(target)
+        fireEvent.click(target)
+      }
+      render(
+        <Menu autoClose="outside">
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <Popover content="details">
+              <MenuItem>Info</MenuItem>
+            </Popover>
+          </MenuList>
+        </Menu>
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Toggle' }))
+      act(() => vi.runAllTimers())
+      press(screen.getByRole('menuitem', { name: 'Info' }))
+      act(() => vi.runAllTimers())
+      const details = screen.getByText('details')
+      expect(screen.getByRole('menu', { hidden: true })).not.toContainElement(details)
+
+      press(details)
+      act(() => vi.runAllTimers())
+      expect(screen.getByRole('menu', { hidden: true })).toHaveClass('show')
+      expect(details).toBeInTheDocument()
+
+      press(document.body)
+      act(() => vi.runAllTimers())
+      expect(screen.getByRole('menu', { hidden: true })).not.toHaveClass('show')
+      vi.useRealTimers()
+    })
+  })
+
+  describe('in a dialog', () => {
+    const fixture = (
+      <Menu>
+        <MenuToggle>Toggle</MenuToggle>
+        <MenuList>
+          <MenuItem>A</MenuItem>
+        </MenuList>
+      </Menu>
+    )
+
+    // Regression test: unlike `Popover`, `Tooltip` and `ContextMenu`, a menu left open when its
+    // dialog closed was still open when the dialog opened again.
+    test('closes when the dialog it is in closes', () => {
+      const onVisibleChange = vi.fn()
+      const { rerender } = render(
+        <Modal instant visible>
+          {React.cloneElement(fixture, { onVisibleChange })}
+        </Modal>
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Toggle' }))
+      expect(screen.getByRole('menu')).toHaveClass('show')
+      onVisibleChange.mockClear()
+
+      rerender(
+        <Modal instant visible={false}>
+          {React.cloneElement(fixture, { onVisibleChange })}
+        </Modal>
+      )
+      expect(screen.getByRole('menu', { hidden: true })).not.toHaveClass('show')
+      expect(onVisibleChange).toHaveBeenCalledExactlyOnceWith(false)
     })
   })
 
