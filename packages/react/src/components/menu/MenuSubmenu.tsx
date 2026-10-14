@@ -12,7 +12,8 @@ import React, {
 import classNames from 'classnames'
 import { useLocale, useOverlayPosition } from 'react-aria'
 
-import { MenuContext } from './Menu'
+import { useOverlayMaxHeight } from '../../hooks/useOverlayMaxHeight'
+import { MenuContext, menuToggleClicks } from './Menu'
 import {
   Placement,
   resolveMenuOverlayPositioning,
@@ -117,6 +118,7 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
       // unset — matches the same fix already applied to `Autocomplete`/`Combobox`/`Menu`/`Popover`.
       onClose: null
     })
+    useOverlayMaxHeight(overlayRef, visible)
 
     const { menuStyle, placementAttr } = resolveMenuOverlayPositioning(
       overlayProps.style,
@@ -174,7 +176,9 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
       !!window.matchMedia &&
       window.matchMedia('(hover: hover)').matches
     const hoverEnabled = supportsHover && (activation === 'hover' || activation === 'both')
-    const clickEnabled = activation === 'click' || activation === 'both'
+    // A device without hover takes a tap whatever `activation` says, as the prop promises:
+    // `'hover'` left nothing to open the submenu with there.
+    const clickEnabled = activation !== 'hover' || !supportsHover
 
     const openAndFocusFirst = () => {
       open()
@@ -199,10 +203,13 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
       refocusTriggerRef.current = false
     }, [visible])
 
+    // Marked as a toggle's click even when it doesn't toggle the submenu (`activation="hover"`):
+    // the trigger is in the menu's list, and the menu's listener on `window` took the click for
+    // an item's and closed the whole menu.
     const handleTriggerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      if (!clickEnabled || disabled) return
       event.preventDefault()
-      event.stopPropagation()
+      menuToggleClicks.add(event.nativeEvent)
+      if (!clickEnabled || disabled) return
       visible ? close() : openAndFocusFirst()
     }
 

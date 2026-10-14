@@ -82,6 +82,55 @@ describe('MenuSubmenu', () => {
       expect(nestedMenu).not.toHaveClass('show')
     })
 
+    // Regression tests: `activation="hover"` left a device without hover nothing to open the
+    // submenu with, though the prop promises a tap there; and on a device with hover a click on
+    // the trigger reached the menu's listener on `window` as a click on an item, closing the menu.
+    // jsdom has no `matchMedia`, so it is a device without hover unless one is given.
+    test('activation="hover" opens on a tap on a device without hover', () => {
+      render(
+        <Menu visible>
+          <MenuList>
+            <MenuSubmenu activation="hover" trigger="File">
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
+        </Menu>
+      )
+      fireEvent.click(screen.getByText('File'))
+      expect(getNestedMenu('New')).toHaveClass('show')
+    })
+
+    test('activation="hover" leaves the menu open on a click on a device with hover', () => {
+      vi.useFakeTimers()
+      vi.stubGlobal(
+        'matchMedia',
+        vi.fn((query: string) => ({
+          matches: query === '(hover: hover)',
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {}
+        }))
+      )
+      render(
+        <Menu defaultVisible>
+          <MenuList>
+            <MenuSubmenu activation="hover" trigger="File">
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
+        </Menu>
+      )
+      vi.runAllTimers()
+      const topMenu = getNestedMenu('File')
+      fireEvent.mouseEnter(screen.getByText('File'))
+      expect(getNestedMenu('New')).toHaveClass('show')
+
+      fireEvent.click(screen.getByText('File'))
+      expect(topMenu).toHaveClass('show')
+      expect(getNestedMenu('New')).toHaveClass('show')
+      vi.unstubAllGlobals()
+    })
+
     test('closes when its ancestor Menu closes', () => {
       const { rerender } = render(
         <Menu visible>

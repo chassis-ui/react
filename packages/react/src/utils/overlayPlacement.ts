@@ -55,7 +55,8 @@ export const resolveDataPlacement = (
 // Shared between `Menu`/`MenuSubmenu` and `Combobox`/`Autocomplete`, whose floating panels all
 // position via `useOverlayPosition` the same way: only `position`/`top`/`left` are taken from the
 // hook's computed style (`zIndex`/`maxHeight` stay owned by chassis-css's own `--zindex`/
-// `--max-height` tokens, see `_menu.scss`), and `data-cx-placement` needs the resolved main axis
+// `--max-height` tokens, see `_menu.scss`; the inline `max-height` the hook writes on the element
+// itself is taken off by `useOverlayMaxHeight`), and `data-cx-placement` needs the resolved main axis
 // reattached to the originally-requested cross-axis alignment. Pure positioning that renders
 // nothing and belongs to none of the four, so it lives here and not in `components/menu/`.
 export interface MenuOverlayPositioning {
@@ -77,15 +78,17 @@ export const resolveMenuOverlayPositioning = (
 })
 
 // chassis-css's `.combobox + .menu` sibling-selector rule (`_combobox.scss`) sets
-// `--menu-max-height`/`--menu-overflow-y` from `$combobox-menu-max-height`/
+// `--cx-menu-max-height`/`--cx-menu-overflow-y` from `$combobox-menu-max-height`/
 // `$combobox-menu-overflow-y` (320px/auto by default) — but only while the panel is an adjacent
 // DOM sibling of `.combobox`. `Autocomplete`/`Combobox` portal their panel to `document.body` (or
 // an enclosing open `<dialog>`, via `useFloatingOverlay`), breaking that adjacency, so both inline
 // this as a fallback matching the shipped Sass defaults instead of the generic, uncapped `.menu`
-// fallback (`max-height: none`). A consumer who customized either Sass variable needs to
-// re-override `--menu-max-height`/`--menu-overflow-y` on `.menu` directly, since the
+// fallback (`max-height: none`). The names carry the `cx-` prefix of chassis-css's built CSS:
+// unprefixed, as they were, nothing read them, and only the inline `max-height` react-aria wrote
+// (`useOverlayMaxHeight`) capped the list. A consumer who customized either Sass variable needs to
+// re-override `--cx-menu-max-height`/`--cx-menu-overflow-y` on `.menu` directly, since the
 // sibling-selector auto-application can no longer reach a portaled panel.
 export const COMBOBOX_MENU_OVERLAY_STYLE: CSSProperties = {
-  '--menu-max-height': '320px',
-  '--menu-overflow-y': 'auto'
+  '--cx-menu-max-height': '320px',
+  '--cx-menu-overflow-y': 'auto'
 } as CSSProperties

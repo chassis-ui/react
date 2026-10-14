@@ -16,7 +16,8 @@ import {
   useFloatingOverlay,
   useForkedRef,
   useIsomorphicLayoutEffect,
-  useOpenStateProps
+  useOpenStateProps,
+  useOverlayMaxHeight
 } from '../../hooks'
 import { executeAfterTransition } from '../../utils/dialogTransition'
 import { isEventInside } from '../../utils/insideEvents'
@@ -187,6 +188,15 @@ const defaultMenuContext: MenuContextProps = {
 
 export const MenuContext = createContext(defaultMenuContext)
 
+// The clicks on a `MenuToggle` or a `MenuSubmenu` trigger. One in a menu's list opens a menu of
+// its own: it is no click on an item of that list.
+export const menuToggleClicks = new WeakSet<Event>()
+
+// The outside-click handlers of the open menus. react-aria's press handling stops the click on a
+// `MenuToggle` before it reaches `window`, where those handlers listen, so another menu stayed open
+// beside the one the click opened: the toggle hands its click to each of them itself.
+export const openMenuDismissals = new Set<(event: Event) => void>()
+
 function MenuRender<C extends ElementType = typeof Fragment>(
   {
     children,
@@ -292,6 +302,7 @@ function MenuRender<C extends ElementType = typeof Fragment>(
     // matching `Autocomplete`/`Combobox`, neither of which is wired into that map.
     onClose: null
   })
+  useOverlayMaxHeight(overlayRef, state.isOpen)
 
   const { menuStyle, placementAttr } = resolveMenuOverlayPositioning(
     overlayProps.style,
@@ -350,8 +361,12 @@ function MenuRender<C extends ElementType = typeof Fragment>(
   useEffect(() => {
     if (!state.isOpen || autoClose === false) return undefined
 
-    const handleDismiss = (event: MouseEvent | KeyboardEvent) => {
+    // A toggle's click can come both ways: from the toggle, and on `window` when nothing stopped it.
+    const handled = new WeakSet<Event>()
+    const handleDismiss = (event: Event) => {
       if (event instanceof KeyboardEvent && event.key !== 'Tab') return
+      if (handled.has(event)) return
+      handled.add(event)
 
       const target = event.target as Node
       const toggleNode = toggleNodeRef.current
@@ -367,6 +382,7 @@ function MenuRender<C extends ElementType = typeof Fragment>(
       // of the list, and React still renders it under it (`insideEvents`). A click there is
       // neither a click on an item nor one outside the menu: it is that overlay's.
       if (!isMenuTarget && isEventInside(event, overlayRef)) return
+      if (isMenuTarget && menuToggleClicks.has(event)) return
 
       if (autoClose === 'inside' && !isMenuTarget) return
       if (autoClose === 'outside' && isMenuTarget) return
@@ -379,18 +395,31 @@ function MenuRender<C extends ElementType = typeof Fragment>(
         return
       }
 
-      hide()
+      // An item chosen returns focus to the toggle, as Escape does: the closed list is
+      // `display: none`, and focus on an item in it fell to `<body>`. Only while the menu holds
+      // focus, or nothing does: an item that opened a dialog has moved it there. A click outside
+      // or Tab has put focus where it is going already.
+      const active = document.activeElement
+      const holdsFocus =
+        !active ||
+        active === document.body ||
+        !!menuNode?.contains(active) ||
+        Array.from(submenuOverlaysRef.current.values()).some((node) => node.contains(active))
+      if (isMenuTarget && holdsFocus) close()
+      else hide()
     }
 
     const id = window.setTimeout(() => {
       window.addEventListener('click', handleDismiss)
       window.addEventListener('keyup', handleDismiss)
+      openMenuDismissals.add(handleDismiss)
     })
 
     return () => {
       window.clearTimeout(id)
       window.removeEventListener('click', handleDismiss)
       window.removeEventListener('keyup', handleDismiss)
+      openMenuDismissals.delete(handleDismiss)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isOpen, autoClose])

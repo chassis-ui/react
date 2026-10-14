@@ -221,6 +221,28 @@ describe('Tooltip', () => {
       vi.useRealTimers()
     })
 
+    // Regression test: see the same case in `Popover.spec.tsx`.
+    test('neither callback fires on mount under StrictMode, closed or shown', () => {
+      vi.useFakeTimers()
+      const onShow = vi.fn()
+      const onHide = vi.fn()
+      render(
+        <React.StrictMode>
+          <Tooltip content="hidden" onShow={onShow} onHide={onHide}>
+            <Link href="#">Closed</Link>
+          </Tooltip>
+          <Tooltip content="shown" defaultVisible onShow={onShow} onHide={onHide}>
+            <Link href="#">Open</Link>
+          </Tooltip>
+        </React.StrictMode>
+      )
+      act(() => vi.runAllTimers())
+      expect(screen.getByRole('tooltip')).toHaveTextContent('shown')
+      expect(onShow).not.toHaveBeenCalled()
+      expect(onHide).not.toHaveBeenCalled()
+      vi.useRealTimers()
+    })
+
     test('onShow fires once shown and onHide once hidden again', () => {
       vi.useFakeTimers()
       const onShow = vi.fn()

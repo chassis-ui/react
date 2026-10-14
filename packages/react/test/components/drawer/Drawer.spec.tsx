@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { act, render, screen, fireEvent } from '@testing-library/react'
+import { act, render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import {
@@ -111,6 +111,24 @@ describe('Drawer', () => {
       )
       const dialog = getDialog()
       expect(dialog).toHaveClass('nonmodal')
+      expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
+    })
+
+    // Regression test: Drawer opened with `scroll` and the default backdrop modally, which locked
+    // the page's scroll with it, though `scroll` is there to let the page scroll.
+    test('with scroll and the default backdrop opens modally and leaves the page scrollable', () => {
+      const { rerender } = render(
+        <Drawer placement="start" scroll>
+          Test
+        </Drawer>
+      )
+      const showModalSpy = vi.spyOn(getDialog(), 'showModal')
+      rerender(
+        <Drawer placement="start" scroll visible>
+          Test
+        </Drawer>
+      )
+      expect(showModalSpy).toHaveBeenCalledTimes(1)
       expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
     })
 
@@ -532,6 +550,34 @@ describe('Drawer', () => {
       expect(document.activeElement).toBe(trigger)
       vi.useRealTimers()
     })
+
+    // Regression test: see the same case in `Modal.spec.tsx`.
+    test('restores focus to the trigger when unmounted while open', async () => {
+      function Wrapper() {
+        const [open, setOpen] = React.useState(false)
+        return (
+          <>
+            <button type="button" onClick={() => setOpen(true)}>
+              open
+            </button>
+            {open && (
+              <Drawer placement="start" visible>
+                <button type="button" onClick={() => setOpen(false)}>
+                  remove
+                </button>
+              </Drawer>
+            )}
+          </>
+        )
+      }
+      render(<Wrapper />)
+      const trigger = screen.getByRole('button', { name: 'open' })
+      trigger.focus()
+      fireEvent.click(trigger)
+      fireEvent.click(screen.getByRole('button', { name: 'remove' }))
+      // Focus goes back a microtask after the unmount.
+      await waitFor(() => expect(trigger).toHaveFocus())
+    })
   })
 
   describe('accessibility', () => {
@@ -562,6 +608,21 @@ describe('Drawer', () => {
 
     // Regression tests: `aria-labelledby` always named the generated id, which no element has
     // when there is no `DrawerTitle` or the title has an id of its own.
+    // Regression test: see the same case in `Modal.spec.tsx`.
+    test('an asChild DrawerTitle whose child has an id still names the drawer', () => {
+      render(
+        <Drawer placement="start" visible>
+          <DrawerHeader>
+            <DrawerTitle asChild>
+              <h3 id="child-title">Filters</h3>
+            </DrawerTitle>
+          </DrawerHeader>
+        </Drawer>
+      )
+      expect(getDialog()).toHaveAttribute('aria-labelledby', 'child-title')
+      expect(getDialog()).toHaveAccessibleName('Filters')
+    })
+
     test('a caller-supplied DrawerTitle id still names the drawer', () => {
       render(
         <Drawer placement="start" visible>

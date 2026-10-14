@@ -9,6 +9,7 @@ import {
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
+import { resolveSlottedId } from '../../utils/elementKind'
 
 type ModalTitleOwnProps<C extends ElementType> = {
   /**
@@ -38,7 +39,8 @@ function ModalTitleRender<C extends ElementType = 'h2'>(
   const registerTitle = useContext(ModalTitleContext)
   const Component = component ?? 'h2'
   const _className = classNames('modal-title', className)
-  const resolvedId = id ?? titleId
+  // Under `asChild` the child's own `id` is the one rendered (`Slot`), so it is the one registered.
+  const resolvedId = resolveSlottedId(Component) ?? id ?? titleId
 
   // The modal is labelled by this title, under the id it has here.
   useIsomorphicLayoutEffect(

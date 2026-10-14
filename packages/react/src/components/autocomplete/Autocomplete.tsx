@@ -11,7 +11,13 @@ import classNames from 'classnames'
 import { mergeProps, useButton, useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Key, useComboBoxState } from 'react-stately'
 
-import { useFloatingOverlay, useForkedRef, useFormField, useRequiredValueInput } from '../../hooks'
+import {
+  useFloatingOverlay,
+  useForkedRef,
+  useFormField,
+  useOverlayMaxHeight,
+  useRequiredValueInput
+} from '../../hooks'
 import {
   buildEntriesFromChildren,
   buildEntriesFromItemsDef,
@@ -372,6 +378,7 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
     // safety net. Passing `null` here makes the opt-out explicit, matching `Menu`/`Popover`.
     onClose: null
   })
+  useOverlayMaxHeight(popoverRef, state.isOpen)
 
   // Portals the panel to `document.body` (or an enclosing open `<dialog>`) instead of rendering
   // it inline, matching `Popover`/`Tooltip`/`Combobox` — an inline-rendered panel gets clipped by

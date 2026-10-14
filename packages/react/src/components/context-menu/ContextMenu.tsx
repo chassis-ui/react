@@ -16,8 +16,10 @@ import {
   useFloatingOverlay,
   useForkedRef,
   useIsomorphicLayoutEffect,
-  useOpenStateProps
+  useOpenStateProps,
+  useOverlayMaxHeight
 } from '../../hooks'
+import { resolveSlottedId } from '../../utils/elementKind'
 import { isEventInside } from '../../utils/insideEvents'
 import { resolveMenuOverlayPositioning, toAriaPlacement } from '../../utils/overlayPlacement'
 import { pushOverlay } from '../../utils/overlayStack'
@@ -26,7 +28,13 @@ import {
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
-import { MenuAutoClose, MenuContext, MenuContextProps, MenuFocusStrategy } from '../menu/Menu'
+import {
+  MenuAutoClose,
+  MenuContext,
+  MenuContextProps,
+  MenuFocusStrategy,
+  menuToggleClicks
+} from '../menu/Menu'
 
 // How long a touch or pen has to stay down, and how far it may travel meanwhile, for a long
 // press. react-aria's `useLongPress` uses the same threshold; it isn't used here because its
@@ -144,21 +152,14 @@ function ContextMenuRender<C extends ElementType = 'div'>(
   const Component = component ?? 'div'
   const generatedId = useId()
   // The list is labelled by the region, the way `Menu`'s is labelled by its toggle. A caller
-  // that names the list itself (`aria-label` on the `MenuList`) drops that link.
-  const [triggerId, setTriggerId] = useState(
-    () => (id as string | undefined) ?? `${generatedId}-trigger`
-  )
+  // that names the list itself (`aria-label` on the `MenuList`) drops that link. Read in each
+  // render, so a changed `id` reaches the region and the label. Under `asChild` the child's own
+  // `id` wins the merge (`Slot`), so the label follows the element that renders.
+  const triggerId =
+    resolveSlottedId(Component) ?? (id as string | undefined) ?? `${generatedId}-trigger`
   const menuId = `${generatedId}-menu`
   const regionRef = useRef<HTMLElement | null>(null)
   const forkedRef = useForkedRef(ref, regionRef)
-
-  // Under `asChild` the child's own `id` wins the merge (`Slot`), so the label follows the element
-  // that rendered rather than the id this component asked for. The list exists only after
-  // hydration, so the server's HTML never refers to the id this corrects.
-  useIsomorphicLayoutEffect(() => {
-    const rendered = regionRef.current?.id
-    if (rendered && rendered !== triggerId) setTriggerId(rendered)
-  }, [triggerId])
 
   // iOS shows its own callout for a long press on a link or an image; the region's menu takes
   // its place. Set on the element rather than through `style`, which a slotted child's own
@@ -259,6 +260,7 @@ function ContextMenuRender<C extends ElementType = 'div'>(
         : anchor.element.getBoundingClientRect()
     }
   })
+  useOverlayMaxHeight(overlayRef, state.isOpen)
 
   useIsomorphicLayoutEffect(() => {
     if (state.isOpen) updatePosition()
@@ -296,7 +298,7 @@ function ContextMenuRender<C extends ElementType = 'div'>(
 
     const handleClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement
-      if (!isInMenu(target) || autoClose === 'outside') return
+      if (!isInMenu(target) || autoClose === 'outside' || menuToggleClicks.has(event)) return
       // A form control inside the menu is used in place, as in `Menu`.
       if (/input|select|option|textarea|form/i.test(target.tagName ?? '')) return
       close()
@@ -349,8 +351,9 @@ function ContextMenuRender<C extends ElementType = 'div'>(
 
   // The browser's own menu is replaced. When `disabled`, the event isn't handled at all, so the
   // browser's menu shows.
+  // One handled already, by a region nested in this one, isn't this region's: both opened.
   const handleContextMenu = (event: React.MouseEvent<HTMLElement>) => {
-    if (disabled) return
+    if (disabled || event.defaultPrevented) return
     // Prevented for the list too: a browser that fires `contextmenu` for the context menu key on
     // key up (Chromium) fires it at the item the key down has just focused.
     event.preventDefault()
@@ -366,7 +369,7 @@ function ContextMenuRender<C extends ElementType = 'div'>(
   // for the key, which would move the menu to where the browser reports the key. Firefox fires
   // it from the key down, Chromium from the key up, so both are prevented.
   const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (disabled || !isContextMenuKey(event)) return
+    if (disabled || event.defaultPrevented || !isContextMenuKey(event)) return
     event.preventDefault()
     if (!isInRegion(event)) return
     openAt({ kind: 'element', element: event.target as Element })

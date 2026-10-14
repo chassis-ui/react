@@ -176,6 +176,8 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
       instant,
       isModal: Boolean(backdrop) || !scroll,
       keyboard,
+      // Modal for its backdrop, the page still scrolls under a `scroll` drawer.
+      lockScroll: !scroll,
       onBeforeShow: (dialog) => {
         for (const entry of openDrawers) {
           if (entry.dialog !== dialog) entry.close()

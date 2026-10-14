@@ -59,6 +59,15 @@ export function resolveElementKind(component: ElementType): ElementKind {
   return kind ?? 'component'
 }
 
+// The `id` the caller's `asChild` element carries, which wins over the component's own in the
+// `Slot`'s merge. A component that points another element at its own (a dialog title, a context
+// menu region) reads it here, while it renders, so the reference names the id that is rendered.
+export function resolveSlottedId(component: ElementType): string | undefined {
+  if (typeof (component as SlotLike).slotKind !== 'string' || !slotted) return undefined
+  const id = slotted.props.id
+  return typeof id === 'string' && id !== '' ? id : undefined
+}
+
 // The HTML tag that gets rendered, for a render function whose markup depends on a tag that has
 // no kind of its own (`List` renders `<li>` items only inside a `<ul>`/`<ol>`). `undefined` for a
 // component, whose output isn't known.

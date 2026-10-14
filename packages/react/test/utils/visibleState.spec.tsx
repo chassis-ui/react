@@ -69,7 +69,9 @@ const SUBJECTS: Subject[] = [
     ),
     isShown: () => screen.queryByRole('dialog') !== null,
     askToShow: () => fireEvent.click(screen.getByRole('button', { name: 'Trigger' })),
-    askToHide: () => fireEvent.keyDown(window, { key: 'Escape' }),
+    // The trigger again rather than Escape: a popover held open by `visible` alone takes no
+    // Escape, which belongs to the overlay under it.
+    askToHide: () => fireEvent.click(screen.getByRole('button', { name: 'Trigger' })),
     warnsWhenDropped: true
   },
   {

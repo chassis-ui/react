@@ -170,8 +170,9 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(function Tooltip
   }
   const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
 
+  // The panel mounts once its container is known (`useFloatingOverlay`), and only there.
   const { isMounted, phase } = useTransitionState({
-    in: state.isOpen,
+    in: state.isOpen && portalContainer !== null,
     mountOnEnter: true,
     nodeRef: floatingRef,
     unmountOnExit: true

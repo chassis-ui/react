@@ -114,6 +114,15 @@ describe('ContextMenu', () => {
       expect(menu()).toHaveAttribute('aria-labelledby', 'files')
     })
 
+    // Regression test: the id was seeded into state once, so a changed `id` never reached the
+    // region or the label.
+    test('a changed `id` reaches the region and the label', () => {
+      const { rerender } = render(<Subject id="files" />)
+      rerender(<Subject id="folders" />)
+      expect(region()).toHaveAttribute('id', 'folders')
+      expect(menu()).toHaveAttribute('aria-labelledby', 'folders')
+    })
+
     test('an `aria-label` on the list replaces the label by the region', () => {
       render(
         <ContextMenu data-testid="region">
@@ -212,6 +221,44 @@ describe('ContextMenu', () => {
       expect(region().style.getPropertyValue('user-select')).toBe('none')
       fireEvent.pointerCancel(region(), { pointerType: 'touch' })
       expect(region().style.getPropertyValue('user-select')).toBe('text')
+    })
+
+    // Regression test: a region inside another handled the event and the outer region opened its
+    // menu too, from the same right-click or key.
+    test('a region inside another opens its own menu only, from a right-click or Shift+F10', () => {
+      render(
+        <ContextMenu data-testid="outer">
+          <span>Outer</span>
+          <MenuList>
+            <MenuItem>Outer item</MenuItem>
+          </MenuList>
+          <ContextMenu data-testid="inner">
+            <button type="button">Inner</button>
+            <MenuList>
+              <MenuItem>Inner item</MenuItem>
+            </MenuList>
+          </ContextMenu>
+        </ContextMenu>
+      )
+      const openMenus = () =>
+        screen
+          .getAllByRole('menu', { hidden: true })
+          .filter((candidate) => candidate.classList.contains('show'))
+      const inner = screen.getByRole('button', { name: 'Inner' })
+
+      rightClick(inner)
+      settle()
+      expect(openMenus()).toHaveLength(1)
+      expect(openMenus()[0]).toHaveAttribute('aria-labelledby', screen.getByTestId('inner').id)
+
+      fireEvent.keyDown(window, { key: 'Escape' })
+      settle()
+      expect(openMenus()).toHaveLength(0)
+
+      fireEvent.keyDown(inner, { key: 'F10', shiftKey: true })
+      settle()
+      expect(openMenus()).toHaveLength(1)
+      expect(openMenus()[0]).toHaveAttribute('aria-labelledby', screen.getByTestId('inner').id)
     })
 
     test('F10 without Shift, and other keys, do nothing', () => {

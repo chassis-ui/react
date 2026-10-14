@@ -1,5 +1,5 @@
 import React from 'react'
-import { act, render, screen, fireEvent } from '@testing-library/react'
+import { act, render, screen, fireEvent, within } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { ToastBody, ToastHeader, Toaster, Button, addToast, toastQueue } from '../../../src/index'
@@ -107,6 +107,40 @@ describe('Toaster', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Close' }))
       act(() => vi.runAllTimers())
       expect(screen.queryAllByRole('status')).toHaveLength(0)
+      vi.useRealTimers()
+    })
+
+    // Regression test: react-aria's region moves focus off a removed toast only among
+    // `role="alertdialog"` elements, and these are `status`: closing one from the keyboard took
+    // focus to `<body>`.
+    test('closing the focused toast hands focus to the next one, then back to where it was', () => {
+      vi.useFakeTimers()
+      render(
+        <>
+          <button type="button">Origin</button>
+          <Toaster />
+        </>
+      )
+      act(() => {
+        addToast(<ToastHeader closeButton>Older</ToastHeader>, { autohide: false })
+        addToast(<ToastHeader closeButton>Newer</ToastHeader>, { autohide: false })
+      })
+      act(() => vi.runAllTimers())
+      // The queue is newest first.
+      const [newer, older] = screen.getAllByRole('status')
+      const closeOf = (toast: HTMLElement) => within(toast).getByRole('button', { name: 'Close' })
+
+      act(() => screen.getByRole('button', { name: 'Origin' }).focus())
+      act(() => closeOf(newer!).focus())
+      fireEvent.click(closeOf(newer!))
+      act(() => vi.runAllTimers())
+      expect(screen.queryByText('Newer')).not.toBeInTheDocument()
+      expect(closeOf(older!)).toHaveFocus()
+
+      fireEvent.click(closeOf(older!))
+      act(() => vi.runAllTimers())
+      expect(screen.queryAllByRole('status')).toHaveLength(0)
+      expect(screen.getByRole('button', { name: 'Origin' })).toHaveFocus()
       vi.useRealTimers()
     })
 

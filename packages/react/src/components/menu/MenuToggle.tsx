@@ -9,7 +9,7 @@ import classNames from 'classnames'
 import { mergeProps, useButton } from 'react-aria'
 
 import { Button, ButtonProps } from '../button/Button'
-import { MenuContext } from './Menu'
+import { MenuContext, menuToggleClicks, openMenuDismissals } from './Menu'
 import { ContextColor, Shapes } from '../../types'
 import {
   createPolymorphicComponent,
@@ -136,9 +136,12 @@ function MenuToggleRender<C extends ElementType = typeof Button>(
     wasOpenRef.current = event.pointerType !== 'touch' && visible
   }
 
+  // Another open menu closes on the click (`openMenuDismissals`), unless this toggle is in its
+  // list (`menuToggleClicks`).
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    event.stopPropagation()
+    menuToggleClicks.add(event.nativeEvent)
+    for (const dismiss of [...openMenuDismissals]) dismiss(event.nativeEvent)
     if (wasOpenRef.current) {
       wasOpenRef.current = false
       hide()

@@ -12,7 +12,13 @@ import classNames from 'classnames'
 import { useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Key, useComboBoxState } from 'react-stately'
 
-import { useFloatingOverlay, useForkedRef, useFormField, useHeldBack } from '../../hooks'
+import {
+  useFloatingOverlay,
+  useForkedRef,
+  useFormField,
+  useHeldBack,
+  useOverlayMaxHeight
+} from '../../hooks'
 import { useHydrated } from '../../hooks/useHydrated'
 import { joinIds } from '../../utils/idRefs'
 import {
@@ -260,6 +266,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       // positioning call.
       onClose: null
     })
+    useOverlayMaxHeight(popoverRef, state.isOpen)
 
     // Portals the panel to `document.body` (or an enclosing open `<dialog>`) instead of rendering
     // it inline, matching `Popover`/`Tooltip` — an inline-rendered panel gets clipped by any

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { act, render, screen, fireEvent } from '@testing-library/react'
+import { act, render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import {
@@ -515,6 +515,53 @@ describe('Modal', () => {
       expect(document.activeElement).toBe(trigger)
       vi.useRealTimers()
     })
+
+    // Regression test: a modal taken out of the tree while open (`{open && <Modal visible>}`)
+    // never reached the end of its exit, which is where focus went back, so it fell to `<body>`.
+    test('restores focus to the trigger when unmounted while open', async () => {
+      function Wrapper() {
+        const [open, setOpen] = React.useState(false)
+        return (
+          <>
+            <button type="button" onClick={() => setOpen(true)}>
+              open
+            </button>
+            {open && (
+              <Modal visible>
+                <button type="button" onClick={() => setOpen(false)}>
+                  remove
+                </button>
+              </Modal>
+            )}
+          </>
+        )
+      }
+      render(<Wrapper />)
+      const trigger = screen.getByRole('button', { name: 'open' })
+      trigger.focus()
+      fireEvent.click(trigger)
+      expect(getDialog()).toHaveFocus()
+
+      fireEvent.click(screen.getByRole('button', { name: 'remove' }))
+      // Focus goes back a microtask after the unmount.
+      await waitFor(() => expect(trigger).toHaveFocus())
+    })
+
+    // StrictMode unmounts and mounts again on the first commit: that must not close the dialog
+    // or move focus out of it.
+    test('keeps focus in a modal mounted visible under StrictMode', async () => {
+      render(
+        <React.StrictMode>
+          <Modal visible>
+            <button type="button">inside</button>
+          </Modal>
+        </React.StrictMode>
+      )
+      // Past the microtask an unmount would have restored focus in.
+      await act(() => Promise.resolve())
+      expect(getDialog()).toHaveAttribute('open')
+      expect(getDialog()).toHaveFocus()
+    })
   })
 
   describe('accessibility', () => {
@@ -545,6 +592,22 @@ describe('Modal', () => {
 
     // Regression tests: `aria-labelledby` always named the generated id, which no element has
     // when there is no `ModalTitle` or the title has an id of its own.
+    // Regression test: under `asChild` the child's own id is the one rendered, and the modal's
+    // `aria-labelledby` named the id the title had asked for, which no element had.
+    test('an asChild ModalTitle whose child has an id still names the modal', () => {
+      render(
+        <Modal visible>
+          <ModalHeader>
+            <ModalTitle asChild>
+              <h3 id="child-title">Delete item</h3>
+            </ModalTitle>
+          </ModalHeader>
+        </Modal>
+      )
+      expect(getDialog()).toHaveAttribute('aria-labelledby', 'child-title')
+      expect(getDialog()).toHaveAccessibleName('Delete item')
+    })
+
     test('a caller-supplied ModalTitle id still names the modal', () => {
       render(
         <Modal visible>

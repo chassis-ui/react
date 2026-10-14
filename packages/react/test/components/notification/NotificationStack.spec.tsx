@@ -1,5 +1,5 @@
 import React from 'react'
-import { act, render, screen, fireEvent } from '@testing-library/react'
+import { act, render, screen, fireEvent, within } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import {
@@ -76,6 +76,37 @@ describe('NotificationStack', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Close' }))
       act(() => vi.runAllTimers())
       expect(screen.queryAllByRole('status')).toHaveLength(0)
+      vi.useRealTimers()
+    })
+
+    // Regression test: see the same case in `Toaster.spec.tsx`.
+    test('closing the focused notification hands focus to the next one, then back', () => {
+      vi.useFakeTimers()
+      render(
+        <>
+          <button type="button">Origin</button>
+          <NotificationStack />
+        </>
+      )
+      act(() => {
+        addNotification('Older', { dismissible: true })
+        addNotification('Newer', { dismissible: true })
+      })
+      const [newer, older] = screen.getAllByRole('status')
+      const closeOf = (notification: HTMLElement) =>
+        within(notification).getByRole('button', { name: 'Close' })
+
+      act(() => screen.getByRole('button', { name: 'Origin' }).focus())
+      act(() => closeOf(newer!).focus())
+      fireEvent.click(closeOf(newer!))
+      act(() => vi.runAllTimers())
+      expect(screen.getAllByRole('status')).toHaveLength(1)
+      expect(closeOf(older!)).toHaveFocus()
+
+      fireEvent.click(closeOf(older!))
+      act(() => vi.runAllTimers())
+      expect(screen.queryAllByRole('status')).toHaveLength(0)
+      expect(screen.getByRole('button', { name: 'Origin' })).toHaveFocus()
       vi.useRealTimers()
     })
 

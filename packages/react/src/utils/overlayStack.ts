@@ -28,12 +28,30 @@ const handleKeyDown = (event: KeyboardEvent) => {
   top.onEscape()
 }
 
+// Whether one of `outer`'s elements contains one of `inner`'s: `inner` was opened from inside it.
+const isWithin = (inner: OverlayStackEntry, outer: OverlayStackEntry) => {
+  const containers = outer.nodes()
+  return inner
+    .nodes()
+    .some(
+      (node) =>
+        !!node &&
+        containers.some(
+          (container) => !!container && container !== node && container.contains(node)
+        )
+    )
+}
+
 /**
- * Adds an open overlay to the top of the stack, and returns the function that takes it out.
+ * Adds an open overlay to the stack, and returns the function that takes it out. It goes on top,
+ * unless an overlay already there is open inside it: overlays mounted open in one commit push
+ * from their effects, the inner one first, and Escape would have closed the outer one.
  */
 export function pushOverlay(entry: OverlayStackEntry): () => void {
   if (stack.length === 0) window.addEventListener('keydown', handleKeyDown)
-  stack.push(entry)
+  const inner = stack.findIndex((other) => isWithin(other, entry))
+  if (inner === -1) stack.push(entry)
+  else stack.splice(inner, 0, entry)
 
   return () => {
     const index = stack.indexOf(entry)

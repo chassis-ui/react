@@ -272,6 +272,91 @@ describe('Toast', () => {
       expect(onCloseA).toHaveBeenCalledTimes(1)
     })
 
+    // Regression tests: the hover and focus flags that pause the timer outlived a hide. A toast
+    // hidden while hovered, or by its close button, which takes focus, got no `mouseleave` or
+    // `blur`, and shown again it never hid itself.
+    describe('a controlled toast shown again', () => {
+      function Controlled({ onVisibleChange }: { onVisibleChange: (visible: boolean) => void }) {
+        const [visible, setVisible] = React.useState(true)
+        return (
+          <>
+            <button type="button" onClick={() => setVisible(true)}>
+              Show
+            </button>
+            <button type="button" onClick={() => setVisible(false)}>
+              Hide
+            </button>
+            <Toast
+              autohide
+              closeButton
+              delay={1000}
+              message="Saved"
+              onVisibleChange={(next) => {
+                onVisibleChange(next)
+                setVisible(next)
+              }}
+              visible={visible}
+            />
+          </>
+        )
+      }
+
+      test('hides itself after being closed by its close button', () => {
+        vi.useFakeTimers()
+        const onVisibleChange = vi.fn()
+        render(<Controlled onVisibleChange={onVisibleChange} />)
+        act(() => vi.advanceTimersByTime(250))
+        const close = screen.getByRole('button', { name: 'Close' })
+        act(() => close.focus())
+        fireEvent.click(close)
+        expect(onVisibleChange).toHaveBeenLastCalledWith(false)
+        act(() => vi.advanceTimersByTime(250))
+        expect(screen.queryByRole('status')).not.toBeInTheDocument()
+
+        onVisibleChange.mockClear()
+        fireEvent.click(screen.getByRole('button', { name: 'Show' }))
+        act(() => vi.advanceTimersByTime(250))
+        act(() => vi.advanceTimersByTime(1000))
+        expect(onVisibleChange).toHaveBeenCalledWith(false)
+        vi.useRealTimers()
+      })
+
+      test('hides itself after being hidden while hovered', () => {
+        vi.useFakeTimers()
+        const onVisibleChange = vi.fn()
+        render(<Controlled onVisibleChange={onVisibleChange} />)
+        act(() => vi.advanceTimersByTime(250))
+        fireEvent.mouseEnter(screen.getByRole('status'))
+        fireEvent.click(screen.getByRole('button', { name: 'Hide' }))
+        act(() => vi.advanceTimersByTime(250))
+        expect(screen.queryByRole('status')).not.toBeInTheDocument()
+
+        fireEvent.click(screen.getByRole('button', { name: 'Show' }))
+        act(() => vi.advanceTimersByTime(250))
+        act(() => vi.advanceTimersByTime(1000))
+        expect(onVisibleChange).toHaveBeenCalledWith(false)
+        vi.useRealTimers()
+      })
+    })
+
+    // Regression test: `setTimeout` fires at once for a delay it can't hold, `Infinity` included.
+    test.each([Infinity, 2 ** 31])('a delay of %s runs no timer', (delay) => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      render(
+        <Toast autohide delay={delay} defaultVisible onClose={onClose}>
+          Test
+        </Toast>
+      )
+      // The entrance first: the timer starts once it has finished.
+      act(() => vi.advanceTimersByTime(250))
+      act(() => vi.advanceTimersByTime(60_000))
+      act(() => vi.advanceTimersByTime(250))
+      expect(screen.getByRole('status')).toBeInTheDocument()
+      expect(onClose).not.toHaveBeenCalled()
+      vi.useRealTimers()
+    })
+
     test('a delay change mid-display reschedules the hide against the new delay', async () => {
       const { rerender, container } = render(
         <Toast autohide delay={5000} defaultVisible>

@@ -5,6 +5,7 @@ import React, {
   ReactNode,
   Ref,
   useEffect,
+  useId,
   useRef
 } from 'react'
 import classNames from 'classnames'
@@ -148,6 +149,14 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
   // so they win over the child's own.
   const triggerElement = getTriggerChild(children, 'Popover')
 
+  // A popover is a dialog, which needs a name. With no `title` to label it and none given, it is
+  // named by its trigger, under the trigger's own id when it has one.
+  const generatedId = useId()
+  const triggerId =
+    triggerElement && !title && rest['aria-label'] == null && rest['aria-labelledby'] == null
+      ? ((triggerElement.props.id as string | undefined) ?? `${generatedId}-trigger`)
+      : undefined
+
   const state = useOverlayTriggerState(
     useOpenStateProps({ defaultVisible, onVisibleChange, visible }, 'Popover')
   )
@@ -165,6 +174,11 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
     triggerRef
   })
 
+  // A popover held open by `visible` with no `onVisibleChange` can't close on the key, and takes no
+  // place in the stack: on top of it, it prevented every Escape, so a dialog under it couldn't
+  // close either. `Tooltip` keeps such a tooltip out of react-aria's Escape handling the same way.
+  const isHeld = visible !== undefined && !onVisibleChange
+
   // Escape should always close the popover, regardless of where focus currently is — a
   // mouse-opened popover leaves focus on the trigger, not inside the panel. Through the stack of
   // open overlays, so the key closes this popover only while nothing opened since is still open
@@ -172,13 +186,13 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
   // `onExited` below already returns focus to the trigger once the exit transition finishes, so
   // this doesn't need to do that itself.
   useEffect(() => {
-    if (!state.isOpen) return undefined
+    if (!state.isOpen || isHeld) return undefined
     return pushOverlay({
       nodes: () => [floatingRef.current, triggerRef.current],
       onEscape: () => state.close()
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.isOpen, state.close])
+  }, [state.isOpen, state.close, isHeld])
 
   // A press outside closes the popover. A press rather than a click, as `ContextMenu` reads it:
   // an element its own click handler takes out of the document (a chip's remove button) is no
@@ -190,10 +204,15 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
   useEffect(() => {
     if (!state.isOpen) return undefined
 
+    // By the event's path rather than its target: a trigger inside a shadow root is seen from
+    // `window` as the shadow host, which the trigger doesn't contain, so pressing the trigger
+    // closed the popover and its click opened it again.
+    const isInside = (path: EventTarget[], node: Element | null) => !!node && path.includes(node)
+
     const handleDismiss = (event: PointerEvent) => {
-      const target = event.target as Node
-      if (triggerRef.current?.contains(target)) return
-      if (floatingRef.current?.contains(target) || isEventInside(event, floatingRef)) return
+      const path = event.composedPath()
+      if (isInside(path, triggerRef.current)) return
+      if (isInside(path, floatingRef.current) || isEventInside(event, floatingRef)) return
       state.close()
     }
 
@@ -237,8 +256,9 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
   }
   const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
 
+  // The panel mounts once its container is known (`useFloatingOverlay`), and only there.
   const { isMounted, phase } = useTransitionState({
-    in: state.isOpen,
+    in: state.isOpen && portalContainer !== null,
     mountOnEnter: true,
     nodeRef: floatingRef,
     onExited: () => {
@@ -271,7 +291,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
       {triggerElement
         ? renderSlotted(
             triggerElement,
-            { onClick: () => state.toggle() },
+            { ...(triggerId && { id: triggerId }), onClick: () => state.toggle() },
             triggerRef,
             hydrated ? triggerProps : { ...triggerProps, 'aria-controls': undefined }
           )
@@ -291,6 +311,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
             arrowProps={arrowProps}
             title={title}
             content={content}
+            aria-labelledby={triggerId}
             {...mergeProps(rest, insideEventProps(floatingRef))}
           />
         )}

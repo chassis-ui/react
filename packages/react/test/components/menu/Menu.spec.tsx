@@ -171,6 +171,86 @@ describe('Menu', () => {
       expect(toggle).toHaveAttribute('aria-expanded', 'false')
     })
 
+    // Regression test: the toggle stopped its click, so an open menu never heard it and stayed
+    // open beside the one the click opened.
+    test("a click on another menu's toggle closes this one", () => {
+      vi.useFakeTimers()
+      render(
+        <>
+          <Menu>
+            <MenuToggle>First</MenuToggle>
+            <MenuList>
+              <MenuItem>A</MenuItem>
+            </MenuList>
+          </Menu>
+          <Menu>
+            <MenuToggle>Second</MenuToggle>
+            <MenuList>
+              <MenuItem>B</MenuItem>
+            </MenuList>
+          </Menu>
+        </>
+      )
+      const first = screen.getByRole('button', { name: 'First' })
+      const second = screen.getByRole('button', { name: 'Second' })
+      fireEvent.click(first)
+      act(() => vi.runAllTimers())
+      expect(first).toHaveAttribute('aria-expanded', 'true')
+
+      fireEvent.click(second)
+      act(() => vi.runAllTimers())
+      expect(first).toHaveAttribute('aria-expanded', 'false')
+      expect(second).toHaveAttribute('aria-expanded', 'true')
+      vi.useRealTimers()
+    })
+
+    // Regression test: an item chosen closed the menu without returning focus, which stayed on
+    // the item in a list that is `display: none` once closed, so it fell to `<body>`.
+    test('choosing an item closes the menu and returns focus to the toggle', () => {
+      vi.useFakeTimers()
+      render(
+        <Menu>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      const toggle = screen.getByRole('button', { name: 'Toggle' })
+      fireEvent.click(toggle)
+      act(() => vi.runAllTimers())
+      const item = screen.getByRole('menuitem', { name: 'A' })
+      item.focus()
+      fireEvent.click(item)
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
+      expect(toggle).toHaveFocus()
+      vi.useRealTimers()
+    })
+
+    test('an item that moves focus elsewhere keeps it there', () => {
+      vi.useFakeTimers()
+      render(
+        <>
+          <input aria-label="Name" />
+          <Menu>
+            <MenuToggle>Toggle</MenuToggle>
+            <MenuList>
+              <MenuItem onClick={() => screen.getByRole('textbox', { name: 'Name' }).focus()}>
+                Rename
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </>
+      )
+      const toggle = screen.getByRole('button', { name: 'Toggle' })
+      fireEvent.click(toggle)
+      act(() => vi.runAllTimers())
+      fireEvent.click(screen.getByRole('menuitem', { name: 'Rename' }))
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
+      expect(screen.getByRole('textbox', { name: 'Name' })).toHaveFocus()
+      vi.useRealTimers()
+    })
+
     test('autoClose="inside" only closes on clicks inside the menu', () => {
       vi.useFakeTimers()
       render(

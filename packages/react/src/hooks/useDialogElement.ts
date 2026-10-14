@@ -38,6 +38,12 @@ export interface UseDialogElementOptions {
    */
   isModal: boolean
   /**
+   * Whether a modal open locks the page's scroll, for as long as the dialog is open. Defaults to
+   * `isModal`. `Drawer` passes `!scroll`: its `scroll` lets the page scroll behind a drawer that is
+   * still modal for its backdrop.
+   */
+  lockScroll?: boolean
+  /**
    * Closes on the escape key / native `cancel` event.
    */
   keyboard?: boolean
@@ -125,6 +131,7 @@ export const useDialogElement = ({
   instant,
   isModal,
   keyboard = true,
+  lockScroll = isModal,
   onBeforeShow,
   onClick,
   onClose,
@@ -160,6 +167,7 @@ export const useDialogElement = ({
   const [staticBounce, setStaticBounce] = useState(false)
   const [scrollLocked, setScrollLocked] = useState(false)
   const openedAsModalRef = useRef(false)
+  const lockedScrollRef = useRef(false)
   const triggerRef = useRef<HTMLElement | null>(null)
 
   // Locked from showModal() until the exit transition finishes (see the show/hide effect
@@ -199,7 +207,8 @@ export const useDialogElement = ({
     if (dialog.open) {
       dialog.close()
     }
-    if (openedAsModalRef.current) {
+    if (lockedScrollRef.current) {
+      lockedScrollRef.current = false
       setScrollLocked(false)
     }
     callbacksRef.current.onHidden?.()
@@ -231,12 +240,13 @@ export const useDialogElement = ({
         restoreTargets.set(dialog, triggerRef.current)
 
         openedAsModalRef.current = isModal
+        lockedScrollRef.current = isModal && lockScroll
         if (isModal) {
           dialog.showModal()
-          setScrollLocked(true)
         } else {
           dialog.show()
         }
+        if (lockedScrollRef.current) setScrollLocked(true)
 
         // `data-autofocus` too: React doesn't write the `autofocus` attribute in a client render
         // (it calls `focus()` on mount, which a closed dialog ignores), so `autoFocus` alone only
@@ -291,6 +301,31 @@ export const useDialogElement = ({
     }
     return undefined
   }, [phase])
+
+  // Unmounted while open (`{open && <Modal visible>}`), the dialog never reaches `finishHide`, so
+  // focus it held fell to `<body>` with it. Focus goes back to the trigger here instead, under the
+  // same condition. Whether the dialog held focus is read in the layout cleanup, before React
+  // takes the element out; the focus waits for a microtask, by which time the dialog has left the
+  // top layer and the trigger is no longer inert. StrictMode's simulated unmount runs this cleanup
+  // too, and mounts again within the same task: `mountedRef` tells the two apart.
+  const mountedRef = useRef(false)
+  useIsomorphicLayoutEffect(() => {
+    mountedRef.current = true
+    return () => {
+      mountedRef.current = false
+      const dialog = dialogRef.current
+      const active = document.activeElement
+      if (!dialog || phaseRef.current === 'closed' || !active || !dialog.contains(active)) return
+      const trigger = triggerRef.current
+      queueMicrotask(() => {
+        if (mountedRef.current) return
+        const current = document.activeElement
+        if (current && current !== document.body) return
+        const target = resolveRestoreTarget(trigger)
+        if (target && document.contains(target)) target.focus()
+      })
+    }
+  }, [])
 
   // A modal dialog holds a place among the open overlays for as long as it is open, so Escape
   // doesn't reach a popover or a menu left open under it (`overlayStack`).

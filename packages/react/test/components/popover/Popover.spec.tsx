@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { flushSync } from 'react-dom'
-import { act, render, screen, fireEvent } from '@testing-library/react'
+import { act, render, screen, fireEvent, within } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { Popover, Button, Menu, MenuItem, MenuList, MenuToggle, Modal } from '../../../src/index'
@@ -86,6 +86,53 @@ describe('Popover', () => {
       const [ancestorDialog, popover] = dialogs
       expect(popover).toBeInTheDocument()
       expect(ancestorDialog!.contains(popover!)).toBe(true)
+      vi.useRealTimers()
+    })
+
+    // Regression test: the container was resolved in a passive effect, after the panel had mounted
+    // into `document.body`, so content in a dialog mounted twice on its first open.
+    test('mounts its content once, in the dialog it opens in', () => {
+      vi.useFakeTimers()
+      const mounts = vi.fn()
+      function Content() {
+        React.useEffect(() => mounts(), [])
+        return <>content</>
+      }
+      render(
+        <dialog open>
+          <Popover content={<Content />}>
+            <Button>Test</Button>
+          </Popover>
+        </dialog>
+      )
+      openPopover()
+      settle()
+      expect(mounts).toHaveBeenCalledTimes(1)
+      const [ancestorDialog, popover] = screen.getAllByRole('dialog')
+      expect(ancestorDialog).toContainElement(popover!)
+      expect(popover).toHaveClass('fade', 'show')
+      vi.useRealTimers()
+    })
+
+    test('mounted open in a modal, mounts its content once, in the modal', () => {
+      vi.useFakeTimers()
+      const mounts = vi.fn()
+      function Content() {
+        React.useEffect(() => mounts(), [])
+        return <>content</>
+      }
+      render(
+        <Modal instant visible>
+          <Popover content={<Content />} defaultVisible>
+            <Button>Test</Button>
+          </Popover>
+        </Modal>
+      )
+      settle()
+      expect(mounts).toHaveBeenCalledTimes(1)
+      // A closed or unopened <dialog> has no role, so the modal is found by its tag.
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(document.querySelector('dialog.modal')).toContainElement(screen.getByText('content'))
       vi.useRealTimers()
     })
 
@@ -179,6 +226,33 @@ describe('Popover', () => {
     // itself out of the document in its own click handler was in no panel by then, so using it
     // closed the popover. A browser renders the handler's update before `window` hears the click;
     // a dispatched event doesn't, so the handler flushes it.
+    // Regression test: seen from `window`, a press on a trigger in a shadow root targets the
+    // shadow host, which the trigger doesn't contain. The press closed the popover and its click
+    // opened it again.
+    test('a press on a trigger inside a shadow root toggles the popover closed', () => {
+      vi.useFakeTimers()
+      const host = document.createElement('div')
+      document.body.append(host)
+      const container = document.createElement('div')
+      host.attachShadow({ mode: 'open' }).append(container)
+      render(
+        <Popover content="content">
+          <Button>Test</Button>
+        </Popover>,
+        { container }
+      )
+      const trigger = within(container).getByRole('button', { name: 'Test' })
+      fireEvent.click(trigger)
+      settle()
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+
+      press(trigger)
+      settle()
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      host.remove()
+      vi.useRealTimers()
+    })
+
     test('an element removed by its own click is not a press outside', () => {
       vi.useFakeTimers()
       const Removable = () => {
@@ -450,6 +524,40 @@ describe('Popover', () => {
       expect(screen.getByText('content')).toBeInTheDocument()
     })
 
+    // Regression tests: a popover held open by `visible` with no `onVisibleChange` can't close,
+    // and on top of the stack it prevented every Escape, the modal's under it too.
+    test('a popover held open by visible alone leaves Escape to the modal Modal it is in', () => {
+      const tree = (visible: boolean) => (
+        <Modal instant visible>
+          <Popover content="content" visible={visible}>
+            <Button>Test</Button>
+          </Popover>
+        </Modal>
+      )
+      const { rerender } = render(tree(false))
+      settle()
+      rerender(tree(true))
+      settle()
+      expect(escape(screen.getByRole('button', { name: 'Test' }))).toBe(true)
+    })
+
+    test('a popover held open by visible alone leaves Escape to the non-modal Modal it is in', () => {
+      const onClose = vi.fn()
+      const tree = (visible: boolean) => (
+        <Modal instant modal={false} onClose={onClose} visible>
+          <Popover content="content" visible={visible}>
+            <Button>Test</Button>
+          </Popover>
+        </Modal>
+      )
+      const { rerender } = render(tree(false))
+      settle()
+      rerender(tree(true))
+      settle()
+      escape(screen.getByRole('button', { name: 'Test' }))
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
+
     test('leaves an Escape that something else has prevented alone', () => {
       render(
         <Popover content="content">
@@ -478,6 +586,25 @@ describe('Popover', () => {
         <Popover content="content" title="title" onShow={onShow} onHide={onHide}>
           <Button>Test</Button>
         </Popover>
+      )
+      expect(onHide).not.toHaveBeenCalled()
+      expect(onShow).not.toHaveBeenCalled()
+    })
+
+    // Regression test: a `mounted` flag survived StrictMode's second run of the effect on mount,
+    // which then reported a hide for a closed popover, and a show for one mounted open.
+    test('neither callback fires on mount under StrictMode, closed or open', () => {
+      const onShow = vi.fn()
+      const onHide = vi.fn()
+      render(
+        <React.StrictMode>
+          <Popover content="content" onShow={onShow} onHide={onHide}>
+            <Button>Closed</Button>
+          </Popover>
+          <Popover content="content" defaultVisible onShow={onShow} onHide={onHide}>
+            <Button>Open</Button>
+          </Popover>
+        </React.StrictMode>
       )
       expect(onHide).not.toHaveBeenCalled()
       expect(onShow).not.toHaveBeenCalled()
@@ -707,6 +834,50 @@ describe('Popover', () => {
       act(() => vi.runAllTimers())
       vi.useRealTimers()
       expect(await axe(document.body)).toHaveNoViolations()
+    })
+
+    // Regression tests: with no title the dialog had no name (axe `aria-dialog-name`).
+    test('without a title, is named by its trigger', async () => {
+      vi.useFakeTimers()
+      render(
+        <Popover content="content">
+          <Button>Test</Button>
+        </Popover>
+      )
+      openPopover()
+      act(() => vi.runAllTimers())
+      vi.useRealTimers()
+      expect(screen.getByRole('dialog')).toHaveAccessibleName('Test')
+      expect(await axe(document.body)).toHaveNoViolations()
+    })
+
+    test("without a title, is named by its trigger under the trigger's own id", () => {
+      vi.useFakeTimers()
+      render(
+        <Popover content="content">
+          <Button id="own-trigger">Test</Button>
+        </Popover>
+      )
+      openPopover()
+      settle()
+      vi.useRealTimers()
+      expect(screen.getByRole('button', { name: 'Test' })).toHaveAttribute('id', 'own-trigger')
+      expect(screen.getByRole('dialog')).toHaveAttribute('aria-labelledby', 'own-trigger')
+    })
+
+    test('an aria-label names it in place of the trigger', () => {
+      vi.useFakeTimers()
+      render(
+        <Popover aria-label="Details" content="content">
+          <Button>Test</Button>
+        </Popover>
+      )
+      openPopover()
+      settle()
+      vi.useRealTimers()
+      expect(screen.getByRole('dialog')).toHaveAccessibleName('Details')
+      expect(screen.getByRole('dialog')).not.toHaveAttribute('aria-labelledby')
+      expect(screen.getByRole('button', { name: 'Test' })).not.toHaveAttribute('id')
     })
   })
 })

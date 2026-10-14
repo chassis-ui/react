@@ -9,6 +9,7 @@ import {
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
+import { resolveSlottedId } from '../../utils/elementKind'
 
 type DrawerTitleOwnProps<C extends ElementType> = {
   /**
@@ -38,7 +39,8 @@ function DrawerTitleRender<C extends ElementType = 'h2'>(
   const registerTitle = useContext(DrawerTitleContext)
   const Component = component ?? 'h2'
   const _className = classNames('drawer-title', className)
-  const resolvedId = id ?? titleId
+  // Under `asChild` the child's own `id` is the one rendered (`Slot`), so it is the one registered.
+  const resolvedId = resolveSlottedId(Component) ?? id ?? titleId
 
   // The drawer is labelled by this title, under the id it has here.
   useIsomorphicLayoutEffect(
