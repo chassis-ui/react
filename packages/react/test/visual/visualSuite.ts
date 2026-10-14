@@ -42,6 +42,8 @@ function getStories(titlePrefixes: string[]): StoryIndexEntry[] {
  * `viewports`, keyed by story id, sizes the page before navigation. A story's own
  * `globals.viewport` sizes the Storybook vitest addon's browser, but not this suite's, which loads
  * the story's iframe directly at the project's 1280×720.
+ *
+ * `fullPage` takes the whole page instead of the viewport, for an overview story taller than it.
  */
 export function runVisualRegressionSuite(
   describeName: string,
@@ -49,6 +51,7 @@ export function runVisualRegressionSuite(
   options?: {
     waitFor?: (page: Page) => Promise<void>
     viewports?: Record<string, { width: number; height: number }>
+    fullPage?: boolean
   }
 ): void {
   const stories = getStories(titlePrefixes)
@@ -60,7 +63,10 @@ export function runVisualRegressionSuite(
         if (viewport) await page.setViewportSize(viewport)
         await page.goto(`/iframe.html?id=${story.id}&viewMode=story`)
         await options?.waitFor?.(page)
-        await expect(page).toHaveScreenshot(`${story.id}.png`, { animations: 'disabled' })
+        await expect(page).toHaveScreenshot(`${story.id}.png`, {
+          animations: 'disabled',
+          fullPage: options?.fullPage
+        })
       })
     }
   })
