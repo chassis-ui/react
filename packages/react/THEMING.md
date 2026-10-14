@@ -106,7 +106,8 @@ for that markup shape at all. Rather than invent a parallel `--datagrid-*` token
 consumer who has already re-themed `.table` at `:root`/`body` gets a matching `DataGrid` for free.
 Its only genuinely new custom properties are the two pinned-column scroll cues
 (`--datagrid-pin-cue-shadow-start`/`-end`), which have no `Table` equivalent to stay consistent
-with. One documented consequence of the `--table-*` reuse: an override scoped to a _specific_
+with. Each is an inset shadow on the edge content scrolls under, so the grid declares a mirrored
+pair under `[dir="rtl"]`: an override for a right-to-left page goes on `[dir="rtl"] .datagrid`. One documented consequence of the `--table-*` reuse: an override scoped to a _specific_
 `DataGrid` instance's own class won't reach its `footer`, which renders outside the grid's
 scrollable element and so inherits nothing from it — only a global `--table-*` override reaches
 both. The `color` prop does reach both: the component puts `<color> context` on the grid and on

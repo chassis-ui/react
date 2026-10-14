@@ -28,9 +28,19 @@
     --cell-padding-x: var(--table-cell-padding-x, #{$table-cell-padding-x});
     // scss-docs-start datagrid-pin-cue-variables
     // Read by the scroll-cue rules below — not exposed via `--table-*` since pinned columns have
-    // no `Table` equivalent to stay consistent with.
-    --datagrid-pin-cue-shadow-start: inset 6px 0 6px -6px rgb(0 0 0 / 30%);
-    --datagrid-pin-cue-shadow-end: inset -6px 0 6px -6px rgb(0 0 0 / 30%);
+    // no `Table` equivalent to stay consistent with. Each shadow sits on the edge content scrolls
+    // under: the trailing edge of the start group, the leading edge of the end group, which are
+    // the other way round under RTL.
+    @include rtl-value(
+      --datagrid-pin-cue-shadow-start,
+      inset -6px 0 6px -6px rgb(0 0 0 / 30%),
+      inset 6px 0 6px -6px rgb(0 0 0 / 30%)
+    );
+    @include rtl-value(
+      --datagrid-pin-cue-shadow-end,
+      inset 6px 0 6px -6px rgb(0 0 0 / 30%),
+      inset -6px 0 6px -6px rgb(0 0 0 / 30%)
+    );
     // scss-docs-end datagrid-pin-cue-variables
 
     @if $enable-table-font-tokens {
@@ -137,32 +147,36 @@
     // "presentation", no class hook of their own) that default to `overflow: hidden` — every
     // OTHER auto-generated wrapper this virtualizer produces (rows, individual cells) already
     // defaults to `overflow: visible`, so these two are outliers. Left alone, this would clip
-    // `pin="start"`'s sticky-positioned cells (see `DataGridTableLayout`) and `pin="end"`'s
-    // scroll-driven `transform` (see `DataGridPinBehavior`) alike whenever either moves beyond
-    // this wrapper's own box. Nothing under here is meant to be clipped in the first place — rows
-    // are windowed by the virtualizer's own JS, not by this rule — so force both to match every
-    // other wrapper's own default. `!important` is required here — it's the only way to win
-    // against that wrapper's own inline style, which has higher specificity than any plain rule.
+    // `pin="start"`'s sticky-positioned cells (see `DataGridTableLayout`) whenever they move
+    // beyond this wrapper's own box. Nothing under here is meant to be clipped in the first
+    // place — rows are windowed by the virtualizer's own JS, not by this rule — so force both to
+    // match every other wrapper's own default. `!important` is required here — it's the only way
+    // to win against that wrapper's own inline style, which has higher specificity than any plain
+    // rule.
     :has(> .datagrid-header),
     :has(> .datagrid-body) {
       // stylelint-disable-next-line declaration-no-important
       overflow: visible !important;
     }
 
-    // `pin="start"` is handled by DataGridTableLayout (the layout engine's own sticky
-    // positioning, reused from what already keeps the header row pinned to the top) — no CSS of
-    // ours is needed for the positioning itself, in either the header or body row group.
-    // `pin="end"` has no engine-level equivalent — its sticky mechanism is hardcoded to the
-    // leading edge, and a pure-CSS `position: sticky; right: 0` doesn't work for a trailing pin
-    // either (see `DataGridPinBehavior`'s doc comment for why) — so it's positioned imperatively
-    // by that component instead, via a scroll-driven `transform` (and the `z-index` that goes
-    // with it) on each `pin="end"` cell.
+    // The header's wrapper is sticky to the top and carries the virtualizer's inline
+    // `contain: size layout style`. Firefox stops moving the `pin="start"` headers stuck inside it
+    // after a couple of horizontal scrolls, leaving them where the scrolled content takes them;
+    // without the containment they stay at the edge. Body rows aren't sticky, so their
+    // wrappers keep theirs.
+    :has(> .datagrid-header) {
+      // stylelint-disable-next-line declaration-no-important
+      contain: none !important;
+    }
+
+    // Both pins are positioned by DataGridTableLayout, inside the layout engine — no CSS of ours
+    // is needed for the positioning itself, in either the header or body row group.
     //
     // The scroll cue is the one part of pinning written here: a shadow on the boundary column of
     // each pinned group (the last `pin="start"` column, the first `pin="end"` column), shown once
     // the grid has scrolled far enough to hide content under it. `DataGridColumn` and
     // `DataGridCell` put the class on that column's cells in both row groups (see
-    // `usePinCueClassName`), and `DataGrid` toggles the `datagrid-scrolled-*` classes on scroll.
+    // `PinCueElement`), and `DataGrid` toggles the `datagrid-scrolled-*` classes on scroll.
     &.datagrid-scrolled-start .datagrid-pin-cue-start {
       box-shadow: var(--datagrid-pin-cue-shadow-start);
     }

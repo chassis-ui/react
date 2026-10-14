@@ -140,14 +140,6 @@ outside that element.
 
 ## Scope
 
-- **`pin="end"` isn't verified in right-to-left layouts.** `pin="start"` reuses the same
-  sticky-positioning mechanism that already keeps the header row pinned to the top, which is
-  RTL-aware by construction. `pin="end"` has no such engine-level mechanism to reuse and is
-  positioned by a scroll-driven calculation that currently assumes left-to-right layout.
-- **Pinned columns need the static, element-based form of `DataGridHeader`.** A `pin` prop on a
-  `DataGridColumn` rendered via `DataGridHeader`'s `columns`/render-function form doesn't get
-  `pin="end"`'s positioning or either side's scroll-cue shadow — `pin="start"` still works there,
-  since it's driven by the resolved column collection rather than the declared JSX.
 - **Variable row height re-measures per row, not per column.** `rowHeight="auto"` (see
   [Variable row height](#variable-row-height)) sizes each row independently, but a column's width
   is still fixed up front — a cell's content wrapping to more lines only grows that one row, it

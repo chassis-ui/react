@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import { Key, Cell as AriaCell } from 'react-aria-components'
 import classNames from 'classnames'
 
-import { usePinCueClassName } from './DataGridPinBehavior'
+import { PinCueElement } from './pinnedColumns'
 
 export interface DataGridCellProps {
   /**
@@ -37,18 +37,16 @@ export const DataGridCell = ({
   colSpan,
   id,
   textValue
-}: DataGridCellProps) => {
-  const pinCueClassName = usePinCueClassName()
-  return (
-    <AriaCell
-      className={({ columnIndex }) =>
-        classNames('datagrid-cell', pinCueClassName(columnIndex), className)
-      }
-      colSpan={colSpan}
-      id={id}
-      textValue={textValue}
-    >
-      {children}
-    </AriaCell>
-  )
-}
+}: DataGridCellProps) => (
+  <AriaCell
+    className={classNames('datagrid-cell', className)}
+    colSpan={colSpan}
+    id={id}
+    render={(props, { columnIndex }) => (
+      <PinCueElement {...(props as React.ComponentProps<'div'>)} columnIndex={columnIndex} />
+    )}
+    textValue={textValue}
+  >
+    {children}
+  </AriaCell>
+)

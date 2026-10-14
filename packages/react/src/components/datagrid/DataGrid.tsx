@@ -22,7 +22,6 @@ import { ContextColor } from '../../types'
 import { TABLE_ALIGN_CLASS_NAMES } from '../../utils/tableClassName'
 import { DataGridBodyProps } from './DataGridBody'
 import { DataGridHeaderProps } from './DataGridHeader'
-import { DataGridPinBehavior, DataGridPinCueContext, usePinCueColumns } from './DataGridPinBehavior'
 import { DataGridTableLayout } from './DataGridTableLayout'
 import './DataGrid.scss'
 
@@ -178,10 +177,7 @@ const DataGridInner = <T extends object>(
   const gridRef = useRef<HTMLDivElement>(null)
   const ref = useForkedRef(forwardedRef, gridRef)
 
-  // The boundary column of each pinned group, whose cells take the scroll-cue class.
-  const pinCueColumns = usePinCueColumns(children[0])
-
-  // Drives the pin=start/pin=end scroll-cue box-shadow — see `usePinCueClassName` — which should
+  // Drives the pin=start/pin=end scroll-cue box-shadow — see `PinCueElement` — which should
   // only appear once there's actually hidden content under the pinned column to cue.
   const [scrolledStart, setScrolledStart] = useState(false)
   const [scrolledEnd, setScrolledEnd] = useState(false)
@@ -191,8 +187,11 @@ const DataGridInner = <T extends object>(
     if (!grid) return
 
     const updateScrollState = () => {
-      setScrolledStart(grid.scrollLeft > 0)
-      setScrolledEnd(Math.ceil(grid.scrollLeft + grid.clientWidth) < grid.scrollWidth)
+      // Under RTL, browsers count `scrollLeft` from 0 at the start down to minus the overflow, so
+      // the distance scrolled from the start is its absolute value in either direction.
+      const scrolled = Math.abs(grid.scrollLeft)
+      setScrolledStart(scrolled > 0)
+      setScrolledEnd(Math.ceil(scrolled + grid.clientWidth) < grid.scrollWidth)
     }
 
     updateScrollState()
@@ -226,37 +225,34 @@ const DataGridInner = <T extends object>(
 
   return (
     <Virtualizer layout={layout} shouldObserveItemSize={isVariableRowHeight}>
-      <DataGridPinCueContext.Provider value={pinCueColumns}>
-        <AriaTable
-          aria-label={rest['aria-label']}
-          aria-labelledby={rest['aria-labelledby']}
-          className={_className || undefined}
-          disabledKeys={disabledKeys}
-          onSelectionChange={onSelectionChange}
-          onSortChange={onSortChange}
-          ref={ref}
-          selectedKeys={selectedKeys}
-          selectionMode={selectionMode}
-          sortDescriptor={sortDescriptor}
-          // react-aria joins the grid's descriptions without dropping an empty result, so a grid
-          // with none had `aria-describedby=""`.
-          render={(props) => (
-            <div
-              {...(props as React.ComponentProps<'div'>)}
-              aria-describedby={props['aria-describedby'] || undefined}
-            />
-          )}
-        >
-          {children}
-        </AriaTable>
-      </DataGridPinCueContext.Provider>
+      <AriaTable
+        aria-label={rest['aria-label']}
+        aria-labelledby={rest['aria-labelledby']}
+        className={_className || undefined}
+        disabledKeys={disabledKeys}
+        onSelectionChange={onSelectionChange}
+        onSortChange={onSortChange}
+        ref={ref}
+        selectedKeys={selectedKeys}
+        selectionMode={selectionMode}
+        sortDescriptor={sortDescriptor}
+        // react-aria joins the grid's descriptions without dropping an empty result, so a grid
+        // with none had `aria-describedby=""`.
+        render={(props) => (
+          <div
+            {...(props as React.ComponentProps<'div'>)}
+            aria-describedby={props['aria-describedby'] || undefined}
+          />
+        )}
+      >
+        {children}
+      </AriaTable>
       {footer && (
         // A sibling of the grid, so it takes the color itself: nothing reaches it by inheritance.
         <div className={classNames('datagrid-footer', color, { borderless, context: !!color })}>
           {footer}
         </div>
       )}
-      <DataGridPinBehavior containerRef={gridRef} header={children[0]} />
     </Virtualizer>
   )
 }

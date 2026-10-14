@@ -9,8 +9,8 @@ import { runVisualRegressionSuite } from './visualSuite'
 // its own title-prefix filter, rather than widening this one.
 //
 // Unlike calendar/datepicker's static stories, a wait is needed here: `DataGrid`'s own scroll-cue
-// classes (`datagrid-scrolled-start`/`-end`, see DataGrid.tsx) and `DataGridPinBehavior`'s pin="end"
-// positioning both read the grid's `scrollWidth`/`clientWidth` from a `useEffect`, but those values
+// classes (`datagrid-scrolled-start`/`-end`, see DataGrid.tsx) read the grid's
+// `scrollWidth`/`clientWidth` from a `useEffect`, but those values
 // don't settle to their real, laid-out numbers until the browser's own layout/paint cycle catches
 // up with React's commit (they still read as equal — no overflow, as if nothing needs scrolling —
 // for the first frame or two even when every column has a static pixel width). A screenshot taken
@@ -27,9 +27,18 @@ import { runVisualRegressionSuite } from './visualSuite'
 // which holds still under `animations: 'disabled'`: two frames after navigation, a story that was
 // slow to start (`Colored`, the one with a `play` function, on the first runs after a build) was
 // captured as that loader, and it became the baseline. So the grid comes first.
+//
+// Then the story's `play` function, which Storybook runs on the page too: the pinned-column ones
+// scroll the grid and end in the state they were written to leave, which a screenshot taken
+// while they run catches halfway. The preview's current render reaches `finished` after it.
 runVisualRegressionSuite('datagrid visual regression', ['datagrid/'], {
   waitFor: async (page) => {
     await expect(page.locator('[role="grid"]')).toBeVisible()
+    await page.waitForFunction(
+      () =>
+        (window as { __STORYBOOK_PREVIEW__?: { currentRender?: { phase?: string } } })
+          .__STORYBOOK_PREVIEW__?.currentRender?.phase === 'finished'
+    )
     await page.evaluate(
       () =>
         new Promise<void>((resolve) => {

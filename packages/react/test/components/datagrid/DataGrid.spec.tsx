@@ -21,8 +21,7 @@ const rows = [
 
 // react-aria's virtualizer measures a mounted row/cell's `scrollHeight` to correct an estimated
 // height (see `useVirtualizerItem`) — jsdom doesn't lay out content, so `scrollHeight` is always 0
-// there unless a test stands in for the browser's real layout, same pattern `useColumnGeometry`'s
-// own spec uses for `offsetLeft`/`offsetWidth`. `entries` has to be non-empty:
+// there unless a test stands in for the browser's real layout. `entries` has to be non-empty:
 // react-aria's ResizeObserver callback bails out on an empty entries array.
 class MockResizeObserver {
   static instances: MockResizeObserver[] = []

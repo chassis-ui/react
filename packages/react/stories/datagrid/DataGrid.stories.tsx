@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import type { Selection, SortDescriptor } from 'react-aria-components'
 import { expect, waitFor } from 'storybook/test'
 
+import { I18nProvider } from '../../src/index'
 import { DataGrid } from '../../src/components/datagrid/DataGrid'
 import { DataGridBody } from '../../src/components/datagrid/DataGridBody'
 import { DataGridCell } from '../../src/components/datagrid/DataGridCell'
@@ -61,6 +62,28 @@ export const Default: Story = {
 
 export const Bordered: Story = {
   args: { ...Default.args, bordered: true }
+}
+
+// Where an element is drawn, and the visible box of a grid: inside its borders and its scrollbar,
+// which sits on the left under RTL. Pixels, not styles: a pinned column has been placed by a style
+// that was right on paper and drawn somewhere else.
+const box = (element: Element) => element.getBoundingClientRect()
+const visibleBox = (grid: HTMLElement) => {
+  const { left, right } = box(grid)
+  return getComputedStyle(grid).direction === 'rtl'
+    ? { left: right - grid.clientLeft - grid.clientWidth, right: right - grid.clientLeft }
+    : { left: left + grid.clientLeft, right: left + grid.clientLeft + grid.clientWidth }
+}
+
+// Whether `element` is the one drawn at its own centre, not covered by a cell scrolled under it.
+// Waited for: the browser hit-tests what it last painted, a frame behind a scroll.
+const isOnTop = (element: Element) => {
+  const { height, left, top, width } = box(element)
+  return element.contains(document.elementFromPoint(left + width / 2, top + height / 2))
+}
+
+const scrollGrid = (grid: HTMLElement, left: number) => {
+  grid.scrollLeft = left
 }
 
 export const PinnedColumns: Story = {
@@ -334,6 +357,141 @@ export const PinnedColumnsScrolled: Story = {
       'none'
     )
     await expect(getComputedStyle(status).boxShadow).toBe('none')
+    // On the trailing edge of the start column, which content scrolls under, not its outer edge.
+    await expect(getComputedStyle(id).boxShadow).toMatch(/\) -6px 0px/)
+  }
+}
+
+// A column narrower than react-stately's own 75px minimum, and two columns in a fragment before an
+// end-pinned one that nothing pushes off the grid: it stays where the layout put it, and the pin
+// is read off the column that has it, not off a position in the header's children.
+export const PinnedEndWithoutOverflow: Story = {
+  render: (args) => (
+    <div style={{ width: 800 }}>
+      <DataGrid {...args} />
+    </div>
+  ),
+  args: {
+    'aria-label': 'People',
+    bordered: true,
+    rowHeight: 40,
+    children: [
+      <DataGridHeader key="header">
+        <>
+          <DataGridColumn isRowHeader>Name</DataGridColumn>
+          <DataGridColumn defaultWidth={48}>Id</DataGridColumn>
+        </>
+        <DataGridColumn>Role</DataGridColumn>
+        <DataGridColumn defaultWidth={100} pin="end">
+          Status
+        </DataGridColumn>
+      </DataGridHeader>,
+      <DataGridBody key="body" items={items}>
+        {(item: Item) => (
+          <DataGridRow>
+            <DataGridCell>{item.name}</DataGridCell>
+            <DataGridCell>{item.id}</DataGridCell>
+            <DataGridCell>{item.role}</DataGridCell>
+            <DataGridCell>{item.status}</DataGridCell>
+          </DataGridRow>
+        )}
+      </DataGridBody>
+    ]
+  },
+  play: async function ({ canvas }) {
+    const grid = canvas.getByRole('grid', { name: 'People' })
+    const header = (name: string) => canvas.getByRole('columnheader', { name })
+    const [name, id, role, status] = [
+      header('Name'),
+      header('Id'),
+      header('Role'),
+      header('Status')
+    ]
+    await expect(grid.scrollWidth).toBe(grid.clientWidth)
+    await waitFor(() => expect(box(status).right).toBeCloseTo(visibleBox(grid).right, 0))
+    await expect(box(status).left).toBeCloseTo(box(role).right, 0)
+    await expect(box(id).left).toBeCloseTo(box(name).right, 0)
+    await expect(box(id).width).toBeCloseTo(75, 0)
+    await expect(id).not.toHaveClass('datagrid-pin-cue-end')
+    await expect(status).toHaveClass('datagrid-pin-cue-end')
+  }
+}
+
+// A grid far narrower than its columns: the end-pinned column is in the DOM and drawn at the
+// trailing edge, over the cells that scroll under it, before and after scrolling. Scrolled more
+// than twice because Firefox used to lose the start-pinned header on the third scroll (see the
+// header wrapper's `contain` in DataGrid.scss).
+export const PinnedColumnsNarrow: Story = {
+  render: (args) => (
+    <div style={{ width: 600 }}>
+      <DataGrid {...args} />
+    </div>
+  ),
+  args: PinnedColumns.args,
+  // Wide enough for the 600px grid: `isOnTop` reads what is drawn, which is nothing off-screen.
+  globals: { viewport: { value: 'tablet', isRotated: false } },
+  play: async function ({ canvas }) {
+    const grid = canvas.getByRole('grid', { name: 'People' })
+    const id = canvas.getByRole('columnheader', { name: 'Id' })
+    const status = await canvas.findByRole('columnheader', { name: 'Status' })
+    // Row 0's Status cell: every fifth person is inactive, and person 0 is the first.
+    const cell = (await canvas.findAllByRole('gridcell', { name: 'Inactive' }))[0]!
+    for (const left of [0, 300, 0, 500]) {
+      scrollGrid(grid, left)
+      await waitFor(() => expect(Math.abs(grid.scrollLeft)).toBeCloseTo(left, 0))
+      await waitFor(() => expect(box(status).right).toBeCloseTo(visibleBox(grid).right, 0))
+      await expect(box(cell).right).toBeCloseTo(visibleBox(grid).right, 0)
+      await waitFor(() => expect(box(id).left).toBeCloseTo(visibleBox(grid).left, 0))
+      await waitFor(() => expect(isOnTop(status)).toBe(true))
+      await waitFor(() => expect(isOnTop(cell)).toBe(true))
+    }
+    // On the leading edge of the end column, which content scrolls under.
+    await waitFor(() => expect(getComputedStyle(status).boxShadow).toMatch(/\) 6px 0px/))
+  }
+}
+
+// The same under RTL, where the start is on the right, the end on the left and the browser counts
+// `scrollLeft` down from 0.
+export const PinnedColumnsRightToLeft: Story = {
+  render: (args) => (
+    <I18nProvider locale="ar-EG">
+      <div dir="rtl" style={{ width: 600 }}>
+        <DataGrid {...args} />
+      </div>
+    </I18nProvider>
+  ),
+  args: PinnedColumns.args,
+  // Wide enough for the 600px grid: `isOnTop` reads what is drawn, which is nothing off-screen.
+  globals: { viewport: { value: 'tablet', isRotated: false } },
+  // Scrolled to the end, back to the start, then partway, where the screenshot is taken: the third
+  // scroll is the one Firefox used to lose the start-pinned header on.
+  play: async function ({ canvas }) {
+    const grid = canvas.getByRole('grid', { name: 'People' })
+    const id = canvas.getByRole('columnheader', { name: 'Id' })
+    const status = await canvas.findByRole('columnheader', { name: 'Status' })
+    await waitFor(() => expect(box(status).left).toBeCloseTo(visibleBox(grid).left, 0))
+    await expect(box(id).right).toBeCloseTo(visibleBox(grid).right, 0)
+    await waitFor(() => expect(isOnTop(status)).toBe(true))
+
+    scrollGrid(grid, -100_000)
+    await waitFor(() => expect(grid).not.toHaveClass('datagrid-scrolled-end'))
+    await expect(grid).toHaveClass('datagrid-scrolled-start')
+    await waitFor(() => expect(box(status).left).toBeCloseTo(visibleBox(grid).left, 0))
+    await waitFor(() => expect(box(id).right).toBeCloseTo(visibleBox(grid).right, 0))
+
+    scrollGrid(grid, 0)
+    await waitFor(() => expect(grid).not.toHaveClass('datagrid-scrolled-start'))
+
+    scrollGrid(grid, -300)
+    await waitFor(() => expect(grid).toHaveClass('datagrid-scrolled-start'))
+    await expect(grid).toHaveClass('datagrid-scrolled-end')
+    await waitFor(() => expect(box(status).left).toBeCloseTo(visibleBox(grid).left, 0))
+    await waitFor(() => expect(box(id).right).toBeCloseTo(visibleBox(grid).right, 0))
+    await waitFor(() => expect(isOnTop(status)).toBe(true))
+    await waitFor(() => expect(isOnTop(id)).toBe(true))
+    // Each shadow on the edge content scrolls under: the left of the start, the right of the end.
+    await expect(getComputedStyle(id).boxShadow).toMatch(/\) 6px 0px/)
+    await expect(getComputedStyle(status).boxShadow).toMatch(/\) -6px 0px/)
   }
 }
 

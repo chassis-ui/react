@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { Key, Column as AriaColumn } from 'react-aria-components'
 import { ColumnSize, ColumnStaticSize } from 'react-stately'
 
-import { usePinCueClassName } from './DataGridPinBehavior'
+import { PinCueElement } from './pinnedColumns'
 
 export interface DataGridColumnProps {
   /**
@@ -79,52 +79,42 @@ export const DataGridColumn = ({
   minWidth,
   pin,
   textValue
-}: DataGridColumnProps) => {
-  const pinCueClassName = usePinCueClassName()
-  return (
-    <AriaColumn
-      allowsSorting={allowsSorting}
-      className={classNames('datagrid-col', pin && `datagrid-col-pinned-${pin}`, className)}
-      defaultWidth={defaultWidth}
-      id={id}
-      isRowHeader={isRowHeader}
-      maxWidth={maxWidth}
-      minWidth={minWidth}
-      textValue={textValue}
-      // A column header's render props don't say which column it is, unlike a cell's
-      // `columnIndex`; its `aria-colindex` (1-based) does.
-      render={(props) => {
-        const colIndex = Number(props['aria-colindex'])
-        return (
-          <div
-            {...(props as React.ComponentProps<'div'>)}
-            className={
-              classNames(
-                props.className,
-                pinCueClassName(Number.isNaN(colIndex) ? null : colIndex - 1)
-              ) || undefined
-            }
-          />
+}: DataGridColumnProps) => (
+  <AriaColumn
+    allowsSorting={allowsSorting}
+    className={classNames('datagrid-col', pin && `datagrid-col-pinned-${pin}`, className)}
+    defaultWidth={defaultWidth}
+    id={id}
+    isRowHeader={isRowHeader}
+    maxWidth={maxWidth}
+    minWidth={minWidth}
+    textValue={textValue}
+    // A column header's render props don't say which column it is, unlike a cell's
+    // `columnIndex`; its `aria-colindex` (1-based) does.
+    render={(props) => {
+      const colIndex = Number(props['aria-colindex'])
+      return (
+        <PinCueElement
+          {...(props as React.ComponentProps<'div'>)}
+          columnIndex={Number.isNaN(colIndex) ? null : colIndex - 1}
+        />
+      )
+    }}
+    // `pin` isn't a react-aria-components `Column` prop, but its collection builder preserves
+    // the full props object it's given verbatim (see react-stately's `Column.getCollectionNode`)
+    // — passing it through here is what makes it reach `column.props.pin`, which
+    // `DataGridTableLayout` positions both sides from and `PinCueElement` reads.
+    {...({ pin } as Record<string, unknown>)}
+  >
+    {allowsSorting
+      ? ({ sortDirection }) => (
+          <>
+            {children}
+            <span aria-hidden="true" className="datagrid-sort-icon">
+              {sortDirection === 'ascending' ? '▲' : sortDirection === 'descending' ? '▼' : '⇅'}
+            </span>
+          </>
         )
-      }}
-      // `pin` isn't a react-aria-components `Column` prop, but its collection builder preserves
-      // the full props object it's given verbatim (see react-stately's `Column.getCollectionNode`)
-      // — passing it through here is what makes it reach `column.props.pin` in
-      // `DataGridTableLayout`'s `isStickyColumn` override, which is what positions `pin="start"`.
-      // `pin="end"` is handled separately by `DataGridPinBehavior`, which reads the same prop off
-      // the header's JSX rather than the resolved collection.
-      {...({ pin } as Record<string, unknown>)}
-    >
-      {allowsSorting
-        ? ({ sortDirection }) => (
-            <>
-              {children}
-              <span aria-hidden="true" className="datagrid-sort-icon">
-                {sortDirection === 'ascending' ? '▲' : sortDirection === 'descending' ? '▼' : '⇅'}
-              </span>
-            </>
-          )
-        : children}
-    </AriaColumn>
-  )
-}
+      : children}
+  </AriaColumn>
+)
