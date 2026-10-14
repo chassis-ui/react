@@ -63,10 +63,22 @@ cite rows of [`DECISIONS.md`](../../DECISIONS.md), which holds the history behin
 
 ## Visual regression
 
-- Storybook (`.storybook/`) plus Playwright screenshots (`test/visual/`) cover one family per
-  `*.visual.spec.ts`, each a call to `runVisualRegressionSuite` (`test/visual/visualSuite.ts`)
-  with its own title prefixes. A new family gets its own spec, not a widened one; the families
-  without one are tracked in #45.
+- Storybook (`.storybook/`) plus Playwright screenshots (`test/visual/`) cover every story folder
+  one of two ways (RD24). A folder whose pixels this repo produces gets a screenshot of every story
+  by a spec of its own: it has a stylesheet of its own, or JavaScript decides its look at run time
+  (it positions an overlay, measures its container, runs a transition or lays itself out). Every
+  other folder only applies `@chassis-ui/css` classes and is a section of an overview page in
+  `stories/overview/`, one full-page screenshot per page. visually-hidden, icon and scrollspy are
+  in neither: they have no look of their own.
+- A new component goes on the overview page of its kind, or gets a spec if the rule says so. A
+  folder that gains a stylesheet or run-time look moves from its overview to a spec of its own in
+  the same change. A spec is one family, a call to `runVisualRegressionSuite`
+  (`test/visual/visualSuite.ts`) with its own title prefixes, never a widened one.
+- Wait with `waitForStoryRender` when a story's `play` function, a measurement or a transition
+  settles after the page loads: without it the screenshot can catch the story halfway, or
+  Storybook's loader.
+- An overview page has a fixed width, inline images and no state. It leaves out what renders wrong
+  today, with a comment saying why, rather than record it in a baseline.
 - Story `args` use fixed past dates (`new CalendarDate(2024, 3, 15)`), never `today()`: a screenshot
   must render the same on any day.
 - Baselines are checked in for both platforms; CI compares the `-linux.png` ones inside the
