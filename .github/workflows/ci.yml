@@ -271,8 +271,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Firefox, which the keyboard projects launch, refuses to start as root with a $HOME it
+      # doesn't own, and GitHub runs this container as root with HOME=/github/home (RD25).
       - name: Visual regression tests
         run: pnpm test:visual
+        env:
+          HOME: /root
 
   # Confirms @chassis-ui/react actually installs and builds inside a real consuming app's own
   # build pipeline (Next.js App Router's Turbopack), not just this repo's own server-render
