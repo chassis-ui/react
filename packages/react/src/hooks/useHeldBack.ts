@@ -1,5 +1,6 @@
-import { RefObject, useEffect, useRef, useState } from 'react'
+import { RefObject, useContext, useEffect, useRef, useState } from 'react'
 
+import { FormValidatedContext } from '../components/form/context'
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 
 type Control = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -19,11 +20,12 @@ export interface UseHeldBackOptions {
   focus?: () => void
   /**
    * The caller's `invalid`. Once it is set, to `false` too, the caller decides how the field
-   * looks and it is never shown as held back.
+   * looks: it is never shown as held back, nor by its form's `validated`.
    */
   invalid?: boolean
   /**
-   * The caller's `valid`. While it is `true`, the field is never shown as held back.
+   * The caller's `valid`. While it is `true`, the caller decides how the field looks, as it does
+   * once `invalid` is set.
    */
   valid?: boolean
 }
@@ -35,9 +37,15 @@ export interface UseHeldBackResult {
    */
   heldBack: boolean
   /**
-   * What the field shows: the caller's `invalid` where it is set, `true` while `heldBack`.
+   * What the field shows as invalid: the caller's `invalid` where it is set, `true` while
+   * `heldBack` or while its form is `validated` and it would hold the form back.
    */
   invalid: boolean | undefined
+  /**
+   * What the field shows as valid: the caller's `valid`, or `true` while its form is `validated`
+   * and it would let the form submit. Unless the caller decides how the field looks.
+   */
+  valid: boolean | undefined
 }
 
 interface Listening {
@@ -55,6 +63,16 @@ const controlsOf = (target: HTMLElement): Control[] =>
   isControl(target) ? [target] : Array.from(target.querySelectorAll<Control>(CONTROLS))
 
 const holdsBack = (control: Control) => control.willValidate && !control.validity.valid
+
+type Validity = 'invalid' | 'none' | 'valid'
+
+// What a form would make of the controls under `target`. `none` when it validates none of them:
+// a disabled control, a `type="hidden"` one, or a group with no control.
+const validityOf = (target: HTMLElement | null): Validity => {
+  const controls = target ? controlsOf(target).filter((control) => control.willValidate) : []
+  if (controls.length === 0) return 'none'
+  return controls.some(holdsBack) ? 'invalid' : 'valid'
+}
 
 const firstInvalidControl = (form: HTMLFormElement) =>
   Array.from(form.elements).find(
@@ -75,13 +93,22 @@ const firstInvalidControl = (form: HTMLFormElement) =>
 // have it: it stays empty unless the whole field is under `validationBehavior: 'native'`, which
 // also moves every other validation to blur.
 //
+// A `Form` with `validated` shows each of its fields by the same test from then on, with no
+// submit, and as valid once it would let the form submit (FORMS.md, gotcha 10).
+// chassis-css's own gate, `[data-cx-validate]` with `:user-valid`/`:user-invalid`, styles the
+// control alone, never the feedback the field renders, and wins over the class the caller's
+// `invalid` or `valid` sets.
+//
 // `ref` is the control, or the element around several: the fieldset of a group, the boxes of a
 // code. The event doesn't bubble, so a group hears its controls in the capture phase.
 export const useHeldBack = (
   ref: RefObject<HTMLElement | null>,
   { enabled = true, focus, invalid, valid }: UseHeldBackOptions
 ): UseHeldBackResult => {
+  const validated = useContext(FormValidatedContext)
   const [blocked, setBlocked] = useState(false)
+  // Read only while the form is `validated`.
+  const [validity, setValidity] = useState<Validity>('none')
   const focusRef = useRef(focus)
   focusRef.current = focus
   const listening = useRef<Listening | null>(null)
@@ -118,7 +145,9 @@ export const useHeldBack = (
     // A native control that keeps its own value (a `Select` with no `value`, a `FileInput`)
     // changes with no render to follow, and the effect below would never look again.
     const onEdit = () => {
-      if (!controlsOf(target).some(holdsBack)) setBlocked(false)
+      const next = validityOf(target)
+      if (next !== 'invalid') setBlocked(false)
+      setValidity(next)
     }
     const capture = !isControl(target)
 
@@ -149,12 +178,20 @@ export const useHeldBack = (
   // its controls have the values just rendered, and before the paint: the field never shows a
   // value and the mark together. A control that has gone, is disabled or is no longer invalid
   // doesn't hold anything back either.
+  // A `validated` form's field is read at the same point, for the same reason.
   useIsomorphicLayoutEffect(() => {
-    if (!blocked) return
-    const target = ref.current
-    if (!target || !controlsOf(target).some(holdsBack)) setBlocked(false)
+    if (!blocked && !validated) return
+    const next = validityOf(enabled ? ref.current : null)
+    if (next !== 'invalid') setBlocked(false)
+    if (validated) setValidity(next)
   })
 
-  const heldBack = blocked && invalid === undefined && !valid
-  return { heldBack, invalid: invalid ?? (heldBack || undefined) }
+  const decided = invalid !== undefined || Boolean(valid)
+  const heldBack = blocked && !decided
+  const shown = validated && !decided ? validity : 'none'
+  return {
+    heldBack,
+    invalid: invalid ?? (heldBack || shown === 'invalid' || undefined),
+    valid: valid || shown === 'valid' || undefined
+  }
 }

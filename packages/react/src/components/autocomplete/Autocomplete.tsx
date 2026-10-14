@@ -224,7 +224,7 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
     required,
     searchPlaceholder,
     size,
-    valid,
+    valid: validProp,
     validFeedback,
     value,
     ...rest
@@ -306,11 +306,15 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
   // hidden input of its own and none while nothing is selected: the text input is then rendered
   // alone, with no `name`, as nothing is submitted for an empty selection. A disabled input isn't
   // validated; the field has no read-only state to leave out.
-  const { inputProps: requiredInputProps, missing } = useRequiredValueInput(valueInputRef, {
+  const {
+    inputProps: requiredInputProps,
+    missing,
+    valid
+  } = useRequiredValueInput(valueInputRef, {
     focus: () => triggerRef.current?.focus(),
     invalid,
     required: required && (!multiple || selectedKeys.length === 0),
-    valid
+    valid: validProp
   })
   const showInvalid = invalid || missing
 

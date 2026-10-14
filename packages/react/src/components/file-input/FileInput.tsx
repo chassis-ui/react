@@ -71,7 +71,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       invalidFeedback,
       label,
       size,
-      valid,
+      valid: validProp,
       validFeedback,
       ...rest
     },
@@ -82,7 +82,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`). The
     // browser's own message stays: no react-aria hook is given this control to cancel it. It is
     // on the first invalid control of the form alone, and gone at the next click.
-    const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
+    const { invalid, valid } = useHeldBack(inputRef, { invalid: invalidProp, valid: validProp })
 
     const { describedBy, feedbackId, helpId, inputId } = useFormField({
       ariaDescribedBy: rest['aria-describedby'],

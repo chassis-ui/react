@@ -174,7 +174,7 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
       onChange,
       size,
       style,
-      valid,
+      valid: validProp,
       ...rest
     },
     ref
@@ -183,7 +183,7 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
     const forkedRef = useForkedRef(ref, inputRef)
     // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`):
     // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
-    const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
+    const { invalid, valid } = useHeldBack(inputRef, { invalid: invalidProp, valid: validProp })
     // `label` is this package's name for what react-aria calls `children`. Accept either, so the
     // shape React developers reach for first names the control instead of vanishing.
     const resolvedLabel = label ?? children
@@ -246,7 +246,7 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
       onChange,
       size,
       style,
-      valid,
+      valid: validProp,
       ...rest
     },
     ref
@@ -256,7 +256,7 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
     // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`). The
     // browser's own message stays: no react-aria hook is given this control to cancel it. It is
     // on the first invalid control of the form alone, and gone at the next click.
-    const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
+    const { invalid, valid } = useHeldBack(inputRef, { invalid: invalidProp, valid: validProp })
     // `label` is this package's name for what react-aria calls `children`. Accept either, so the
     // shape React developers reach for first names the control instead of vanishing.
     const resolvedLabel = label ?? children

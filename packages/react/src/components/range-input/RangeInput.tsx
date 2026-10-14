@@ -1,7 +1,13 @@
-import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes, ReactNode } from 'react'
+import React, {
+  ChangeEventHandler,
+  forwardRef,
+  InputHTMLAttributes,
+  ReactNode,
+  useRef
+} from 'react'
 import classNames from 'classnames'
 
-import { useFormField } from '../../hooks'
+import { useForkedRef, useFormField, useHeldBack } from '../../hooks'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 
@@ -68,9 +74,25 @@ export interface RangeInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const RangeInput = forwardRef<HTMLInputElement, RangeInputProps>(
   (
-    { className, help, id, invalid, invalidFeedback, label, valid, validFeedback, ...rest },
+    {
+      className,
+      help,
+      id,
+      invalid: invalidProp,
+      invalidFeedback,
+      label,
+      valid: validProp,
+      validFeedback,
+      ...rest
+    },
     ref
   ) => {
+    const inputRef = useRef<HTMLInputElement>(null)
+    const forkedRef = useForkedRef(ref, inputRef)
+    // A range input always has a value and holds no form back, but a `validated` form shows it
+    // as valid (`useHeldBack`).
+    const { invalid, valid } = useHeldBack(inputRef, { invalid: invalidProp, valid: validProp })
+
     const { describedBy, feedbackId, helpId, inputId } = useFormField({
       ariaDescribedBy: rest['aria-describedby'],
       help,
@@ -91,7 +113,7 @@ export const RangeInput = forwardRef<HTMLInputElement, RangeInputProps>(
           aria-invalid={invalid || undefined}
           className={_className}
           id={inputId}
-          ref={ref}
+          ref={forkedRef}
           type="range"
         />
       ),

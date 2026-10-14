@@ -54,7 +54,12 @@ export const Example = () => {
         <TextInput label="City" invalidFeedback="Please provide a valid city." required />
       </GridItem>
       <GridItem span={{ base: 'full', md: 3 }}>
-        <Select label="State" invalidFeedback="Please select a valid state." required>
+        <Select
+          label="State"
+          defaultValue=""
+          invalidFeedback="Please select a valid state."
+          required
+        >
           <option disabled value="">
             Choose...
           </option>

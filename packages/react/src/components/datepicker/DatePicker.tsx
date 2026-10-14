@@ -301,7 +301,7 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       shouldForceLeadingZeros,
       size,
       unavailableDates,
-      valid,
+      valid: validProp,
       validFeedback,
       value,
       visible,
@@ -329,11 +329,15 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
     // invalid from a submit that input held back until it has a value. The first segment takes
     // the focus a browser would give an input it displays. A disabled input isn't validated; the
     // picker has no read-only state to leave out.
-    const { inputProps: requiredInputProps, missing } = useRequiredValueInput(inputRef, {
+    const {
+      inputProps: requiredInputProps,
+      missing,
+      valid
+    } = useRequiredValueInput(inputRef, {
       focus: () => focusFirstSegment(groupRef.current),
       invalid,
       required,
-      valid
+      valid: validProp
     })
 
     // What both react-stately's state and react-aria's hook read: the hook hands the time props
@@ -556,7 +560,7 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
       selectionMode: _selectionMode,
       size,
       unavailableDates,
-      valid,
+      valid: validProp,
       validFeedback,
       value,
       visible,
@@ -599,11 +603,15 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
     // button takes the focus, this variant's one element that can. Nothing here says "required"
     // to a screen reader: ARIA allows `aria-required` on neither a button nor a group, so a
     // caller's label or help has to.
-    const { inputProps: requiredInputProps, missing } = useRequiredValueInput(inputRef, {
+    const {
+      inputProps: requiredInputProps,
+      missing,
+      valid
+    } = useRequiredValueInput(inputRef, {
       focus: () => toggleButtonRef.current?.focus(),
       invalid,
       required: required && values.length === 0,
-      valid
+      valid: validProp
     })
     const showInvalid = invalid || missing
 

@@ -163,7 +163,7 @@ export const TimeField = forwardRef<HTMLDivElement, TimeFieldProps>(
       required,
       shouldForceLeadingZeros,
       size,
-      valid,
+      valid: validProp,
       validFeedback,
       value,
       ...rest
@@ -188,11 +188,15 @@ export const TimeField = forwardRef<HTMLDivElement, TimeFieldProps>(
     // it too, but only the input it was first given: one that `renderFormField` mounts anew, once
     // a `label` or `help` comes, is never heard by it. A disabled input isn't validated, and a
     // read-only field can't be filled in, so it keeps the hidden one.
-    const { inputProps: requiredInputProps, missing } = useRequiredValueInput(inputRef, {
+    const {
+      inputProps: requiredInputProps,
+      missing,
+      valid
+    } = useRequiredValueInput(inputRef, {
       focus: () => focusFirstSegment(fieldRef.current),
       invalid,
       required: required && !readOnly,
-      valid
+      valid: validProp
     })
 
     // `label` stays out, as the other fields keep it: react-aria would name the field by a label

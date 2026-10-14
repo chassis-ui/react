@@ -41,10 +41,23 @@ Chassis's own feedback styling for every state.
 ## Custom styles
 
 Set `noValidate` on `<Form>` to disable the browser's default feedback UI while still keeping the
-Constraint Validation API available in JavaScript. The example below intercepts `onSubmit`, checks
-`form.checkValidity()`, and sets `validated` on `<Form>` once the user has attempted to submit —
-`validated` adds the `.was-validated` class Chassis's CSS uses to gate when `:invalid`/`:valid`
-styling first appears, so a field isn't shown as invalid before the user has done anything.
+Constraint Validation API available in JavaScript. The example below intercepts `onSubmit`, stops
+the submit while `form.checkValidity()` is false, and sets `validated` on `<Form>` once the user has
+attempted to submit, so no field shows as invalid before the user has done anything.
+
+With `validated` set, every field in the form shows itself as valid or invalid by its own
+constraints (`required`, `type`, `pattern`, `minLength` and the like), and again as its value
+changes: its colors, `aria-invalid`, and its `validFeedback` or `invalidFeedback`. A field's own
+`invalid` or `valid` still decides how that field looks, for what the browser can't check, such as
+a username that is already taken.
+
+A `FormFeedback` composed beside a control, as the username field does, shows once its control is in
+the matching state. A control that isn't one of this library's components, such as a plain
+`<input className="form-input">`, isn't affected by `validated`: set `.is-valid` or `.is-invalid` on
+it. Chassis CSS's own native validation styles, opted into with a `data-cx-validate` attribute on
+the form (see chassis-css's [Form Validation](https://chassis-ui.com/css/docs/forms/validation)
+page), style such a control too, but they also restyle this library's fields by the browser's
+verdict alone, over a field's own `invalid` or `valid`, and never show its feedback text.
 
 <Example>
   <CustomStylesExample client:load />

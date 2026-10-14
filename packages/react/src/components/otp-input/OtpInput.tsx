@@ -156,7 +156,7 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
       required,
       separator = '–',
       size,
-      valid,
+      valid: validProp,
       validFeedback,
       value,
       ...rest
@@ -176,7 +176,7 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
     // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`):
     // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
     // The container hears every box.
-    const { invalid } = useHeldBack(containerRef, { invalid: invalidProp, valid })
+    const { invalid, valid } = useHeldBack(containerRef, { invalid: invalidProp, valid: validProp })
 
     // The boxes as last committed. A box focused by the handler that committed them (the next box,
     // after a digit) is focused before the render that shows them.

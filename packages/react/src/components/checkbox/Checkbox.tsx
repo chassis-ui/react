@@ -113,7 +113,7 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
       onChange,
       size,
       style,
-      valid,
+      valid: validProp,
       ...rest
     },
     ref
@@ -122,7 +122,7 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
     const forkedRef = useForkedRef(ref, inputRef)
     // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`):
     // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
-    const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
+    const { invalid, valid } = useHeldBack(inputRef, { invalid: invalidProp, valid: validProp })
 
     const toggleState = useToggleState({
       defaultSelected,

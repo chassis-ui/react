@@ -100,7 +100,7 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
       onChange,
       orientation,
       required,
-      valid,
+      valid: validProp,
       value,
       ...rest
     },
@@ -111,7 +111,7 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
     // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`):
     // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
     // The fieldset hears every radio, and the group shows it for them all, with `errorMessage`.
-    const { invalid } = useHeldBack(fieldsetRef, { invalid: invalidProp, valid })
+    const { invalid, valid } = useHeldBack(fieldsetRef, { invalid: invalidProp, valid: validProp })
 
     const groupProps = {
       ...rest,

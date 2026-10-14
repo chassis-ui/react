@@ -140,7 +140,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       options,
       placeholder,
       size,
-      valid,
+      valid: validProp,
       validFeedback,
       ...rest
     },
@@ -151,7 +151,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`). The
     // browser's own message stays: no react-aria hook is given this control to cancel it. It is
     // on the first invalid control of the form alone, and gone at the next click.
-    const { invalid } = useHeldBack(selectRef, { invalid: invalidProp, valid })
+    const { invalid, valid } = useHeldBack(selectRef, { invalid: invalidProp, valid: validProp })
 
     const selectedValues = Array.isArray(options)
       ? options

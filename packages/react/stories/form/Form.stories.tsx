@@ -10,6 +10,7 @@ import { FormHelp } from '../../src/components/form/FormHelp'
 import { FormLabel } from '../../src/components/form/FormLabel'
 import { Select } from '../../src/components/select/Select'
 import { TextInput } from '../../src/components/text-input/TextInput'
+import { TimeField } from '../../src/components/time-field/TimeField'
 
 // react-aria warns about a field it finds no label on, and it reads the field's own
 // `aria-label`/`aria-labelledby` only: a `<label for>` alone names the field and still warns
@@ -122,6 +123,94 @@ export const InlineHelp: Story = {
     await expect(input).toHaveAccessibleName('Password')
     await expect(input).toHaveAccessibleDescription('Must be 8-20 characters long.')
     await expect(console.warn).not.toHaveBeenCalledWith(expect.stringContaining(LABEL_WARNING))
+  }
+}
+
+// The validation state chassis-css gives a control, read from the `--cx-border-color` its state
+// rules set. A custom property isn't transitioned, so it holds the final value at once, where the
+// border colour itself would still be on its way.
+const validationState = (element: Element) => {
+  const style = getComputedStyle(element)
+  const border = style.getPropertyValue('--cx-border-color').trim()
+  if (border === style.getPropertyValue('--cx-form-invalid-border-color').trim()) return 'invalid'
+  if (border === style.getPropertyValue('--cx-form-valid-border-color').trim()) return 'valid'
+  return 'none'
+}
+
+const ValidatedForm = () => {
+  const [validated, setValidated] = React.useState(false)
+  return (
+    <Form
+      noValidate
+      validated={validated}
+      onSubmit={(event) => {
+        event.preventDefault()
+        setValidated(true)
+      }}
+    >
+      <div className="mb-md">
+        <TextInput label="First name" defaultValue="Mark" validFeedback="Looks good!" required />
+      </div>
+      <div className="mb-md">
+        <TextInput label="City" invalidFeedback="Please provide a valid city." required />
+      </div>
+      <div className="mb-md">
+        <Select
+          label="State"
+          defaultValue=""
+          invalidFeedback="Please select a valid state."
+          required
+        >
+          <option disabled value="">
+            Choose...
+          </option>
+          <option>California</option>
+        </Select>
+      </div>
+      <div className="mb-md">
+        <TimeField label="Opening time" invalidFeedback="Please give a time." required />
+      </div>
+      <Checkbox className="mb-md" label="Agree to terms and conditions" required />
+      <Button type="submit" color="primary">
+        Submit
+      </Button>
+    </Form>
+  )
+}
+
+export const Validated: Story = {
+  render: () => <ValidatedForm />,
+  play: async function ({ canvas, userEvent }) {
+    const firstName = canvas.getByRole('textbox', { name: 'First name' })
+    const city = canvas.getByRole('textbox', { name: 'City' })
+    const state = canvas.getByRole('combobox', { name: 'State' })
+    const time = canvas.getByRole('group', { name: 'Opening time' })
+    const agree = canvas.getByRole('checkbox', { name: 'Agree to terms and conditions' })
+    const controls = [firstName, city, state, time, agree]
+
+    // Nothing shows a state before the user has tried to submit.
+    await expect(controls.map(validationState)).toEqual(['none', 'none', 'none', 'none', 'none'])
+    await expect(canvas.queryByText('Please provide a valid city.')).not.toBeInTheDocument()
+
+    await userEvent.click(canvas.getByRole('button', { name: 'Submit' }))
+
+    await expect(controls.map(validationState)).toEqual([
+      'valid',
+      'invalid',
+      'invalid',
+      'invalid',
+      'invalid'
+    ])
+    await expect(canvas.getByText('Looks good!')).toBeVisible()
+    await expect(canvas.getByText('Please provide a valid city.')).toBeVisible()
+    await expect(canvas.getByText('Please give a time.')).toBeVisible()
+
+    // A control follows its value from then on.
+    await userEvent.type(city, 'Amsterdam')
+    await expect(validationState(city)).toBe('valid')
+    await expect(canvas.queryByText('Please provide a valid city.')).not.toBeInTheDocument()
+    await userEvent.click(agree)
+    await expect(validationState(agree)).toBe('valid')
   }
 }
 

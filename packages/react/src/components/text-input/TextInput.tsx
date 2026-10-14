@@ -117,7 +117,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       size,
       style,
       type = 'text',
-      valid,
+      valid: validProp,
       validFeedback,
       ...rest
     },
@@ -127,7 +127,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const forkedRef = useForkedRef(ref, inputRef)
     // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`):
     // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
-    const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
+    const { invalid, valid } = useHeldBack(inputRef, { invalid: invalidProp, valid: validProp })
 
     const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
       ariaDescribedBy: rest['aria-describedby'],

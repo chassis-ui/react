@@ -1,5 +1,6 @@
 import React, { forwardRef, FormHTMLAttributes } from 'react'
-import classNames from 'classnames'
+
+import { FormValidatedContext } from './context'
 
 export interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
   /**
@@ -7,20 +8,21 @@ export interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
    */
   className?: string
   /**
-   * Mark a form as validated. If you set it `true`, all validation styles will be applied to the forms component.
+   * Shows every field of the form as valid or invalid by its own constraints (`required`,
+   * `type`, `pattern`, ...), and again as its value changes: its class, `aria-invalid` and its
+   * `validFeedback` or `invalidFeedback`. A field's own `invalid` or `valid` still decides how
+   * that field looks. Set it once the user has tried to submit, as the `onSubmit` of a
+   * `noValidate` form can.
    */
   validated?: boolean
 }
 
 export const Form = forwardRef<HTMLFormElement, FormProps>(
-  ({ children, className, validated, ...rest }, ref) => {
-    const _className = classNames({ 'was-validated': validated }, className)
-    return (
-      <form className={_className} {...rest} ref={ref}>
-        {children}
-      </form>
-    )
-  }
+  ({ children, validated = false, ...rest }, ref) => (
+    <form {...rest} ref={ref}>
+      <FormValidatedContext.Provider value={validated}>{children}</FormValidatedContext.Provider>
+    </form>
+  )
 )
 
 Form.displayName = 'Form'

@@ -22,7 +22,7 @@ export interface UseRequiredValueInputOptions {
   focus?: () => void
   /**
    * The caller's `invalid`. Once it is set, to `false` too, the caller decides how the field
-   * looks and `missing` stays `false`.
+   * looks: `missing` stays `false` and `valid` is the caller's.
    */
   invalid?: boolean
   /**
@@ -43,10 +43,16 @@ export interface UseRequiredValueInputResult {
    */
   inputProps?: typeof REQUIRED_INPUT_PROPS
   /**
-   * `true` from a submit this input held back until the field has a value, or its form is reset.
-   * Show the field as invalid while it is.
+   * `true` from a submit this input held back until the field has a value, or its form is reset,
+   * and while its form is `validated` and the field has no value. Show the field as invalid while
+   * it is.
    */
   missing: boolean
+  /**
+   * What the field shows as valid: the caller's `valid`, or `true` while its form is `validated`
+   * and the field has its value.
+   */
+  valid: boolean | undefined
 }
 
 // `required` for a field whose value isn't in a native input a form validates (FORMS.md, gotcha
@@ -60,7 +66,7 @@ export const useRequiredValueInput = (
   inputRef: RefObject<HTMLInputElement | null>,
   { focus, invalid, required, valid }: UseRequiredValueInputOptions
 ): UseRequiredValueInputResult => {
-  const { heldBack } = useHeldBack(inputRef, {
+  const shown = useHeldBack(inputRef, {
     enabled: Boolean(required),
     focus,
     invalid,
@@ -69,6 +75,7 @@ export const useRequiredValueInput = (
 
   return {
     inputProps: required ? REQUIRED_INPUT_PROPS : undefined,
-    missing: heldBack
+    missing: invalid === undefined && Boolean(shown.invalid),
+    valid: shown.valid
   }
 }

@@ -10,6 +10,7 @@ import {
   Combobox,
   ComboboxItem,
   FileInput,
+  Form,
   NumberField,
   OtpInput,
   Radio,
@@ -30,9 +31,13 @@ import {
 // pickers, `Autocomplete`) do the same through `useRequiredValueInput`, and their own specs
 // cover it. `ColorInput` and `RangeInput` always have a value, and hold nothing back.
 //
+// A `Form` with `validated` shows each field the same way with no submit, and as valid once it
+// would let the form submit (`Form.spec.tsx` covers the fields of `useRequiredValueInput`).
+//
 // A new form component gets a row here.
 
 const FEEDBACK = 'This is needed.'
+const GOOD = 'Looks good.'
 
 interface Field {
   name: string
@@ -276,6 +281,94 @@ describe.each(fields.filter((field) => field.begin))(
       await begin!(user)
       expect(marked()).toHaveAttribute('aria-invalid', 'true')
       if (feedback) expect(screen.getByText(FEEDBACK)).toBeVisible()
+    })
+  }
+)
+
+// What a validated form shows: the message that says the field is fine, where the field takes one.
+const validatedProps = (feedback?: Record<string, string>) =>
+  feedback?.invalidFeedback ? { ...feedback, validFeedback: GOOD } : { ...feedback }
+
+describe.each(fields)(
+  '$name, in a validated form',
+  ({ cannotFill, feedback, fill, marked, ui }) => {
+    test('shows as invalid with no submit, then as valid once it has a value', async () => {
+      const user = userEvent.setup()
+      render(
+        <Form aria-label="Order" validated>
+          {ui(validatedProps(feedback))}
+        </Form>
+      )
+
+      expect(marked()).toHaveAttribute('aria-invalid', 'true')
+      if (feedback) expect(screen.getByText(FEEDBACK)).toBeVisible()
+      expect(screen.queryByText(GOOD)).not.toBeInTheDocument()
+      if (cannotFill) return
+
+      await fill(user)
+      expect(marked()).not.toHaveAttribute('aria-invalid')
+      expect(screen.queryByText(FEEDBACK)).not.toBeInTheDocument()
+      if (feedback?.invalidFeedback) expect(screen.getByText(GOOD)).toBeVisible()
+    })
+
+    test('shows nothing once the form is no longer validated', () => {
+      const { rerender } = render(
+        <Form aria-label="Order" validated>
+          {ui(validatedProps(feedback))}
+        </Form>
+      )
+      expect(marked()).toHaveAttribute('aria-invalid', 'true')
+
+      rerender(<Form aria-label="Order">{ui(validatedProps(feedback))}</Form>)
+      expect(marked()).not.toHaveAttribute('aria-invalid')
+      expect(screen.queryByText(FEEDBACK)).not.toBeInTheDocument()
+    })
+
+    test.each([
+      ['invalid={false}', { invalid: false }],
+      ['valid', { valid: true }]
+    ])('leaves the look to a caller who set %s', (_prop, props) => {
+      render(
+        <Form aria-label="Order" validated>
+          {ui({ ...validatedProps(feedback), ...props })}
+        </Form>
+      )
+      expect(marked()).not.toHaveAttribute('aria-invalid')
+      expect(screen.queryByText(FEEDBACK)).not.toBeInTheDocument()
+    })
+
+    // A server's answer the field's own constraints can't know of, such as a name that is taken.
+    test('stays invalid with a value when the caller set invalid', async () => {
+      if (cannotFill) return
+      const user = userEvent.setup()
+      render(
+        <Form aria-label="Order" validated>
+          {ui({ ...validatedProps(feedback), invalid: true })}
+        </Form>
+      )
+
+      await fill(user)
+      expect(marked()).toHaveAttribute('aria-invalid', 'true')
+      expect(screen.queryByText(GOOD)).not.toBeInTheDocument()
+    })
+  }
+)
+
+describe.each(fields.filter((field) => field.begin))(
+  '$name, in a validated form, while what is typed is not a value',
+  ({ begin, feedback, marked, ui }) => {
+    test('stays invalid', async () => {
+      const user = userEvent.setup()
+      render(
+        <Form aria-label="Order" validated>
+          {ui(validatedProps(feedback))}
+        </Form>
+      )
+
+      await begin!(user)
+      expect(marked()).toHaveAttribute('aria-invalid', 'true')
+      expect(screen.getByText(FEEDBACK)).toBeVisible()
+      expect(screen.queryByText(GOOD)).not.toBeInTheDocument()
     })
   }
 )

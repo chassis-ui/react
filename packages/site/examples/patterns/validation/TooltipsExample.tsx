@@ -82,7 +82,7 @@ export const Example = () => {
       </GridItem>
       <GridItem span={{ base: 'full', md: 3 }} className="position-relative">
         <FormLabel htmlFor="validationTooltip04">State</FormLabel>
-        <Select id="validationTooltip04" required>
+        <Select id="validationTooltip04" defaultValue="" required>
           <option disabled value="">
             Choose...
           </option>

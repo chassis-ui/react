@@ -261,7 +261,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       shouldForceLeadingZeros,
       size,
       unavailableDates,
-      valid,
+      valid: validProp,
       validFeedback,
       value,
       visible,
@@ -288,7 +288,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
     // which a form validates where it doesn't a `type="hidden"` one (FORMS.md, gotcha 9), so it
     // is held back until both dates are in. Each input reports the submit it held back, and puts
     // the focus in its own field: the start's first segment is the group's first.
-    const requiredOptions = { invalid, required, valid }
+    const requiredOptions = { invalid, required, valid: validProp }
     const start = useRequiredValueInput(startInputRef, {
       ...requiredOptions,
       focus: () => focusFirstSegment(groupRef.current)
@@ -298,6 +298,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       focus: () => focusFirstSegment(endFieldRef.current)
     })
     const missing = start.missing || end.missing
+    const valid = start.valid && end.valid
 
     // What both react-stately's state and react-aria's hook read: the hook hands the time props
     // on to the fields' segments.

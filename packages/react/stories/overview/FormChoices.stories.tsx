@@ -186,8 +186,6 @@ export const Default: Story = {
       </Section>
 
       <Section title="Form">
-        {/* No `validated` form: its `.was-validated` class has no rule in chassis-css 0.7.2, whose
-            native validation styles hang off `[data-cx-validate]` and `:user-invalid` instead. */}
         <Form>
           <div style={STACK}>
             <TextInput label="Email address" help="We'll never share your email." type="email" />
