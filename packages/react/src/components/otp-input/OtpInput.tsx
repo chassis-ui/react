@@ -5,6 +5,7 @@ import React, {
   HTMLAttributes,
   KeyboardEvent,
   ReactNode,
+  useEffect,
   useMemo,
   useRef
 } from 'react'
@@ -177,7 +178,35 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
     // The container hears every box.
     const { invalid } = useHeldBack(containerRef, { invalid: invalidProp, valid })
 
+    // The boxes as last committed. A box focused by the handler that committed them (the next box,
+    // after a digit) is focused before the render that shows them.
+    const latestBoxes = useRef(boxes)
+    latestBoxes.current = boxes
+
+    // The code is one string with no gaps, so a digit typed past the first empty box would land in
+    // that box. Focus on a box past it goes to it.
+    const handleFocus = (index: number) => {
+      const firstEmpty = latestBoxes.current.indexOf('')
+      if (firstEmpty !== -1 && index > firstEmpty) focusBox(firstEmpty)
+    }
+
+    // A form reset puts the code back once. Each box restoring its own first digit wrote each into
+    // the same stale code, which left one digit short and reported every box.
+    const resetCode = useRef(() => {})
+    resetCode.current = () => {
+      const initial = defaultValue ?? ''
+      if (initial !== rawValue) setRawValue(initial)
+    }
+    useEffect(() => {
+      const form = boxRefs.current[0]?.form
+      if (!form) return
+      const onReset = () => resetCode.current()
+      form.addEventListener('reset', onReset)
+      return () => form.removeEventListener('reset', onReset)
+    }, [])
+
     const commit = (nextBoxes: string[]) => {
+      latestBoxes.current = nextBoxes
       const next = nextBoxes.join('')
       setRawValue(next)
       if (nextBoxes.length === total && nextBoxes.every((box) => box !== '')) {
@@ -271,6 +300,7 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
           key={i}
           mask={mask}
           onChangeValue={(next) => handleChange(i, next)}
+          onFocusBox={() => handleFocus(i)}
           onKeyDownBox={(event) => handleKeyDown(i, event)}
           onPasteBox={handlePaste}
           ref={(el) => {

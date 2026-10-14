@@ -88,7 +88,7 @@
     },
     "container": {
       "defaultValue": null,
-      "description": "Defines optional container wrapping children elements.",
+      "description": "Wraps the children in a `.container`, as `Container` renders one: `true` for the default,\n`'fluid'` for one as wide as the navbar, or a breakpoint for one that is fluid until it.",
       "name": "container",
       "declarations": [
         {

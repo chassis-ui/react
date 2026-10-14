@@ -1,4 +1,5 @@
 import React, {
+  AriaAttributes,
   ElementType,
   ForwardRefRenderFunction,
   MouseEventHandler,
@@ -142,9 +143,12 @@ function LinkRender<C extends ElementType = 'a'>(
   const spyRef = useForkedRef(ownRef as Ref<HTMLElement>, spy.ref)
   // A link to the section being read is `active` and `aria-current="true"`: the current place in
   // the page, not the current page. A link it belongs under, such as its menu's toggle, only
-  // looks active. An `active` given as a prop wins.
+  // looks active. An `active` given as a prop wins, and an `aria-current` given as one wins over
+  // both: a step of a process is `"step"`, not the current page.
   const isActive = active || !!spy.mark
-  const ariaCurrent = active ? 'page' : spy.mark === 'current' ? 'true' : undefined
+  const ownAriaCurrent = (rest as AriaAttributes)['aria-current']
+  const ariaCurrent =
+    ownAriaCurrent ?? (active ? 'page' : spy.mark === 'current' ? 'true' : undefined)
 
   const _className = classNames(
     color && LINK_COLOR_CLASS_NAMES[color],

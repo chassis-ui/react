@@ -264,6 +264,8 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     const swipeSettleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
     const touchingRef = useRef(false)
     const cancelScrollSyncRef = useRef<(() => void) | null>(null)
+    // The loop transition's animation, which an unmount cancels as it cancels a scroll sync.
+    const cancelLoopRef = useRef<(() => void) | null>(null)
     const observerRef = useRef<IntersectionObserver | null>(null)
     const visibilityRef = useRef(new Map<Element, number>())
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -376,6 +378,26 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       }
     }, [viewportEl])
 
+    // Fewer slides than the active index needs: none would be active, the end control would be
+    // disabled and the other one a no-op under `ends="stop"`. The index moves to the last one
+    // there is, which a controlled carousel asks for through `onSlide`. Once the count is the
+    // DOM's: the first render's, read from `children`, may be short of slides inside components.
+    useIsomorphicLayoutEffect(() => {
+      if (!viewportEl || itemCount === 0 || getCarouselItems(viewportEl).length !== itemCount)
+        return
+      const last = Math.max(0, itemCount - itemsVisible)
+      if (activeIndex <= last) return
+      const detail: CarouselSlideDetail = {
+        from: activeIndex,
+        to: last,
+        direction: directionBetween(activeIndex, last, isRTL(viewportEl))
+      }
+      lastTransitionRef.current = detail
+      onSlideRef.current?.(detail)
+      setActiveIndexInternal(last)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [viewportEl, activeIndex, itemCount, itemsVisible])
+
     // A layout effect, not a plain effect: `itemCount` must be measured before paint so the
     // atStart/atEnd layout effect above (which runs first, in declaration order) sees the real
     // count once React re-renders to flush this effect's `setItemCount` — otherwise the first
@@ -456,6 +478,9 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     // pattern's per-slide `role`/`aria-roledescription`/positional `aria-label`, when
     // `CarouselInner` can tell it its position (see `slides.tsx`), so the server's HTML has them.
     // This applies the same to the DOM, which also covers slides rendered by your own components.
+    // A slide's own `aria-label` stays: the position is written only where there is none, or over
+    // the one written here before (`positionLabelsRef`). It overwrote a `CarouselItem`'s own.
+    const positionLabelsRef = useRef(new WeakMap<Element, string>())
     useIsomorphicLayoutEffect(() => {
       if (!viewportEl) return
       const nodes = getCarouselItems(viewportEl)
@@ -464,7 +489,12 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         // A `group`, as the pattern has it: `aria-label` isn't allowed on an element with no role.
         if (!node.hasAttribute('role')) node.setAttribute('role', 'group')
         node.setAttribute('aria-roledescription', 'slide')
-        node.setAttribute('aria-label', `${index + 1} of ${nodes.length}`)
+        const label = node.getAttribute('aria-label')
+        if (label === null || label === positionLabelsRef.current.get(node)) {
+          const position = `${index + 1} of ${nodes.length}`
+          node.setAttribute('aria-label', position)
+          positionLabelsRef.current.set(node, position)
+        }
       }
     }, [viewportEl, activeIndex, itemCount])
 
@@ -543,7 +573,8 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         mountedForSlidRef.current = true
         return
       }
-      if (deferOnSlidRef.current) return
+      // The loop transition fires it once it has arrived (`performLoopTransition`).
+      if (deferOnSlidRef.current || loopingRef.current) return
       const detail = lastTransitionRef.current
       // A crossfade is over when the incoming slide's opacity transition is: `onSlid` used to
       // fire on the commit `onSlide` did. It waits on the element's own transition, so a themed
@@ -580,6 +611,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         if (swipeSettleTimerRef.current) clearTimeout(swipeSettleTimerRef.current)
         observerRef.current?.disconnect()
         cancelScrollSyncRef.current?.()
+        cancelLoopRef.current?.()
       }
     }, [])
 
@@ -606,8 +638,12 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 
       const finish = () => {
         lastTransitionRef.current = { from, to, direction }
-        setActiveIndexInternal(to)
         loopingRef.current = false
+        // A controlled parent that followed `onSlide` has already moved `activeIndex` to `to`,
+        // during the loop, where `onSlid` waited (the effect that fires it): the slide has arrived
+        // now. Otherwise the commit of this step fires it.
+        if (committedIndexRef.current === to) onSlidRef.current?.(lastTransitionRef.current)
+        else setActiveIndexInternal(to)
       }
 
       const source = isNext ? nodes[0] : nodes[last]
@@ -644,7 +680,8 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       }
 
       const targetDelta = scrollDeltaFor(viewport, clone, !!center)
-      animateScrollTo(viewport, viewport.scrollLeft + targetDelta, () => {
+      cancelLoopRef.current = animateScrollTo(viewport, viewport.scrollLeft + targetDelta, () => {
+        cancelLoopRef.current = null
         clone.remove()
 
         // `clone.remove()` shrinks `scrollWidth`, and the browser clamps `scrollLeft` to the new

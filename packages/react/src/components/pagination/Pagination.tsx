@@ -148,9 +148,12 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
   ) => {
     const _className = classNames('pagination', size, align && ALIGN_CLASS_NAMES[align], className)
 
-    const clampedActivePage = pages ? Math.min(Math.max(activePage, 1), pages) : activePage
-    const prevDisabled = pages ? clampedActivePage <= 1 : false
-    const nextDisabled = pages ? clampedActivePage >= pages : false
+    // `pages != null`, not truthiness: `pages={0}` is a pagination with no pages, both of its
+    // controls disabled. It rendered `children` instead, an empty navigation landmark.
+    const isSmart = pages != null
+    const clampedActivePage = isSmart ? Math.min(Math.max(activePage, 1), pages) : activePage
+    const prevDisabled = isSmart ? clampedActivePage <= 1 : false
+    const nextDisabled = isSmart ? clampedActivePage >= pages : false
 
     const { prevRef, nextRef, handlePrevClick, handleNextClick } = usePagination({
       prevDisabled,
@@ -159,7 +162,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
       onNext: () => onActivePageChange && onActivePageChange(clampedActivePage + 1)
     })
 
-    const smartContent = pages ? (
+    const smartContent = isSmart ? (
       <>
         {showPrevNext && (
           <PaginationItem

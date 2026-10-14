@@ -41,6 +41,14 @@ describe('Pagination', () => {
   })
 
   describe('smart pagination', () => {
+    // `pages={0}` fell out of smart mode and rendered an empty navigation landmark.
+    test('pages={0} renders its controls, both disabled, and no pages', () => {
+      render(<Pagination activePage={1} pages={0} onActivePageChange={vi.fn()} />)
+      expect(screen.getByRole('button', { name: 'Previous' })).toBeDisabled()
+      expect(screen.getByRole('button', { name: 'Next' })).toBeDisabled()
+      expect(screen.getAllByRole('button')).toHaveLength(2)
+    })
+
     test('renders Prev/Next and a page for each number up to maxVisiblePages', () => {
       render(<Pagination activePage={2} pages={3} onActivePageChange={vi.fn()} />)
 

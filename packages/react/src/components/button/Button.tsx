@@ -96,12 +96,13 @@ function ButtonRender<C extends ElementType = 'button'>(
     pressed,
     shape,
     size,
-    type = 'button',
+    type: typeProp,
     variant,
     ...rest
   }: ButtonProps<C>,
   ref: PolymorphicRef<C>
 ) {
+  const type = typeProp ?? 'button'
   // `href` makes it an `<a>`, unless `component` or `asChild` chose the element (see
   // `linkElement`).
   const Component = linkElement(component, href, 'button')
@@ -229,7 +230,14 @@ function ButtonRender<C extends ElementType = 'button'>(
   return (
     <Component
       {...(isComponentReference
-        ? ({ disabled, onClick, ...rest } as Record<string, unknown>)
+        ? // A `type` given reaches the component too: it was taken here and dropped. The
+          // default `'button'` doesn't, as nothing says the component renders a button.
+          ({
+            disabled,
+            onClick,
+            ...(typeProp !== undefined && { type: typeProp }),
+            ...rest
+          } as Record<string, unknown>)
         : (mergeProps(rest, buttonProps) as Record<string, unknown>))}
       className={_className}
       {...pressedProps}

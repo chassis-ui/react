@@ -1,6 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
+import { hasHref } from '../../utils/elementKind'
 import { Link } from '../link/Link'
 
 export interface BreadcrumbItemProps extends HTMLAttributes<HTMLLIElement> {
@@ -29,7 +30,8 @@ export const BreadcrumbItem = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
     )
     return (
       <li className={_className} {...(active && { 'aria-current': 'page' })} {...rest} ref={ref}>
-        {href ? <Link href={href}>{children}</Link> : children}
+        {/* `href=""` is a link too, to the current document (CONVENTIONS.md, "href"). */}
+        {hasHref(href) ? <Link href={href}>{children}</Link> : children}
       </li>
     )
   }

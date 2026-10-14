@@ -306,6 +306,19 @@ describe('TimeField', () => {
       }
     })
 
+    // react-aria focuses the input it was first given only: once a `label` came and the field was
+    // wrapped, its value input was a new one and a blocked submit moved focus nowhere.
+    test('takes focus after it is wrapped by a label given later', async () => {
+      const user = userEvent.setup()
+      const onSubmit = vi.fn()
+      const { rerender } = render(<Booking onSubmit={onSubmit} required />)
+      rerender(<Booking aria-label={undefined} label="Start" onSubmit={onSubmit} required />)
+
+      await user.click(save())
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(screen.getByRole('spinbutton', { name: /^hour/ })).toHaveFocus()
+    })
+
     test('a partly filled one still does', async () => {
       const user = userEvent.setup()
       const onSubmit = vi.fn()

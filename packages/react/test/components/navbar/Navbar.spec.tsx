@@ -37,7 +37,21 @@ describe('Navbar', () => {
         'lg:navbar-expand',
         'sticky-bottom'
       )
-      expect(screen.getByText('Test')).toHaveClass('container-xl')
+      expect(screen.getByText('Test')).toHaveClass('container', 'xl')
+    })
+
+    // `container-fluid` and `container-xl` were rendered, which chassis-css has no rule for: it
+    // styles `.container.fluid`, `.container.xl` and `.navbar > .container`, so the wrapper had
+    // no width and no flex row.
+    test.each([
+      ['fluid', 'fluid'],
+      ['sm', 'sm'],
+      ['2xl', '2xl']
+    ] as const)('container="%s" renders container plus the variant', (container, variant) => {
+      render(<Navbar container={container}>Test</Navbar>)
+      const wrapper = screen.getByText('Test')
+      expect(wrapper).toHaveClass('container', variant)
+      expect(wrapper.className).not.toMatch(/container-/)
     })
 
     test('applies boolean container and expand classes', () => {
@@ -47,7 +61,7 @@ describe('Navbar', () => {
         </Navbar>
       )
       expect(screen.getByRole('navigation')).toHaveClass('navbar-expand')
-      expect(screen.getByText('Test')).toHaveClass('container')
+      expect(screen.getByText('Test')).toHaveClass('container', { exact: true })
     })
 
     test('applies translucent and data-cx-theme', () => {

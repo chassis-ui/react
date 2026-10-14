@@ -5,13 +5,15 @@ import React, {
   ReactNode,
   useEffect,
   useMemo,
-  useRef
+  useRef,
+  useState
 } from 'react'
 import classNames from 'classnames'
 import { mergeProps, useButton, useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Key, useComboBoxState } from 'react-stately'
 
 import {
+  useControllableState,
   useFloatingOverlay,
   useForkedRef,
   useFormField,
@@ -47,15 +49,27 @@ import { AutocompleteItem } from './AutocompleteItem'
 // always `Key[]` is untrustworthy for single-select at runtime — confirmed by testing (the
 // naive `keys[0]` on a bare string key silently returned its first *character*). `asKeyArray`
 // normalizes either shape; every read of `state.value` or `onChange`'s argument goes through it.
-const toMultiValue = (value: Key | Key[] | null | undefined): Key[] | undefined => {
-  if (value === undefined) return undefined
-  if (value === null) return []
-  return Array.isArray(value) ? value : [value]
-}
-
 const asKeyArray = (value: unknown): Key[] => {
   if (value == null) return []
   return Array.isArray(value) ? value : [value as Key]
+}
+
+// The selection in the shape of the mode: `Key[]` with `multiple`, else a `Key` or `null`, which
+// react-stately reads as "nothing selected" and keeps controlled. `undefined` stays `undefined`
+// (an uncontrolled `value`).
+const toModeValue = (
+  value: Key | Key[] | null | undefined,
+  multiple: boolean
+): Key | Key[] | null | undefined => {
+  if (value === undefined) return undefined
+  if (multiple) return asKeyArray(value)
+  return Array.isArray(value) ? (value[0] ?? null) : value
+}
+
+const isSameSelection = (a: Key | Key[] | null, b: Key | Key[] | null) => {
+  const left = asKeyArray(a)
+  const right = asKeyArray(b)
+  return left.length === right.length && left.every((key, index) => key === right[index])
 }
 
 export interface AutocompleteProps extends Omit<
@@ -232,19 +246,39 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
   // always-case-insensitive combobox.js filtering.
   const { contains } = useFilter({ sensitivity: 'base' })
 
+  // The selection is held here and always given to react-stately as controlled, and so is the
+  // text of the search field. react-stately's combobox treats the text as the selection's: it
+  // writes the selected option's label into the field, and an emptied field clears an
+  // uncontrolled selection. Here the field is a query only. It starts empty each time the list
+  // opens and filters the list, and nothing typed in it, or taken out, changes the selection.
+  const [selection, setSelection] = useControllableState<Key | Key[] | null>(
+    toModeValue(value, multiple),
+    toModeValue(defaultValue, multiple) ?? (multiple ? [] : null),
+    onChange
+  )
+  const [query, setQuery] = useState('')
+
   const state = useComboBoxState<ComboboxEntry, 'multiple'>({
     children: comboboxCollectionChildren,
     defaultItems: entries,
     disabledKeys,
     defaultFilter: contains,
     // Cast: the actual runtime string ('single' or 'multiple') is what drives behavior — see the
-    // `toMultiValue` comment above for why the *type* parameter above is fixed at 'multiple'.
+    // `asKeyArray` comment above for why the *type* parameter above is fixed at 'multiple'.
     selectionMode: (multiple ? 'multiple' : 'single') as 'multiple',
-    defaultValue: toMultiValue(defaultValue),
-    value: toMultiValue(value),
+    value: selection as Key[],
+    // With both controlled, react-stately reports the selection again when the search field
+    // blurs, or Enter picks the selected option: only a change is passed on.
     onChange: (keys) => {
       const keyArray = asKeyArray(keys)
-      onChange?.(multiple ? keyArray : (keyArray[0] ?? null))
+      const next = multiple ? keyArray : (keyArray[0] ?? null)
+      setQuery('')
+      if (!isSameSelection(next, selection)) setSelection(next)
+    },
+    inputValue: query,
+    onInputChange: setQuery,
+    onOpenChange: (isOpen) => {
+      if (!isOpen) setQuery('')
     },
     allowsEmptyCollection: true,
     // Opening is driven only by the toggle (see `buttonProps` below) — there's no input to focus

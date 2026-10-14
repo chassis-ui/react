@@ -298,6 +298,18 @@ describe('Button', () => {
       expect(button).toBeDisabled()
       expect(button).not.toHaveAttribute('aria-disabled')
     })
+
+    // `type` was taken from the props and given to no element.
+    test('gets a type it is given passed through', () => {
+      render(
+        <form aria-label="Order">
+          <Button component={CustomButton} type="submit">
+            Save
+          </Button>
+        </form>
+      )
+      expect(screen.getByRole('button', { name: 'Save' })).toHaveAttribute('type', 'submit')
+    })
   })
 
   describe('ref forwarding', () => {

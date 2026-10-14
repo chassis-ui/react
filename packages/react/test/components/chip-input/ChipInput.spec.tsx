@@ -75,6 +75,21 @@ describe('ChipInput', () => {
       expect(onChange).not.toHaveBeenCalled()
     })
 
+    // Enter cleared the text it didn't add, where a paste keeps what it can't take.
+    test.each([
+      ['Enter', '{Enter}'],
+      ['the separator', ',']
+    ])('at maxChips, %s keeps the text it cannot add', async (_key, keys) => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      render(
+        <ChipInput aria-label="Skills" defaultValue={['React']} maxChips={1} onChange={onChange} />
+      )
+      await user.type(screen.getByRole('textbox'), `CSS${keys}`)
+      expect(onChange).not.toHaveBeenCalled()
+      expect(screen.getByRole('textbox')).toHaveValue('CSS')
+    })
+
     test('pasting beyond maxChips keeps the untaken values in the input instead of discarding them', () => {
       const onChange = vi.fn()
       render(<ChipInput aria-label="Skills" maxChips={2} onChange={onChange} />)
@@ -453,6 +468,19 @@ describe('ChipInput', () => {
       expect(input().validity.customError).toBe(false)
       await user.click(save())
       expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+
+    // The custom validity was cleared in a passive effect, after the mark had read the input's
+    // validity: the chip that satisfied the field left it marked.
+    test('the chip that satisfies it clears the mark of a submit it held back', async () => {
+      const user = userEvent.setup()
+      render(<Profile required />)
+      await user.type(input(), 'React')
+      await user.click(save())
+      expect(input()).toHaveAttribute('aria-invalid', 'true')
+
+      await user.type(input(), '{Enter}')
+      expect(input()).not.toHaveAttribute('aria-invalid')
     })
 
     test('text typed beside a chip, or in a field that is not required, holds nothing back', async () => {

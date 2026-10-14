@@ -3,7 +3,6 @@ import React, {
   HTMLAttributes,
   KeyboardEvent,
   ReactNode,
-  useEffect,
   useMemo,
   useRef,
   useState
@@ -12,7 +11,13 @@ import classNames from 'classnames'
 import { useTextField } from 'react-aria'
 import { Item, Key, useListState } from 'react-stately'
 
-import { useControllableState, useForkedRef, useFormField, useHeldBack } from '../../hooks'
+import {
+  useControllableState,
+  useForkedRef,
+  useFormField,
+  useHeldBack,
+  useIsomorphicLayoutEffect
+} from '../../hooks'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 import { ChipList, ChipItem } from './ChipList'
@@ -134,8 +139,8 @@ export interface ChipInputProps extends Omit<
   value?: string[]
 }
 
-// See `unaddedText`.
-const UNADDED_TEXT_MESSAGE = 'Add the text as a chip.'
+// See `needsChip`.
+const NEEDS_CHIP_MESSAGE = 'Add a chip.'
 
 export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
   (
@@ -174,18 +179,20 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
     // render, not just when `tags` actually changed); they now all read this instead.
     const ids = useMemo(() => buildTagIds(tags), [tags])
 
-    // Shared by `addTag` and the paste handler's loop: whether `raw` (already trimmed) is
+    // Shared by `commitInput` and the paste handler's loop: whether `raw` (already trimmed) is
     // addable to `list` given `allowDuplicates`. `maxChips` is deliberately not part of this
     // predicate — the paste loop needs to `break` (stop entirely) on hitting the limit, while an
     // empty/duplicate value should just be skipped and the loop should keep going.
     const isAddableValue = (list: string[], trimmed: string) =>
       trimmed !== '' && (allowDuplicates || !list.includes(trimmed))
 
-    const addTag = (raw: string) => {
-      const trimmed = raw.trim()
-      if (!isAddableValue(tags, trimmed)) return
+    // Takes the typed text, as a paste takes each part: an empty or duplicate value is dropped,
+    // and text past `maxChips` stays in the input.
+    const commitInput = () => {
       if (maxChips != null && tags.length >= maxChips) return
-      updateTags([...tags, trimmed])
+      const trimmed = inputValue.trim()
+      if (isAddableValue(tags, trimmed)) updateTags([...tags, trimmed])
+      setInputValue('')
     }
 
     const removeTags = (keys: Iterable<Key>) => {
@@ -214,6 +221,27 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
     const forkedRef = useForkedRef(ref, containerRef)
     const inputRef = useRef<HTMLInputElement>(null)
     const [inputValue, setInputValue] = useState('')
+
+    // Required asks for one chip at least, which HTML has no attribute for. The text input is
+    // the field's one input a form validates (the chips' own are `type="hidden"`, which is barred
+    // from it: FORMS.md, gotcha 9), so it carries the native `required` while there are no chips,
+    // as each checkbox of a required `CheckboxGroup` does while none is checked. That alone would
+    // let text through that was typed and never added: the input isn't empty, and nothing is
+    // submitted under `name`. A custom validity covers it: with no chips the input is invalid
+    // whatever its text. The message is never shown: react-aria cancels the input's `invalid`
+    // event, which keeps a browser's bubble away, and focuses the input instead. A disabled input
+    // isn't validated; the field has no read-only state to leave out.
+    //
+    // Set after each render, as the input may be a new one, in a layout effect declared before
+    // `useHeldBack`, whose own layout effect reads the validity after each render, and for an
+    // empty input too: the hook's `input` listener reads
+    // it before the render a keystroke causes, where the first character typed would have made
+    // an empty input valid.
+    const needsChip = Boolean(required) && tags.length === 0
+    useIsomorphicLayoutEffect(() => {
+      inputRef.current?.setCustomValidity(needsChip ? NEEDS_CHIP_MESSAGE : '')
+    })
+
     // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`):
     // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
     const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
@@ -235,16 +263,14 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
 
       if (separator && event.key === separator) {
         event.preventDefault()
-        addTag(inputValue)
-        setInputValue('')
+        commitInput()
         return
       }
 
       switch (event.key) {
         case 'Enter': {
           event.preventDefault()
-          addTag(inputValue)
-          setInputValue('')
+          commitInput()
           break
         }
         case 'Backspace':
@@ -289,9 +315,9 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
       event.preventDefault()
       const parts = pasted.split(separator)
 
-      // Accumulate locally rather than calling `addTag` per part: each call to `addTag` reads
-      // `tags` from this render's closure, so several calls in a row within one event would all
-      // start from the same stale array instead of building on each other.
+      // Accumulate locally rather than committing per part: each commit reads `tags` from this
+      // render's closure, so several in a row within one event would all start from the same
+      // stale array instead of building on each other.
       let next = tags
       // `i` tracks how far the loop got, so a `maxChips` cutoff can leave everything from that
       // point on (not just the final unsplit part) in the input instead of silently dropping it.
@@ -337,21 +363,6 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
       },
       inputRef
     )
-
-    // Required asks for one chip at least, which HTML has no attribute for. The text input is
-    // the field's one input a form validates (the chips' own are `type="hidden"`, which is barred
-    // from it: FORMS.md, gotcha 9), so it carries the native `required` while there are no chips,
-    // as each checkbox of a required `CheckboxGroup` does while none is checked. That alone would
-    // let text through that was typed and never added: the input isn't empty, and nothing is
-    // submitted under `name`. A custom validity covers it: text with no chips is invalid too. The
-    // message is never shown: react-aria cancels the input's `invalid` event, which keeps a
-    // browser's bubble away, and focuses the input instead. A disabled input isn't validated;
-    // the field has no read-only state to leave out.
-    const needsChip = Boolean(required) && tags.length === 0
-    const unaddedText = needsChip && inputValue !== ''
-    useEffect(() => {
-      inputRef.current?.setCustomValidity(unaddedText ? UNADDED_TEXT_MESSAGE : '')
-    }, [unaddedText])
 
     return renderFormField({
       children: (

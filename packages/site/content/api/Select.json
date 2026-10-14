@@ -216,7 +216,7 @@
     },
     "placeholder": {
       "defaultValue": null,
-      "description": "Renders a disabled placeholder option as the first item (e.g. `\"Select a country…\"`).\nThe option has an empty value so it is not selectable once another option is chosen.",
+      "description": "Renders a disabled placeholder option as the first item (e.g. `\"Select a country…\"`).\nThe option has an empty value so it is not selectable once another option is chosen. A\nsingle select with no `value`, `defaultValue` or `selected` option starts on it, so its value\nis `''` and a `required` one holds its form back until an option is chosen.",
       "name": "placeholder",
       "parent": {
         "fileName": "packages/react/src/components/select/Select.tsx",

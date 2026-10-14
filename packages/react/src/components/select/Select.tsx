@@ -98,7 +98,9 @@ export interface SelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>
   options?: SelectOptionDef[] | string[]
   /**
    * Renders a disabled placeholder option as the first item (e.g. `"Select a country…"`).
-   * The option has an empty value so it is not selectable once another option is chosen.
+   * The option has an empty value so it is not selectable once another option is chosen. A
+   * single select with no `value`, `defaultValue` or `selected` option starts on it, so its value
+   * is `''` and a `required` one holds its form back until an option is chosen.
    */
   placeholder?: string
   /**
@@ -156,7 +158,9 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           .filter(
             (option): option is SelectOptionDef => typeof option === 'object' && !!option.selected
           )
-          .map((option) => String(option.value ?? ''))
+          // The value the option renders with: its `value`, else its text, as for a native
+          // `<option>` with no `value` attribute.
+          .map((option) => (option.value != null ? String(option.value) : (option.label ?? '')))
       : []
 
     devWarning(
@@ -168,13 +172,19 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     // React warns against setting `selected` directly on <option>, recommending `defaultValue`/
     // `value` on <select> instead — so `options[].selected` is resolved into a `defaultValue`
     // here rather than rendered as an attribute. Left alone when the caller already controls
-    // `value`/`defaultValue` themselves.
-    const inferredDefaultValue =
-      selectedValues.length && rest.value === undefined && rest.defaultValue === undefined
+    // `value`/`defaultValue` themselves. A single select with a `placeholder` and nothing chosen
+    // starts on the placeholder: a browser selects the first option that isn't disabled instead,
+    // which made that option the value and let a `required` select submit with nothing chosen.
+    const isUnset = rest.value === undefined && rest.defaultValue === undefined
+    const inferredDefaultValue = !isUnset
+      ? undefined
+      : selectedValues.length
         ? multiple
           ? selectedValues
           : selectedValues[selectedValues.length - 1]
-        : undefined
+        : placeholder && !multiple
+          ? ''
+          : undefined
 
     const { describedBy, feedbackId, helpId, inputId } = useFormField({
       ariaDescribedBy: rest['aria-describedby'],

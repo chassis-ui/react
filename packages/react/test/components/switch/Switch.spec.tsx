@@ -118,6 +118,16 @@ describe('Switch', () => {
       expect(onChange).toHaveBeenCalledWith(true)
       expect(input).not.toBeChecked()
     })
+
+    // The radio-backed switch passed no handler without `onChange`, and React warned of a
+    // `checked` input with none.
+    test('a selected radio-backed switch with no onChange logs no warning', () => {
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+      render(<Switch aria-label="Notifications" isSelected type="radio" />)
+      expect(screen.getByRole('switch')).toBeChecked()
+      expect(consoleError).not.toHaveBeenCalled()
+      consoleError.mockRestore()
+    })
   })
 
   describe('validation state', () => {

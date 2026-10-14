@@ -182,7 +182,7 @@ describe('OtpInput', () => {
     })
 
     test('arrow keys move focus between boxes', () => {
-      render(<OtpInput aria-label="Code" length={3} />)
+      render(<OtpInput aria-label="Code" defaultValue="123" length={3} />)
       const first = screen.getByRole('textbox', { name: 'Digit 1' })
       fireEvent.keyDown(first, { key: 'ArrowRight' })
       expect(screen.getByRole('textbox', { name: 'Digit 2' })).toHaveFocus()
@@ -193,7 +193,7 @@ describe('OtpInput', () => {
     test('arrow keys mirror under dir="rtl"', () => {
       render(
         <div dir="rtl">
-          <OtpInput aria-label="Code" length={3} />
+          <OtpInput aria-label="Code" defaultValue="123" length={3} />
         </div>
       )
       const first = screen.getByRole('textbox', { name: 'Digit 1' })
@@ -204,9 +204,55 @@ describe('OtpInput', () => {
       fireEvent.keyDown(screen.getByRole('textbox', { name: 'Digit 2' }), { key: 'ArrowRight' })
       expect(first).toHaveFocus()
     })
+
+    // The code is a string with no gaps, so a digit typed in the third box of `1 _ _ _` landed
+    // in the second.
+    test('a box past the first empty one sends focus to that box', async () => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      render(<OtpInput aria-label="Code" defaultValue="1" length={4} onChange={onChange} />)
+      await user.click(screen.getByRole('textbox', { name: 'Digit 3' }))
+      expect(screen.getByRole('textbox', { name: 'Digit 2' })).toHaveFocus()
+
+      await user.keyboard('2')
+      expect(onChange).toHaveBeenLastCalledWith('12')
+      expect(screen.getByRole('textbox', { name: 'Digit 3' })).toHaveFocus()
+    })
+
+    test('typing on through the boxes is not sent back', async () => {
+      const user = userEvent.setup()
+      render(<OtpInput aria-label="Code" length={4} />)
+      await user.click(screen.getByRole('textbox', { name: 'Digit 1' }))
+      await user.keyboard('123')
+      expect(screen.getByRole('textbox', { name: 'Digit 4' })).toHaveFocus()
+    })
   })
 
   describe('form integration', () => {
+    // Each box reset itself against the same code: "1234" became "123", with four `onChange`.
+    test('a form reset puts the code back once', async () => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      render(
+        <form aria-label="Verify">
+          <OtpInput aria-label="Code" defaultValue="9" length={4} onChange={onChange} />
+          <button type="reset">Reset</button>
+        </form>
+      )
+      await user.click(screen.getByRole('textbox', { name: 'Digit 2' }))
+      await user.keyboard('234')
+      onChange.mockClear()
+
+      await user.click(screen.getByRole('button', { name: 'Reset' }))
+      expect(onChange.mock.calls).toEqual([['9']])
+      expect(screen.getAllByRole('textbox').map((box) => (box as HTMLInputElement).value)).toEqual([
+        '9',
+        '',
+        '',
+        ''
+      ])
+    })
+
     test('creates a hidden input for form submission when name is provided', () => {
       // Hidden inputs are intentionally excluded from the accessibility tree - no query reaches
       // them.

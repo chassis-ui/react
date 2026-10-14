@@ -4516,7 +4516,9 @@ interface SelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'size
   options?: SelectOptionDef[] | string[];
   /**
    * Renders a disabled placeholder option as the first item (e.g. `"Select a country…"`).
-   * The option has an empty value so it is not selectable once another option is chosen.
+   * The option has an empty value so it is not selectable once another option is chosen. A
+   * single select with no `value`, `defaultValue` or `selected` option starts on it, so its value
+   * is `''` and a `required` one holds its form back until an option is chosen.
    */
   placeholder?: string;
   /**
@@ -5257,7 +5259,8 @@ type NavbarOwnProps<C extends ElementType> = {
    */
   component?: C;
   /**
-   * Defines optional container wrapping children elements.
+   * Wraps the children in a `.container`, as `Container` renders one: `true` for the default,
+   * `'fluid'` for one as wide as the navbar, or a breakpoint for one that is fluid until it.
    */
   container?: '2xl' | 'fluid' | 'lg' | 'md' | 'sm' | 'xl' | boolean;
   /**

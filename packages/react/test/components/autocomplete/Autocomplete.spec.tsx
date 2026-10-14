@@ -160,6 +160,71 @@ describe('Autocomplete', () => {
     })
   })
 
+  // The search field held the selected option's text: react-stately's combobox treats its input
+  // as the value's text. After choosing Banana, reopening showed "Banana" in the field, what was
+  // typed was appended to it so nothing matched, and emptying the field cleared the selection.
+  describe('the search field is a query', () => {
+    test('it is empty when the list opens again after a selection', async () => {
+      const user = userEvent.setup()
+      render(<BasicAutocomplete />)
+      await user.click(screen.getByRole('button'))
+      await user.click(screen.getByRole('option', { name: 'Banana' }))
+      await user.click(screen.getByRole('button'))
+
+      expect(screen.getByRole('combobox')).toHaveValue('')
+      await user.keyboard('app')
+      expect(screen.getByRole('option', { name: 'Apple' })).toBeInTheDocument()
+      expect(screen.queryByRole('option', { name: 'Banana' })).not.toBeInTheDocument()
+    })
+
+    test('emptying it leaves the selection alone', async () => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      render(<BasicAutocomplete onChange={onChange} />)
+      await user.click(screen.getByRole('button'))
+      await user.click(screen.getByRole('option', { name: 'Banana' }))
+      await user.click(screen.getByRole('button'))
+      await user.keyboard('ba')
+      await user.clear(screen.getByRole('combobox'))
+      await user.keyboard('{Escape}')
+
+      expect(onChange.mock.calls).toEqual([['banana']])
+      expect(screen.getByRole('button')).toHaveTextContent('Banana')
+    })
+
+    test('what was typed is gone once the list closes', async () => {
+      const user = userEvent.setup()
+      render(<BasicAutocomplete />)
+      await user.click(screen.getByRole('button'))
+      await user.keyboard('ban')
+      await user.keyboard('{Escape}')
+      await user.click(screen.getByRole('button'))
+
+      expect(screen.getByRole('combobox')).toHaveValue('')
+      expect(screen.getByRole('option', { name: 'Apple' })).toBeInTheDocument()
+    })
+  })
+
+  // `value={null}` was read as no `value` at all, so the selection went uncontrolled and a parent
+  // could not clear the toggle.
+  test('a controlled value of null clears the selection', () => {
+    const { rerender } = render(<BasicAutocomplete placeholder="Pick one" value="apple" />)
+    expect(screen.getByRole('button')).toHaveTextContent('Apple')
+
+    rerender(<BasicAutocomplete placeholder="Pick one" value={null} />)
+    expect(screen.getByRole('button')).toHaveTextContent('Pick one')
+  })
+
+  test('a selection under value={null} waits for the parent', () => {
+    const onChange = vi.fn()
+    render(<BasicAutocomplete onChange={onChange} placeholder="Pick one" value={null} />)
+    openMenu()
+    fireEvent.click(screen.getByRole('option', { name: 'Banana' }))
+
+    expect(onChange).toHaveBeenCalledWith('banana')
+    expect(screen.getByRole('button')).toHaveTextContent('Pick one')
+  })
+
   describe('multi-select behavior', () => {
     const MultiAutocomplete = (props: Partial<React.ComponentProps<typeof Autocomplete>> = {}) => (
       <Autocomplete aria-label="Fruit" multiple {...props}>

@@ -20,6 +20,15 @@ describe('BreadcrumbItem', () => {
       expect(screen.getByRole('listitem')).toHaveClass('breadcrumb-item')
     })
 
+    // An empty `href` is set (a link to the current document), and rendered no link.
+    test('wraps children in a link when href is an empty string', () => {
+      render(<BreadcrumbItem href="">Test</BreadcrumbItem>)
+      // Not by role: aria-query maps only a non-empty `href` to the link role.
+      const link = screen.getByText('Test')
+      expect(link.tagName).toBe('A')
+      expect(link).toHaveAttribute('href', '')
+    })
+
     test('applies active class and aria-current on the li', () => {
       render(
         <BreadcrumbItem active={true} className="bazinga">

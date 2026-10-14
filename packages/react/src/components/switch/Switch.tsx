@@ -267,9 +267,8 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
       checked: isSelected,
       defaultChecked: defaultSelected,
       disabled,
-      onChange: onChange
-        ? (event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.checked)
-        : undefined,
+      // Always a handler: React takes a `checked` input with none for a mistake and warns.
+      onChange: (event: React.ChangeEvent<HTMLInputElement>) => onChange?.(event.target.checked),
       role: 'switch' as const,
       type: 'radio' as const
     }

@@ -282,9 +282,9 @@ export const RangeCalendar = forwardRef<HTMLDivElement, RangeCalendarProps>(
             {resolvedPresets && (
               <DateRangePresets
                 disabled={state.isDisabled}
-                isSelectable={(preset) => Boolean(presetRanges.get(preset))}
                 onSelect={handlePresetSelect}
                 presets={resolvedPresets}
+                rangeOf={(preset) => presetRanges.get(preset) ?? null}
                 value={state.value}
               />
             )}
@@ -420,16 +420,17 @@ const CalendarCell = ({
 
 interface DateRangePresetsProps {
   disabled: boolean
-  // Whether the grid could select a preset's range (`normalizePresetRange`). One it couldn't is
-  // disabled, as the cells of its days are.
-  isSelectable: (preset: DateRangePreset) => boolean
   onSelect: (preset: DateRangePreset) => void
   presets: DateRangePreset[]
+  // A preset's range as the grid would select it (`normalizePresetRange`), or `null` where it
+  // couldn't: that preset is disabled, as the cells of its days are.
+  rangeOf: (preset: DateRangePreset) => RangeValue<DateValue> | null
   value: RangeValue<DateValue> | null
 }
 
-// A preset "matches" the current selection when both endpoints land on the same day — the same
-// granularity `CalendarCell` already uses to compare dates, so a preset stays marked selected
+// A preset "matches" the current selection when both endpoints of the range it selects land on
+// the same day, the range as clamped to `minValue`/`maxValue` and put in order, not as given: the
+// same granularity `CalendarCell` already uses to compare dates, so a preset stays marked selected
 // regardless of whether `value` is a `CalendarDate`, `CalendarDateTime`, or `ZonedDateTime`.
 const isSameRange = (a: RangeValue<DateValue>, b: RangeValue<DateValue>) =>
   isSameDay(a.start, b.start) && isSameDay(a.end, b.end)
@@ -439,21 +440,22 @@ const isSameRange = (a: RangeValue<DateValue>, b: RangeValue<DateValue>) =>
 // interaction model without extra roving-tabindex/arrow-key wiring.
 const DateRangePresets = ({
   disabled,
-  isSelectable,
   onSelect,
   presets,
+  rangeOf,
   value
 }: DateRangePresetsProps) => (
   <ul className="datepicker-presets">
     {presets.map((preset) => {
-      const isSelected = Boolean(value && isSameRange(value, preset.range))
+      const range = rangeOf(preset)
+      const isSelected = Boolean(value && range && isSameRange(value, range))
 
       return (
         <li key={preset.label}>
           <button
             aria-current={isSelected ? 'true' : undefined}
             className={classNames('datepicker-preset', { selected: isSelected })}
-            disabled={disabled || !isSelectable(preset)}
+            disabled={disabled || !range}
             onClick={() => onSelect(preset)}
             type="button"
           >

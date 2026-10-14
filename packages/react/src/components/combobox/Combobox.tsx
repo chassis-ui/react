@@ -3,7 +3,6 @@ import React, {
   HTMLAttributes,
   InputHTMLAttributes,
   ReactNode,
-  useEffect,
   useId,
   useMemo,
   useRef
@@ -17,6 +16,7 @@ import {
   useForkedRef,
   useFormField,
   useHeldBack,
+  useIsomorphicLayoutEffect,
   useOverlayMaxHeight
 } from '../../hooks'
 import { useHydrated } from '../../hooks/useHydrated'
@@ -143,7 +143,7 @@ export interface ComboboxProps extends Omit<
   value?: Key | null
 }
 
-// See `unselectedText`.
+// See `unselected`.
 const UNSELECTED_TEXT_MESSAGE = 'Select an option from the list.'
 
 export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
@@ -208,6 +208,27 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const forkedWrapperRef = useForkedRef(ref, wrapperRef)
     const inputRef = useRef<HTMLInputElement>(null)
     const listBoxRef = useRef<HTMLElement>(null)
+
+    // `required` asks for what the form submits under `name`: the selected option's id, not the
+    // text in the input. The native attribute on the input covers an empty one, and the two agree
+    // nearly always, since react-stately puts the selection's text back, none without one, when
+    // the list closes: on blur, Enter and Escape. Not while the user is still typing, though, and
+    // a form submitted then (a shortcut or a timer that calls `requestSubmit()`) would go with
+    // text in the input and nothing under `name`. A custom validity covers that: with nothing
+    // selected the input is invalid whatever its text. The message is never shown: react-aria
+    // cancels the input's `invalid` event, which keeps a browser's bubble away, and focuses the
+    // input instead.
+    //
+    // Set after each render, as the input may be a new one, in a layout effect declared before
+    // `useHeldBack`, whose own layout effect reads the validity after each render, and for an
+    // empty input too: the hook's `input` listener reads
+    // it before the render a keystroke causes, where the first character typed would have made
+    // an empty input valid.
+    const unselected = Boolean(required) && state.value == null
+    useIsomorphicLayoutEffect(() => {
+      inputRef.current?.setCustomValidity(unselected ? UNSELECTED_TEXT_MESSAGE : '')
+    })
+
     // Shown as invalid from a submit it held back until it no longer would (`useHeldBack`):
     // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
     const { invalid } = useHeldBack(inputRef, { invalid: invalidProp, valid })
@@ -241,19 +262,6 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       },
       state
     )
-
-    // `required` asks for what the form submits under `name`: the selected option's id, not the
-    // text in the input. The native attribute on the input covers an empty one, and the two agree
-    // nearly always, since react-stately puts the selection's text back, none without one, when
-    // the list closes: on blur, Enter and Escape. Not while the user is still typing, though, and
-    // a form submitted then (a shortcut or a timer that calls `requestSubmit()`) would go with
-    // text in the input and nothing under `name`. A custom validity covers that: text with no
-    // selection is invalid too. The message is never shown: react-aria cancels the input's
-    // `invalid` event, which keeps a browser's bubble away, and focuses the input instead.
-    const unselectedText = Boolean(required) && state.value == null && state.inputValue !== ''
-    useEffect(() => {
-      inputRef.current?.setCustomValidity(unselectedText ? UNSELECTED_TEXT_MESSAGE : '')
-    }, [unselectedText])
 
     const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
       targetRef: wrapperRef,

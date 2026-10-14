@@ -720,6 +720,29 @@ describe('RangeCalendar', () => {
         })
       })
 
+      // The selection was compared with the preset as given, so one the limits clamped, or one
+      // given in reverse, never showed as the selected preset once chosen.
+      test.each([
+        [
+          'clamped to minValue and maxValue',
+          presetOf(new CalendarDate(2026, 7, 1), new CalendarDate(2026, 7, 31))
+        ],
+        ['given in reverse', presetOf(new CalendarDate(2026, 7, 20), new CalendarDate(2026, 7, 10))]
+      ])('shows a preset %s as selected once chosen', (_case, presets) => {
+        render(
+          <RangeCalendar
+            aria-label="Trip dates"
+            maxValue={new CalendarDate(2026, 7, 20)}
+            minValue={new CalendarDate(2026, 7, 10)}
+            presets={presets}
+          />
+        )
+        selectPreset()
+        const preset = screen.getByRole('button', { name: 'Preset' })
+        expect(preset).toHaveClass('selected')
+        expect(preset).toHaveAttribute('aria-current', 'true')
+      })
+
       test('disables a preset with no day inside minValue and maxValue', () => {
         const onChange = vi.fn()
         render(

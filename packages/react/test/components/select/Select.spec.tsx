@@ -95,6 +95,63 @@ describe('Select', () => {
       expect(placeholderOption).toHaveValue('')
     })
 
+    // Nothing selected the placeholder, so the browser showed the first enabled option: it was the
+    // select's value, and a required select passed validation with nothing chosen.
+    test('starts on the placeholder when nothing else is chosen', () => {
+      render(
+        <form aria-label="Order">
+          <Select aria-label="Language" placeholder="Pick one" options={['js', 'html']} required />
+        </form>
+      )
+      const select = screen.getByRole<HTMLSelectElement>('combobox', { name: 'Language' })
+      expect(select).toHaveValue('')
+      expect(screen.getByRole('option', { name: 'Pick one' })).toHaveProperty('selected', true)
+      expect(screen.getByRole<HTMLFormElement>('form', { name: 'Order' }).checkValidity()).toBe(
+        false
+      )
+    })
+
+    test('a placeholder leaves a given value, defaultValue or selected option alone', () => {
+      render(
+        <>
+          <Select
+            aria-label="Value"
+            onChange={() => undefined}
+            placeholder="Pick one"
+            options={['js', 'html']}
+            value="html"
+          />
+          <Select
+            aria-label="Default"
+            placeholder="Pick one"
+            options={['js', 'html']}
+            defaultValue="html"
+          />
+          <Select
+            aria-label="Selected"
+            placeholder="Pick one"
+            options={[{ value: 'js' }, { value: 'html', selected: true }]}
+          />
+        </>
+      )
+      expect(screen.getByRole('combobox', { name: 'Value' })).toHaveValue('html')
+      expect(screen.getByRole('combobox', { name: 'Default' })).toHaveValue('html')
+      expect(screen.getByRole('combobox', { name: 'Selected' })).toHaveValue('html')
+    })
+
+    // The default was read from `value` alone, while an option with no `value` renders with its
+    // label as its value, so the option was never found.
+    test('selects a `selected` option that has a label and no value', () => {
+      render(
+        <Select
+          aria-label="Language"
+          options={[{ label: 'JavaScript' }, { label: 'HTML', selected: true }]}
+        />
+      )
+      expect(screen.getByRole('combobox', { name: 'Language' })).toHaveValue('HTML')
+      expect(screen.getByRole('option', { name: 'HTML' })).toHaveProperty('selected', true)
+    })
+
     test('renders an option with `selected` as selected by default', () => {
       render(
         <Select

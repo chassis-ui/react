@@ -22,7 +22,8 @@ type NavbarOwnProps<C extends ElementType> = {
    */
   component?: C
   /**
-   * Defines optional container wrapping children elements.
+   * Wraps the children in a `.container`, as `Container` renders one: `true` for the default,
+   * `'fluid'` for one as wide as the navbar, or a breakpoint for one that is fluid until it.
    */
   container?: boolean | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'fluid'
   /**
@@ -93,7 +94,14 @@ function NavbarRender<C extends ElementType = 'nav'>(
   let content
   if (container) {
     content = (
-      <div className={`container${container !== true ? '-' + container : ''}`}>{children}</div>
+      <div
+        className={classNames(
+          'container',
+          container === 'fluid' ? 'fluid' : container !== true && container
+        )}
+      >
+        {children}
+      </div>
     )
   } else {
     content = children

@@ -10,6 +10,7 @@ interface OtpBoxProps {
   invalid?: boolean
   mask?: boolean
   onChangeValue: (value: string) => void
+  onFocusBox: () => void
   onKeyDownBox: (event: KeyboardEvent<HTMLInputElement>) => void
   onPasteBox: (event: ClipboardEvent<HTMLInputElement>) => void
   required?: boolean
@@ -26,6 +27,7 @@ export const OtpBox = forwardRef(
       invalid,
       mask,
       onChangeValue,
+      onFocusBox,
       onKeyDownBox,
       onPasteBox,
       required,
@@ -48,8 +50,13 @@ export const OtpBox = forwardRef(
         isInvalid: invalid,
         isRequired: required,
         maxLength: 1,
-        onChange: onChangeValue,
-        onFocus: (event) => (event.target as HTMLInputElement).select(),
+        // No `onChange` here: react-aria resets each box to its first value on a form reset and
+        // reports it there, and each box then wrote itself into the same code. `OtpInput` resets
+        // the whole code once; the input's own `onChange` below reports what is typed.
+        onFocus: (event) => {
+          ;(event.target as HTMLInputElement).select()
+          onFocusBox()
+        },
         onKeyDown: onKeyDownBox,
         type: mask ? 'password' : 'text',
         value
@@ -68,6 +75,7 @@ export const OtpBox = forwardRef(
         className={classNames('form-input', size, validationClassName(invalid, valid))}
         data-focus-visible={isFocusVisible || undefined}
         inputMode="numeric"
+        onChange={(event) => onChangeValue(event.target.value)}
         onPaste={onPasteBox}
         pattern="\d*"
         ref={ref}

@@ -44,6 +44,8 @@ interface Field {
   marked: () => HTMLElement
   /** Gives the field a value, as a user does. */
   fill: (user: UserEvent) => Promise<void>
+  /** Types what isn't a value yet, for a field whose text isn't its value. */
+  begin?: (user: UserEvent) => Promise<void>
   /**
    * Why the case can't check what follows a value, where jsdom can't give the field one a form
    * sees.
@@ -92,6 +94,7 @@ const fields: Field[] = [
       </Combobox>
     ),
     marked: () => screen.getByRole('combobox', { name: 'Fruit' }),
+    begin: (user) => user.type(screen.getByRole('combobox', { name: 'Fruit' }), 'Pe'),
     fill: async (user) => {
       await user.click(screen.getByRole('combobox', { name: 'Fruit' }))
       await user.click(await screen.findByRole('option', { name: 'Pear' }))
@@ -112,6 +115,7 @@ const fields: Field[] = [
     feedback: { invalidFeedback: FEEDBACK },
     ui: (props) => <ChipInput label="Tags" name="field" required {...props} />,
     marked: () => screen.getByRole('textbox', { name: 'Tags' }),
+    begin: (user) => user.type(screen.getByRole('textbox', { name: 'Tags' }), 'ne'),
     fill: (user) => user.type(screen.getByRole('textbox', { name: 'Tags' }), 'new{Enter}')
   },
   {
@@ -255,6 +259,23 @@ describe.each(fields)(
       expect(onSubmit).not.toHaveBeenCalled()
       expect(marked()).not.toHaveAttribute('aria-invalid')
       expect(screen.queryByText(FEEDBACK)).not.toBeInTheDocument()
+    })
+  }
+)
+
+// The custom validity that says typed text isn't a value was set after the hook had read the
+// input's validity: the first character typed into the empty field cleared the mark.
+describe.each(fields.filter((field) => field.begin))(
+  '$name, held back by a submit, while what is typed is not a value',
+  ({ begin, feedback, marked, ui }) => {
+    test('stays invalid', async () => {
+      const user = userEvent.setup()
+      render(<Order onSubmit={() => undefined}>{ui({ ...feedback })}</Order>)
+
+      await user.click(save())
+      await begin!(user)
+      expect(marked()).toHaveAttribute('aria-invalid', 'true')
+      if (feedback) expect(screen.getByText(FEEDBACK)).toBeVisible()
     })
   }
 )

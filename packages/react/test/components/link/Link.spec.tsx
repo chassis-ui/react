@@ -60,6 +60,16 @@ describe('Link', () => {
       expect(screen.getByRole('link')).toHaveAttribute('aria-current', 'page')
     })
 
+    // `active` wrote "page" over it.
+    test("keeps the caller's own aria-current when active", () => {
+      render(
+        <Link active aria-current="step" href="/shipping">
+          Shipping
+        </Link>
+      )
+      expect(screen.getByRole('link', { name: 'Shipping' })).toHaveAttribute('aria-current', 'step')
+    })
+
     test('marks a disabled anchor as aria-disabled and removes it from tab order', () => {
       render(
         <Link href="/bazinga" disabled>

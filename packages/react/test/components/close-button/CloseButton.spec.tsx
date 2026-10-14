@@ -129,6 +129,15 @@ describe('CloseButton', () => {
       const button = screen.getByRole('button', { name: 'Close' })
       expect(button.tagName).toBe('BUTTON')
     })
+
+    // `type` was taken from the props and given to no element.
+    test('a component reference gets a type it is given', () => {
+      const Custom = React.forwardRef<HTMLButtonElement>((props, ref) => (
+        <button type="button" ref={ref} {...props} />
+      ))
+      render(<CloseButton component={Custom} type="reset" />)
+      expect(screen.getByRole('button', { name: 'Close' })).toHaveAttribute('type', 'reset')
+    })
   })
 
   describe('component="a"', () => {

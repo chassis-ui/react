@@ -247,6 +247,23 @@ describe('Carousel', () => {
     })
   })
 
+  // The layout effect wrote the position over a slide's own `aria-label`.
+  test("keeps a slide's own aria-label", () => {
+    render(
+      <Carousel>
+        <CarouselControlNext />
+        <CarouselInner>
+          <CarouselItem aria-label="Sunrise">Item-1</CarouselItem>
+          <CarouselItem>Item-2</CarouselItem>
+        </CarouselInner>
+      </Carousel>
+    )
+    expect(screen.getByRole('group', { name: 'Sunrise' })).toHaveTextContent('Item-1')
+    fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+    expect(screen.getByRole('group', { name: 'Sunrise' })).toHaveTextContent('Item-1')
+    expect(screen.getByRole('group', { name: '2 of 2' })).toHaveTextContent('Item-2')
+  })
+
   describe('live region announcements', () => {
     test('announces the newly active slide but stays silent on initial mount', async () => {
       render(<ThreeItemCarousel defaultActiveIndex={1} />)
@@ -956,6 +973,125 @@ describe('Carousel', () => {
         vi.useRealTimers()
         uninstallGeometry()
       }
+    })
+  })
+
+  // The canceller of the loop's animation was dropped, so an unmount mid-loop left its frame and
+  // its safety timer running, and `onSlid` of a controlled carousel fired when the loop began.
+  describe('a loop transition in flight', () => {
+    test('an unmount cancels its animation', () => {
+      const uninstallGeometry = installCarouselGeometry()
+      vi.useFakeTimers()
+      try {
+        const { unmount } = render(<ThreeItemCarousel defaultActiveIndex={2} />)
+        act(() => vi.runAllTimers())
+        fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+        // eslint-disable-next-line testing-library/no-node-access
+        expect(document.querySelectorAll('.carousel-item-clone')).toHaveLength(1)
+
+        unmount()
+        expect(vi.getTimerCount()).toBe(0)
+      } finally {
+        vi.useRealTimers()
+        uninstallGeometry()
+      }
+    })
+
+    test('a controlled carousel fires onSlid once the loop has arrived', async () => {
+      const uninstallGeometry = installCarouselGeometry()
+      vi.useFakeTimers()
+      const onSlid = vi.fn()
+      function Controlled() {
+        const [activeIndex, setActiveIndex] = React.useState(2)
+        return (
+          <ThreeItemCarousel
+            activeIndex={activeIndex}
+            onSlid={onSlid}
+            onSlide={({ to }) => setActiveIndex(to)}
+          />
+        )
+      }
+      try {
+        render(<Controlled />)
+        act(() => vi.runAllTimers())
+
+        fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+        // The parent has followed while the loop runs. The clone it scrolls to is hidden.
+        expect(screen.getByRole('group', { name: '1 of 3' })).toHaveClass('active')
+        expect(onSlid).not.toHaveBeenCalled()
+
+        await act(async () => {
+          vi.runAllTimers()
+          await Promise.resolve()
+        })
+        expect(onSlid.mock.calls).toEqual([[{ direction: 'left', from: 2, to: 0 }]])
+      } finally {
+        vi.useRealTimers()
+        uninstallGeometry()
+      }
+    })
+
+    test('an uncontrolled carousel fires onSlid once the loop has arrived', async () => {
+      const uninstallGeometry = installCarouselGeometry()
+      vi.useFakeTimers()
+      const onSlid = vi.fn()
+      try {
+        render(<ThreeItemCarousel defaultActiveIndex={2} onSlid={onSlid} />)
+        act(() => vi.runAllTimers())
+
+        fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+        expect(onSlid).not.toHaveBeenCalled()
+
+        await act(async () => {
+          vi.runAllTimers()
+          await Promise.resolve()
+        })
+        expect(onSlid.mock.calls).toEqual([[{ direction: 'left', from: 2, to: 0 }]])
+      } finally {
+        vi.useRealTimers()
+        uninstallGeometry()
+      }
+    })
+  })
+
+  // With fewer slides than the active index needed, no slide was active, Next was disabled and
+  // Prev did nothing under `ends="stop"`.
+  describe('slides taken away from under the active one', () => {
+    const Slides = ({
+      count,
+      ...props
+    }: { count: number } & Partial<React.ComponentProps<typeof Carousel>>) => (
+      <Carousel ends="stop" {...props}>
+        <CarouselControlPrev />
+        <CarouselControlNext />
+        <CarouselInner>
+          {Array.from({ length: count }, (_, index) => (
+            <CarouselItem key={index}>{`Item-${index + 1}`}</CarouselItem>
+          ))}
+        </CarouselInner>
+      </Carousel>
+    )
+
+    test('the last slide there is becomes the active one', async () => {
+      const onSlide = vi.fn()
+      const { rerender } = render(<Slides count={5} defaultActiveIndex={4} onSlide={onSlide} />)
+      rerender(<Slides count={3} defaultActiveIndex={4} onSlide={onSlide} />)
+
+      await waitFor(() => expect(screen.getByText('Item-3')).toHaveClass('active'))
+      expect(onSlide).toHaveBeenCalledWith({ direction: 'right', from: 4, to: 2 })
+      expect(screen.getByRole('button', { name: 'Next slide' })).toBeDisabled()
+      fireEvent.click(screen.getByRole('button', { name: 'Previous slide' }))
+      expect(screen.getByText('Item-2')).toHaveClass('active')
+    })
+
+    test('a controlled carousel asks for it through onSlide', async () => {
+      const onSlide = vi.fn()
+      const { rerender } = render(<Slides activeIndex={4} count={5} onSlide={onSlide} />)
+      rerender(<Slides activeIndex={4} count={3} onSlide={onSlide} />)
+
+      await waitFor(() =>
+        expect(onSlide).toHaveBeenCalledWith({ direction: 'right', from: 4, to: 2 })
+      )
     })
   })
 

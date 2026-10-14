@@ -94,12 +94,13 @@ function CloseButtonRender<C extends ElementType = 'button'>(
     label,
     onClick,
     size,
-    type = 'button',
+    type: typeProp,
     variant,
     ...rest
   }: CloseButtonProps<C>,
   ref: PolymorphicRef<C>
 ) {
+  const type = typeProp ?? 'button'
   // `href` makes it an `<a>`, unless `component` or `asChild` chose the element (see
   // `linkElement`). It used to be dropped unless `component="a"` was passed as well.
   const component_ = linkElement(component, href, 'button')
@@ -203,7 +204,18 @@ function CloseButtonRender<C extends ElementType = 'button'>(
       className={_className}
       aria-label={_label}
       {...(isComponentReference
-        ? ({ color, size, variant, disabled, onClick, ...rest } as Record<string, unknown>)
+        ? // A `type` given reaches the component too, as `Button` passes it: it was taken here
+          // and dropped. The default `'button'` doesn't, as nothing says the component renders
+          // a button.
+          ({
+            color,
+            size,
+            variant,
+            disabled,
+            onClick,
+            ...(typeProp !== undefined && { type: typeProp }),
+            ...rest
+          } as Record<string, unknown>)
         : (mergeProps(rest, buttonProps) as Record<string, unknown>))}
       {...linkProps}
       ref={isComponentReference ? ref : forkedRef}

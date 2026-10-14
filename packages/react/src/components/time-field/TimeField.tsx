@@ -6,6 +6,7 @@ import { useTimeFieldState } from 'react-stately'
 import { useForkedRef, useFormField, useRequiredValueInput } from '../../hooks'
 import { withoutSlotIds } from '../../utils/idRefs'
 import { validationClassName } from '../../utils/validationClassName'
+import { focusFirstSegment } from '../datepicker/DateField'
 import { DateSegment } from '../datepicker/DateSegment'
 import { renderFormField } from '../form-field/renderFormField'
 
@@ -182,11 +183,13 @@ export const TimeField = forwardRef<HTMLDivElement, TimeFieldProps>(
     // `validationBehavior: 'native'`. That behavior isn't turned on: it also holds a form back
     // for `invalid` and for a time outside `minValue`/`maxValue`, and shows the latter on blur
     // where it shows as typed now. The browser has no bubble to show on an input that isn't
-    // displayed: react-aria's listener on `inputRef` focuses the first segment in its place, and
-    // `missing` marks the field invalid, as `invalid` does, until it has a value. A disabled
-    // input isn't validated, and a read-only field can't be filled in, so it keeps the hidden
-    // one.
+    // displayed: the first segment takes focus in its place, and `missing` marks the field
+    // invalid, as `invalid` does, until it has a value. react-aria's listener on `inputRef` focuses
+    // it too, but only the input it was first given: one that `renderFormField` mounts anew, once
+    // a `label` or `help` comes, is never heard by it. A disabled input isn't validated, and a
+    // read-only field can't be filled in, so it keeps the hidden one.
     const { inputProps: requiredInputProps, missing } = useRequiredValueInput(inputRef, {
+      focus: () => focusFirstSegment(fieldRef.current),
       invalid,
       required: required && !readOnly,
       valid
