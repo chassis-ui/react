@@ -10,6 +10,22 @@ import { withThemeByDataAttribute } from '@storybook/addon-themes'
 // depends on a build having already run (see git history for why that's a real problem, not just
 // a style nit).
 import '@chassis-ui/css/dist/css/chassis.min.css'
+import iconSprite from '@chassis-ui/icons/icons/chassis-icons.svg?raw'
+
+// `Icon` references a sprite embedded in the page by default (`<use href="#name">`), the way the
+// docs site and a consumer's page work, so Storybook embeds `@chassis-ui/icons`' sprite once,
+// hidden, at the top of `<body>`. Without it every sprite icon renders as an empty box, and no
+// screenshot could catch an icon regression. Done here rather than in `preview-body.html`, which
+// the vitest `storybook` project never loads; the id keeps a hot reload from adding a second copy.
+// The server render sweep (`test/ssr/`) imports this file with no `document`.
+if (typeof document !== 'undefined' && !document.getElementById('cx-icon-sprite')) {
+  const holder = document.createElement('div')
+  holder.id = 'cx-icon-sprite'
+  holder.setAttribute('aria-hidden', 'true')
+  holder.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden'
+  holder.innerHTML = iconSprite
+  document.body.prepend(holder)
+}
 
 const preview: Preview = {
   tags: ['autodocs'],
