@@ -106,6 +106,8 @@ export const useHeldBack = (
   { enabled = true, focus, invalid, valid }: UseHeldBackOptions
 ): UseHeldBackResult => {
   const validated = useContext(FormValidatedContext)
+  const validatedRef = useRef(validated)
+  validatedRef.current = validated
   const [blocked, setBlocked] = useState(false)
   // Read only while the form is `validated`.
   const [validity, setValidity] = useState<Validity>('none')
@@ -144,23 +146,30 @@ export const useHeldBack = (
     const onReset = () => setBlocked(false)
     // A native control that keeps its own value (a `Select` with no `value`, a `FileInput`)
     // changes with no render to follow, and the effect below would never look again.
-    const onEdit = () => {
+    //
+    // Heard on the window, after React's own listener on its root. For a real keystroke the
+    // browser runs the render a listener asks for before the next listener: a render asked for
+    // on the control itself ran before React had read the edit, wrote the old value back, and an
+    // empty field lost the first character typed into it.
+    const view = target.ownerDocument.defaultView
+    const onEdit = (event: Event) => {
+      if (!(event.target instanceof Node) || !target.contains(event.target)) return
       const next = validityOf(target)
       if (next !== 'invalid') setBlocked(false)
-      setValidity(next)
+      if (validatedRef.current) setValidity(next)
     }
     const capture = !isControl(target)
 
     target.addEventListener('invalid', onInvalid, capture)
-    target.addEventListener('input', onEdit)
-    target.addEventListener('change', onEdit)
+    view?.addEventListener('input', onEdit)
+    view?.addEventListener('change', onEdit)
     form?.addEventListener('reset', onReset)
     listening.current = {
       form,
       stop: () => {
         target.removeEventListener('invalid', onInvalid, capture)
-        target.removeEventListener('input', onEdit)
-        target.removeEventListener('change', onEdit)
+        view?.removeEventListener('input', onEdit)
+        view?.removeEventListener('change', onEdit)
         form?.removeEventListener('reset', onReset)
       },
       target

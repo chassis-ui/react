@@ -114,7 +114,9 @@ export default defineConfig([
   {
     plugins: testingLibraryPlugin.configs['flat/react'].plugins,
     rules: testingLibraryWarnRules,
-    files: ['**/*.spec.ts', '**/*.spec.tsx']
+    files: ['**/*.spec.ts', '**/*.spec.tsx'],
+    // Playwright specs: `page.getByRole` is Playwright's own locator, not a query of a render.
+    ignores: ['packages/react/test/visual/**', 'packages/react/test/keyboard/**']
   }, // Enterprise migration (see .claude/plans/chassis-react-enterprise-migration.md, Phase 0/1):
   // `Cx`-prefixed identifiers were dropped from packages/react/src by a scripted rename (~870
   // occurrences); this guards against reintroducing the prefix. Neither this nor the rule below

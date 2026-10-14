@@ -6,6 +6,9 @@ import { defineConfig, devices } from '@playwright/test'
 // Storybook is a separate, prior step (the `test:visual` script: `build-storybook && playwright
 // test`), not something this config's `webServer` does. `webServer` here only serves the
 // already-built output.
+//
+// The `keyboard` projects run test/keyboard/ against the same build: real key events into its
+// fields, in the three engines the story tests run in (RD25). They take no screenshots.
 export default defineConfig({
   testDir: './test/visual',
   fullyParallel: true,
@@ -35,5 +38,18 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 30_000
   },
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }]
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    {
+      name: 'keyboard (chromium)',
+      testDir: './test/keyboard',
+      use: { ...devices['Desktop Chrome'] }
+    },
+    {
+      name: 'keyboard (firefox)',
+      testDir: './test/keyboard',
+      use: { ...devices['Desktop Firefox'] }
+    },
+    { name: 'keyboard (webkit)', testDir: './test/keyboard', use: { ...devices['Desktop Safari'] } }
+  ]
 })

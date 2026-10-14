@@ -245,6 +245,8 @@ jobs:
   # drift that has nothing to do with a real regression (RD15). Regenerate baselines with
   # `pnpm --filter @chassis-ui/react test:visual:update:linux <spec>`, never on a contributor's
   # own OS: the `-chromium-darwin.png` baselines are for local runs only (RD14).
+  # The same run types with real key events into the built Storybook's fields (test/keyboard/,
+  # the `keyboard` Playwright projects), which `userEvent` in the other jobs can't stand in for (RD25).
   visual-regression:
     name: Visual Regression
     runs-on: ubuntu-latest

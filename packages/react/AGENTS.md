@@ -42,6 +42,11 @@ cite rows of [`DECISIONS.md`](../../DECISIONS.md), which holds the history behin
   `play` function in Chromium, Firefox and WebKit (once:
   `pnpm exec playwright install chromium firefox webkit`). Filter with `--project=storybook`,
   `--project='!storybook'` or `--project='storybook (webkit)'`.
+- `test/keyboard/` types with real key events (Playwright's `page.keyboard`) into the fields of
+  the built Storybook, in the three engines, as part of `pnpm test:visual`. `userEvent` dispatches
+  from JavaScript, and the browser then runs no render between one listener and the next: a
+  field that loses a keystroke passes every other test (RD25). Never update a field's state from
+  an `input` or `change` listener on the control itself.
 - A story's `waitFor` and `findBy*` wait five seconds (`test/storyWaits.ts`). Don't pass a shorter
   `timeout` to a wait that follows a scroll, a transition or an overlay opening.
 - `test/types.test-d.tsx` holds type-level assertions, checked by `pnpm check:types` only. Add a
