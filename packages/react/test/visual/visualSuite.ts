@@ -38,21 +38,51 @@ function getStories(titlePrefixes: string[]): StoryIndexEntry[] {
  * `waitFor`, when given, runs after navigation and before the screenshot — for a family like
  * toast/notification whose settled state isn't reachable through `animations: 'disabled'` alone
  * (see toast-notification.visual.spec.ts for why).
+ *
+ * `viewports`, keyed by story id, sizes the page before navigation. A story's own
+ * `globals.viewport` sizes the Storybook vitest addon's browser, but not this suite's, which loads
+ * the story's iframe directly at the project's 1280×720.
  */
 export function runVisualRegressionSuite(
   describeName: string,
   titlePrefixes: string[],
-  options?: { waitFor?: (page: Page) => Promise<void> }
+  options?: {
+    waitFor?: (page: Page) => Promise<void>
+    viewports?: Record<string, { width: number; height: number }>
+  }
 ): void {
   const stories = getStories(titlePrefixes)
 
   test.describe(describeName, () => {
     for (const story of stories) {
       test(`${story.title} — ${story.name}`, async ({ page }) => {
+        const viewport = options?.viewports?.[story.id]
+        if (viewport) await page.setViewportSize(viewport)
         await page.goto(`/iframe.html?id=${story.id}&viewMode=story`)
         await options?.waitFor?.(page)
         await expect(page).toHaveScreenshot(`${story.id}.png`, { animations: 'disabled' })
       })
     }
   })
+}
+
+/**
+ * Waits until the story's render is finished, its `play` function included, then two animation
+ * frames. A story whose `play` function changes the page ends in the state it was written to
+ * leave, which a screenshot taken while it runs catches halfway; and a component that measures
+ * itself (`DataGrid`'s scroll cues, `NavOverflow`'s items) settles a frame or two after React's
+ * commit.
+ */
+export async function waitForStoryRender(page: Page): Promise<void> {
+  await page.waitForFunction(
+    () =>
+      (window as { __STORYBOOK_PREVIEW__?: { currentRender?: { phase?: string } } })
+        .__STORYBOOK_PREVIEW__?.currentRender?.phase === 'finished'
+  )
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+      })
+  )
 }

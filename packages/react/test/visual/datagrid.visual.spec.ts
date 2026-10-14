@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test'
 
-import { runVisualRegressionSuite } from './visualSuite'
+import { runVisualRegressionSuite, waitForStoryRender } from './visualSuite'
 
 // Scoped to DataGrid, the first family whose rendering is virtualizer-driven (react-aria-components'
 // Virtualizer computing row position/size at runtime, not CSS alone) — exactly the kind of thing a
@@ -34,16 +34,6 @@ import { runVisualRegressionSuite } from './visualSuite'
 runVisualRegressionSuite('datagrid visual regression', ['datagrid/'], {
   waitFor: async (page) => {
     await expect(page.locator('[role="grid"]')).toBeVisible()
-    await page.waitForFunction(
-      () =>
-        (window as { __STORYBOOK_PREVIEW__?: { currentRender?: { phase?: string } } })
-          .__STORYBOOK_PREVIEW__?.currentRender?.phase === 'finished'
-    )
-    await page.evaluate(
-      () =>
-        new Promise<void>((resolve) => {
-          requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
-        })
-    )
+    await waitForStoryRender(page)
   }
 })
