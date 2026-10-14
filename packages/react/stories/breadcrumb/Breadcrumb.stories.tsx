@@ -31,7 +31,7 @@ export const DataDriven: Story = {
 
 export const CustomDivider: Story = {
   render: () => (
-    <Breadcrumb style={{ '--cui-breadcrumb-divider': "'>'" } as React.CSSProperties}>
+    <Breadcrumb style={{ '--cx-breadcrumb-divider': "'>'" } as React.CSSProperties}>
       <BreadcrumbItem href="#">Home</BreadcrumbItem>
       <BreadcrumbItem active>Library</BreadcrumbItem>
     </Breadcrumb>

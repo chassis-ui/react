@@ -28,37 +28,46 @@ Pass an `items` array to render breadcrumbs from data. The last item is automati
 
 ## Dividers
 
-Dividers are added automatically in CSS through [`::before`](https://developer.mozilla.org/en-US/docs/Web/CSS/::before) and [`content`](https://developer.mozilla.org/en-US/docs/Web/CSS/content). Change them by setting the local `--cui-breadcrumb-divider` CSS custom property, or through the `$breadcrumb-divider` Sass variable — and `$breadcrumb-divider-flipped` for its RTL counterpart. The Sass variable is set as a fallback to the custom property by default, producing a global divider that can be overridden without recompiling CSS at any time.
+Dividers are added automatically in CSS through [`::before`](https://developer.mozilla.org/en-US/docs/Web/CSS/::before) and [`content`](https://developer.mozilla.org/en-US/docs/Web/CSS/content). Change them by setting the local `--cx-breadcrumb-divider` CSS custom property, or through the `$breadcrumb-divider` Sass variable. The Sass variable is set as a fallback to the custom property by default, producing a global divider that can be overridden without recompiling CSS at any time. `--cx-breadcrumb-divider-color` colors a text divider and `--cx-breadcrumb-divider-width` sets the width of the space it sits in.
 
 <Example>
   <DividerExample client:load />
 </Example>
 
-Modifying the divider via Sass requires the [quote](https://sass-lang.com/documentation/modules/string#quote) function to generate the quotes around a string. For example, to use `>` as the divider:
+Inside `dir="rtl"` the divider reads `--cx-breadcrumb-divider-rtl` instead, with the `$breadcrumb-divider-rtl` Sass variable as its fallback. That variable defaults to `$breadcrumb-divider`, so a directional divider such as `>` needs its mirrored counterpart set as well, or right-to-left pages show it pointing the wrong way.
+
+Modifying the divider via Sass requires the [`string.quote`](https://sass-lang.com/documentation/modules/string#quote) function to generate the quotes around a string. Pass the variables when loading chassis-css's configuration, as its [Sass customization](https://chassis-ui.com/css/docs/customize/sass/) guide describes. For example, to use `>` as the divider:
 
 ```scss
-$breadcrumb-divider: quote(">");
+@use "sass:string";
+@use "@chassis-ui/css/scss/config" with (
+  $breadcrumb-divider: string.quote(">"),
+  $breadcrumb-divider-rtl: string.quote("<")
+);
 ```
 
-An embedded SVG icon also works as a divider, applied via the CSS custom property or the Sass variable.
+An embedded SVG icon also works as a divider, applied via the CSS custom property or the Sass variable. The SVG is drawn as an image, so it can't inherit the text color: set its `fill` to a fixed color.
 
 <Example>
   <SvgDividerExample client:load />
 </Example>
 
 ```scss
-$breadcrumb-divider: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
-width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E");
+@use "@chassis-ui/css/scss/config" with (
+  $breadcrumb-divider: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%23888888'/%3E%3C/svg%3E")
+);
 ```
 
-Removing the divider entirely takes setting `--cui-breadcrumb-divider: '';` (an empty string still counts as a value for a CSS custom property), or setting the Sass variable to `$breadcrumb-divider: none;`.
+Removing the divider entirely takes setting `--cx-breadcrumb-divider: ''` (an empty string still counts as a value for a CSS custom property), or setting the Sass variable to `none`.
 
 <Example>
   <EmptyDividerExample client:load />
 </Example>
 
 ```scss
-$breadcrumb-divider: none;
+@use "@chassis-ui/css/scss/config" with (
+  $breadcrumb-divider: none
+);
 ```
 
 ## Accessibility
