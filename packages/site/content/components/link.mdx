@@ -1,6 +1,6 @@
 ---
 title: Link
-description: Renders a hyperlink or button-like control with context colors, an icon-aligned layout, and a stretched click target.
+description: Renders a hyperlink with context colors, an icon-aligned layout, and a stretched click target.
 toc: true
 ---
 
@@ -74,9 +74,10 @@ clickable through a single link.
 
 ## Root element
 
-Set `component` to render `<Link>` as a `<button>` instead of an anchor, for an action that
-doesn't navigate but should still look like a link (see [Icon](#icon) and the other style props
-above). `href` implies the default `<a>`.
+`<Link>` renders an anchor; `href` implies the default `<a>`. For an action that doesn't navigate
+but should look like a link, render a [`<Button variant="link">`]([[docsref:/components/button#link]])
+instead: chassis-css styles a link-looking button only as a button with the `link` variant, so a
+`<Link>` rendered as a `<button>` with `component` looks like the browser's own button.
 
 <Example>
   <ComponentExample client:load />
@@ -101,7 +102,7 @@ and navigation.
   <DisabledExample client:load />
 </Example>
 
-Rendered as `component="button"`, `disabled` uses the real `disabled` attribute, which blocks
+A `<Button variant="link">` with `disabled` uses the real `disabled` attribute, which blocks
 keyboard and pointer interaction on its own.
 
 <Example>

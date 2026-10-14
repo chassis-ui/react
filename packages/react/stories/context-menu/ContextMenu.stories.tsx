@@ -172,7 +172,7 @@ export const StackedSubmenu: Story = {
       <>
         Press Shift+F10 in this area.
         <MenuList aria-label="Actions for Report.pdf">
-          <MenuText className="text-muted">Report.pdf · 2.4 MB</MenuText>
+          <MenuText className="fg-subtle">Report.pdf · 2.4 MB</MenuText>
           <MenuItem>Open</MenuItem>
           <MenuSubmenu trigger="Share" stacked>
             <MenuSubmenuBack>Back</MenuSubmenuBack>
@@ -190,7 +190,7 @@ export const StackedSubmenu: Story = {
     region.focus()
     await userEvent.keyboard('{Shift>}{F10}{/Shift}')
     const text = await screen.findByText('Report.pdf · 2.4 MB')
-    await expect(text).toHaveClass('menu-text', 'text-muted')
+    await expect(text).toHaveClass('menu-text', 'fg-subtle')
     const menu = screen.getByRole('menu', { name: 'Actions for Report.pdf' })
 
     // Focus lands on the first item; the next one is the trigger, which Enter opens. The nested

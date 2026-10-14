@@ -209,8 +209,8 @@ export const Default: Story = {
           <Link href="#" disabled>
             Disabled
           </Link>
-          {/* No `component="button"` link: it gets no class, and chassis-css styles a bare
-              `<button>` as the browser's own, not as a link. */}
+          {/* No `component="button"` link: an action that should look like a link is a
+              `Button variant="link"`, shown above. */}
         </Row>
       </Section>
 

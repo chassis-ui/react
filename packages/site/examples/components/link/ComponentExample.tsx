@@ -1,12 +1,10 @@
-import { Link } from '@chassis-ui/react'
+import { Button, Link } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <>
       <Link href="#">Anchor</Link>
-      <Link component="button" type="button">
-        Button
-      </Link>
+      <Button variant="link">Button</Button>
     </>
   )
 }

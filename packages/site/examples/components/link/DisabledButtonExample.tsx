@@ -1,9 +1,9 @@
-import { Link } from '@chassis-ui/react'
+import { Button } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Link component="button" type="button" disabled>
+    <Button variant="link" disabled>
       Disabled button
-    </Link>
+    </Button>
   )
 }

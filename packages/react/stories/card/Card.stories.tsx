@@ -69,13 +69,13 @@ export const HeaderAndFooter: Story = {
             Go somewhere
           </Button>
         </CardBody>
-        <CardFooter className="text-muted">2 days ago</CardFooter>
+        <CardFooter className="fg-subtle">2 days ago</CardFooter>
       </>
     )
   },
   play: async function ({ canvas }) {
     await expect(canvas.getByText('Featured')).toHaveClass('card-header')
-    await expect(canvas.getByText('2 days ago')).toHaveClass('card-footer', 'text-muted')
+    await expect(canvas.getByText('2 days ago')).toHaveClass('card-footer', 'fg-subtle')
     await expect(canvas.getByRole('heading', { name: 'Special title treatment' })).toBeVisible()
   }
 }
@@ -109,7 +109,7 @@ export const Links: Story = {
 // no slot for it.
 export const ImageOverlay: Story = {
   args: {
-    className: 'text-white',
+    className: 'fg-white',
     children: (
       <>
         <CardImage src="https://placehold.co/800x400/333333/333333" alt="" />
@@ -141,19 +141,19 @@ export const Group: Story = {
         <Card
           title="Card title"
           text="This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer."
-          footer={<small className="text-muted">Last updated 3 mins ago</small>}
+          footer={<small className="fg-subtle">Last updated 3 mins ago</small>}
           image="https://placehold.co/800x400"
         />
         <Card
           title="Card title"
           text="This card has supporting text below as a natural lead-in to additional content."
-          footer={<small className="text-muted">Last updated 3 mins ago</small>}
+          footer={<small className="fg-subtle">Last updated 3 mins ago</small>}
           image="https://placehold.co/800x400"
         />
         <Card
           title="Card title"
           text="This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action."
-          footer={<small className="text-muted">Last updated 3 mins ago</small>}
+          footer={<small className="fg-subtle">Last updated 3 mins ago</small>}
           image="https://placehold.co/800x400"
         />
       </CardGroup>
