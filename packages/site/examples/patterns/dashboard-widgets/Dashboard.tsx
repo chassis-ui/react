@@ -61,7 +61,7 @@ export const Example = () => {
                 <div className="d-flex justify-content-between align-items-start">
                   <div>
                     <div className="sm fg-neutral mb-xs">{stat.label}</div>
-                    <div className="h4 mb-0">{stat.value}</div>
+                    <div className="font-h4 mb-0">{stat.value}</div>
                   </div>
                   <Badge color={stat.color}>{stat.delta}</Badge>
                 </div>

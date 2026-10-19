@@ -205,7 +205,7 @@ export const Default: Story = {
         </Form>
         <Form>
           <fieldset disabled style={STACK}>
-            <legend className="h6 mb-0">Disabled fieldset</legend>
+            <legend className="font-h6 mb-0">Disabled fieldset</legend>
             <TextInput label="Disabled input" placeholder="Disabled input" />
             <Checkbox label="Can't check this" />
             <div>

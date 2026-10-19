@@ -1,7 +1,7 @@
 <p align="center">
   <a href="https://chassis-ui.com/react">
     <img
-      src="https://chassis-ui.com/static/images/site-logo.svg"
+      src="https://chassis-ui.com/static/images/logo/chassis-logo-brand.svg"
       alt="Chassis UI Logo"
       width="300"
     />
@@ -30,7 +30,7 @@ The components render `@chassis-ui/css`'s markup and class names, so install bot
 npm install @chassis-ui/react @chassis-ui/css
 ```
 
-`@chassis-ui/css` is a peer dependency, pinned to one 0.x minor (`>=0.7.0 <0.8.0` today): before
+`@chassis-ui/css` is a peer dependency, pinned to one 0.x minor (`>=0.10.0 <0.11.0` today): before
 1.0 a minor release of it can rename the tokens the components rely on.
 
 ## Stylesheets
@@ -93,7 +93,7 @@ examples.
 ## Peer dependencies
 
 - `react` and `react-dom`: `^19.0.0`
-- `@chassis-ui/css`: `>=0.7.0 <0.8.0`
+- `@chassis-ui/css`: `>=0.10.0 <0.11.0`
 
 ## Browser support
 

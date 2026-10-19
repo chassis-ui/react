@@ -62,26 +62,26 @@ bottom for what can silently go stale.
 
 ## Fonts
 
-- `@chassis-ui/css` references `Inter` (`--cx-font-family-text`),
-  `Archivo Narrow` (`--cx-font-family-display`) and `Fira Code`
+- `@chassis-ui/css` references `Inter` (`--cx-font-family-ui`),
+  `Montserrat` (`--cx-font-family-display`) and `Fira Code`
   (`--cx-font-family-code`) but ships **no `@font-face` rules** — a consuming
   app is expected to provide them, and the reference storybook doesn't either.
   Both compare panels would therefore fall back to the same system font and
   _look_ like a match while every claude.ai/design user got the wrong type.
 - The woff2 files live in the `vendor/assets` submodule under
-  `dist/web/docs/chassis/fonts/`, named by **role + weight** (`text-normal`,
-  `display-strong`, `code-normal`, …) rather than by family, and nothing in the
-  repo maps one to the other. `.design-sync/fonts.css` (committed) is that map;
-  weights come from the compiled `--cx-font-weight-{text,display,code}-*` tokens
-  in `chassis.css` (elegant/normal/strong/mass → 300/400/600/700 for text,
-  400/500/600/700 for display, 400/700 for code).
-- The reference gets the same faces: `build-reference.sh` copies the woff2 files to
+  `dist/web/docs/chassis/fonts/`, named by **role** (`ui`, `display`, `code`)
+  rather than by family, and nothing in the repo maps one to the other.
+  `.design-sync/fonts.css` (committed) is that map. It names the variable file of
+  each role (`ui.woff2`, `ui-italic.woff2`, `display.woff2`,
+  `display-italic.woff2`, `code.woff2`), which holds every weight, so it doesn't
+  follow the weights of the tokens.
+- The reference gets the same faces: `build-reference.sh` copies those five files to
   `sb-reference/ds-fonts/` and links a copy of `fonts.css` from `iframe.html`, so both
   sides of a compare sheet render Inter. Without it the reference falls back to a
   system font and text metrics differ for a reason unrelated to the component.
-- The vendored `vendor/assets/.../fonts/text.css` and `code.css` are NOT usable:
-  their `url()`s point at `Inter-*.woff2` / `woff/FiraCode-*.woff` filenames
-  that don't exist in that directory.
+- The vendored `vendor/assets/.../fonts/fonts.css` splits each family by Unicode
+  range into `-latin`/`-latin-ext` files; the map uses the unsplit files instead,
+  one per style, which the converter's font extractor copies as they are.
 
 ## Icons
 
@@ -277,7 +277,7 @@ bottom for what can silently go stale.
   next time they are recaptured; see "Harness patch". Never answer that with a `skip`.
 - **`sb-reference` must come from `build-reference.sh`.** A bare `storybook build`
   loses the injected fonts, and text-bearing sheets then differ in metrics.
-- **`.design-sync/fonts.css` is a hand-written map** from family+weight to the
+- **`.design-sync/fonts.css` is a hand-written map** from family to the
   role-named woff2 files in `vendor/assets`. If the submodule renames, re-cuts, or
   re-weights those files, this map rots **silently** — the CSS still parses, the fonts
   just stop matching. Re-check it whenever `vendor/assets` is bumped.

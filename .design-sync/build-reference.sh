@@ -30,7 +30,7 @@ fi
 
 rm -rf "$OUT/ds-fonts"
 mkdir -p "$OUT/ds-fonts"
-cp "$FONTS"/text-*.woff2 "$FONTS"/display-*.woff2 "$FONTS"/code-*.woff2 "$OUT/ds-fonts/"
+cp "$FONTS"/ui.woff2 "$FONTS"/ui-italic.woff2 "$FONTS"/display.woff2 "$FONTS"/display-italic.woff2 "$FONTS"/code.woff2 "$OUT/ds-fonts/"
 sed 's|\.\./vendor/assets/dist/web/docs/chassis/fonts/|./|g' "$MAP" > "$OUT/ds-fonts/fonts.css"
 
 if ! grep -q 'ds-fonts/fonts.css' "$OUT/iframe.html"; then
