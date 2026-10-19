@@ -129,14 +129,14 @@ importers:
         specifier: ^0.18.5
         version: 0.18.5
       '@chassis-ui/css':
-        specifier: ^0.7.2
-        version: 0.7.2(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.29))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1)
+        specifier: ^0.10.0
+        version: 0.10.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.29))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1)
       '@chassis-ui/icons':
         specifier: ^0.3.1
         version: 0.3.1
       '@chassis-ui/tokens':
-        specifier: ^0.7.0
-        version: 0.7.0
+        specifier: ^0.10.0
+        version: 0.10.0
       '@playwright/test':
         specifier: 1.64.0
         version: 1.64.0
@@ -234,8 +234,8 @@ importers:
   packages/site:
     dependencies:
       '@chassis-ui/css':
-        specifier: ^0.7.2
-        version: 0.7.2(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.29))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1)
+        specifier: ^0.10.0
+        version: 0.10.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.29))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1)
       '@chassis-ui/icons':
         specifier: ^0.3.1
         version: 0.3.1
@@ -243,8 +243,8 @@ importers:
         specifier: workspace:*
         version: link:../react
       '@chassis-ui/tokens':
-        specifier: ^0.7.0
-        version: 0.7.0
+        specifier: ^0.10.0
+        version: 0.10.0
       '@internationalized/date':
         specifier: ^3.12.4
         version: 3.12.4
@@ -266,7 +266,7 @@ importers:
         version: 3.7.4
       '@chassis-ui/docs':
         specifier: ^0.8.0
-        version: 0.8.0(@astrojs/markdown-remark@7.3.2)(@chassis-ui/css@0.7.2(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.29))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.5.0)(astro@7.3.8(@astrojs/markdown-remark@7.3.2)(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.1)(terser@5.47.1)(yaml@2.9.1))(html-validate@11.16.2(@jest/globals@29.7.0)(@vitest/expect@4.1.11)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.5)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.5)(typescript@6.0.3)))(vitest@4.1.11))(htmlparser2@12.0.0)(rehype-autolink-headings@7.1.0)(sass@1.105.1)(shiki@4.5.0)(vnu-jar@26.10.9)
+        version: 0.8.0(@astrojs/markdown-remark@7.3.2)(@chassis-ui/css@0.10.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.29))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.5.0)(astro@7.3.8(@astrojs/markdown-remark@7.3.2)(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.1)(terser@5.47.1)(yaml@2.9.1))(html-validate@11.16.2(@jest/globals@29.7.0)(@vitest/expect@4.1.11)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.5)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.5)(typescript@6.0.3)))(vitest@4.1.11))(htmlparser2@12.0.0)(rehype-autolink-headings@7.1.0)(sass@1.105.1)(shiki@4.5.0)(vnu-jar@26.10.9)
       '@pagefind/component-ui':
         specifier: ^1.5.2
         version: 1.5.2
@@ -377,8 +377,8 @@ importers:
   smoke-tests/tailwind:
     dependencies:
       '@chassis-ui/css':
-        specifier: ^0.7.2
-        version: 0.7.2(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.29))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1)
+        specifier: ^0.10.0
+        version: 0.10.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.29))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1)
       '@chassis-ui/react':
         specifier: workspace:*
         version: link:../../packages/react
@@ -939,8 +939,8 @@ packages:
     resolution: {integrity: sha512-q/ThtP9gcnEP6xlv7LrY26C2mHqdGBti/MmOVngt/M/oIGYkssmQGxPK9WzBNt2juVcH/vml2WQ+ra8LXYOTaA==}
     engines: {node: ^22.11 || ^24 || >=26}
 
-  '@chassis-ui/css@0.7.2':
-    resolution: {integrity: sha512-VZTJE7RsQK62503cwsHOeR7t4ug03IRCrs6lVJqqQ3z4U7Rb+ii6/Ics3RbuvoDlPMnsxPU8fz5KmGlh162c0w==}
+  '@chassis-ui/css@0.10.0':
+    resolution: {integrity: sha512-BnSCJLWxTE+DFYjh7i8iWkSD5yydNzw+1obLGHnvkcGtnScMFkoJ3Kn2yY0wjhf6HgS++dSB7RKbuZ6SAcmeVQ==}
     engines: {node: '>=22'}
     peerDependencies:
       '@floating-ui/dom': ^1.7.6
@@ -979,8 +979,8 @@ packages:
     resolution: {integrity: sha512-u940omGLvaDqQWzkLDiXXACs3UiEGgZeESbDM+7mB9Dd/L2QKkCk0XQE6sVRv3Tb4+eXDmJOLNd63scZgAKS+Q==}
     engines: {node: '>=18.0.0', pnpm: '>=9.0.0'}
 
-  '@chassis-ui/tokens@0.7.0':
-    resolution: {integrity: sha512-hOKHKRAFT88wa9ZMqFUaUbHsSWZShMaZj+YY3f0hH/w2vLnAmTfVCedlpUocPj0tRhwR02cokiVmd9IFAxE1Vg==}
+  '@chassis-ui/tokens@0.10.0':
+    resolution: {integrity: sha512-v7/7MLPZbtESkK4RsX1rXi+Emd1YN77Dh6/YCmfPhD5CiFgp52KllGuZsTwUyL86vzbtzGoD39YkHpQGAMIfrg==}
     engines: {node: '>=22'}
 
   '@clack/core@1.5.1':
@@ -6923,8 +6923,8 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
-  react-is@19.3.0:
-    resolution: {integrity: sha512-UpMYezM4v5/18F28aC66AEsjXIgE02kyEMH6yLdgLXu/UTfa1Ntwck/nNLrbqJsEXW7gPb0coNO9FQse9WTovA==}
+  react-is@19.3.1:
+    resolution: {integrity: sha512-RRieF6IyxQBkcK6pP8xOHprLTPW6QjRkbGdImtqNme+/hYVwCZkLQLdlZGOhUqXwkS9IEynaGvPJtv6XB/cz0Q==}
 
   react-stately@3.51.0:
     resolution: {integrity: sha512-YJcmkAXu2XOQP97hO/qz/cC3qv9kni3oVhwBlxWr358BHePJUpY15XwL3YSRMKxYt4EkslPqAz11JRirMfANGw==}
@@ -7067,8 +7067,8 @@ packages:
   resolve-pkg-maps@1.0.0:
     resolution: {integrity: sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==}
 
-  resolve.exports@2.0.3:
-    resolution: {integrity: sha512-OcXjMsGdhL4XnbShKpAcSqPMzQoYkYyhbEaeSko47MjRP9NfEQMhZkXL1DoFlt9LWQn4YttrdnV6X2OiyzBi+A==}
+  resolve.exports@2.0.4:
+    resolution: {integrity: sha512-zepuGL0ulf+nt+XaFrlKeaiTJeyPFPLLY62+ncq1/VTHBdt3HsfXOH60priZ6tnXQozdGcDeIF5JVTanvIcYWQ==}
     engines: {node: '>=10'}
 
   resolve@1.22.12:
@@ -9084,7 +9084,7 @@ snapshots:
       '@changesets/types': 7.0.0
       human-id: 4.2.1
 
-  '@chassis-ui/css@0.7.2(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.29))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1)':
+  '@chassis-ui/css@0.10.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.29))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1)':
     dependencies:
       '@floating-ui/dom': 1.8.0
       vanilla-calendar-pro: 3.3.1
@@ -9092,10 +9092,10 @@ snapshots:
       postcss-prefix-custom-properties: 0.1.0(postcss@8.5.29)
       tailwindcss: 4.3.3
 
-  '@chassis-ui/docs@0.8.0(@astrojs/markdown-remark@7.3.2)(@chassis-ui/css@0.7.2(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.29))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.5.0)(astro@7.3.8(@astrojs/markdown-remark@7.3.2)(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.1)(terser@5.47.1)(yaml@2.9.1))(html-validate@11.16.2(@jest/globals@29.7.0)(@vitest/expect@4.1.11)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.5)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.5)(typescript@6.0.3)))(vitest@4.1.11))(htmlparser2@12.0.0)(rehype-autolink-headings@7.1.0)(sass@1.105.1)(shiki@4.5.0)(vnu-jar@26.10.9)':
+  '@chassis-ui/docs@0.8.0(@astrojs/markdown-remark@7.3.2)(@chassis-ui/css@0.10.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.29))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.5.0)(astro@7.3.8(@astrojs/markdown-remark@7.3.2)(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.1)(terser@5.47.1)(yaml@2.9.1))(html-validate@11.16.2(@jest/globals@29.7.0)(@vitest/expect@4.1.11)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.5)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.5)(typescript@6.0.3)))(vitest@4.1.11))(htmlparser2@12.0.0)(rehype-autolink-headings@7.1.0)(sass@1.105.1)(shiki@4.5.0)(vnu-jar@26.10.9)':
     dependencies:
       '@astrojs/markdown-remark': 7.3.2
-      '@chassis-ui/css': 0.7.2(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.29))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1)
+      '@chassis-ui/css': 0.10.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.29))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1)
       '@pagefind/component-ui': 1.5.2
       '@shikijs/transformers': 4.5.0
       '@types/hast': 3.0.5
@@ -9125,7 +9125,7 @@ snapshots:
 
   '@chassis-ui/icons@0.3.1': {}
 
-  '@chassis-ui/tokens@0.7.0': {}
+  '@chassis-ui/tokens@0.10.0': {}
 
   '@clack/core@1.5.1':
     dependencies:
@@ -14106,7 +14106,7 @@ snapshots:
       jest-util: 29.7.0
       jest-validate: 29.7.0
       resolve: 1.22.13
-      resolve.exports: 2.0.3
+      resolve.exports: 2.0.4
       slash: 3.0.0
     optional: true
 
@@ -15601,7 +15601,7 @@ snapshots:
       '@jest/schemas': 30.4.1
       ansi-styles: 5.2.0
       react-is-18: react-is@18.3.1
-      react-is-19: react-is@19.3.0
+      react-is-19: react-is@19.3.1
 
   prismjs@1.30.0: {}
 
@@ -15708,7 +15708,7 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react-is@19.3.0: {}
+  react-is@19.3.1: {}
 
   react-stately@3.51.0(react@19.3.0):
     dependencies:
@@ -15932,7 +15932,7 @@ snapshots:
 
   resolve-pkg-maps@1.0.0: {}
 
-  resolve.exports@2.0.3:
+  resolve.exports@2.0.4:
     optional: true
 
   resolve@1.22.12:
