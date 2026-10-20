@@ -56,8 +56,9 @@ export const resolveDataPlacement = (
 // position via `useOverlayPosition` the same way: only `position`/`top`/`left` are taken from the
 // hook's computed style (`zIndex`/`maxHeight` stay owned by chassis-css's own `--zindex`/
 // `--max-height` tokens, see `_menu.scss`; the inline `max-height` the hook writes on the element
-// itself is taken off by `useOverlayMaxHeight`), and `data-cx-placement` needs the resolved main axis
-// reattached to the originally-requested cross-axis alignment. Pure positioning that renders
+// itself is kept by `useOverlayMaxHeight` only where it is smaller than that cap), and
+// `data-cx-placement` needs the resolved main axis reattached to the originally-requested
+// cross-axis alignment. Pure positioning that renders
 // nothing and belongs to none of the four, so it lives here and not in `components/menu/`.
 export interface MenuOverlayPositioning {
   menuStyle: CSSProperties
