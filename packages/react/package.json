@@ -146,9 +146,9 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
     "@arethetypeswrong/core": "^0.18.5",
-    "@chassis-ui/css": "^0.10.0",
+    "@chassis-ui/css": "^0.11.0",
     "@chassis-ui/icons": "^0.3.1",
-    "@chassis-ui/tokens": "^0.10.0",
+    "@chassis-ui/tokens": "^0.10.1",
     "@playwright/test": "1.64.1",
     "@storybook/addon-a11y": "^10.6.2",
     "@storybook/addon-docs": "^10.6.2",
@@ -182,7 +182,7 @@
     "vitest": "^4.1.12"
   },
   "peerDependencies": {
-    "@chassis-ui/css": ">=0.10.0 <0.11.0",
+    "@chassis-ui/css": ">=0.11.0 <0.12.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   }

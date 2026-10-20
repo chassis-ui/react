@@ -93,7 +93,7 @@ examples.
 ## Peer dependencies
 
 - `react` and `react-dom`: `^19.0.0`
-- `@chassis-ui/css`: `>=0.10.0 <0.11.0`
+- `@chassis-ui/css`: `>=0.11.0 <0.12.0`
 
 ## Browser support
 
