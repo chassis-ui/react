@@ -68,7 +68,7 @@ Set `scrollable` to scroll the modal body instead, keeping the header and footer
 
 ### Tooltips and popovers
 
-`<Tooltip>` and `<Popover>` can be placed within modals as needed. Closing a modal automatically dismisses any tooltips and popovers it contains.
+`<Tooltip>` and `<Popover>` can be placed within modals as needed. Closing a modal automatically dismisses any tooltips and popovers it contains, and any `<Alert>`, `<Modal>` or `<Drawer>` open inside it, which fires that dialog's `onClose`.
 
 <Example>
   <TooltipsAndPopoversExample client:load />

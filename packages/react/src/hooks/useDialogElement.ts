@@ -353,6 +353,30 @@ export const useDialogElement = ({
     finishHide(dialog)
   }
 
+  // A dialog open inside another (an `Alert` in a `Modal`'s body, a `Modal` in a `Drawer`) closes
+  // with it, as a popover or a tooltip in it does (`useFloatingOverlay`). Left open, it stayed in
+  // the top layer under an ancestor no longer displayed: invisible, with the scroll lock it holds,
+  // and, opened with `showModal()`, the rest of the page inert. Its close is the browser closing
+  // it: a close request, then the hide at once, since the ancestor it shows in is gone. The
+  // ancestor's `close` event is ignored, as this dialog's own is, when the ancestor is open
+  // again by the time it arrives.
+  const closeWithAncestorRef = useRef(() => {})
+  closeWithAncestorRef.current = () => {
+    const dialog = dialogRef.current
+    if (!dialog || phaseRef.current === 'closed') return
+    close()
+    finishHide(dialog)
+  }
+  useEffect(() => {
+    const ancestor = isOpen ? dialogRef.current?.parentElement?.closest('dialog') : null
+    if (!ancestor) return undefined
+    const handleAncestorClose = () => {
+      if (!ancestor.open) closeWithAncestorRef.current()
+    }
+    ancestor.addEventListener('close', handleAncestorClose)
+    return () => ancestor.removeEventListener('close', handleAncestorClose)
+  }, [isOpen])
+
   // Escape key for non-modal (show()) dialogs — the native `cancel` event below only fires for
   // dialogs opened with showModal(). A React handler, so an Escape that something inside the
   // dialog has handled and stopped never arrives, wherever that thing is portaled. One it has

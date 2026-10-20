@@ -400,6 +400,83 @@ describe('Alert', () => {
     })
   })
 
+  // Regression tests (#69): an alert left open inside a modal that closed stayed in the top layer
+  // under a modal no longer displayed, holding the scroll lock, with the rest of the page inert.
+  describe('in a modal that closes', () => {
+    const Editor = ({ visible, ...alertProps }: AlertProps & { visible: boolean }) => (
+      <Modal instant visible={visible}>
+        <ModalTitle>Edit</ModalTitle>
+        <ModalBody>
+          <ConfirmDelete defaultVisible {...alertProps} />
+        </ModalBody>
+      </Modal>
+    )
+    // eslint-disable-next-line testing-library/no-node-access
+    const dialogs = () => [...document.querySelectorAll('dialog')]
+
+    test('closes with the modal, with a close request and onHidden', () => {
+      const onClose = vi.fn()
+      const onHidden = vi.fn()
+      const onVisibleChange = vi.fn()
+      const props = { onClose, onHidden, onVisibleChange }
+      const { rerender } = render(<Editor {...props} visible />)
+      const [modal, alert] = dialogs()
+      expect(alert).toHaveAttribute('open')
+
+      rerender(<Editor {...props} visible={false} />)
+      expect(modal).not.toHaveAttribute('open')
+      expect(alert).not.toHaveAttribute('open')
+      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(onVisibleChange).toHaveBeenCalledWith(false)
+      expect(onHidden).toHaveBeenCalledTimes(1)
+      expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
+    })
+
+    test('closes with the modal when the close event is queued, as browsers fire it', () => {
+      vi.useFakeTimers()
+      const restore = queueDialogCloseEvents()
+      const onClose = vi.fn()
+      const { rerender } = render(<Editor onClose={onClose} visible />)
+      const [modal, alert] = dialogs()
+      rerender(<Editor onClose={onClose} visible={false} />)
+      expect(modal).not.toHaveAttribute('open')
+      act(() => vi.runAllTimers())
+      expect(alert).not.toHaveAttribute('open')
+      expect(onClose).toHaveBeenCalledTimes(1)
+      restore()
+      vi.useRealTimers()
+    })
+
+    test('a modal in a modal closes with it too', () => {
+      const onClose = vi.fn()
+      const Outer = ({ visible }: { visible: boolean }) => (
+        <Modal instant visible={visible}>
+          <ModalTitle>Outer</ModalTitle>
+          <ModalBody>
+            <Modal defaultVisible instant onClose={onClose}>
+              <ModalTitle>Inner</ModalTitle>
+            </Modal>
+          </ModalBody>
+        </Modal>
+      )
+      const { rerender } = render(<Outer visible />)
+      const [, inner] = dialogs()
+      expect(inner).toHaveAttribute('open')
+      rerender(<Outer visible={false} />)
+      expect(inner).not.toHaveAttribute('open')
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
+
+    test('an alert already closed stays closed and asks for nothing', () => {
+      const onClose = vi.fn()
+      const { rerender } = render(<Editor onClose={onClose} visible />)
+      fireEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+      expect(onClose).toHaveBeenCalledTimes(1)
+      rerender(<Editor onClose={onClose} visible={false} />)
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
+  })
+
   describe('a chain of alerts', () => {
     test('returns focus to the page trigger after the second alert closes', () => {
       vi.useFakeTimers()
