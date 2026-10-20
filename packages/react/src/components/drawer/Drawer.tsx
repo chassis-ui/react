@@ -8,7 +8,7 @@ import React, {
 } from 'react'
 import classNames from 'classnames'
 
-import { useDialogElement } from '../../hooks'
+import { useDialogElement, useIsomorphicLayoutEffect } from '../../hooks'
 import { RegisterDialogTitle, useDialogTitle } from '../../hooks/useDialogTitle'
 
 export interface DrawerProps extends Omit<
@@ -204,8 +204,10 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
     const closeRef = useRef(close)
     closeRef.current = close
 
-    // Register in the cross-instance registry so other drawers can auto-close this one.
-    useEffect(() => {
+    // Register in the cross-instance registry so other drawers can auto-close this one. From a
+    // layout effect, as the show effect that reads the registry (`onBeforeShow`) runs: two drawers
+    // mounted open in one commit both opened before either was registered, and both stayed open.
+    useIsomorphicLayoutEffect(() => {
       const dialog = dialogRef.current
       if (!dialog) return undefined
       const entry = { dialog, close: () => closeRef.current() }

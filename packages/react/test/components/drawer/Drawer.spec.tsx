@@ -322,6 +322,30 @@ describe('Drawer', () => {
       vi.useRealTimers()
     })
 
+    // Regression test (#68): the registry was filled in a passive effect, after the layout
+    // effect that shows a drawer, so two drawers mounted open in one commit both stayed open.
+    test('of two drawers mounted open in one commit, only the last stays open', () => {
+      vi.useFakeTimers()
+      const onCloseA = vi.fn()
+      render(
+        <>
+          <Drawer aria-label="A" defaultVisible onClose={onCloseA} placement="start">
+            A
+          </Drawer>
+          <Drawer aria-label="B" defaultVisible placement="end">
+            B
+          </Drawer>
+        </>
+      )
+      act(() => vi.runAllTimers())
+      // eslint-disable-next-line testing-library/no-node-access
+      const [a, b] = [...document.querySelectorAll('dialog')]
+      expect(a).not.toHaveAttribute('open')
+      expect(b).toHaveAttribute('open')
+      expect(onCloseA).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+
     test('auto-closes another open drawer', () => {
       vi.useFakeTimers()
       const onCloseA = vi.fn()
