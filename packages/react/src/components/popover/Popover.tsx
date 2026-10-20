@@ -122,6 +122,7 @@ export interface PopoverProps extends Omit<
 
 export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover(
   {
+    'aria-labelledby': ariaLabelledBy,
     children,
     className,
     content,
@@ -150,10 +151,11 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
   const triggerElement = getTriggerChild(children, 'Popover')
 
   // A popover is a dialog, which needs a name. With no `title` to label it and none given, it is
-  // named by its trigger, under the trigger's own id when it has one.
+  // named by its trigger, under the trigger's own id when it has one. `aria-labelledby` is kept
+  // out of `rest`: spread after this, a caller's `aria-labelledby={undefined}` wrote over it.
   const generatedId = useId()
   const triggerId =
-    triggerElement && !title && rest['aria-label'] == null && rest['aria-labelledby'] == null
+    triggerElement && !title && rest['aria-label'] == null && ariaLabelledBy == null
       ? ((triggerElement.props.id as string | undefined) ?? `${generatedId}-trigger`)
       : undefined
 
@@ -311,7 +313,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
             arrowProps={arrowProps}
             title={title}
             content={content}
-            aria-labelledby={triggerId}
+            aria-labelledby={ariaLabelledBy ?? triggerId}
             {...mergeProps(rest, insideEventProps(floatingRef))}
           />
         )}

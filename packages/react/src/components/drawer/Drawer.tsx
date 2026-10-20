@@ -133,6 +133,7 @@ const openDrawers = new Set<{ dialog: HTMLDialogElement; close: () => void }>()
 export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
   (
     {
+      'aria-labelledby': ariaLabelledBy,
       children,
       backdrop = true,
       className,
@@ -259,7 +260,9 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
       <DrawerContext.Provider value={{ close, titleId }}>
         <DrawerTitleContext.Provider value={registerTitle}>
           <dialog
-            aria-labelledby={rest['aria-label'] ? undefined : labelledBy}
+            // Out of `rest`, so a caller's `aria-labelledby={undefined}` (a wrapper forwarding a prop
+            // it wasn't given) leaves the title's label in place instead of writing over it.
+            aria-labelledby={ariaLabelledBy ?? (rest['aria-label'] ? undefined : labelledBy)}
             {...rest}
             open={open}
             className={_className}

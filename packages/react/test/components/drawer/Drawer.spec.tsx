@@ -605,6 +605,30 @@ describe('Drawer', () => {
   })
 
   describe('accessibility', () => {
+    // Regression test (#66): `aria-labelledby={undefined}` from a wrapper that forwards an
+    // optional prop wrote over the title's label, leaving the dialog with no name.
+    test("an aria-labelledby passed as undefined leaves the title's label in place", () => {
+      const Wrapper = ({ labelId }: { labelId?: string }) => (
+        <Drawer aria-labelledby={labelId} instant placement="start" visible>
+          <DrawerTitle>Filters</DrawerTitle>
+        </Drawer>
+      )
+      render(<Wrapper />)
+      expect(screen.getByRole('dialog', { name: 'Filters' })).toBeInTheDocument()
+    })
+
+    test("a caller's own aria-labelledby still names the drawer", () => {
+      render(
+        <>
+          <span id="external-label">External</span>
+          <Drawer aria-labelledby="external-label" instant placement="start" visible>
+            <DrawerTitle>Filters</DrawerTitle>
+          </Drawer>
+        </>
+      )
+      expect(screen.getByRole('dialog', { name: 'External' })).toBeInTheDocument()
+    })
+
     test('has no axe violations when visible', async () => {
       const { container } = render(
         <Drawer placement="start" visible>

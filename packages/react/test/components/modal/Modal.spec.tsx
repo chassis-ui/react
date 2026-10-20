@@ -680,6 +680,30 @@ describe('Modal', () => {
   })
 
   describe('accessibility', () => {
+    // Regression test (#66): `aria-labelledby={undefined}` from a wrapper that forwards an
+    // optional prop wrote over the title's label, leaving the dialog with no name.
+    test("an aria-labelledby passed as undefined leaves the title's label in place", () => {
+      const Wrapper = ({ labelId }: { labelId?: string }) => (
+        <Modal aria-labelledby={labelId} instant visible>
+          <ModalTitle>Delete item</ModalTitle>
+        </Modal>
+      )
+      render(<Wrapper />)
+      expect(screen.getByRole('dialog', { name: 'Delete item' })).toBeInTheDocument()
+    })
+
+    test("a caller's own aria-labelledby still names the dialog", () => {
+      render(
+        <>
+          <span id="external-label">External</span>
+          <Modal aria-labelledby="external-label" instant visible>
+            <ModalTitle>Delete item</ModalTitle>
+          </Modal>
+        </>
+      )
+      expect(screen.getByRole('dialog', { name: 'External' })).toBeInTheDocument()
+    })
+
     test('has no axe violations when visible', async () => {
       const { container } = render(
         <Modal visible>

@@ -890,6 +890,53 @@ describe('Popover', () => {
       expect(screen.getByRole('dialog')).toHaveAttribute('aria-labelledby', 'own-trigger')
     })
 
+    // Regression tests (#66): `aria-labelledby={undefined}` from a wrapper that forwards an
+    // optional prop wrote over the trigger's or the title's label.
+    test('an aria-labelledby passed as undefined leaves it named by its trigger', () => {
+      vi.useFakeTimers()
+      const Wrapper = ({ labelId }: { labelId?: string }) => (
+        <Popover aria-labelledby={labelId} content="content">
+          <Button>Test</Button>
+        </Popover>
+      )
+      render(<Wrapper />)
+      openPopover()
+      settle()
+      vi.useRealTimers()
+      expect(screen.getByRole('dialog')).toHaveAccessibleName('Test')
+    })
+
+    test('an aria-labelledby passed as undefined leaves it named by its title', () => {
+      vi.useFakeTimers()
+      const Wrapper = ({ labelId }: { labelId?: string }) => (
+        <Popover aria-labelledby={labelId} content="content" title="Details">
+          <Button>Test</Button>
+        </Popover>
+      )
+      render(<Wrapper />)
+      openPopover()
+      settle()
+      vi.useRealTimers()
+      expect(screen.getByRole('dialog')).toHaveAccessibleName('Details')
+    })
+
+    test("a caller's own aria-labelledby names it in place of the trigger", () => {
+      vi.useFakeTimers()
+      render(
+        <>
+          <span id="external-label">External</span>
+          <Popover aria-labelledby="external-label" content="content">
+            <Button>Test</Button>
+          </Popover>
+        </>
+      )
+      openPopover()
+      settle()
+      vi.useRealTimers()
+      expect(screen.getByRole('dialog')).toHaveAccessibleName('External')
+      expect(screen.getByRole('button', { name: 'Test' })).not.toHaveAttribute('id')
+    })
+
     test('an aria-label names it in place of the trigger', () => {
       vi.useFakeTimers()
       render(
