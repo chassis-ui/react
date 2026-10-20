@@ -4,6 +4,7 @@ import { act, render, screen, fireEvent, within } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { Popover, Button, Menu, MenuItem, MenuList, MenuToggle, Modal } from '../../../src/index'
+import { queueDialogCloseEvents } from '../../queuedDialogClose'
 
 const openPopover = () => {
   fireEvent.click(screen.getByRole('button', { name: 'Test' }))
@@ -133,6 +134,30 @@ describe('Popover', () => {
       // A closed or unopened <dialog> has no role, so the modal is found by its tag.
       // eslint-disable-next-line testing-library/no-node-access
       expect(document.querySelector('dialog.modal')).toContainElement(screen.getByText('content'))
+      vi.useRealTimers()
+    })
+
+    // Regression test (#65): the queued `close` event of the modal's first close arrived after it
+    // was open again and closed a popover open in it.
+    test('stays open in a modal that was closed and shown again before its close event', () => {
+      vi.useFakeTimers()
+      const restore = queueDialogCloseEvents()
+      const onVisibleChange = vi.fn()
+      const Page = ({ visible }: { visible: boolean }) => (
+        <Modal instant visible={visible}>
+          <Popover content="content" defaultVisible onVisibleChange={onVisibleChange}>
+            <Button>Test</Button>
+          </Popover>
+        </Modal>
+      )
+      const { rerender } = render(<Page visible />)
+      settle()
+      rerender(<Page visible={false} />)
+      rerender(<Page visible />)
+      settle()
+      expect(onVisibleChange).not.toHaveBeenCalled()
+      expect(screen.getByText('content')).toBeInTheDocument()
+      restore()
       vi.useRealTimers()
     })
 

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { flushSync } from 'react-dom'
 import { act, render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
@@ -10,6 +11,7 @@ import {
   ModalTitle,
   useModal
 } from '../../../src/index'
+import { queueDialogCloseEvents } from '../../queuedDialogClose'
 
 // The dialog only gets an accessible role="dialog" once open (closed <dialog> elements have no
 // exposed role, verified directly), and several tests need the same stable node reference across
@@ -289,6 +291,119 @@ describe('Modal', () => {
         dialog.open = false
         dialog.dispatchEvent(new Event('close'))
       })
+
+    // Regression tests (#65): a browser fires `close` from a queued task. A modal shown again in
+    // the same task as its close took that event for the browser's own close and closed again.
+    describe('with the close event queued, as browsers fire it', () => {
+      let restore: () => void
+      beforeEach(() => {
+        vi.useFakeTimers()
+        restore = queueDialogCloseEvents()
+      })
+      afterEach(() => {
+        restore()
+        vi.useRealTimers()
+      })
+
+      test('a modal reopened from onHidden stays open, with no close request', () => {
+        const onClose = vi.fn()
+        const onVisibleChange = vi.fn()
+        function Wizard() {
+          const [step, setStep] = React.useState<0 | 1 | 2>(1)
+          return (
+            <>
+              <button onClick={() => setStep(0)} type="button">
+                Finish step
+              </button>
+              <Modal
+                aria-label="Wizard"
+                instant
+                onClose={onClose}
+                onHidden={() => setStep((current) => (current === 0 ? 2 : current))}
+                onVisibleChange={(next) => {
+                  onVisibleChange(next)
+                  if (!next) setStep(0)
+                }}
+                visible={step !== 0}
+              >
+                Step {step}
+              </Modal>
+            </>
+          )
+        }
+        render(<Wizard />)
+        const dialog = getDialog()
+        fireEvent.click(screen.getByRole('button', { name: 'Finish step', hidden: true }))
+        expect(dialog).toHaveAttribute('open')
+        expect(screen.getByText('Step 2')).toBeInTheDocument()
+
+        // The close event of step 1 arrives.
+        act(() => vi.runAllTimers())
+        expect(dialog).toHaveAttribute('open')
+        expect(onClose).not.toHaveBeenCalled()
+        expect(onVisibleChange).not.toHaveBeenCalled()
+        expect(document.documentElement).toHaveStyle({ overflow: 'hidden' })
+      })
+
+      test('a modal set to visible={false} and back in one event stays open', () => {
+        const onClose = vi.fn()
+        const onHidden = vi.fn()
+        function Toggle() {
+          const [visible, setVisible] = React.useState(true)
+          return (
+            <>
+              <button
+                onClick={() => {
+                  // Committed at once, so the modal closes and calls `close()` in this event.
+                  flushSync(() => setVisible(false))
+                  setVisible(true)
+                }}
+                type="button"
+              >
+                Restart
+              </button>
+              <Modal
+                aria-label="Restartable"
+                instant
+                onClose={onClose}
+                onHidden={onHidden}
+                visible={visible}
+              >
+                Content
+              </Modal>
+            </>
+          )
+        }
+        render(<Toggle />)
+        const dialog = getDialog()
+        fireEvent.click(screen.getByRole('button', { name: 'Restart', hidden: true }))
+        expect(onHidden).toHaveBeenCalledTimes(1)
+        expect(dialog).toHaveAttribute('open')
+
+        // The close event of the first close arrives.
+        act(() => vi.runAllTimers())
+        expect(dialog).toHaveAttribute('open')
+        expect(onClose).not.toHaveBeenCalled()
+      })
+
+      test("the browser's own close still closes it, when nothing reopened it", () => {
+        const onClose = vi.fn()
+        const onHidden = vi.fn()
+        render(
+          <Modal aria-label="Closable" defaultVisible instant onClose={onClose} onHidden={onHidden}>
+            Content
+          </Modal>
+        )
+        const dialog = getDialog()
+        // A caller's own `close()`, as a `<form method="dialog">` or a second Escape would.
+        act(() => dialog.close())
+        act(() => vi.runAllTimers())
+        expect(dialog).not.toHaveAttribute('open')
+        expect(onClose).toHaveBeenCalledTimes(1)
+        expect(onHidden).toHaveBeenCalledTimes(1)
+        expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
+      })
+    })
 
     // Regression test: the show effect returned early for a dialog that was still open, so the
     // pending end of the exit closed a modal whose `visible` was `true` again.

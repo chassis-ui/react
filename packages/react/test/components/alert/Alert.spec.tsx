@@ -19,6 +19,7 @@ import {
   ModalBody,
   ModalTitle
 } from '../../../src/index'
+import { queueDialogCloseEvents } from '../../queuedDialogClose'
 
 // A closed <dialog> exposes no role, and several tests need the element before it opens or keep
 // the same node across a rerender; a query for the element itself is the only option.
@@ -317,6 +318,22 @@ describe('Alert', () => {
       )
       act(() => vi.runAllTimers())
       expect(onShown).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+    // Regression test (#65): the queued `close` event of the first close arrived after the alert
+    // was open again, was taken for the browser's own close and closed it.
+    test('closed and shown again before its close event arrives, it stays open', () => {
+      vi.useFakeTimers()
+      const restore = queueDialogCloseEvents()
+      const onClose = vi.fn()
+      const { rerender } = render(<ConfirmDelete onClose={onClose} visible />)
+      const dialog = getDialog()
+      rerender(<ConfirmDelete onClose={onClose} visible={false} />)
+      rerender(<ConfirmDelete onClose={onClose} visible />)
+      act(() => vi.runAllTimers())
+      expect(dialog).toHaveAttribute('open')
+      expect(onClose).not.toHaveBeenCalled()
+      restore()
       vi.useRealTimers()
     })
   })

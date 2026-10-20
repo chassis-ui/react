@@ -90,12 +90,16 @@ export function useFloatingOverlay({
   closeRef.current = close
 
   // A dialog fires a native `close` event on ESC, backdrop click, or `.close()`, so resetting
-  // on it keeps a reopened dialog from showing a stale, already-open overlay.
+  // on it keeps a reopened dialog from showing a stale, already-open overlay. The event comes
+  // from a task the browser queues: a dialog that is open again by then has not closed, and an
+  // overlay opened in it stays (`useDialogElement`'s `handleNativeClose`).
   useEffect(() => {
     const dialog = portalContainer?.closest('dialog')
     if (!isOpen || !dialog) return
 
-    const handleClose = () => closeRef.current()
+    const handleClose = () => {
+      if (!dialog.open) closeRef.current()
+    }
     dialog.addEventListener('close', handleClose)
     return () => dialog.removeEventListener('close', handleClose)
   }, [isOpen, portalContainer])

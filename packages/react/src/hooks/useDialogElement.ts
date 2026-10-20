@@ -158,7 +158,8 @@ export const useDialogElement = ({
   // Mirrors `phase` at the moment it is set, not at the next render, as `useTransitionState`
   // does: StrictMode runs the show effect twice on mount, and the second run has to see that the
   // first has shown the dialog. It is also what tells a reopening during the exit from a first
-  // opening, and the browser's `close` event from the one that follows our own `close()`.
+  // opening, and the browser's `close` event from the one that follows our own `close()` when
+  // nothing has reopened the dialog since (`handleNativeClose`).
   const phaseRef = useRef(phase)
   const setPhase = (next: DialogPhase) => {
     phaseRef.current = next
@@ -340,9 +341,14 @@ export const useDialogElement = ({
   // whose `cancel` it doesn't let a page prevent, a `<form method="dialog">`, or a caller's own
   // `close()`. The state follows: a close request, the scroll lock released, `onHidden`. A
   // caller that holds `visible` through that request has a closed dialog until `visible` changes.
+  //
+  // A browser fires `close` from a task it queues, not inside `close()`. A dialog shown again
+  // before that task runs (the next step of a wizard opened from `onHidden`, `visible` set to
+  // `false` and back in one event) is open when the event arrives, and in a phase other than
+  // `closed`: the close it reports is one the reopening has undone, and it is left alone.
   const handleNativeClose = () => {
     const dialog = dialogRef.current
-    if (!dialog || phaseRef.current === 'closed') return
+    if (!dialog || dialog.open || phaseRef.current === 'closed') return
     close()
     finishHide(dialog)
   }
