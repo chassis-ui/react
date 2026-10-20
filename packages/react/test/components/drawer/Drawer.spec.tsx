@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { act, render, screen, fireEvent, waitFor } from '@testing-library/react'
+// Aliased: testing-library's lint rules treat any `render*` call's result as a `render()` result.
+import { renderToString as toHtml } from 'react-dom/server'
 import { axe } from 'jest-axe'
 
 import {
@@ -10,6 +12,7 @@ import {
   DrawerTitle,
   useDrawer
 } from '../../../src/index'
+import { danglingReferences } from '../../utils/danglingReferences'
 
 // The dialog only gets an accessible role="dialog" once open (closed <dialog> elements have no
 // exposed role, verified directly), and several tests need the same stable node reference across
@@ -601,6 +604,45 @@ describe('Drawer', () => {
       fireEvent.click(screen.getByRole('button', { name: 'remove' }))
       // Focus goes back a microtask after the unmount.
       await waitFor(() => expect(trigger).toHaveFocus())
+    })
+  })
+
+  // Regression tests (#67): before hydration the drawer was labelled by the generated title id
+  // whether or not a title rendered, and whatever id that title had.
+  describe('server HTML', () => {
+    const labelledBy = (html: string) => /<dialog[^>]*aria-labelledby="([^"]*)"/.exec(html)?.[1]
+
+    test("a drawer rendered open is labelled by its title's id", () => {
+      const html = toHtml(
+        <Drawer open placement="start">
+          <DrawerHeader>
+            <DrawerTitle id="own">Filters</DrawerTitle>
+          </DrawerHeader>
+        </Drawer>
+      )
+      expect(labelledBy(html)).toBe('own')
+      expect(danglingReferences(html)).toEqual([])
+    })
+
+    test('no aria-labelledby with no title, or while closed', () => {
+      expect(
+        labelledBy(
+          toHtml(
+            <Drawer open placement="start">
+              <DrawerBody>Body</DrawerBody>
+            </Drawer>
+          )
+        )
+      ).toBeUndefined()
+      expect(
+        labelledBy(
+          toHtml(
+            <Drawer placement="start">
+              <DrawerTitle>Filters</DrawerTitle>
+            </Drawer>
+          )
+        )
+      ).toBeUndefined()
     })
   })
 

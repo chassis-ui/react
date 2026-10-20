@@ -195,7 +195,7 @@ Set `fullscreen` to render a modal that covers the entire viewport, either alway
 
 ## Accessibility
 
-The `<dialog>` element carries an implicit `role="dialog"` when opened with `showModal()`. `<Modal>` is labelled by its `<ModalTitle>` automatically — render one anywhere inside and `aria-labelledby` names it, under a generated id or the `id` you give the title, giving the modal an accessible name with no manual wiring. A modal with no title has no `aria-labelledby`: name it with `aria-label`, which also wins over a title, or set your own `aria-labelledby` on `<Modal>` to point elsewhere.
+The `<dialog>` element carries an implicit `role="dialog"` when opened with `showModal()`. `<Modal>` is labelled by its `<ModalTitle>` automatically — render one anywhere inside and `aria-labelledby` names it, under a generated id or the `id` you give the title, giving the modal an accessible name with no manual wiring. A modal with no title has no `aria-labelledby`: name it with `aria-label`, which also wins over a title, or set your own `aria-labelledby` on `<Modal>` to point elsewhere. A modal rendered with `open` is named in its server HTML too, by a `<ModalTitle>` written among its children; one that a component of yours renders by itself names it once the page has hydrated.
 
 Focus moves to the modal on open — to the first element with `data-autofocus` (or an `autofocus` attribute in server-rendered HTML), otherwise to the modal itself. React's `autoFocus` prop isn't enough in a page rendered in the browser: React writes no `autofocus` attribute there. After the modal closes, focus returns to whichever element was focused when it opened.
 

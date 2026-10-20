@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { DrawerContext } from '../../../src/components/drawer/Drawer'
+import { DrawerContext } from '../../../src/components/drawer/context'
 import { DrawerHeader } from '../../../src/index'
 
 describe('DrawerHeader', () => {

@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { flushSync } from 'react-dom'
 import { act, render, screen, fireEvent, waitFor } from '@testing-library/react'
+// Aliased: testing-library's lint rules treat any `render*` call's result as a `render()` result.
+import { renderToString as toHtml } from 'react-dom/server'
 import { axe } from 'jest-axe'
 
 import {
@@ -12,6 +14,7 @@ import {
   useModal
 } from '../../../src/index'
 import { queueDialogCloseEvents } from '../../queuedDialogClose'
+import { danglingReferences } from '../../utils/danglingReferences'
 
 // The dialog only gets an accessible role="dialog" once open (closed <dialog> elements have no
 // exposed role, verified directly), and several tests need the same stable node reference across
@@ -676,6 +679,97 @@ describe('Modal', () => {
       await act(() => Promise.resolve())
       expect(getDialog()).toHaveAttribute('open')
       expect(getDialog()).toHaveFocus()
+    })
+  })
+
+  // Regression tests (#67): before hydration the dialog was labelled by the generated title id
+  // whether or not a title rendered, and whatever id that title had.
+  describe('server HTML', () => {
+    const labelledBy = (html: string) => /<dialog[^>]*aria-labelledby="([^"]*)"/.exec(html)?.[1]
+
+    test('a modal rendered open is labelled by the id its title renders', () => {
+      const html = toHtml(
+        <Modal open>
+          <ModalHeader>
+            <ModalTitle>Title</ModalTitle>
+          </ModalHeader>
+        </Modal>
+      )
+      expect(labelledBy(html)).toBe(/<h2[^>]*id="([^"]*)"/.exec(html)?.[1])
+      expect(danglingReferences(html)).toEqual([])
+    })
+
+    test("its title's own id, the asChild element's id, or none for an empty id", () => {
+      expect(
+        labelledBy(
+          toHtml(
+            <Modal open>
+              <ModalTitle id="own">Title</ModalTitle>
+            </Modal>
+          )
+        )
+      ).toBe('own')
+      expect(
+        labelledBy(
+          toHtml(
+            <Modal open>
+              <ModalTitle asChild id="ignored">
+                <h3 id="slotted">Title</h3>
+              </ModalTitle>
+            </Modal>
+          )
+        )
+      ).toBe('slotted')
+      expect(
+        labelledBy(
+          toHtml(
+            <Modal open>
+              <ModalTitle id="">Title</ModalTitle>
+            </Modal>
+          )
+        )
+      ).toBeUndefined()
+    })
+
+    test('a title passed through a component of the caller is found', () => {
+      const Section = ({ children }: { children: React.ReactNode }) => <section>{children}</section>
+      const html = toHtml(
+        <Modal open>
+          <Section>
+            <>
+              {[
+                <ModalTitle id="deep" key="title">
+                  Title
+                </ModalTitle>
+              ]}
+            </>
+          </Section>
+        </Modal>
+      )
+      expect(labelledBy(html)).toBe('deep')
+    })
+
+    test('no aria-labelledby with no title, nor for the title of a modal nested in it', () => {
+      const html = toHtml(
+        <Modal open>
+          <ModalBody>
+            <Modal>
+              <ModalTitle id="inner">Inner</ModalTitle>
+            </Modal>
+          </ModalBody>
+        </Modal>
+      )
+      expect(/^<dialog[^>]*>/.exec(html)?.[0]).not.toContain('aria-labelledby')
+      expect(danglingReferences(html)).toEqual([])
+    })
+
+    test('a closed modal has no aria-labelledby until it hydrates', () => {
+      const html = toHtml(
+        <Modal>
+          <ModalTitle>Title</ModalTitle>
+        </Modal>
+      )
+      expect(labelledBy(html)).toBeUndefined()
     })
   })
 

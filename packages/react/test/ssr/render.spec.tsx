@@ -79,6 +79,33 @@ describe('first paint on the server', () => {
     expect(page.getByRole('dialog', { name: 'Title' })).toHaveAttribute('open')
   })
 
+  // Regression tests (#67): the server HTML named the generated title id whether or not a title
+  // rendered, and whatever id it had.
+  test('a Modal rendered open is named by its title under the id the title has', () => {
+    const page = within(firstPaint('Modal rendered open, its title with an id of its own'))
+    expect(page.getByRole('dialog', { name: 'Title' })).toHaveAttribute(
+      'aria-labelledby',
+      'own-title'
+    )
+  })
+
+  test('a Modal rendered open with no title has no aria-labelledby', () => {
+    const page = within(firstPaint('Modal rendered open with no title'))
+    expect(page.getByRole('dialog')).not.toHaveAttribute('aria-labelledby')
+  })
+
+  test('a closed Modal names nothing before hydration', () => {
+    // A closed <dialog> has no role, so it is found by its tag.
+    // eslint-disable-next-line testing-library/no-node-access
+    const dialog = firstPaint('Modal rendered closed').querySelector('dialog')
+    expect(dialog).not.toHaveAttribute('aria-labelledby')
+  })
+
+  test('a Drawer rendered open is named by its title', () => {
+    const page = within(firstPaint('Drawer rendered open'))
+    expect(page.getByRole('dialog', { name: 'Filters' })).toHaveAttribute('open')
+  })
+
   test('a Toast shown on its first render is settled, with show', () => {
     const page = within(firstPaint('Toast shown'))
     expect(page.getByRole('status')).toHaveClass('toast', 'fade', 'show')

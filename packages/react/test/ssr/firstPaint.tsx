@@ -22,8 +22,12 @@ export async function loadFirstPaintCases(): Promise<Record<string, () => ReactE
     DataGridRow,
     DatePicker,
     DateRangePicker,
+    Drawer,
+    DrawerHeader,
+    DrawerTitle,
     Modal,
     ModalBody,
+    ModalHeader,
     ModalTitle,
     Menu,
     MenuItem,
@@ -87,6 +91,32 @@ export async function loadFirstPaintCases(): Promise<Record<string, () => ReactE
         <ModalTitle>Title</ModalTitle>
         <ModalBody>Body</ModalBody>
       </Modal>
+    ),
+    'Modal rendered open, its title with an id of its own': () => (
+      <Modal backdrop={false} keyboard={false} open>
+        <ModalHeader>
+          <ModalTitle id="own-title">Title</ModalTitle>
+        </ModalHeader>
+        <ModalBody>Body</ModalBody>
+      </Modal>
+    ),
+    'Modal rendered open with no title': () => (
+      <Modal backdrop={false} keyboard={false} open>
+        <ModalBody>Body</ModalBody>
+      </Modal>
+    ),
+    'Modal rendered closed': () => (
+      <Modal>
+        <ModalTitle>Title</ModalTitle>
+        <ModalBody>Body</ModalBody>
+      </Modal>
+    ),
+    'Drawer rendered open': () => (
+      <Drawer backdrop={false} keyboard={false} open placement="start" scroll>
+        <DrawerHeader>
+          <DrawerTitle>Filters</DrawerTitle>
+        </DrawerHeader>
+      </Drawer>
     ),
     'Toast shown': () => <Toast autohide={false} defaultVisible message="Saved" />,
     'Notification shown': () => <Notification text="Saved" />,

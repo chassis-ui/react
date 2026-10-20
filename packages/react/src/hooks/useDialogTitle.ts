@@ -10,10 +10,13 @@ export type RegisterDialogTitle = (id: string) => () => void
 // a caller gave the title. A dialog with no title has no `aria-labelledby`, which would be a
 // dangling reference, and one that outranks a caller's `aria-label` besides.
 //
-// A server can't know what the dialog's children render, and an effect doesn't run there. Its
-// HTML names `generatedId`, the id a title takes by default, so a dialog rendered open is named
-// before the JavaScript loads; hydration then settles on what registered.
-export function useDialogTitle(generatedId: string): [string | undefined, RegisterDialogTitle] {
+// An effect doesn't run on a server, so until hydration the label is `serverTitleId()`: the id of
+// a title the dialog's children are seen to render (`findDialogTitleId`) when the dialog is
+// rendered open, and none for a closed dialog, which nothing reads a name from. Hydration renders
+// that value again, so it never mismatches, then settles on what registered.
+export function useDialogTitle(
+  serverTitleId: () => string | undefined
+): [string | undefined, RegisterDialogTitle] {
   const hydrated = useHydrated()
   const [titleId, setTitleId] = useState<string>()
   const registerTitle = useCallback<RegisterDialogTitle>((id) => {
@@ -21,5 +24,5 @@ export function useDialogTitle(generatedId: string): [string | undefined, Regist
     return () => setTitleId((current) => (current === id ? undefined : current))
   }, [])
 
-  return [hydrated ? titleId : generatedId, registerTitle]
+  return [hydrated ? titleId : serverTitleId(), registerTitle]
 }

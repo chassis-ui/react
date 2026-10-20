@@ -10,9 +10,15 @@ import {
   Combobox,
   ComboboxGroup,
   ComboboxItem,
+  Drawer,
+  DrawerHeader,
+  DrawerTitle,
   IconProvider,
   List,
   ListItem,
+  Modal,
+  ModalHeader,
+  ModalTitle,
   Nav,
   NavbarToggler,
   NavItem,
@@ -127,6 +133,17 @@ const CASES: Record<string, (wrap: Wrap) => React.ReactElement> = {
         </ComboboxGroup>
       )}
     </Combobox>
+  ),
+  // An open dialog reads its title from its children for its server HTML (`findDialogTitleId`).
+  'Modal rendered open': (wrap) => (
+    <Modal open>
+      {wrap(<ModalHeader>{wrap(<ModalTitle id="title">Title</ModalTitle>)}</ModalHeader>)}
+    </Modal>
+  ),
+  'Drawer rendered open': (wrap) => (
+    <Drawer open placement="start">
+      {wrap(<DrawerHeader>{wrap(<DrawerTitle>Filters</DrawerTitle>)}</DrawerHeader>)}
+    </Drawer>
   ),
   'icon element': (wrap) => (
     <IconProvider icons={{ menu: wrap(<svg data-custom-icon="" />) }}>

@@ -60,6 +60,16 @@ test('Popover opens from its trigger', async ({ page }) => {
   expect(problems).toEqual([])
 })
 
+test('Modal rendered open is named by its title before and after hydration', async ({ page }) => {
+  const server = await serverMarkup(page, '/rsc/modal')
+  expect(server).toMatch(/<dialog[^>]*aria-labelledby="rsc-modal-title"/)
+  expect(server).toContain('id="rsc-modal-title"')
+
+  const problems = await open(page, '/rsc/modal')
+  await expect(page.getByRole('dialog', { name: /Modal title/ })).toContainText('Modal body')
+  expect(problems).toEqual([])
+})
+
 test('Tabs renders its tabs and switches panels', async ({ page }) => {
   const server = await serverMarkup(page, '/rsc/tabs')
   expect(server).toMatch(/role="tab"[^>]*>First</)
