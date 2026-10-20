@@ -1,5 +1,174 @@
 # @chassis-ui/react
 
+## 0.5.0
+
+### Minor Changes
+
+- 7d76ef8: Breaking: `@chassis-ui/css` 0.11 is required (the peer range is `>=0.11.0 <0.12.0`), and a project
+  that compiles its Sass needs `@chassis-ui/tokens` 0.10.1. No prop, export or class name of this
+  package changes; css 0.8 to 0.11 change how a page looks with no change of markup. Headings and the
+  title roles are set in Montserrat, the base colors of the default tokens are new, and buttons,
+  badges, chips, pagination links, progress bars and the other components that had one lose their
+  background gradient (`$enable-background-gradients: true` keeps it). The font family of
+  components is named `ui`: `.font-ui` and `--cx-font-family-ui`, where `.font-text` and
+  `--cx-font-family-text` are deprecated. `.h1` to `.h6` are deprecated for `.font-h1` to
+  `.font-h6`. An SVG icon in a `Link` with `iconLink` is drawn at `1em` of the link text instead of
+  `--cx-icon-size` (24 px with the default tokens); a size class such as `.icon-lg` on the icon makes
+  it larger. Blockquotes are Regular Italic instead of Light Italic. The changelogs of
+  `@chassis-ui/css` 0.8.0 to 0.11.0 have the full list.
+
+  - `style.css` is built with css 0.11 and reads the custom properties of the `ui` family, such as
+    `--cx-font-family-ui`, `--cx-font-size-ui-sm` and `--cx-font-weight-ui-strong`, which css 0.7
+    doesn't declare. The default of `--cx-divider-label-font-size` is `var(--cx-font-size-ui-sm)`,
+    the size it had.
+
+- 36a439b: Fixes to the carousel, the time field, range presets, list items and the scrollspy, and two values that no longer render a class.
+
+  - `Carousel`:
+    - A controlled carousel (`activeIndex`) is fed from `onSlide`. The docs and the development warning also offered `onSlid`, which cannot do it: it fires once a slide has arrived, and a controlled carousel doesn't leave for one until `activeIndex` names it. The warning now fires when `onSlide` is missing, with or without `onSlid`.
+    - When the parent of a controlled carousel doesn't follow a swipe, the track scrolls back to the active slide once the swipe has been at rest for half a second, which leaves a parent that follows late the time to. It stayed on the slide the user had swiped to, and the next step that was followed didn't scroll.
+    - `onSlid` reports the slides `activeIndex` moved between when the parent chose the slide itself, or answered a request with another one. It reported the last step the carousel had asked for.
+    - Autoplay under `ends="stop"` is over when it arrives at the last slide. It waited one more interval there, with the indicator filling and `CarouselPlayPause` reading Pause.
+  - Breaking: an empty `TimeField` with `required` holds its form back from submitting, and its first segment takes focus. `required` was `aria-required` alone and `form.checkValidity()` was `true`. A form that should submit anyway needs `noValidate`.
+  - Breaking: a preset of `RangeCalendar` or `DateRangePicker` with an unavailable day in its range is disabled, as the grid can't select a range across one. It was committed as given.
+  - A `ListItem` whose `component` or `asChild` element is a component, such as a router link, stays mounted when its `href` comes and goes. It was remounted, and lost its state and focus.
+  - `Scrollspy` and `useScrollspy` mark the last section once the scrolling area is at its end. A last section shorter than the area below the activation line never became the active one.
+  - Breaking: `CardImage` renders no class for an `orientation` that `@chassis-ui/css` has none for, and warns in development: `top` or `bottom` at a breakpoint, and any value at `2xl`. It rendered a class with no rule, such as `md:card-image-top`, which did nothing unless your own CSS defined it.
+  - Breaking: `Skeleton` renders no width class for a `span` that isn't a whole number from 1 to 12, `'auto'` or a boolean, such as `0`, `13` or `'50%'`, and warns in development. It rendered a class with no rule, such as `w-13/12`.
+
+- 9b2c9d1: `DataGrid`'s `pin="end"` columns are pinned inside the layout engine, from the column widths and positions it computes, instead of being measured from the page and moved by a `transform` afterwards.
+
+  - An end-pinned column that nothing pushes off the grid stays where the layout put it. In a grid whose columns fit, it was moved by the grid's width and drawn past the last column; after a column narrower than react-stately's 75px minimum, it was drawn past the edge.
+  - An end-pinned column is in the page at any scroll position. One further right than the grid's width plus about a third wasn't rendered until scrolled to.
+  - An end-pinned header is drawn over the headers that scroll under it. It was under every header to its left.
+  - `pin` is read off the column that has it, so columns in a fragment, a wrapper component or the `columns` render function of `DataGridHeader` pin as written. A header with a fragment pinned the wrong column, and the render-function form didn't pin to the end or get either scroll cue.
+  - Under RTL, the end-pinned column is pinned to the left edge, and the grid takes `datagrid-scrolled-start` once scrolled.
+  - Breaking: each scroll-cue shadow is on the edge content scrolls under, the trailing edge of the start group and the leading edge of the end group. They were on the outer edges. The defaults of `--datagrid-pin-cue-shadow-start` and `--datagrid-pin-cue-shadow-end` change to match, with a mirrored pair under `[dir="rtl"]`. A value of your own for either property is applied as before, on the edge its horizontal offset gives; to match the new default, flip the sign of that offset, and give `[dir="rtl"]` the opposite sign.
+  - In Firefox, a `pin="start"` header stays at the edge however often the grid is scrolled. After a couple of horizontal scrolls it scrolled away with the other columns.
+
+- 7dd8314: Fixes to form inputs, the date pickers and the combobox family.
+
+  - Breaking: `required` is the native attribute where it was `aria-required` alone, so a form checks it: on a `NumberField`'s input, on the radios of a required `RadioGroup`, and on the checkboxes of a required `CheckboxGroup` while none is selected. `form.checkValidity()` was `true` for each of them when empty. A form that should submit anyway needs `noValidate`.
+  - A `Radio` passes its `form` to its input.
+  - `ChipInput` inside a `FloatingInput` is named by the floating label. It kept its fallback `aria-label` and was named "Add value Skills".
+  - `OtpInput` focuses the next empty box after a partial paste. Focus went to the last filled box, where the next digit typed replaced it.
+  - Breaking: `InputAdorn` with `component="button"` is `type="button"` unless `type` is given. A password reveal adorn submitted the form around it.
+  - A `Checkbox`, `Radio` or `Switch` with no label applies `className`, on the `.check-input` element, where `style` already went.
+  - Breaking: `Chip` writes `aria-pressed` only on a chip with the button role. A static `pressed` chip had it on a `<span>` with no role, and a chip that is a link (`href`, or an `<a>` as `component` or the `asChild` element) on its `<a>`, which axe reports for both; the `.active` class still shows it. Give a link chip `role="button"` for it to be announced as pressed, as with `Button`.
+  - `Progress` keeps the caller's `aria-labelledby`.
+  - `DatePicker` and `DateRangePicker` describe their segments and calendar button by the help and feedback, which reached only the group around them, and the group keeps react-aria's description of the selected date.
+  - The server HTML of a `Combobox` with no options no longer describes its input by the no-results message, which exists only once hydrated.
+  - `Autocomplete` leaves focus on the field the user moved to when its list closes. It always focused the toggle. `onClick`, `onKeyDown` and `onFocus` given to it run beside the toggle's own handlers; they were replaced.
+  - Breaking: a preset of `RangeCalendar` or `DateRangePicker` is selected as the grid selects a range: its dates in order, kept inside `minValue`/`maxValue`, in the calendar of the current value and with that value's times. A preset with no day inside the limits is disabled.
+
+- 92e7307: `Form`'s `validated` shows every field in the form as valid or invalid.
+
+  - Breaking: `validated` no longer renders the `.was-validated` class. `@chassis-ui/css` has no rule for it, so a validated form showed nothing: no field looked valid, and an invalid one looked invalid only after a submit it had held back. A stylesheet that targets `form.was-validated` needs another selector.
+  - Every field in a `Form` with `validated` shows itself as valid or invalid by its own constraints (`required`, `type`, `pattern` and the like), and again as its value changes: its class, `aria-invalid`, and its `validFeedback` or `invalidFeedback` (`errorMessage` on a group). Set `invalid`, to `false` too, or `valid` on a field, and that prop decides how the field looks instead. This holds for `TextInput`, `Textarea`, `SearchField`, `NumberField`, `Select`, `FileInput`, `ColorInput`, `RangeInput`, `Combobox`, `Autocomplete`, `OtpInput`, `ChipInput`, `Checkbox`, `Switch`, `RadioGroup`, `CheckboxGroup`, `TimeField`, `DatePicker` and `DateRangePicker`. A control that isn't one of these, such as a plain `<input className="form-input">`, isn't affected.
+
+- 2a52f70: Fixes to form fields, `Navbar`, `Carousel` and a few small components.
+
+  - `Autocomplete`: the search field is a query only. After a selection it held the option's text when the list opened again, what was typed went after it so nothing matched, and emptying it cleared the selection. It is now empty each time the list opens, and the selection changes only when an option is chosen.
+  - `Autocomplete`: `value={null}` is a controlled empty selection, so a parent can clear the toggle. It was read as no `value`, and the selection went uncontrolled.
+  - Breaking: a single `Select` with a `placeholder` and no `value`, `defaultValue` or `selected` option starts on the placeholder, and its value is `''`. The browser showed the first enabled option, which was the value, and a `required` select passed validation with nothing chosen. Give `defaultValue` for a select that should start on an option.
+  - `Select`: an option of `options` with a `label`, no `value` and `selected: true` is selected. It renders with its label as its value, and the default was looked for under an empty value.
+  - `OtpInput`: a form reset puts the code back once, to `defaultValue` or empty, with one `onChange`. Each box reset itself against the same code, which left "1234" as "123" and called `onChange` four times.
+  - `OtpInput`: focus on a box past the first empty one moves to that box, where the next digit goes. A digit typed in the third box of `1 _ _ _` landed in the second.
+  - `ChipInput` and `Combobox`: a required field that held a submit back stays marked invalid while what is typed isn't a value, and the mark goes with the chip or the option that satisfies it. The first character typed cleared the mark, and the chip that satisfied a `ChipInput` left it.
+  - `ChipInput`: at `maxChips`, Enter and the separator leave the text they can't add in the input, as a paste does. They cleared it.
+  - `TimeField`: a required field takes focus after a submit it held back once a `label` or `help` was given later. Focus went nowhere.
+  - `RangeCalendar` and `DateRangePicker`: a preset kept inside `minValue`/`maxValue`, or given in reverse, shows as the selected preset once chosen.
+  - `Switch` with `type="radio"`, `isSelected` and no `onChange` no longer logs React's warning about a `checked` input with no handler.
+  - Breaking: `Navbar`'s `container` renders `container` beside its variant, `container fluid` or `container xl`, which `@chassis-ui/css` styles. It rendered `container-fluid` and `container-xl`, which have no rule, so the wrapper had no width and wasn't laid out as the navbar's row. CSS of your own written for those class names needs the new ones.
+  - `Carousel`:
+    - With fewer slides than the active index needs, the last slide there is becomes the active one, which a controlled carousel asks for through `onSlide`. No slide was active, Next was disabled and Prev did nothing under `ends="stop"`.
+    - A controlled carousel looping from its last slide to its first fires `onSlid` once the loop has arrived. It fired as the loop began.
+    - A slide's own `aria-label` is kept. The position ("1 of 3") was written over it.
+    - Unmounting during a loop stops its animation.
+  - `Link`: an `aria-current` given beside `active` is kept. `active` wrote `"page"` over it, as over a step's `"step"`.
+  - `BreadcrumbItem` with `href=""` renders a link, to the current document.
+  - `Pagination` with `pages={0}` renders its Previous and Next controls, disabled, and no pages. It rendered an empty navigation landmark.
+  - `Button` and `CloseButton` pass a `type` they are given to a component reference as `component`. It was dropped.
+
+- cd92542: Fixes to how `Modal`, `Alert`, `Drawer`, `Popover`, `Menu` and `ContextMenu` open, close and nest.
+
+  - A `Modal`, `Alert` or `Drawer` whose `visible` goes back to `true` while its exit transition runs stays open. The end of that exit closed it, with `visible` still `true`.
+  - `onClose` fires once per close. Every Escape or backdrop click during the exit fired it again.
+  - A dialog the browser closes by itself (a second Escape in a row, a `<form method="dialog">`) asks to close through `onClose` and `onVisibleChange(false)`, releases the scroll lock and fires `onHidden`.
+  - `onShown` fires for a dialog mounted with `visible` under `React.StrictMode`.
+  - Breaking: Escape closes the innermost open overlay only. One press closed a menu, the popover it was in and the dialog around both.
+  - Breaking: a press inside an overlay opened from a `Popover`, a `Menu` or a `ContextMenu` (a nested popover, a `Menu` with `container`, a picker's list) no longer counts as a press outside it. `Popover` closes on the press outside, not the click that follows, so a control that removes itself when clicked doesn't close it.
+  - A submenu nested in a `MenuSubmenu` closes with it.
+  - Breaking: `Menu`'s `container` puts the list in the open dialog the menu is in, and so does a `MenuSubmenu` with its panel: both went to `document.body`, behind a `Modal`'s backdrop, where a submenu could not be used. A `Menu` closes when the dialog around it does.
+  - `Modal` and `Drawer` have `aria-labelledby` only when a `ModalTitle` or `DrawerTitle` is rendered, under the id the title has, and not at all when given an `aria-label`. The attribute named an id no element had when there was no title or the title had its own `id`.
+  - Breaking: a `responsive` `Drawer` asks to close when the viewport grows past its breakpoint, where it stayed over a scroll-locked page.
+
+- 513a8e8: Fixes to how dialogs, popovers, menus and toasts open, close, take focus and name themselves.
+
+  - Breaking: `<Drawer scroll>` with its backdrop leaves the page scrollable, as `scroll` says. It locked the page whenever the drawer opened modally.
+  - A `Modal`, `Alert` or `Drawer` taken out of the tree while open (`{open && <Modal visible>}`) returns focus to the element that opened it. Focus fell to `<body>`.
+  - A `ModalTitle` or `DrawerTitle` with `asChild` names its dialog under the child's own `id`. The dialog's `aria-labelledby` named an id no element had.
+  - Breaking: a `Popover` held open by `visible` with no `onVisibleChange` takes no Escape. On top of the open overlays it prevented every Escape, so a `Modal` under it could not close.
+  - A `Popover` whose trigger is in a shadow root toggles closed when the trigger is pressed. The press closed it and the click opened it again.
+  - A `Popover` with no `title` and no `aria-label` is named by its trigger (`aria-labelledby`, and an `id` on the trigger when it has none). It was a dialog with no name.
+  - `Popover` and `Tooltip` fire no `onShow` or `onHide` on mount under `React.StrictMode`.
+  - Breaking: a `Popover` or `Tooltip` mounts its panel once, in the dialog it is in. Content in a dialog mounted twice on its first open: its effects ran twice, its state was lost and its fade with it. One mounted open now fades in.
+  - Breaking: the list of a `Menu`, `MenuSubmenu`, `ContextMenu`, `Combobox` and `Autocomplete` takes its height from chassis-css's `--cx-menu-max-height`. react-aria wrote an inline `max-height` over it. The 320px cap of a `Combobox` or `Autocomplete` list, which the components set under a name chassis-css doesn't read, now applies.
+  - Overlays mounted open together take Escape innermost first. A `Modal` mounted around an open `Menu` took the key from it.
+  - Breaking: a click on a `MenuToggle` closes another open `Menu`. Both stayed open.
+  - Breaking: choosing a `Menu` item returns focus to the toggle, unless the item moved it elsewhere. It fell to `<body>`.
+  - A `ContextMenu` inside another opens alone on a right-click or Shift+F10, and a changed `id` reaches the region and its list's label.
+  - Breaking: a `MenuSubmenu` with `activation="hover"` opens on a tap on a device without hover, and a click on its trigger on a device with hover no longer closes the menu.
+  - A `Toast` or `Notification` hidden while hovered or focused (its close button takes focus) dismisses itself again when shown. A `delay` a timer can't hold (`Infinity`, over 2^31 - 1 ms) runs no timer: it dismissed at once.
+  - Closing a queued toast or notification from the keyboard moves focus to the next one, or back to where it was before the region. It fell to `<body>`.
+
+- 20e97a2: `Progress` and `ProgressBar` take `indeterminate`, for work whose extent is not known: a page navigation, an upload before its size is known, a request with no progress events. The bar sweeps across the track, and `Progress` leaves out `aria-valuenow`, `aria-valuemin` and `aria-valuemax`, where it used to report "0%". `value` and `inlineValue` are ignored, and `showValue` keeps its place in the caption row empty. With `striped` the bar fills the track with its stripes instead, moving when `animated` is set. The sweep animates `transform` only, so it keeps running while the main thread is busy; under `prefers-reduced-motion: reduce` the bar shows still stripes. `--cx-progress-indeterminate-animation` replaces the animation. The styles are in `@chassis-ui/react/style.css`.
+- 8e7d759: `required` on the fields that had none, fields that show the submit they held back, and `form` on the groups.
+
+  - `DatePicker`, `DateRangePicker`, `Combobox`, `Autocomplete`, `OtpInput` and `ChipInput` take `required`. An empty one holds its form back from submitting and takes focus; a form that should submit anyway needs `noValidate`.
+    - `DatePicker` asks for a date, or with `selectionMode="multiple"` for one date at least. `DateRangePicker` asks for both dates.
+    - `Combobox` and `Autocomplete` ask for a selected option: text typed in a `Combobox` without selecting one is not a value.
+    - `OtpInput` asks for every box.
+    - `ChipInput` asks for one chip at least: text typed and not added as a chip is not a value.
+  - Breaking: a field that held its form back from submitting shows as invalid, with its `invalidFeedback` (`errorMessage` on a group), until it no longer would or the form is reset. A form with an invalid field isn't submitted, and nothing said why: react-aria cancels the browser's own message for the fields it backs, and a value in an input that isn't displayed has none. Every form field does this: `TextInput`, `Textarea`, `SearchField`, `NumberField`, `Select`, `FileInput`, `Combobox`, `Autocomplete`, `OtpInput`, `ChipInput`, `Checkbox`, `Switch`, `RadioGroup`, `CheckboxGroup`, `TimeField`, `DatePicker` and `DateRangePicker`. Set `invalid`, to `false` too, or `valid`, and that prop decides how the field looks instead; a form with `noValidate` holds nothing back.
+  - A `CheckboxGroup` that is no longer `invalid` takes the state off its checkboxes. They kept `aria-invalid` and `.is-invalid` once the group had been invalid, until `invalid={false}` was set.
+  - A radio-backed `Switch` (`type="radio"`) with `invalid={false}` no longer renders `aria-invalid="false"`.
+  - `RadioGroup` and `CheckboxGroup` declare `form`, the id of the `<form>` a group rendered outside it belongs to. It already reached every radio and checkbox through react-aria; TypeScript refused it on the group.
+
+- e934a10: Fixes to refs and `asChild`, the navigation components and the carousel.
+
+  - A callback ref that returns a cleanup function (React 19) has it run when the element goes away. Every component that forks your ref with its own (`asChild`, a `Tooltip` or `Popover` trigger, `Link`, `Button`) dropped the cleanup and called the ref with `null` instead. An `async` callback ref is called; it was never called.
+  - Under `asChild`, the inline styles a component computes are merged with the child's own `style`, the child's winning. A child with any `style` lost them: a `Grid`'s `--cx-grid-gap`, a `GridItem`'s `grid-template-rows`.
+  - A component element given to `asChild`, such as a router link, stays mounted when its `href` or `to` comes and goes. It was remounted, and lost its state and focus.
+  - Two copies of the package in one page, or a hot reload of it, no longer leave `outline: none` on a pressed element for good.
+  - `Tab` and `TabPanel` work with a number as `id`, as the type allows. `<Tab id={1}>` showed no panel and ignored `disabled`. `selectedKey`, `defaultSelectedKey` and `disabledKeys` take the numbers too, and `onSelectionChange` reports the `id` as the `Tab` has it.
+  - An item of `List`'s `items` renders as a `ListItem` does. A disabled linked item is out of the tab order and doesn't navigate, and a linked item is marked by a `Scrollspy` around the list.
+  - `NavOverflow` keeps every item of a list that has no more than `threshold` of them. It moved them all into the menu.
+  - An `Accordion` item with no `id` that starts `open` is the one expanded when `onExpandedChange` is set. A different item was.
+  - `Carousel`:
+    - Autoplay follows `interval`, `ends`, `items`, `transition` and `onSlide` as they change. It kept those of the render it started in.
+    - A controlled carousel whose parent leaves `activeIndex` where it is keeps stepping from the slide that is shown.
+    - When autoplay reaches the last slide of `ends="stop"`, `CarouselPlayPause` shows Play. It is disabled on that slide while stopped, as `CarouselControlNext` is, and focus on it moves to the previous control: there is nothing left to play, and Play there ran one interval with no slide to go to. A cycle that would start on the last slide doesn't.
+    - With `transition="fade"`, `onSlid` fires when the incoming slide has faded in. It fired with `onSlide`.
+    - Breaking: in a right-to-left layout Left Arrow moves to the next slide and Right Arrow to the previous one, as the slides lie.
+  - Breaking: a `Button` that is a link (`href`, or an `<a>` as `component` or the `asChild` element) no longer gets `aria-pressed`, which the link role doesn't take and axe reports. `pressed` still applies the `.active` class; give the button `role="button"` for it to be announced as pressed.
+
+- 2b36f91: `gap` of `Stack` takes an object per breakpoint, as its `direction` and every gap of `Flex` do: `gap={{ base: 'sm', md: 'lg' }}` renders `gap-sm md:gap-lg`. A plain value renders as before.
+
+### Patch Changes
+
+- 35c2817: `color` of `DataGrid` colors the grid. It rendered the color class alone, which no rule of the grid's stylesheet reads, so a colored grid looked like one with no color. The prop now renders `context` beside the color, on the grid and on its `footer`, and `style.css` maps the context colors onto the grid as `@chassis-ui/css` does for a table. A hovered row takes the header's background, which is opaque, so that a pinned cell never shows the cells scrolled under it.
+- 0180b18: `DataGrid` no longer writes a `<style>` element for the shadow of its pinned columns. The HTML standard allows a `<style>` in `<body>` only with its rules in `@scope`, and an HTML validator reports the grid's markup since it checks that. The cells and the column header of the last `pin="start"` column and of the first `pin="end"` column now carry `datagrid-pin-cue-start` and `datagrid-pin-cue-end`, and `style.css` gives them the shadow while the grid is scrolled, from the same `--datagrid-pin-cue-shadow-start` and `--datagrid-pin-cue-shadow-end`. The grid loses the class made from `useId` (`datagrid-r…`) that scoped the generated rules.
+- f4d0eea: `FloatingInput` ties its label, help and feedback to the field inside it. It generates the ids and a `TextInput`, `Select` or `Textarea` inside takes them: `<FloatingInput label="Email"><TextInput placeholder="…" /></FloatingInput>` needs no `ids`, no `id` and no `aria-labelledby`, and a `TextInput` or `Textarea` no longer prints react-aria's "If you do not provide a visible label" warning under a floating label. `ids` still replaces a generated id, and ids already repeated on the control keep working. A control that is not a field component of this library, such as a native `<input>`, still takes its ids through `ids` by hand; `FloatingInput` warns in development when no element has the id its label points at, in place of the warning about `ids` not being set.
+- 06e84d0: A pressed link or button no longer gets an inline `outline` style. The library's document-level listener set `style="outline: none"` (`outline: medium` in Safari) on every focusable element at `pointerdown` and took it back on blur, on any element of the page, the library's own or not. In Safari, where a clicked button takes no focus and so never blurs, the style stayed for good and the button showed no focus ring when reached by keyboard later; in the other browsers it hid the ring a key press brings back to a clicked element.
+
+  The outline is now suppressed only where a press would show a keyboard ring: on the pressed element when it takes focus and matches `:focus-visible`, which happens where react-aria focuses by script as the press starts (a `MenuToggle`, a calendar date). It is restored on blur or at the next key press, and an element that had no `style` attribute is left without one.
+
+- 8a0f9d1: `color` of `Spinner` colors the spinner. It rendered `fg-{color}`, which sets the text color, and a spinner of `@chassis-ui/css` draws from `--cx-spinner-color`: every spinner stayed the default color. The prop now renders `spinner-{color}`, as a whole class name.
+- 90455a7: `MenuSubmenuBack` goes back to the list without closing the menu. Its click reached the `autoClose` listener of `Menu` and `ContextMenu`, which read it as a click on an item and closed the whole menu; the click now stops at the back item, as a click on the submenu's trigger does. Closing a `stacked` submenu below the `sm` breakpoint, with the back item, ArrowLeft or Escape, returns focus to its trigger: the trigger was focused while `@chassis-ui/css` still hid it, so focus fell to the page.
+- cbeecae: `color` of `Table` and `StaticTable` colors the table. It rendered the color class alone (`table primary`), and `@chassis-ui/css` colors a table through `.table.context`: the table looked like one with no color. The prop now renders `context` beside the color.
+- 9fb97ff: `orientation="vertical"` of `Tabs` stacks the tabs. It set `aria-orientation` and the arrow keys only, so the list was announced as vertical, answered to the up and down keys, and was drawn as a row. The `TabList` now also gets the `flex-column` class. The panels stay below the list: lay out the root with `className`, for example `d-flex align-items-start gap-md`, to put them beside it.
+
 ## 0.4.1
 
 ### Patch Changes
