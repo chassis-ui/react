@@ -1,6 +1,7 @@
 import React from 'react'
 import { act, render, screen, fireEvent, within } from '@testing-library/react'
 import { axe } from 'jest-axe'
+import { setInteractionModality } from 'react-aria'
 
 import { ToastBody, ToastHeader, Toaster, Button, addToast, toastQueue } from '../../../src/index'
 
@@ -130,6 +131,7 @@ describe('Toaster', () => {
       const [newer, older] = screen.getAllByRole('status')
       const closeOf = (toast: HTMLElement) => within(toast).getByRole('button', { name: 'Close' })
 
+      act(() => setInteractionModality('keyboard'))
       act(() => screen.getByRole('button', { name: 'Origin' }).focus())
       act(() => closeOf(newer!).focus())
       fireEvent.click(closeOf(newer!))
@@ -141,6 +143,40 @@ describe('Toaster', () => {
       act(() => vi.runAllTimers())
       expect(screen.queryAllByRole('status')).toHaveLength(0)
       expect(screen.getByRole('button', { name: 'Origin' })).toHaveFocus()
+      vi.useRealTimers()
+    })
+
+    // A click focuses the button it lands on. Handed on to the next toast, focus paused that
+    // toast's autohide until the user clicked somewhere else; it goes back where it came from.
+    test('closing a toast with the pointer gives focus back and leaves the next to autohide', () => {
+      vi.useFakeTimers()
+      render(
+        <>
+          <button type="button">Origin</button>
+          <Toaster />
+        </>
+      )
+      act(() => {
+        addToast(<ToastHeader closeButton>Older</ToastHeader>, { delay: 1000 })
+        addToast(<ToastHeader closeButton>Newer</ToastHeader>, { delay: 1000 })
+      })
+      act(() => vi.advanceTimersByTime(250))
+      const [newer] = screen.getAllByRole('status')
+      const close = within(newer!).getByRole('button', { name: 'Close' })
+
+      act(() => screen.getByRole('button', { name: 'Origin' }).focus())
+      act(() => setInteractionModality('pointer'))
+      fireEvent.pointerDown(close, { pointerType: 'mouse' })
+      act(() => close.focus())
+      fireEvent.click(close, { detail: 1 })
+      act(() => vi.advanceTimersByTime(250))
+      expect(screen.queryByText('Newer')).not.toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Origin' })).toHaveFocus()
+
+      act(() => vi.advanceTimersByTime(10_000))
+      // The exit transition the timer starts.
+      act(() => vi.runAllTimers())
+      expect(screen.queryByText('Older')).not.toBeInTheDocument()
       vi.useRealTimers()
     })
 

@@ -1,5 +1,5 @@
 import { FocusEvent, ForwardedRef, useRef } from 'react'
-import { mergeProps, ToastRegionAria, useToastRegion } from 'react-aria'
+import { mergeProps, ToastRegionAria, useFocusVisible, useToastRegion } from 'react-aria'
 import { ToastQueue, ToastState, useToastQueue } from 'react-stately'
 
 import { useForkedRef } from './useForkedRef'
@@ -36,7 +36,9 @@ const focusToast = (toast: HTMLElement) => {
 // `role="alertdialog"`. These toasts are `status` or `alert`, so one closed from the keyboard
 // took focus to `<body>` with it. The region hands it on itself: to the toast that takes the
 // closed one's place, or the one before it, and with none left to the element focused before
-// focus entered the region.
+// focus entered the region. A toast closed with the pointer hands it straight back to that
+// element, as react-aria's region does: the next toast, holding focus after a click it never had,
+// kept its autohide paused until the user clicked somewhere else.
 export function useToastRegionQueue<T>(
   queue: ToastQueue<T>,
   ref: ForwardedRef<HTMLDivElement>
@@ -50,6 +52,8 @@ export function useToastRegionQueue<T>(
   const focusedIndexRef = useRef(-1)
   // Where focus was before it entered the region.
   const returnFocusRef = useRef<HTMLElement | null>(null)
+  // `false` while the last interaction was a pointer one.
+  const { isFocusVisible } = useFocusVisible()
 
   const onFocus = (event: FocusEvent<HTMLDivElement>) => {
     const region = event.currentTarget
@@ -83,7 +87,7 @@ export function useToastRegionQueue<T>(
       if (moved !== -1) focusedIndexRef.current = moved
       return
     }
-    const next = toasts[index] ?? toasts[index - 1]
+    const next = isFocusVisible ? (toasts[index] ?? toasts[index - 1]) : undefined
     if (next) {
       focusToast(next)
       return

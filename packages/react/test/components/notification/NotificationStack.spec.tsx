@@ -1,6 +1,7 @@
 import React from 'react'
 import { act, render, screen, fireEvent, within } from '@testing-library/react'
 import { axe } from 'jest-axe'
+import { setInteractionModality } from 'react-aria'
 
 import {
   Button,
@@ -96,6 +97,7 @@ describe('NotificationStack', () => {
       const closeOf = (notification: HTMLElement) =>
         within(notification).getByRole('button', { name: 'Close' })
 
+      act(() => setInteractionModality('keyboard'))
       act(() => screen.getByRole('button', { name: 'Origin' }).focus())
       act(() => closeOf(newer!).focus())
       fireEvent.click(closeOf(newer!))
@@ -107,6 +109,37 @@ describe('NotificationStack', () => {
       act(() => vi.runAllTimers())
       expect(screen.queryAllByRole('status')).toHaveLength(0)
       expect(screen.getByRole('button', { name: 'Origin' })).toHaveFocus()
+      vi.useRealTimers()
+    })
+
+    // Regression test: see the same case in `Toaster.spec.tsx`.
+    test('closing a notification with the pointer leaves the next to autohide', () => {
+      vi.useFakeTimers()
+      render(
+        <>
+          <button type="button">Origin</button>
+          <NotificationStack />
+        </>
+      )
+      act(() => {
+        addNotification('Older', { autohide: true, delay: 1000, dismissible: true })
+        addNotification('Newer', { autohide: true, delay: 1000, dismissible: true })
+      })
+      const [newer] = screen.getAllByRole('status')
+      const close = within(newer!).getByRole('button', { name: 'Close' })
+
+      act(() => screen.getByRole('button', { name: 'Origin' }).focus())
+      act(() => setInteractionModality('pointer'))
+      fireEvent.pointerDown(close, { pointerType: 'mouse' })
+      act(() => close.focus())
+      fireEvent.click(close, { detail: 1 })
+      act(() => vi.advanceTimersByTime(250))
+      expect(screen.getByRole('button', { name: 'Origin' })).toHaveFocus()
+
+      act(() => vi.advanceTimersByTime(10_000))
+      // The exit transition the timer starts.
+      act(() => vi.runAllTimers())
+      expect(screen.queryAllByRole('status')).toHaveLength(0)
       vi.useRealTimers()
     })
 
