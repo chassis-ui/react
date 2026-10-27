@@ -85,6 +85,7 @@ function MenuToggleRender<C extends ElementType = typeof Button>(
     caret = true,
     className,
     component,
+    disabled,
     href,
     onClick,
     onKeyDown,
@@ -110,9 +111,15 @@ function MenuToggleRender<C extends ElementType = typeof Button>(
   // `Button` applies the `href` rule itself; anything else gets `href` only if it can take one.
   const linkProps = Component === Button ? { href } : hrefProps(kind, href, 'MenuToggle')
   // `elementType` tells react-aria whether the rendered root already has native button
-  // semantics or needs them emulated (`role="button"`, keyboard activation).
+  // semantics or needs them emulated (`role="button"`, keyboard activation). `isDisabled` keeps
+  // its press and its keys from opening the menu: `disabled` alone reaches only the rendered
+  // element, and an `<a>` (a `NavLink`, a `Button` with `href`) still delivers both.
   const { buttonProps } = useButton(
-    { ...menuTriggerProps, elementType: rendersButton ? 'button' : 'a' },
+    {
+      ...menuTriggerProps,
+      elementType: rendersButton ? 'button' : 'a',
+      isDisabled: disabled
+    },
     buttonRef
   )
   const wasOpenRef = useRef(false)
@@ -162,6 +169,7 @@ function MenuToggleRender<C extends ElementType = typeof Button>(
       // `this._element.classList.add('show')` — it's what puts the trigger itself into a
       // pressed look while its menu is open (`.button.show`/`.nav-item.show .nav-link`).
       className={classNames({ caret, show: visible }, className)}
+      disabled={disabled}
       {...(mergeProps({ onPointerDown: handlePointerDown }, rest, buttonProps, {
         onClick: handleClick,
         onKeyDown,

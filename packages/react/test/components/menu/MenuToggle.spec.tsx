@@ -148,6 +148,45 @@ describe('MenuToggle', () => {
     })
   })
 
+  // `disabled` reached only the rendered element, and react-aria's trigger opened on a press
+  // or a key all the same: an `<a>` delivers both.
+  describe('disabled', () => {
+    const DisabledMenu = (props: { component?: typeof NavLink; href?: string }) => (
+      <Menu>
+        <MenuToggle disabled {...props}>
+          Account
+        </MenuToggle>
+        <MenuList>
+          <MenuItem>A</MenuItem>
+        </MenuList>
+      </Menu>
+    )
+
+    test.each([
+      ['a NavLink', { component: NavLink, href: '#' }],
+      ['a Button with href', { href: '#' }]
+    ])('%s never opens its menu on a click or a key', async (_, props) => {
+      const user = userEvent.setup()
+      render(<DisabledMenu {...props} />)
+      const toggle = screen.getByText('Account')
+      expect(toggle).toHaveAttribute('aria-disabled', 'true')
+      await user.click(toggle)
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
+      for (const key of ['ArrowDown', 'ArrowUp', 'Enter', ' ']) {
+        fireEvent.keyDown(toggle, { key })
+        expect(toggle).toHaveAttribute('aria-expanded', 'false')
+      }
+    })
+
+    test('a disabled button never opens its menu on a pointerdown', () => {
+      render(<DisabledMenu />)
+      const toggle = screen.getByRole('button', { name: 'Account' })
+      expect(toggle).toBeDisabled()
+      fireEvent.pointerDown(toggle, { pointerType: 'mouse', button: 0 })
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    })
+  })
+
   describe('click behavior', () => {
     // react-aria focuses the toggle by script while the press starts, and a browser then matches
     // `:focus-visible` on it, which is what the global listeners act on. jsdom doesn't.
