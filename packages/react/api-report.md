@@ -3926,6 +3926,11 @@ interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'che
    */
   onChange?: (isSelected: boolean) => void;
   /**
+   * Toggle the read-only state: the control keeps its state, can still be focused, and says it
+   * is read-only (`aria-readonly`).
+   */
+  readOnly?: boolean;
+  /**
    * Size the component sm or lg.
    */
   size?: 'lg' | 'sm';
@@ -4587,6 +4592,11 @@ interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'check
    * Callback fired when the selected state changes.
    */
   onChange?: (isSelected: boolean) => void;
+  /**
+   * Toggle the read-only state: the control keeps its state, can still be focused, and says it
+   * is read-only (`aria-readonly`).
+   */
+  readOnly?: boolean;
   /**
    * Size the component sm or lg.
    */

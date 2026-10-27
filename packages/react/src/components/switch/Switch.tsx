@@ -54,6 +54,11 @@ export interface SwitchProps extends Omit<
    */
   onChange?: (isSelected: boolean) => void
   /**
+   * Toggle the read-only state: the control keeps its state, can still be focused, and says it
+   * is read-only (`aria-readonly`).
+   */
+  readOnly?: boolean
+  /**
    * Size the component sm or lg.
    */
   size?: 'sm' | 'lg'
@@ -172,6 +177,7 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
       isSelected,
       label,
       onChange,
+      readOnly,
       size,
       style,
       valid: validProp,
@@ -188,9 +194,11 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
     // shape React developers reach for first names the control instead of vanishing.
     const resolvedLabel = label ?? children
 
+    // `readOnly` goes to react-aria, as in `Checkbox`: a browser ignores the native attribute.
     const toggleState = useToggleState({
       defaultSelected,
       isDisabled: disabled,
+      isReadOnly: readOnly,
       isSelected,
       onChange
     })
@@ -201,6 +209,7 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
         children: resolvedLabel,
         isDisabled: disabled,
         isInvalid: invalid,
+        isReadOnly: readOnly,
         value: rest.value as string | undefined
       } as AriaSwitchProps,
       toggleState,
@@ -244,6 +253,7 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
       isSelected,
       label,
       onChange,
+      readOnly,
       size,
       style,
       valid: validProp,
@@ -264,11 +274,22 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
     const radioProps = {
       ...rest,
       'aria-invalid': invalid || undefined,
+      // A browser ignores `readonly` on a radio: a read-only switch keeps its click from checking
+      // it, and says so.
+      'aria-readonly': readOnly || undefined,
       checked: isSelected,
       defaultChecked: defaultSelected,
       disabled,
+      ...(readOnly && {
+        onClick: (event: React.MouseEvent<HTMLInputElement>) => {
+          rest.onClick?.(event)
+          event.preventDefault()
+        }
+      }),
       // Always a handler: React takes a `checked` input with none for a mistake and warns.
-      onChange: (event: React.ChangeEvent<HTMLInputElement>) => onChange?.(event.target.checked),
+      onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!readOnly) onChange?.(event.target.checked)
+      },
       role: 'switch' as const,
       type: 'radio' as const
     }

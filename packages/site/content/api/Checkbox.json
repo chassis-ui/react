@@ -231,6 +231,25 @@
         "name": "((isSelected: boolean) => void)"
       }
     },
+    "readOnly": {
+      "defaultValue": null,
+      "description": "Toggle the read-only state: the control keeps its state, can still be focused, and says it\nis read-only (`aria-readonly`).",
+      "name": "readOnly",
+      "parent": {
+        "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "size": {
       "defaultValue": null,
       "description": "Size the component sm or lg.",
