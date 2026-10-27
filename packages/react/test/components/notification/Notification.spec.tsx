@@ -270,6 +270,31 @@ describe('Notification', () => {
       expect(screen.queryByRole('status')).not.toBeInTheDocument()
       vi.useRealTimers()
     })
+
+    // Leaving or blurring restarted the whole delay, where the docs promise the countdown resumes.
+    test.each([
+      ['hover', fireEvent.mouseEnter, fireEvent.mouseLeave],
+      ['focus', fireEvent.focus, fireEvent.blur]
+    ])('resumes with the time left after a %s', (_, pause, resume) => {
+      vi.useFakeTimers()
+      render(
+        <Notification autohide delay={1000}>
+          Test
+        </Notification>
+      )
+      const notification = screen.getByRole('status')
+      // The entrance settles, then 800 of the 1000 ms run: 200 are owed.
+      act(() => vi.advanceTimersByTime(100))
+      act(() => vi.advanceTimersByTime(800))
+      pause(notification)
+      act(() => vi.advanceTimersByTime(5000))
+      resume(notification)
+      // The 200 owed, then the exit transition.
+      act(() => vi.advanceTimersByTime(200))
+      act(() => vi.advanceTimersByTime(300))
+      expect(screen.queryByRole('status')).not.toBeInTheDocument()
+      vi.useRealTimers()
+    })
   })
 
   describe('show/hide transition', () => {
