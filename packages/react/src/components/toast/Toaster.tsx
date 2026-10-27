@@ -1,5 +1,6 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
+import { mergeProps } from 'react-aria'
 
 import { useToastRegionQueue } from '../../hooks'
 import { Portal } from '../portal/Portal'
@@ -59,7 +60,9 @@ export const Toaster = forwardRef<HTMLDivElement, ToasterProps>(
 
     const toaster = (toasterRef?: React.Ref<HTMLDivElement>) => {
       return state.visibleToasts.length > 0 || children ? (
-        <div className={_className} {...regionProps} {...rest} ref={toasterRef}>
+        // Merged, so a caller's `onFocus`, `onBlur` or `onKeyDown` chains with the region's own,
+        // which hand focus on when a toast closes, rather than replacing them.
+        <div className={_className} {...mergeProps(regionProps, rest)} ref={toasterRef}>
           {children}
           {state.visibleToasts.map((queued) => {
             const { children: toastChildren, ...toastProps } = queued.content

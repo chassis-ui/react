@@ -1,4 +1,5 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
+import { mergeProps } from 'react-aria'
 
 import { useToastRegionQueue } from '../../hooks'
 import { Stack } from '../stack'
@@ -41,8 +42,8 @@ export const NotificationStack = forwardRef<HTMLDivElement, NotificationStackPro
         direction="vertical"
         gap="sm"
         className={className}
-        {...regionProps}
-        {...rest}
+        // Merged, as in `Toaster`: a caller's handlers chain with the region's own.
+        {...mergeProps(regionProps, rest)}
         ref={forkedRef}
       >
         {children}
