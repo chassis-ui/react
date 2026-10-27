@@ -10,6 +10,10 @@ const holdsPlacedStackedPanel = (node: HTMLElement) =>
     (panel) => getComputedStyle(panel).position !== 'static'
   )
 
+const releaseRoom = (node: HTMLElement) => {
+  if (node.style.maxHeight) node.style.removeProperty('max-height')
+}
+
 const fitToRoom = (node: HTMLElement) => {
   const room = node.style.maxHeight
   if (room === kept.get(node)) return
@@ -42,20 +46,30 @@ const fitToRoom = (node: HTMLElement) => {
 // For `Menu`, `MenuSubmenu`, `ContextMenu`, `Combobox` and `Autocomplete`, which take only the
 // position from the hook (`resolveMenuOverlayPositioning`). Call it after `useOverlayPosition`, so
 // its layout effect runs after the hook's own.
-export function useOverlayMaxHeight(overlayRef: RefObject<HTMLElement | null>, isOpen: boolean) {
+//
+// `Popover` and `Tooltip` `release` the room instead: their panels have no cap of their own to
+// fit under, and an arrow at their edge that a scrolling panel would clip, so each is as tall as
+// its content, as chassis-css's own popovers are. Kept, the room clipped a popover's content
+// inside its border, and a tooltip's was `0px` where react-aria placed it before it had a size.
+export function useOverlayMaxHeight(
+  overlayRef: RefObject<HTMLElement | null>,
+  isOpen: boolean,
+  mode: 'fit' | 'release' = 'fit'
+) {
   const observedRef = useRef<{ node: HTMLElement; observer: MutationObserver } | null>(null)
+  const place = mode === 'fit' ? fitToRoom : releaseRoom
 
   // Every commit: the panel can be a new element (a list moved into a dialog), and the hook
   // places it again in its own layout effect.
   useIsomorphicLayoutEffect(() => {
     const node = isOpen ? overlayRef.current : null
     const observed = observedRef.current
-    if (node) fitToRoom(node)
+    if (node) place(node)
     if (observed?.node === node) return
     observed?.observer.disconnect()
     observedRef.current = null
     if (!node || typeof MutationObserver === 'undefined') return
-    const observer = new MutationObserver(() => fitToRoom(node))
+    const observer = new MutationObserver(() => place(node))
     observer.observe(node, { attributes: true, attributeFilter: ['style'] })
     observedRef.current = { node, observer }
   })

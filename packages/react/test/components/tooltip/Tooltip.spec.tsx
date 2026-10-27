@@ -398,6 +398,20 @@ describe('Tooltip', () => {
       vi.useRealTimers()
     })
 
+    // The room react-aria wrote as an inline `max-height` was `0px` for a tooltip it placed before
+    // the panel had a size. The panel is as tall as its content.
+    test('keeps no inline max-height from react-aria', () => {
+      vi.useFakeTimers()
+      render(
+        <Tooltip content="content" defaultVisible>
+          <Link href="#">Test</Link>
+        </Tooltip>
+      )
+      act(() => vi.runAllTimers())
+      expect(screen.getByRole('tooltip').style.maxHeight).toBe('')
+      vi.useRealTimers()
+    })
+
     test('a caller `id` names the panel, and the trigger is still described by it', () => {
       vi.useFakeTimers()
       render(

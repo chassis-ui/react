@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { flushSync } from 'react-dom'
-import { act, render, screen, fireEvent, within } from '@testing-library/react'
+import { act, render, screen, fireEvent, waitFor, within } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { Popover, Button, Menu, MenuItem, MenuList, MenuToggle, Modal } from '../../../src/index'
@@ -807,6 +807,28 @@ describe('Popover', () => {
       fireEvent.mouseEnter(panel)
       expect(onMouseEnter).toHaveBeenCalledTimes(1)
       vi.useRealTimers()
+    })
+
+    // react-aria's `useOverlayPosition` writes the room it finds as an inline `max-height` on the
+    // panel itself, which nothing scrolled: a popover taller than the room overflowed its own
+    // border. The panel is as tall as its content, as chassis-css's own popovers are.
+    test('keeps no inline max-height from react-aria, on open or when placed again', async () => {
+      vi.useFakeTimers()
+      render(
+        <Popover content="content" defaultVisible title="title">
+          <Button>Test</Button>
+        </Popover>
+      )
+      act(() => vi.runAllTimers())
+      const panel = screen.getByRole('dialog')
+      expect(panel.style.maxHeight).toBe('')
+
+      // Placed again: the hook writes the room once more, and it is taken off before the paint.
+      act(() => {
+        panel.style.maxHeight = '120px'
+      })
+      vi.useRealTimers()
+      await waitFor(() => expect(panel.style.maxHeight).toBe(''))
     })
 
     test('a caller `id` names the panel, and the trigger still points at it', () => {

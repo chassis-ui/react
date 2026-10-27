@@ -18,6 +18,7 @@ import {
   useFloatingOverlay,
   useForkedRef,
   useOpenStateProps,
+  useOverlayMaxHeight,
   useTransitionState
 } from '../../hooks'
 import { insideEventProps, isEventInside } from '../../utils/insideEvents'
@@ -254,6 +255,10 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
     // `Autocomplete`/`Combobox`, neither of which is wired into that map.
     onClose: null
   })
+
+  // The hook writes the room it finds as an inline `max-height` on the panel itself; the panel is
+  // as tall as its content (`useOverlayMaxHeight`).
+  useOverlayMaxHeight(floatingRef, state.isOpen, 'release')
 
   // The caller's `style` first: the position is the component's to set.
   const floatingStyle: React.CSSProperties = {
