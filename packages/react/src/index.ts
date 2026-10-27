@@ -515,6 +515,9 @@ export type {
   UseNotificationResult
 } from './components/notification'
 export type { OtpInputProps } from './components/otp-input'
+// Beside the `I18nProvider` value above: a consumer wrapping the provider types its props from
+// this package, not from a react-aria copy of their own.
+export type { I18nProviderProps } from 'react-aria'
 export type { PaginationItemProps, PaginationProps } from './components/pagination'
 export type { PasswordStrengthProps } from './components/password-strength'
 export type { PlaceholderProps } from './components/placeholder'
