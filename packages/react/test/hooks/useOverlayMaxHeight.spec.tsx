@@ -46,6 +46,30 @@ const resize = async () => {
 describe('useOverlayMaxHeight', () => {
   beforeEach(() => themeCap('320px'))
 
+  // Since 0.5.1 the list scrolled inside the room, and clipped the `stacked` panel it holds,
+  // which sits beside its trigger above the `sm` breakpoint.
+  test("a Menu's list that holds a stacked submenu doesn't scroll, so it doesn't clip it", async () => {
+    sheet?.remove()
+    render(
+      <Menu defaultVisible>
+        <MenuToggle>Toggle</MenuToggle>
+        <MenuList>
+          <MenuSubmenu stacked trigger="More">
+            <MenuItem>Deep</MenuItem>
+          </MenuSubmenu>
+        </MenuList>
+      </Menu>
+    )
+    const [list, stackedPanel] = screen.getAllByRole('menu', { hidden: true })
+    expect(list!.contains(stackedPanel!)).toBe(true)
+    await act(async () => {
+      list!.style.maxHeight = '240px'
+      await Promise.resolve()
+    })
+    expect(list!.style.overflowY).toBe('')
+    expect(list!.style.maxHeight).toBe('')
+  })
+
   test("a Menu's list keeps the room where the theme has no cap, and scrolls inside it", () => {
     sheet?.remove()
     render(

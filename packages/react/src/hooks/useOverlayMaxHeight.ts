@@ -11,6 +11,10 @@ const fitToRoom = (node: HTMLElement) => {
   if (kept.delete(node)) node.style.removeProperty('overflow-y')
   if (!room) return
   node.style.removeProperty('max-height')
+  // A `stacked` submenu renders its panel inside the list (`MenuSubmenu`), placed beside its
+  // trigger above the `sm` breakpoint: a list that scrolls would clip it. Such a list keeps the
+  // theme's cap only, as before 0.5.1.
+  if (node.querySelector('.submenu-stacked')) return
   // `none` parses to NaN, which no room reaches: with no cap, the room is the height.
   if (Number.parseFloat(room) >= Number.parseFloat(getComputedStyle(node).maxHeight)) return
   node.style.maxHeight = room
@@ -25,7 +29,7 @@ const fitToRoom = (node: HTMLElement) => {
 // theme's cap: a `Combobox` list 360.5px tall against a 320px token. So it is taken off where the
 // cap is smaller, and kept where it is the smaller one, with the list scrolling inside it: a menu
 // taller than the room on either side of its trigger otherwise runs off the viewport. Each write
-// is handled before the paint.
+// is handled before the paint. A list that holds a `stacked` submenu's panel is left to the cap.
 //
 // For `Menu`, `MenuSubmenu`, `ContextMenu`, `Combobox` and `Autocomplete`, which take only the
 // position from the hook (`resolveMenuOverlayPositioning`). Call it after `useOverlayPosition`, so
