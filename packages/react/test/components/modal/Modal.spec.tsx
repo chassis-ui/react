@@ -147,6 +147,42 @@ describe('Modal', () => {
       vi.useRealTimers()
     })
 
+    // Chromium honours `cancel`'s `preventDefault()` once per user activation, so a second Escape
+    // in a row closed the dialog anyway. The keydown itself is prevented, which sends no `cancel`.
+    test('keyboard=false prevents the Escape keydown of a modal dialog and bounces', () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      const onClosePrevented = vi.fn()
+      render(
+        <Modal keyboard={false} onClose={onClose} onClosePrevented={onClosePrevented} visible>
+          <button type="button">Inside</button>
+        </Modal>
+      )
+      const inside = screen.getByRole('button', { name: 'Inside' })
+      expect(fireEvent.keyDown(inside, { key: 'Escape' })).toBe(false)
+      expect(onClosePrevented).toHaveBeenCalledTimes(1)
+      expect(getDialog()).toHaveClass('dialog-static')
+      act(() => {
+        vi.runAllTimers()
+      })
+      expect(fireEvent.keyDown(inside, { key: 'Escape' })).toBe(false)
+      expect(onClosePrevented).toHaveBeenCalledTimes(2)
+      expect(onClose).not.toHaveBeenCalled()
+      vi.useRealTimers()
+    })
+
+    // With Escape allowed, the key is left to the browser, whose `cancel` closes the dialog.
+    test('leaves the Escape keydown of a modal dialog to the browser when keyboard is on', () => {
+      render(
+        <Modal visible>
+          <button type="button">Inside</button>
+        </Modal>
+      )
+      expect(
+        fireEvent.keyDown(screen.getByRole('button', { name: 'Inside' }), { key: 'Escape' })
+      ).toBe(true)
+    })
+
     test('modal={false} keyboard=false blocks Escape and bounces instead (keydown fallback)', () => {
       vi.useFakeTimers()
       const onClose = vi.fn()

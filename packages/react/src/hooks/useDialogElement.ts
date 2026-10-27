@@ -337,10 +337,10 @@ export const useDialogElement = ({
   }, [isOpen])
 
   // The native `close` event. After our own `close()` the phase is settled and there is nothing
-  // left to do. Otherwise the browser closed the dialog by itself: a second Escape in a row,
-  // whose `cancel` it doesn't let a page prevent, a `<form method="dialog">`, or a caller's own
-  // `close()`. The state follows: a close request, the scroll lock released, `onHidden`. A
-  // caller that holds `visible` through that request has a closed dialog until `visible` changes.
+  // left to do. Otherwise the browser closed the dialog by itself: a `<form method="dialog">`, a
+  // caller's own `close()`, or a close request it doesn't let a page cancel. The state follows: a
+  // close request, the scroll lock released, `onHidden`. A caller that holds `visible` through
+  // that request has a closed dialog until `visible` changes.
   //
   // A browser fires `close` from a task it queues, not inside `close()`. A dialog shown again
   // before that task runs (the next step of a wizard opened from `onHidden`, `visible` set to
@@ -382,9 +382,14 @@ export const useDialogElement = ({
   // dialog has handled and stopped never arrives, wherever that thing is portaled. One it has
   // only prevented, or that an overlay open inside this dialog is about to take on `window`
   // (`overlayStack`), is left alone too: Escape closes the innermost overlay only.
+  // A modal dialog that keeps Escape out (`keyboard={false}`) prevents the key too: Chromium
+  // honours `cancel`'s `preventDefault()` once per user activation, and a second Escape in a row
+  // closed the dialog anyway. A prevented keydown sends no `cancel` at all, so the bounce is
+  // started here.
   const handleKeyDown = (event: ReactKeyboardEvent<HTMLDialogElement>) => {
     onKeyDown?.(event)
-    if (event.key !== 'Escape' || event.defaultPrevented || openedAsModalRef.current) return
+    if (event.key !== 'Escape' || event.defaultPrevented) return
+    if (openedAsModalRef.current && keyboard) return
     const dialog = dialogRef.current
     if (dialog && hasOverlayWithin(dialog)) return
     event.preventDefault()
