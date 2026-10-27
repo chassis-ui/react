@@ -13,7 +13,11 @@ import {
   MenuSubmenuBack,
   MenuText,
   Modal,
-  Popover
+  Popover,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs
 } from '../../../src/index'
 
 // The region with a menu of three items, and a button inside the region so a keyboard user has
@@ -542,6 +546,32 @@ describe('ContextMenu', () => {
       settle()
       fireEvent.click(screen.getByText('Name'))
       expect(isOpen()).toBe(true)
+    })
+
+    // react-aria's `usePress` stops the `pointerdown` of the element it is on: see `Menu`.
+    test('a press on a react-aria pressable outside closes the menu', () => {
+      render(
+        <>
+          <Subject />
+          <Tabs>
+            <TabList aria-label="Tabs">
+              <Tab id="one">One</Tab>
+              <Tab id="two">Two</Tab>
+            </TabList>
+            <TabPanel id="one">1</TabPanel>
+            <TabPanel id="two">2</TabPanel>
+          </Tabs>
+        </>
+      )
+      rightClick(region())
+      settle()
+      expect(isOpen()).toBe(true)
+      const tab = screen.getByRole('tab', { name: 'Two' })
+      fireEvent.pointerDown(tab, { button: 0, pointerId: 1, pointerType: 'mouse' })
+      fireEvent.pointerUp(tab, { button: 0, pointerId: 1, pointerType: 'mouse' })
+      fireEvent.click(tab, { detail: 1 })
+      settle()
+      expect(isOpen()).toBe(false)
     })
 
     test('Tab out of the menu closes it', () => {

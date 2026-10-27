@@ -28,6 +28,7 @@ import {
 } from '../../utils/overlayPlacement'
 import { NavOverflowBoundary } from '../../utils/navOverflow'
 import { pushOverlay } from '../../utils/overlayStack'
+import { listenOnWindow } from '../../utils/windowEvents'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -423,16 +424,17 @@ function MenuRender<C extends ElementType = typeof Fragment>(
       else hide()
     }
 
+    // On `window`, including a click that a react-aria pressable outside stopped
+    // (`listenOnWindow`).
+    const cleanups: Array<() => void> = []
     const id = window.setTimeout(() => {
-      window.addEventListener('click', handleDismiss)
-      window.addEventListener('keyup', handleDismiss)
+      cleanups.push(listenOnWindow('click', handleDismiss), listenOnWindow('keyup', handleDismiss))
       openMenuDismissals.add(handleDismiss)
     })
 
     return () => {
       window.clearTimeout(id)
-      window.removeEventListener('click', handleDismiss)
-      window.removeEventListener('keyup', handleDismiss)
+      for (const cleanup of cleanups) cleanup()
       openMenuDismissals.delete(handleDismiss)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -23,6 +23,7 @@ import { resolveSlottedId } from '../../utils/elementKind'
 import { isEventInside } from '../../utils/insideEvents'
 import { resolveMenuOverlayPositioning, toAriaPlacement } from '../../utils/overlayPlacement'
 import { pushOverlay } from '../../utils/overlayStack'
+import { listenOnWindow } from '../../utils/windowEvents'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -310,14 +311,15 @@ function ContextMenuRender<C extends ElementType = 'div'>(
       hide()
     }
 
-    window.addEventListener('pointerdown', handlePointerDown)
-    window.addEventListener('click', handleClick)
-    window.addEventListener('keyup', handleKeyUp)
-
+    // On `window`, including a press that a react-aria pressable outside stopped
+    // (`listenOnWindow`).
+    const cleanups = [
+      listenOnWindow('pointerdown', handlePointerDown),
+      listenOnWindow('click', handleClick),
+      listenOnWindow('keyup', handleKeyUp)
+    ]
     return () => {
-      window.removeEventListener('pointerdown', handlePointerDown)
-      window.removeEventListener('click', handleClick)
-      window.removeEventListener('keyup', handleKeyUp)
+      for (const cleanup of cleanups) cleanup()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isOpen, autoClose])
