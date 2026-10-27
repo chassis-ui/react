@@ -13,7 +13,12 @@ import {
   MenuSubmenuBack,
   MenuText,
   Modal,
-  Popover
+  NumberField,
+  Popover,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs
 } from '../../../src/index'
 
 // The region with a menu of three items, and a button inside the region so a keyboard user has
@@ -206,6 +211,8 @@ describe('ContextMenu', () => {
 
       const cut = screen.getByRole('menuitem', { name: 'Cut' })
       expect(fireEvent.click(cut)).toBe(false)
+      // Once a click that never reached `window` has been handled too (`listenOnWindow`).
+      act(() => vi.advanceTimersByTime(1))
       expect(onClick).not.toHaveBeenCalled()
       expect(isOpen()).toBe(true)
 
@@ -504,6 +511,8 @@ describe('ContextMenu', () => {
       expect(trigger).toHaveAttribute('aria-expanded', 'true')
 
       fireEvent.click(screen.getByRole('menuitem', { name: 'Back' }))
+      // Once a click that never reached `window` has been handled too (`listenOnWindow`).
+      settle()
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
       expect(isOpen()).toBe(true)
       expect(trigger).toHaveFocus()
@@ -542,6 +551,56 @@ describe('ContextMenu', () => {
       settle()
       fireEvent.click(screen.getByText('Name'))
       expect(isOpen()).toBe(true)
+    })
+
+    // react-aria's `usePress` stops the click of the element it is on, which the dismissal hears a
+    // task later (`listenOnWindow`): one on a control in the list is that control's, as in `Menu`.
+    test('a click on a react-aria control in the list keeps the menu open', () => {
+      render(
+        <ContextMenu data-testid="region">
+          Region
+          <MenuList>
+            <MenuText>
+              <NumberField label="Quantity" defaultValue={1} />
+            </MenuText>
+          </MenuList>
+        </ContextMenu>
+      )
+      rightClick(screen.getByText('Region'))
+      settle()
+      const increase = screen.getByRole('button', { name: 'Increase Quantity' })
+      fireEvent.pointerDown(increase, { button: 0, pointerId: 1, pointerType: 'mouse' })
+      fireEvent.pointerUp(increase, { button: 0, pointerId: 1, pointerType: 'mouse' })
+      fireEvent.click(increase, { detail: 1 })
+      settle()
+      expect(screen.getByRole('textbox', { name: 'Quantity' })).toHaveValue('2')
+      expect(isOpen()).toBe(true)
+    })
+
+    // react-aria's `usePress` stops the `pointerdown` of the element it is on: see `Menu`.
+    test('a press on a react-aria pressable outside closes the menu', () => {
+      render(
+        <>
+          <Subject />
+          <Tabs>
+            <TabList aria-label="Tabs">
+              <Tab id="one">One</Tab>
+              <Tab id="two">Two</Tab>
+            </TabList>
+            <TabPanel id="one">1</TabPanel>
+            <TabPanel id="two">2</TabPanel>
+          </Tabs>
+        </>
+      )
+      rightClick(region())
+      settle()
+      expect(isOpen()).toBe(true)
+      const tab = screen.getByRole('tab', { name: 'Two' })
+      fireEvent.pointerDown(tab, { button: 0, pointerId: 1, pointerType: 'mouse' })
+      fireEvent.pointerUp(tab, { button: 0, pointerId: 1, pointerType: 'mouse' })
+      fireEvent.click(tab, { detail: 1 })
+      settle()
+      expect(isOpen()).toBe(false)
     })
 
     test('Tab out of the menu closes it', () => {

@@ -12,6 +12,11 @@ import {
   MenuItem,
   MenuSubmenu,
   Modal,
+  NumberField,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
   Popover
 } from '../../../src/index'
 import { actUserEvent } from '../../actUserEvent'
@@ -271,6 +276,28 @@ describe('Menu', () => {
       expect(toggle).toHaveAttribute('aria-expanded', 'true')
     })
 
+    // react-aria's `usePress` stops the click of the element it is on, which the dismissal hears a
+    // task later (`listenOnWindow`): one on a control in the list is that control's, not an item's.
+    test('a click on a react-aria control in the list keeps the menu open', async () => {
+      const user = userEvent.setup()
+      render(
+        <Menu>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <NumberField label="Quantity" defaultValue={1} />
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      const toggle = screen.getByRole('button', { name: 'Toggle' })
+      await user.click(toggle)
+      await user.click(screen.getByRole('button', { name: 'Increase Quantity' }))
+      // The stopped click is handled a task after its dispatch.
+      await act(() => new Promise<void>((resolve) => setTimeout(resolve, 0)))
+      expect(screen.getByRole('textbox', { name: 'Quantity' })).toHaveValue('2')
+      expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    })
+
     // Only a form inside the list is used in place.
     test('a menu inside a form still closes on an item', () => {
       vi.useFakeTimers()
@@ -290,6 +317,43 @@ describe('Menu', () => {
       fireEvent.click(screen.getByRole('menuitem', { name: 'A' }))
       expect(toggle).toHaveAttribute('aria-expanded', 'false')
       vi.useRealTimers()
+    })
+
+    // react-aria's `usePress` stops the click of the element it is on, which never reached the
+    // menu's listener on `window`: the menu stayed open beside the control just used.
+    test('a click on a react-aria pressable outside closes the menu', async () => {
+      const user = userEvent.setup()
+      render(
+        <>
+          <Menu>
+            <MenuToggle>Toggle</MenuToggle>
+            <MenuList>
+              <MenuItem>A</MenuItem>
+            </MenuList>
+          </Menu>
+          <Tabs>
+            <TabList aria-label="Tabs">
+              <Tab id="one">One</Tab>
+              <Tab id="two">Two</Tab>
+            </TabList>
+            <TabPanel id="one">1</TabPanel>
+            <TabPanel id="two">2</TabPanel>
+          </Tabs>
+          <Checkbox label="Agree" />
+        </>
+      )
+      const toggle = screen.getByRole('button', { name: 'Toggle' })
+      await user.click(toggle)
+      expect(toggle).toHaveAttribute('aria-expanded', 'true')
+      await user.click(screen.getByRole('tab', { name: 'Two' }))
+      expect(screen.getByRole('tab', { name: 'Two' })).toHaveAttribute('aria-selected', 'true')
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
+
+      await user.click(toggle)
+      expect(toggle).toHaveAttribute('aria-expanded', 'true')
+      await user.click(screen.getByText('Agree'))
+      expect(screen.getByRole('checkbox', { name: 'Agree' })).toBeChecked()
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
     })
 
     test('autoClose="inside" only closes on clicks inside the menu', () => {

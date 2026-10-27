@@ -28,6 +28,7 @@ import {
 } from '../../utils/overlayPlacement'
 import { NavOverflowBoundary } from '../../utils/navOverflow'
 import { pushOverlay } from '../../utils/overlayStack'
+import { listenOnWindow } from '../../utils/windowEvents'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -188,8 +189,8 @@ const defaultMenuContext: MenuContextProps = {
 
 export const MenuContext = createContext(defaultMenuContext)
 
-// The clicks on a `MenuToggle` or a `MenuSubmenu` trigger. One in a menu's list opens a menu of
-// its own: it is no click on an item of that list.
+// The clicks on a `MenuToggle`, a `MenuSubmenu` trigger or a `MenuSubmenuBack`. One in a menu's
+// list opens or closes a menu of its own: it is no click on an item of that list.
 export const menuToggleClicks = new WeakSet<Event>()
 
 // The outside-click handlers of the open menus. react-aria's press handling stops the click on a
@@ -378,7 +379,7 @@ function MenuRender<C extends ElementType = typeof Fragment>(
 
     // A toggle's click can come both ways: from the toggle, and on `window` when nothing stopped it.
     const handled = new WeakSet<Event>()
-    const handleDismiss = (event: Event) => {
+    const handleDismiss = (event: Event, stopped = false) => {
       if (event instanceof KeyboardEvent && event.key !== 'Tab') return
       if (handled.has(event)) return
       handled.add(event)
@@ -401,9 +402,14 @@ function MenuRender<C extends ElementType = typeof Fragment>(
       if (autoClose === 'inside' && !isMenuTarget) return
       if (autoClose === 'outside' && isMenuTarget) return
 
+      // A click in the list that never bubbled up to `window` (`stopped`, `listenOnWindow`) was
+      // taken by a react-aria control in the list (a `NumberField`'s stepper, a `SearchField`'s
+      // clear button, a picker's toggle): used in place, as a native form control is. An item's
+      // click bubbles.
       if (
         isMenuTarget &&
-        ((event instanceof KeyboardEvent && event.key === 'Tab') ||
+        (stopped ||
+          (event instanceof KeyboardEvent && event.key === 'Tab') ||
           isFormControlClick(target, lists))
       ) {
         return
@@ -423,16 +429,17 @@ function MenuRender<C extends ElementType = typeof Fragment>(
       else hide()
     }
 
+    // On `window`, including a click that a react-aria pressable outside stopped
+    // (`listenOnWindow`).
+    const cleanups: Array<() => void> = []
     const id = window.setTimeout(() => {
-      window.addEventListener('click', handleDismiss)
-      window.addEventListener('keyup', handleDismiss)
+      cleanups.push(listenOnWindow('click', handleDismiss), listenOnWindow('keyup', handleDismiss))
       openMenuDismissals.add(handleDismiss)
     })
 
     return () => {
       window.clearTimeout(id)
-      window.removeEventListener('click', handleDismiss)
-      window.removeEventListener('keyup', handleDismiss)
+      for (const cleanup of cleanups) cleanup()
       openMenuDismissals.delete(handleDismiss)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

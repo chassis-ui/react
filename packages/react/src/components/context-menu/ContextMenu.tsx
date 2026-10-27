@@ -23,6 +23,7 @@ import { resolveSlottedId } from '../../utils/elementKind'
 import { isEventInside } from '../../utils/insideEvents'
 import { resolveMenuOverlayPositioning, toAriaPlacement } from '../../utils/overlayPlacement'
 import { pushOverlay } from '../../utils/overlayStack'
+import { listenOnWindow } from '../../utils/windowEvents'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -296,11 +297,12 @@ function ContextMenuRender<C extends ElementType = 'div'>(
       hide()
     }
 
-    const handleClick = (event: MouseEvent) => {
+    const handleClick = (event: MouseEvent, stopped: boolean) => {
       const target = event.target as HTMLElement
       if (!isInMenu(target) || autoClose === 'outside' || menuToggleClicks.has(event)) return
-      // A form control inside the menu is used in place, as in `Menu`.
-      if (isFormControlClick(target, lists())) return
+      // A form control inside the menu is used in place, as in `Menu`, and so is a react-aria
+      // control there, whose click never bubbled up to `window` (`stopped`, `listenOnWindow`).
+      if (stopped || isFormControlClick(target, lists())) return
       close()
     }
 
@@ -310,14 +312,15 @@ function ContextMenuRender<C extends ElementType = 'div'>(
       hide()
     }
 
-    window.addEventListener('pointerdown', handlePointerDown)
-    window.addEventListener('click', handleClick)
-    window.addEventListener('keyup', handleKeyUp)
-
+    // On `window`, including a press that a react-aria pressable outside stopped
+    // (`listenOnWindow`).
+    const cleanups = [
+      listenOnWindow('pointerdown', handlePointerDown),
+      listenOnWindow('click', handleClick),
+      listenOnWindow('keyup', handleKeyUp)
+    ]
     return () => {
-      window.removeEventListener('pointerdown', handlePointerDown)
-      window.removeEventListener('click', handleClick)
-      window.removeEventListener('keyup', handleKeyUp)
+      for (const cleanup of cleanups) cleanup()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isOpen, autoClose])
@@ -402,7 +405,9 @@ function ContextMenuRender<C extends ElementType = 'div'>(
     restoreUserSelect()
   }
   // The click the release of a long press emits (iOS) lands on the item that has just opened
-  // under the finger: swallowed before it reaches the item or the click-inside dismissal.
+  // under the finger: swallowed before it reaches the item or the click-inside dismissal. Marked as
+  // the menu's own click (`menuToggleClicks`) too: the dismissal hears a stopped click a task later
+  // (`listenOnWindow`), and took this one for a click on the item.
   const clickSwallowRef = useRef<(() => void) | null>(null)
   const stopSwallowingClicks = () => {
     clickSwallowRef.current?.()
@@ -413,6 +418,7 @@ function ContextMenuRender<C extends ElementType = 'div'>(
     const swallow = (event: MouseEvent) => {
       event.preventDefault()
       event.stopPropagation()
+      menuToggleClicks.add(event)
       stopSwallowingClicks()
     }
     window.addEventListener('click', swallow, { capture: true })

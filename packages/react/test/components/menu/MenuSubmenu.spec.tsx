@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { act, render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import {
@@ -265,6 +265,8 @@ describe('MenuSubmenu', () => {
       expect(nestedMenu).toHaveClass('show')
 
       fireEvent.click(screen.getByText('Back'))
+      // Once a click that never reached `window` has been handled too (`listenOnWindow`).
+      act(() => vi.runAllTimers())
       expect(nestedMenu).not.toHaveClass('show')
       expect(topMenu).toHaveClass('show')
       expect(trigger).toHaveFocus()

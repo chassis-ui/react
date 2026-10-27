@@ -1,6 +1,7 @@
 import React, { ButtonHTMLAttributes, forwardRef, useContext } from 'react'
 import classNames from 'classnames'
 
+import { menuToggleClicks } from './Menu'
 import { SubmenuActionsContext } from './submenuGroup'
 
 export interface MenuSubmenuBackProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -19,10 +20,11 @@ export const MenuSubmenuBack = forwardRef<HTMLButtonElement, MenuSubmenuBackProp
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       onClick?.(event)
       if (!actions) return
-      // Going back is the submenu's own action, as opening it from its trigger is: the click
-      // stops here. On `window`, the `autoClose` listener of `Menu` and `ContextMenu` would read
-      // it as a click on an item and close the whole menu.
-      event.stopPropagation()
+      // Going back is the submenu's own action, as opening it from its trigger is: the click is
+      // marked as the trigger's is (`menuToggleClicks`). On `window`, the `autoClose` listener of
+      // `Menu` and `ContextMenu` would read it as a click on an item and close the whole menu.
+      // Stopping it didn't keep it from them: they hear a stopped click too (`listenOnWindow`).
+      menuToggleClicks.add(event.nativeEvent)
       actions.close()
     }
 
