@@ -60,9 +60,14 @@ describe('Placeholder', () => {
       expect(img).toHaveAttribute('alt', 'A real image')
     })
 
-    test('falls back to the generated label as alt text when alt is omitted', () => {
-      render(<Placeholder src="https://placehold.co/200x100" width={200} height={100} />)
-      expect(screen.getByRole('img')).toHaveAttribute('alt', 'Placeholder: 200x100')
+    // The generated graphic's label ("Placeholder: 200x100") was its alt text, naming a graphic
+    // the image doesn't show.
+    test('gives an image without alt an empty alt, not the generated label', () => {
+      const { container } = render(
+        <Placeholder src="https://placehold.co/200x100" width={200} height={100} title="Cover" />
+      )
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+      expect(container.querySelector('img')).toHaveAttribute('alt', '')
     })
 
     test('falls back to an empty alt (not a missing attribute) when both alt and label resolve to nothing', () => {

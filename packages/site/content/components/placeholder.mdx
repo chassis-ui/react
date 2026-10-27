@@ -60,7 +60,8 @@ to override either, or `false` to hide it.
 
 Pass `src` (and `alt`) to render an actual image instead of the generated graphic — handy for
 swapping a mockup for a `placehold.co` URL, or a project's own default image, without changing
-components.
+components. Without `alt` the image is decorative (`alt=""`): `title` and `text` describe the
+generated graphic only, and never become the image's alt text.
 
 <Example>
   <RealImageExample client:load />
