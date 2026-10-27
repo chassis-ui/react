@@ -84,12 +84,12 @@ describe('OtpInput', () => {
       expect(onComplete).toHaveBeenCalledWith('123')
     })
 
-    test('non-digit characters are stripped', () => {
+    test('a non-digit character is not entered, and reports no change', () => {
       const onChange = vi.fn()
       render(<OtpInput aria-label="Code" length={3} onChange={onChange} />)
       fireEvent.change(screen.getByRole('textbox', { name: 'Digit 1' }), { target: { value: 'a' } })
       expect(screen.getByRole('textbox', { name: 'Digit 1' })).toHaveValue('')
-      expect(onChange).toHaveBeenCalledWith('')
+      expect(onChange).not.toHaveBeenCalled()
     })
 
     test('a multi-character value (autofill) distributes across subsequent boxes', () => {
@@ -205,8 +205,8 @@ describe('OtpInput', () => {
       expect(first).toHaveFocus()
     })
 
-    // The code is a string with no gaps, so a digit typed in the third box of `1 _ _ _` landed
-    // in the second.
+    // The code is entered from the start: a digit typed in the third box of `1 _ _ _` would leave
+    // a gap.
     test('a box past the first empty one sends focus to that box', async () => {
       const user = userEvent.setup()
       const onChange = vi.fn()
@@ -217,6 +217,53 @@ describe('OtpInput', () => {
       await user.keyboard('2')
       expect(onChange).toHaveBeenLastCalledWith('12')
       expect(screen.getByRole('textbox', { name: 'Digit 3' })).toHaveFocus()
+    })
+
+    const values = () =>
+      screen.getAllByRole('textbox').map((box) => (box as HTMLInputElement).value)
+
+    // The code was rebuilt from one string with no gaps, so every later digit moved one box left.
+    test('Backspace on a filled box clears it in place', async () => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      render(<OtpInput aria-label="Code" defaultValue="123456" length={6} onChange={onChange} />)
+      await user.click(screen.getByRole('textbox', { name: 'Digit 3' }))
+      await user.keyboard('{Backspace}')
+      expect(values()).toEqual(['1', '2', '', '4', '5', '6'])
+      expect(onChange).toHaveBeenLastCalledWith('12456')
+      expect(screen.getByRole('textbox', { name: 'Digit 3' })).toHaveFocus()
+
+      // The digits after the gap can still be reached and corrected, and the gap filled.
+      await user.click(screen.getByRole('textbox', { name: 'Digit 5' }))
+      expect(screen.getByRole('textbox', { name: 'Digit 5' })).toHaveFocus()
+      await user.keyboard('9')
+      expect(values()).toEqual(['1', '2', '', '4', '9', '6'])
+      await user.click(screen.getByRole('textbox', { name: 'Digit 3' }))
+      await user.keyboard('3')
+      expect(values()).toEqual(['1', '2', '3', '4', '9', '6'])
+      expect(onChange).toHaveBeenLastCalledWith('123496')
+    })
+
+    test('a key other than a digit leaves a filled box as it was', async () => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      render(<OtpInput aria-label="Code" defaultValue="1234" length={4} onChange={onChange} />)
+      await user.click(screen.getByRole('textbox', { name: 'Digit 2' }))
+      await user.keyboard('a')
+      expect(values()).toEqual(['1', '2', '3', '4'])
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    test('a controlled code keeps a box cleared in place', async () => {
+      const user = userEvent.setup()
+      const Controlled = () => {
+        const [code, setCode] = React.useState('1234')
+        return <OtpInput aria-label="Code" length={4} onChange={setCode} value={code} />
+      }
+      render(<Controlled />)
+      await user.click(screen.getByRole('textbox', { name: 'Digit 2' }))
+      await user.keyboard('{Backspace}')
+      expect(values()).toEqual(['1', '', '3', '4'])
     })
 
     test('typing on through the boxes is not sent back', async () => {

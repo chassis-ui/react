@@ -7,7 +7,8 @@ import React, {
   ReactNode,
   useEffect,
   useMemo,
-  useRef
+  useRef,
+  useState
 } from 'react'
 import classNames from 'classnames'
 
@@ -167,7 +168,18 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
       groupSizes && groupSizes.length > 0 ? groupSizes.reduce((a, b) => a + b, 0) : length
 
     const [rawValue, setRawValue] = useControllableState(value, defaultValue ?? '', onChange)
-    const boxes = useMemo(() => toBoxes(rawValue, total), [rawValue, total])
+    // The code is reported as one string of digits, which has no room for a box cleared in the
+    // middle: rebuilt from it, every later digit moved one box left. The boxes keep what was typed
+    // in them for as long as the code is still theirs, joined; a code from anywhere else (a
+    // controlled `value`, a reset) fills them from the first.
+    const [typedBoxes, setTypedBoxes] = useState<string[] | null>(null)
+    const boxes = useMemo(
+      () =>
+        typedBoxes && typedBoxes.length === total && typedBoxes.join('') === rawValue
+          ? typedBoxes
+          : toBoxes(rawValue, total),
+      [typedBoxes, rawValue, total]
+    )
 
     const boxRefs = useRef<Array<HTMLInputElement | null>>([])
     const focusBox = (index: number) => boxRefs.current[index]?.focus()
@@ -183,11 +195,18 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
     const latestBoxes = useRef(boxes)
     latestBoxes.current = boxes
 
-    // The code is one string with no gaps, so a digit typed past the first empty box would land in
-    // that box. Focus on a box past it goes to it.
+    // The code is entered from the start: focus on an empty box past its end goes to the first
+    // empty one. A box cleared inside the code, and the digits after it, can still be focused.
     const handleFocus = (index: number) => {
-      const firstEmpty = latestBoxes.current.indexOf('')
-      if (firstEmpty !== -1 && index > firstEmpty) focusBox(firstEmpty)
+      const current = latestBoxes.current
+      const firstEmpty = current.indexOf('')
+      if (
+        firstEmpty !== -1 &&
+        index > firstEmpty &&
+        current.slice(firstEmpty).every((box) => !box)
+      ) {
+        focusBox(firstEmpty)
+      }
     }
 
     // A form reset puts the code back once. Each box restoring its own first digit wrote each into
@@ -195,6 +214,7 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
     const resetCode = useRef(() => {})
     resetCode.current = () => {
       const initial = defaultValue ?? ''
+      setTypedBoxes(null)
       if (initial !== rawValue) setRawValue(initial)
     }
     useEffect(() => {
@@ -208,6 +228,7 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
     const commit = (nextBoxes: string[]) => {
       latestBoxes.current = nextBoxes
       const next = nextBoxes.join('')
+      setTypedBoxes(nextBoxes)
       setRawValue(next)
       if (nextBoxes.length === total && nextBoxes.every((box) => box !== '')) {
         onComplete?.(next)
@@ -216,6 +237,9 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
 
     const handleChange = (index: number, raw: string) => {
       const digits = onlyDigits(raw)
+      // A key other than a digit does nothing, in a filled box as in an empty one: the box goes
+      // back to what it showed.
+      if (raw !== '' && digits === '') return
 
       if (digits.length > 1) {
         // Multi-character value landing in a single box (autofill, or a fast typist outrunning
