@@ -1,4 +1,13 @@
-import React, { forwardRef, HTMLAttributes, ReactNode, useEffect, useId, useMemo } from 'react'
+import React, {
+  forwardRef,
+  HTMLAttributes,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useState
+} from 'react'
 import classNames from 'classnames'
 
 import { FormLabel } from '../form/FormLabel'
@@ -38,7 +47,8 @@ export interface FloatingInputProps extends Omit<HTMLAttributes<HTMLDivElement>,
    */
   invalid?: boolean
   /**
-   * An error message for the field, rendered below the control when `invalid` is set.
+   * An error message for the field, rendered below the control when `invalid` is set, or when
+   * the field inside shows a submit it held back.
    */
   invalidFeedback?: ReactNode
   /**
@@ -78,9 +88,28 @@ export const FloatingInput = forwardRef<HTMLDivElement, FloatingInputProps>(
     const helpId = ids?.help ?? `${generatedId}-help`
     const feedbackId = ids?.feedback ?? `${generatedId}-feedback`
 
+    // What the field inside decided itself: a submit it held back, or a `validated` form's
+    // verdict (FORMS.md, gotcha 10). The feedback shows with that mark, unless `invalid` or
+    // `valid` is set here.
+    const [fieldValidation, setFieldValidation] = useState<{ invalid?: boolean; valid?: boolean }>(
+      {}
+    )
+    const reportValidation = useCallback(
+      (fieldInvalid: boolean | undefined, fieldValid: boolean | undefined) =>
+        setFieldValidation((previous) =>
+          previous.invalid === fieldInvalid && previous.valid === fieldValid
+            ? previous
+            : { invalid: fieldInvalid, valid: fieldValid }
+        ),
+      []
+    )
+    const decided = invalid !== undefined || Boolean(valid)
+    const shownInvalid = decided ? invalid : fieldValidation.invalid
+    const shownValid = decided ? valid : fieldValidation.valid
+
     // The same choice `renderFormField` makes: at most one feedback renders, and `invalid` wins.
-    const showInvalidFeedback = Boolean(invalid && invalidFeedback)
-    const showValidFeedback = Boolean(valid && validFeedback) && !showInvalidFeedback
+    const showInvalidFeedback = Boolean(shownInvalid && invalidFeedback)
+    const showValidFeedback = Boolean(shownValid && validFeedback) && !showInvalidFeedback
     const describedBy = joinIds(
       Boolean(help) && helpId,
       (showInvalidFeedback || showValidFeedback) && feedbackId
@@ -88,8 +117,8 @@ export const FloatingInput = forwardRef<HTMLDivElement, FloatingInputProps>(
 
     // A field component inside reads these in `useFormField`, so the consumer repeats no id.
     const field = useMemo(
-      () => ({ describedBy, inputId, labelId }),
-      [describedBy, inputId, labelId]
+      () => ({ describedBy, inputId, labelId, reportValidation }),
+      [describedBy, inputId, labelId, reportValidation]
     )
 
     // Only a field component takes the id by itself. Checked once the control is in the document,
@@ -115,9 +144,9 @@ export const FloatingInput = forwardRef<HTMLDivElement, FloatingInputProps>(
       ),
       help,
       ids: { feedback: feedbackId, help: helpId },
-      invalid,
+      invalid: shownInvalid,
       invalidFeedback,
-      valid,
+      valid: shownValid,
       validFeedback
     })
   }

@@ -15,6 +15,12 @@ export interface FormFieldContextValue {
    * The id of the wrapper's label. The field is labelled by it too.
    */
   labelId?: string
+  /**
+   * Receives what the field shows as invalid and valid when that differs from its props alone: a
+   * submit it held back, or a `validated` form's verdict. `useHeldBack` calls it, so the wrapper
+   * renders its feedback with the field's mark.
+   */
+  reportValidation?: (invalid: boolean | undefined, valid: boolean | undefined) => void
 }
 
 // What a wrapper that renders the label itself hands to the field inside it, so the consumer

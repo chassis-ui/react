@@ -1,6 +1,7 @@
 import { RefObject, useContext, useEffect, useRef, useState } from 'react'
 
 import { FormValidatedContext } from '../components/form/context'
+import { FormFieldContext } from '../components/form-field/context'
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 
 type Control = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -198,9 +199,22 @@ export const useHeldBack = (
   const decided = invalid !== undefined || Boolean(valid)
   const heldBack = blocked && !decided
   const shown = validated && !decided ? validity : 'none'
-  return {
+  const result = {
     heldBack,
     invalid: invalid ?? (heldBack || shown === 'invalid' || undefined),
     valid: valid || shown === 'valid' || undefined
   }
+
+  // A wrapper that renders the field's feedback (`FloatingInput`) shows it with the mark. Only
+  // what the field decided itself: the caller's `invalid` and `valid` on the field are theirs
+  // to repeat on the wrapper, as FORMS.md says.
+  const report = useContext(FormFieldContext)?.reportValidation
+  const reportedInvalid = decided ? undefined : result.invalid
+  const reportedValid = decided ? undefined : result.valid
+  useIsomorphicLayoutEffect(() => {
+    report?.(reportedInvalid, reportedValid)
+  }, [report, reportedInvalid, reportedValid])
+  useIsomorphicLayoutEffect(() => () => report?.(undefined, undefined), [report])
+
+  return result
 }

@@ -4141,7 +4141,8 @@ interface FloatingInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'child
    */
   invalid?: boolean;
   /**
-   * An error message for the field, rendered below the control when `invalid` is set.
+   * An error message for the field, rendered below the control when `invalid` is set, or when
+   * the field inside shows a submit it held back.
    */
   invalidFeedback?: ReactNode;
   /**
