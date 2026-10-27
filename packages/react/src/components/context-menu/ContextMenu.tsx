@@ -9,7 +9,7 @@ import React, {
   useState
 } from 'react'
 import classNames from 'classnames'
-import { mergeProps, useLocale, useOverlayPosition } from 'react-aria'
+import { mergeProps, useOverlayPosition } from 'react-aria'
 import { useMenuTriggerState } from 'react-stately'
 
 import {
@@ -234,9 +234,10 @@ function ContextMenuRender<C extends ElementType = 'div'>(
   })
 
   // A context menu opens toward the reading direction: its start edge at the pointer, and flipped
-  // above the pointer when there is no room below (`useOverlayPosition`'s own flip).
-  const { direction } = useLocale()
-  const placement = direction === 'rtl' ? 'bottom-end' : 'bottom-start'
+  // above the pointer when there is no room below (`useOverlayPosition`'s own flip). `start` is
+  // the reading direction's already: `useOverlayPosition` mirrors it under RTL, so `bottom-end`
+  // there put the menu's left edge at the pointer, as in LTR.
+  const placement = 'bottom-start'
 
   const {
     overlayProps,

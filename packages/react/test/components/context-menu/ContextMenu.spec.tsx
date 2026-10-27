@@ -5,6 +5,7 @@ import { axe } from 'jest-axe'
 import {
   Button,
   ContextMenu,
+  I18nProvider,
   MenuDivider,
   MenuHeader,
   MenuItem,
@@ -428,6 +429,33 @@ describe('ContextMenu', () => {
       render(<Subject defaultVisible />)
       expect(isOpen()).toBe(true)
       expect(menu()).toHaveAttribute('data-cx-placement', 'bottom-start')
+    })
+  })
+
+  describe('position', () => {
+    // `useOverlayPosition` mirrors `start`/`end` under RTL itself: `bottom-end` in RTL put the
+    // menu's left edge at the pointer, the LTR geometry.
+    test('opens toward the reading direction, its start edge at the pointer', () => {
+      vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(200)
+      vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(100)
+      const leftOf = (locale: string) => {
+        const view = render(
+          <I18nProvider locale={locale}>
+            <ContextMenu data-testid={locale}>
+              <button type="button">Inside</button>
+              <MenuList>
+                <MenuItem>Cut</MenuItem>
+              </MenuList>
+            </ContextMenu>
+          </I18nProvider>
+        )
+        rightClick(screen.getByTestId(locale), 400, 50)
+        settle()
+        const left = parseFloat(screen.getByRole('menu', { hidden: true }).style.left)
+        view.unmount()
+        return left
+      }
+      expect({ ltr: leftOf('en-US'), rtl: leftOf('ar-AE') }).toEqual({ ltr: 400, rtl: 200 })
     })
   })
 
