@@ -5,6 +5,11 @@ import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 // The room a panel keeps, by panel, so that writing it back isn't read as a new placement.
 const kept = new WeakMap<HTMLElement, string>()
 
+const holdsPlacedStackedPanel = (node: HTMLElement) =>
+  Array.from(node.querySelectorAll('.submenu-stacked')).some(
+    (panel) => getComputedStyle(panel).position !== 'static'
+  )
+
 const fitToRoom = (node: HTMLElement) => {
   const room = node.style.maxHeight
   if (room === kept.get(node)) return
@@ -13,8 +18,10 @@ const fitToRoom = (node: HTMLElement) => {
   node.style.removeProperty('max-height')
   // A `stacked` submenu renders its panel inside the list (`MenuSubmenu`), placed beside its
   // trigger above the `sm` breakpoint: a list that scrolls would clip it. Such a list keeps the
-  // theme's cap only, as before 0.5.1.
-  if (node.querySelector('.submenu-stacked')) return
+  // theme's cap only, as before 0.5.1. Below it, chassis-css makes the panel `position: static`,
+  // in the list's flow, and the list keeps the room: a tall menu on a phone runs off the screen
+  // otherwise. Crossing the breakpoint is a resize, which places the list again.
+  if (holdsPlacedStackedPanel(node)) return
   // `none` parses to NaN, which no room reaches: with no cap, the room is the height.
   if (Number.parseFloat(room) >= Number.parseFloat(getComputedStyle(node).maxHeight)) return
   node.style.maxHeight = room
@@ -29,7 +36,8 @@ const fitToRoom = (node: HTMLElement) => {
 // theme's cap: a `Combobox` list 360.5px tall against a 320px token. So it is taken off where the
 // cap is smaller, and kept where it is the smaller one, with the list scrolling inside it: a menu
 // taller than the room on either side of its trigger otherwise runs off the viewport. Each write
-// is handled before the paint. A list that holds a `stacked` submenu's panel is left to the cap.
+// is handled before the paint. A list that holds a `stacked` submenu's panel placed beside its
+// trigger is left to the cap.
 //
 // For `Menu`, `MenuSubmenu`, `ContextMenu`, `Combobox` and `Autocomplete`, which take only the
 // position from the hook (`resolveMenuOverlayPositioning`). Call it after `useOverlayPosition`, so

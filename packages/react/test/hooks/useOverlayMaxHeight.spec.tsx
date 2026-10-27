@@ -47,9 +47,18 @@ describe('useOverlayMaxHeight', () => {
   beforeEach(() => themeCap('320px'))
 
   // Since 0.5.1 the list scrolled inside the room, and clipped the `stacked` panel it holds,
-  // which sits beside its trigger above the `sm` breakpoint.
-  test("a Menu's list that holds a stacked submenu doesn't scroll, so it doesn't clip it", async () => {
+  // which sits beside its trigger above the `sm` breakpoint. Below it, chassis-css makes the panel
+  // `position: static` in the list's flow, which a list that scrolls clips nothing of, and the
+  // list keeps the room.
+  test.each([
+    ['beside its trigger', 'absolute', ''],
+    ['in the flow below the sm breakpoint', 'static', 'auto']
+  ])("a Menu's list that holds a stacked submenu placed %s", async (_, position, overflowY) => {
     sheet?.remove()
+    sheet = document.createElement('style')
+    // `!important`, as chassis-css has it: the panel's placement is written inline.
+    sheet.textContent = `.submenu-stacked { position: ${position} !important; }`
+    document.head.append(sheet)
     render(
       <Menu defaultVisible>
         <MenuToggle>Toggle</MenuToggle>
@@ -66,8 +75,8 @@ describe('useOverlayMaxHeight', () => {
       list!.style.maxHeight = '240px'
       await Promise.resolve()
     })
-    expect(list!.style.overflowY).toBe('')
-    expect(list!.style.maxHeight).toBe('')
+    expect(list!.style.overflowY).toBe(overflowY)
+    expect(list!.style.maxHeight).toBe(overflowY ? '240px' : '')
   })
 
   test("a Menu's list keeps the room where the theme has no cap, and scrolls inside it", () => {
