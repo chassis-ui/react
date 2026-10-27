@@ -197,9 +197,14 @@ const DataGridInner = <T extends object>(
 
     updateScrollState()
     grid.addEventListener('scroll', updateScrollState, { passive: true })
+    // The grid's own size, and its content's: a column set that changes (a column added, a
+    // `defaultWidth`, a `pin`) changes the scroll width with no scroll and no resize of the grid,
+    // and the cue kept its previous state until the user scrolled. The content is the one child
+    // react-aria's scroll view sizes to the layout.
     const observer =
       typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(updateScrollState)
     observer?.observe(grid)
+    if (grid.firstElementChild) observer?.observe(grid.firstElementChild)
     return () => {
       grid.removeEventListener('scroll', updateScrollState)
       observer?.disconnect()

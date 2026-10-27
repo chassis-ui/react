@@ -640,6 +640,40 @@ describe('DataGrid', () => {
     })
   })
 
+  describe('scroll cue', () => {
+    beforeEach(() => {
+      MockResizeObserver.instances = []
+      globalThis.ResizeObserver = MockResizeObserver as unknown as typeof globalThis.ResizeObserver
+    })
+
+    // The cue was computed on mount, on `scroll` and on a resize of the grid alone: a column set
+    // that changed (a column added, a `defaultWidth`) changed the scroll width with neither, and
+    // the cue kept its previous state until the user scrolled.
+    test('follows the content width through a ResizeObserver on the scroll content', () => {
+      render(<BasicDataGrid />)
+      const grid = screen.getByRole('grid')
+      // eslint-disable-next-line testing-library/no-node-access
+      const content = grid.firstElementChild as Element
+      // react-aria observes the grid too, for its own layout: the grid's observer is the one that
+      // observes the content as well.
+      const observer = MockResizeObserver.instances.find((instance) =>
+        instance.observed.includes(content)
+      ) as MockResizeObserver
+      expect(observer.observed).toContain(grid)
+      expect(grid).not.toHaveClass('datagrid-scrolled-end')
+
+      // jsdom lays nothing out: the content grows wider than the grid.
+      Object.defineProperty(grid, 'clientWidth', { configurable: true, value: 300 })
+      Object.defineProperty(grid, 'scrollWidth', { configurable: true, value: 500 })
+      act(() => observer.trigger())
+      expect(grid).toHaveClass('datagrid-scrolled-end')
+
+      Object.defineProperty(grid, 'scrollWidth', { configurable: true, value: 300 })
+      act(() => observer.trigger())
+      expect(grid).not.toHaveClass('datagrid-scrolled-end')
+    })
+  })
+
   describe('header/footer pinning', () => {
     test('the header row is sticky-positioned to stay visible while body rows scroll', () => {
       render(<BasicDataGrid />)
