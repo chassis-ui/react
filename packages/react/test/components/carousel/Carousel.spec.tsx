@@ -274,6 +274,27 @@ describe('Carousel', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
       await waitFor(() => expect(liveRegion).toHaveTextContent('Slide 3 of 3'))
     })
+
+    // StrictMode runs the mount effects twice and keeps refs: a "first run" flag let the second
+    // run announce the mount and report it to `onSlid`.
+    test('stays silent and reports no slide on mount under StrictMode', async () => {
+      const onSlid = vi.fn()
+      render(
+        <React.StrictMode>
+          <ThreeItemCarousel defaultActiveIndex={1} onSlid={onSlid} />
+        </React.StrictMode>
+      )
+      const liveRegion = screen.getByRole('status')
+      expect(liveRegion).toBeEmptyDOMElement()
+      expect(onSlid).not.toHaveBeenCalled()
+
+      fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+      await waitFor(() => expect(liveRegion).toHaveTextContent('Slide 3 of 3'))
+      await waitFor(() =>
+        expect(onSlid).toHaveBeenCalledWith(expect.objectContaining({ from: 1, to: 2 }))
+      )
+      expect(onSlid).toHaveBeenCalledTimes(1)
+    })
   })
 
   describe('indicator navigation', () => {

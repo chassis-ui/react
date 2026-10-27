@@ -270,8 +270,11 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     const visibilityRef = useRef(new Map<Element, number>())
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
     const scrollSyncedRef = useRef(false)
-    const mountedForSlidRef = useRef(false)
-    const mountedForLiveRegionRef = useRef(false)
+    // The index each of the `onSlid` and live-region effects last acted on, starting with the
+    // one the carousel mounted at. A "first run" flag would not do: StrictMode runs a mount
+    // effect twice and keeps refs, so the second run would take the mount for a slide.
+    const slidIndexRef = useRef(activeIndex)
+    const announcedIndexRef = useRef(activeIndex)
     const [liveMessage, setLiveMessage] = useState('')
     // Set while the scroll-sync effect below owns firing `onSlid` for the in-flight
     // `animateScrollTo` animation, so the generic effect doesn't fire it early — before the slide
@@ -569,10 +572,8 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     })
 
     useEffect(() => {
-      if (!mountedForSlidRef.current) {
-        mountedForSlidRef.current = true
-        return
-      }
+      if (slidIndexRef.current === activeIndex) return
+      slidIndexRef.current = activeIndex
       // The loop transition fires it once it has arrived (`performLoopTransition`).
       if (deferOnSlidRef.current || loopingRef.current) return
       const detail = lastTransitionRef.current
@@ -597,10 +598,8 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     // Gated the same way as the `onSlid` effect above so mounting with a non-zero
     // `defaultActiveIndex`/`activeIndex` doesn't announce anything before the user has interacted.
     useEffect(() => {
-      if (!mountedForLiveRegionRef.current) {
-        mountedForLiveRegionRef.current = true
-        return
-      }
+      if (announcedIndexRef.current === activeIndex) return
+      announcedIndexRef.current = activeIndex
       setLiveMessage(`Slide ${activeIndex + 1} of ${itemCount}`)
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeIndex])
