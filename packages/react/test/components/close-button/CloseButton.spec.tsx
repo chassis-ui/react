@@ -153,6 +153,17 @@ describe('CloseButton', () => {
       expect(onClick).not.toHaveBeenCalled()
     })
 
+    test("keeps the caller's tabIndex and role", () => {
+      render(
+        <>
+          <CloseButton component="span" tabIndex={-1} />
+          <CloseButton component="span" role="menuitem" />
+        </>
+      )
+      expect(screen.getByRole('button', { name: 'Close' })).toHaveAttribute('tabIndex', '-1')
+      expect(screen.getByRole('menuitem', { name: 'Close' })).toHaveAttribute('tabIndex', '0')
+    })
+
     test('a component reference is trusted to handle its own semantics (no double role/tabIndex)', () => {
       const Custom = React.forwardRef<HTMLButtonElement>((props, ref) => (
         <button type="button" ref={ref} {...props} />

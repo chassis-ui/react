@@ -252,6 +252,22 @@ describe('Button', () => {
       await user.click(button)
       expect(onClick).not.toHaveBeenCalled()
     })
+
+    // The synthesized `role` and `tabIndex` were merged after the caller's and won over them.
+    test("keeps the caller's tabIndex and role", () => {
+      render(
+        <>
+          <Button component="span" tabIndex={-1}>
+            Roving
+          </Button>
+          <Button component="span" role="menuitem">
+            Item
+          </Button>
+        </>
+      )
+      expect(screen.getByRole('button', { name: 'Roving' })).toHaveAttribute('tabIndex', '-1')
+      expect(screen.getByRole('menuitem', { name: 'Item' })).toHaveAttribute('tabIndex', '0')
+    })
   })
 
   describe('router link as component (a link, given href)', () => {

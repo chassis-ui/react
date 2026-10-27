@@ -11,7 +11,12 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor } from '../../types'
 import { LINK_COLOR_CLASS_NAMES } from '../../utils/colorClassNames'
-import { useButtonSemantics, useDisabledAnchorGuard, useForkedRef } from '../../hooks'
+import {
+  pickButtonSemantics,
+  useButtonSemantics,
+  useDisabledAnchorGuard,
+  useForkedRef
+} from '../../hooks'
 import { hrefProps, isInteractiveKind, linkElement, resolveLinkKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
@@ -137,7 +142,8 @@ function LinkRender<C extends ElementType = 'a'>(
   const needsButtonSemantics = !isInteractive && !isComponentReference && !!onClick
   const { buttonProps, forkedRef } = useButtonSemantics<HTMLElement>(ref as Ref<HTMLElement>, {
     disabled,
-    onClick
+    onClick,
+    ...pickButtonSemantics(rest)
   })
   const ownRef = needsButtonSemantics ? forkedRef : ref
   const spyRef = useForkedRef(ownRef as Ref<HTMLElement>, spy.ref)
