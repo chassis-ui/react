@@ -6,6 +6,7 @@ import { validationClassName } from '../../utils/validationClassName'
 
 interface OtpBoxProps {
   disabled?: boolean
+  form?: string
   index: number
   invalid?: boolean
   mask?: boolean
@@ -23,6 +24,7 @@ export const OtpBox = forwardRef(
   (
     {
       disabled,
+      form,
       index,
       invalid,
       mask,
@@ -74,6 +76,7 @@ export const OtpBox = forwardRef(
         aria-required={undefined}
         className={classNames('form-input', size, validationClassName(invalid, valid))}
         data-focus-visible={isFocusVisible || undefined}
+        form={form}
         inputMode="numeric"
         onChange={(event) => onChangeValue(event.target.value)}
         onPaste={onPasteBox}

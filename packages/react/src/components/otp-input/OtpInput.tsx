@@ -47,6 +47,11 @@ export interface OtpInputProps extends Omit<
    */
   disabled?: boolean
   /**
+   * The id of a form elsewhere on the page that the field belongs to: the boxes and the hidden
+   * `name` input join it, and a reset of it puts the code back.
+   */
+  form?: string
+  /**
    * Splits the boxes into groups (e.g. `[3, 3]` for a "123-456" layout), rendering a
    * `.form-otp-separator` between each group. The total number of boxes becomes the sum of
    * `groupSizes`, overriding `length`.
@@ -142,6 +147,7 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
       className,
       defaultValue,
       disabled,
+      form,
       groupSizes,
       help,
       id,
@@ -217,13 +223,14 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
       setTypedBoxes(null)
       if (initial !== rawValue) setRawValue(initial)
     }
+    // The box's form owner: the one around it, or the one its `form` attribute names.
     useEffect(() => {
-      const form = boxRefs.current[0]?.form
-      if (!form) return
+      const owner = boxRefs.current[0]?.form
+      if (!owner) return
       const onReset = () => resetCode.current()
-      form.addEventListener('reset', onReset)
-      return () => form.removeEventListener('reset', onReset)
-    }, [])
+      owner.addEventListener('reset', onReset)
+      return () => owner.removeEventListener('reset', onReset)
+    }, [form])
 
     const commit = (nextBoxes: string[]) => {
       latestBoxes.current = nextBoxes
@@ -319,6 +326,7 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
       Array.from({ length: count }, (_, i) => start + i).map((i) => (
         <OtpBox
           disabled={disabled}
+          form={form}
           index={i}
           invalid={invalid}
           key={i}
@@ -395,7 +403,15 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
           role="group"
         >
           {content}
-          {name && <input disabled={disabled} name={name} type="hidden" value={boxes.join('')} />}
+          {name && (
+            <input
+              disabled={disabled}
+              form={form}
+              name={name}
+              type="hidden"
+              value={boxes.join('')}
+            />
+          )}
         </div>
       ),
       help,

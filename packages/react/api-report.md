@@ -3168,6 +3168,11 @@ interface OtpInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVal
    */
   disabled?: boolean;
   /**
+   * The id of a form elsewhere on the page that the field belongs to: the boxes and the hidden
+   * `name` input join it, and a reset of it puts the code back.
+   */
+  form?: string;
+  /**
    * Splits the boxes into groups (e.g. `[3, 3]` for a "123-456" layout), rendering a
    * `.form-otp-separator` between each group. The total number of boxes becomes the sum of
    * `groupSizes`, overriding `length`.

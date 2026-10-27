@@ -119,6 +119,25 @@
         "name": "boolean"
       }
     },
+    "form": {
+      "defaultValue": null,
+      "description": "The id of a form elsewhere on the page that the field belongs to: the boxes and the hidden\n`name` input join it, and a reset of it puts the code back.",
+      "name": "form",
+      "parent": {
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
     "groupSizes": {
       "defaultValue": null,
       "description": "Splits the boxes into groups (e.g. `[3, 3]` for a \"123-456\" layout), rendering a\n`.form-otp-separator` between each group. The total number of boxes becomes the sum of\n`groupSizes`, overriding `length`.",

@@ -300,6 +300,32 @@ describe('OtpInput', () => {
       ])
     })
 
+    // `form` was not a prop: the boxes and the hidden input belonged to no form when the field
+    // was rendered outside it, and the reset listener found only an enclosing one.
+    test('joins a form elsewhere on the page through form, and resets with it', async () => {
+      const user = userEvent.setup()
+      render(
+        <>
+          <form aria-label="Verify" id="verify">
+            <button type="reset">Reset</button>
+          </form>
+          <OtpInput aria-label="Code" defaultValue="1" form="verify" length={3} name="code" />
+        </>
+      )
+      const form = screen.getByRole<HTMLFormElement>('form', { name: 'Verify' })
+      for (const box of screen.getAllByRole('textbox'))
+        expect(box).toHaveAttribute('form', 'verify')
+      expect(new FormData(form).get('code')).toBe('1')
+
+      await user.click(screen.getByRole('textbox', { name: 'Digit 2' }))
+      await user.keyboard('23')
+      expect(new FormData(form).get('code')).toBe('123')
+
+      await user.click(screen.getByRole('button', { name: 'Reset' }))
+      expect(new FormData(form).get('code')).toBe('1')
+      expect(screen.getByRole('textbox', { name: 'Digit 2' })).toHaveValue('')
+    })
+
     test('creates a hidden input for form submission when name is provided', () => {
       // Hidden inputs are intentionally excluded from the accessibility tree - no query reaches
       // them.
