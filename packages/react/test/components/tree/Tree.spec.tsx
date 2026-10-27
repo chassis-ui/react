@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen, waitFor, within } from '@testing-library/react'
+import { act, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import { renderToString } from 'react-dom/server'
@@ -224,6 +224,53 @@ describe('Tree', () => {
       expect(row('Documents')).toHaveAttribute('aria-expanded', 'true')
       await user.click(row('Documents'))
       expect(row('Documents')).toHaveAttribute('aria-expanded', 'false')
+    })
+
+    // react-aria-components keeps a hidden row as the focused key, which left no rendered row as
+    // the tree's tab stop: Tab could no longer enter the tree.
+    describe('a collapse by expandedKeys that hides the focused row', () => {
+      const App = ({ expanded }: { expanded: string[] }) => (
+        <>
+          <button type="button">Collapse all</button>
+          <Files expandedKeys={expanded} />
+        </>
+      )
+      const tabStops = () =>
+        [screen.getByRole('treegrid'), ...rows()].filter((element) => element.tabIndex === 0)
+
+      test('gives the tab stop to the collapsed row', async () => {
+        const { rerender } = render(<App expanded={['documents', 'archive']} />)
+        act(() => row('2024.zip').focus())
+        act(() => screen.getByRole('button', { name: 'Collapse all' }).focus())
+        rerender(<App expanded={[]} />)
+        await waitFor(() => expect(tabStops()).toEqual([row('Documents')]))
+
+        await user.tab()
+        expect(row('Documents')).toHaveFocus()
+      })
+
+      test('moves the focus to the collapsed row when the hidden row had it', async () => {
+        const { rerender } = render(<App expanded={['documents']} />)
+        act(() => row('Report.pdf').focus())
+        rerender(<App expanded={[]} />)
+        await waitFor(() => expect(row('Documents')).toHaveFocus())
+      })
+
+      // Only a row with children takes the focused key; a leaf has nothing under it.
+      test('leaves a focused leaf alone when the folders beside it collapse', async () => {
+        const { rerender } = render(<App expanded={['documents', 'pictures']} />)
+        act(() => row('README.md').focus())
+        rerender(<App expanded={[]} />)
+        await waitFor(() => expect(tabStops()).toEqual([row('README.md')]))
+        expect(row('README.md')).toHaveFocus()
+      })
+
+      test('leaves a focused row that is still shown alone', async () => {
+        const { rerender } = render(<App expanded={['documents', 'pictures']} />)
+        act(() => row('Report.pdf').focus())
+        rerender(<App expanded={['documents']} />)
+        await waitFor(() => expect(tabStops()).toEqual([row('Report.pdf')]))
+      })
     })
 
     test('expandedKeys is controlled: the tree asks, the caller decides', async () => {

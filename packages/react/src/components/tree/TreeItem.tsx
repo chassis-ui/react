@@ -5,6 +5,7 @@ import React, {
   ReactNode,
   Ref,
   useContext,
+  useEffect,
   useRef
 } from 'react'
 import classNames from 'classnames'
@@ -125,17 +126,52 @@ const renderRow = (props: React.JSX.IntrinsicElements['div']) => (
   <div {...props} aria-labelledby={undefined} />
 )
 
+// Whether the item `key` is under the item `ancestorKey`.
+const isUnder = (
+  collection: TreeItemContentRenderProps['state']['collection'],
+  key: Key,
+  ancestorKey: Key
+) => {
+  for (let node = collection.getItem(key); node?.parentKey != null;) {
+    if (node.parentKey === ancestorKey) return true
+    node = collection.getItem(node.parentKey)
+  }
+  return false
+}
+
 const TreeItemBody = ({
   hasChildItems,
   icon,
+  id,
   isDisabled,
+  isExpanded,
   label,
-  selectionMode
-}: Pick<TreeItemContentRenderProps, 'hasChildItems' | 'isDisabled' | 'selectionMode'> & {
+  selectionMode,
+  state
+}: Pick<
+  TreeItemContentRenderProps,
+  'hasChildItems' | 'id' | 'isDisabled' | 'isExpanded' | 'selectionMode' | 'state'
+> & {
   icon?: ReactNode
   label: ReactNode
 }) => {
   const { checkboxes } = useContext(TreeConfigContext)
+
+  // A row collapsed by `expandedKeys` (a "Collapse all" button) hides the focused row under it,
+  // which react-aria-components keeps as the tree's focused key: no rendered row was then the
+  // tree's tab stop, and Tab could no longer enter it. The collapsed row takes the focused key,
+  // as it does when its own chevron collapses it, and the focus too when the hidden row had it.
+  // A leaf, never expanded, has nothing under it: it doesn't walk the tree at each move of the
+  // focus.
+  const { selectionManager } = state
+  const focusedKey = selectionManager.focusedKey
+  useEffect(() => {
+    if (!hasChildItems || isExpanded || focusedKey == null) return
+    if (!isUnder(state.collection, focusedKey, id)) return
+    selectionManager.setFocusedKey(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasChildItems, isExpanded, focusedKey])
+
   return (
     <>
       {hasChildItems ? (
@@ -195,13 +231,16 @@ const TreeItemInner = <T extends object>(
       textValue={text}
     >
       <TreeItemContent>
-        {({ hasChildItems, isDisabled, selectionMode }) => (
+        {({ hasChildItems, id: key, isDisabled, isExpanded, selectionMode, state }) => (
           <TreeItemBody
             hasChildItems={hasChildItems}
             icon={icon}
+            id={key}
             isDisabled={isDisabled}
+            isExpanded={isExpanded}
             label={label}
             selectionMode={selectionMode}
+            state={state}
           />
         )}
       </TreeItemContent>
