@@ -2,7 +2,15 @@ import * as React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Menu, MenuList, MenuItem, MenuToggle, Modal } from '../../../src/index'
+import {
+  Menu,
+  MenuList,
+  MenuItem,
+  MenuText,
+  MenuToggle,
+  Modal,
+  TextInput
+} from '../../../src/index'
 
 describe('MenuList', () => {
   describe('rendering', () => {
@@ -236,6 +244,83 @@ describe('MenuList', () => {
       // eslint-disable-next-line testing-library/no-node-access
       expect(list.parentElement).toBe(screen.getByRole('dialog'))
       expect(screen.getByRole('menuitem', { name: 'A' })).toBeInTheDocument()
+    })
+  })
+
+  // The menu's arrow navigation took Home, End and the arrows from a text field in the list: the
+  // caret didn't move, and ArrowDown left the field for an item.
+  describe('form controls in the list', () => {
+    const prevented = (target: HTMLElement, key: string) =>
+      !fireEvent.keyDown(target, { key, bubbles: true, cancelable: true })
+
+    test('leaves the keys of a text field, a select and a textarea to them', () => {
+      render(
+        <Menu defaultVisible>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuText>
+              <TextInput aria-label="Email" defaultValue="someone@example.com" />
+              <select aria-label="Size">
+                <option>S</option>
+                <option>M</option>
+              </select>
+              <textarea aria-label="Note" />
+            </MenuText>
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      for (const control of [
+        screen.getByRole('textbox', { name: 'Email' }),
+        screen.getByRole('combobox', { name: 'Size' }),
+        screen.getByRole('textbox', { name: 'Note' })
+      ]) {
+        control.focus()
+        for (const key of ['Home', 'End', 'ArrowDown', 'ArrowUp']) {
+          expect(prevented(control, key)).toBe(false)
+          expect(control).toHaveFocus()
+        }
+      }
+    })
+
+    test('a checkbox in the list still steps on to the items', () => {
+      vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(1)
+      render(
+        <Menu defaultVisible>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuText>
+              <input aria-label="Remember" type="checkbox" />
+            </MenuText>
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      const checkbox = screen.getByRole('checkbox', { name: 'Remember' })
+      checkbox.focus()
+      expect(prevented(checkbox, 'ArrowDown')).toBe(true)
+      expect(screen.getByRole('menuitem', { name: 'A' })).toHaveFocus()
+      vi.restoreAllMocks()
+    })
+
+    test('Escape in a text field still closes the menu', () => {
+      render(
+        <Menu defaultVisible>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuText>
+              <TextInput aria-label="Email" />
+            </MenuText>
+          </MenuList>
+        </Menu>
+      )
+      const field = screen.getByRole('textbox', { name: 'Email' })
+      field.focus()
+      fireEvent.keyDown(field, { key: 'Escape' })
+      expect(screen.getByRole('button', { name: 'Toggle' })).toHaveAttribute(
+        'aria-expanded',
+        'false'
+      )
     })
   })
 

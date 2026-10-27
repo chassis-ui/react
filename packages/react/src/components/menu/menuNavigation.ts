@@ -35,6 +35,17 @@ export const focusMenuItem = (items: HTMLElement[], target: 'first' | 'last') =>
   ;(target === 'first' ? items[0]! : items[items.length - 1]!).focus()
 }
 
+// Input types whose arrow, Home and End keys do nothing of their own: in a menu, those keys move
+// between its items. Every other input uses them in place (the caret of a text field, a radio
+// group, a range), as do a `<select>`, a `<textarea>` and an editable element.
+const KEYLESS_INPUT_TYPES = new Set(['button', 'checkbox', 'image', 'reset', 'submit'])
+
+const usesKeysInPlace = (target: HTMLElement) =>
+  target.isContentEditable ||
+  target instanceof HTMLTextAreaElement ||
+  target instanceof HTMLSelectElement ||
+  (target instanceof HTMLInputElement && !KEYLESS_INPUT_TYPES.has(target.type))
+
 export interface MenuKeyDownOptions {
   onArrowLeft?: () => void
   onArrowRight?: () => void
@@ -53,6 +64,10 @@ export const handleMenuKeyDown = (
 ): void => {
   const menu = event.currentTarget
   const target = event.target as HTMLElement
+
+  // A form control in the list is used in place (menu.mdx): its own keys are left to it. Escape
+  // still closes the menu.
+  if (event.key !== 'Escape' && usesKeysInPlace(target)) return
 
   switch (event.key) {
     case 'ArrowDown':
