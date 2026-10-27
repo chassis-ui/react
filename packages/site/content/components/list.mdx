@@ -58,7 +58,8 @@ Each item's `color` remaps it to one of the context colors below.
 ## Active items
 
 Add the `active` boolean prop to a `<ListItem>` to mark it as the current selection. An active
-item gets an `aria-current="true"` attribute automatically.
+item gets an `aria-current="page"` attribute automatically; an `aria-current` you pass yourself
+wins over it (`"step"`, `"true"`).
 
 <Example>
   <ActiveExample client:load />
