@@ -148,6 +148,9 @@ function MenuToggleRender<C extends ElementType = typeof Button>(
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     menuToggleClicks.add(event.nativeEvent)
+    // A disabled `<a>` still takes the click, which runs no `onClick`, as a `<button disabled>`
+    // takes none. Another open menu closes on it on `window`, as on any click outside it.
+    if (disabled) return
     for (const dismiss of [...openMenuDismissals]) dismiss(event.nativeEvent)
     if (wasOpenRef.current) {
       wasOpenRef.current = false

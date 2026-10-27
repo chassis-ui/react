@@ -178,6 +178,37 @@ describe('MenuToggle', () => {
       }
     })
 
+    // The `<a>` still takes the click, and the toggle's handler ran the caller's `onClick` with it.
+    // Another open menu still closes on it, as on any click outside.
+    test('a disabled NavLink runs no onClick', () => {
+      vi.useFakeTimers()
+      const onClick = vi.fn()
+      render(
+        <>
+          <Menu defaultVisible>
+            <MenuToggle>Open</MenuToggle>
+            <MenuList>
+              <MenuItem>B</MenuItem>
+            </MenuList>
+          </Menu>
+          <Menu>
+            <MenuToggle component={NavLink} disabled href="#" onClick={onClick}>
+              Account
+            </MenuToggle>
+            <MenuList>
+              <MenuItem>A</MenuItem>
+            </MenuList>
+          </Menu>
+        </>
+      )
+      act(() => vi.runAllTimers())
+      fireEvent.click(screen.getByText('Account'))
+      act(() => vi.runAllTimers())
+      expect(onClick).not.toHaveBeenCalled()
+      expect(screen.getByRole('button', { name: 'Open' })).toHaveAttribute('aria-expanded', 'false')
+      vi.useRealTimers()
+    })
+
     test('a disabled button never opens its menu on a pointerdown', () => {
       render(<DisabledMenu />)
       const toggle = screen.getByRole('button', { name: 'Account' })
