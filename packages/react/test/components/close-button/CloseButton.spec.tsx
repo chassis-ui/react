@@ -3,7 +3,7 @@ import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { CloseButton } from '../../../src/index'
+import { Button, CloseButton, Icon } from '../../../src/index'
 
 describe('CloseButton', () => {
   describe('rendering', () => {
@@ -64,6 +64,38 @@ describe('CloseButton', () => {
     test('allows an explicit aria-label to override the label prop', () => {
       render(<CloseButton label="Fermer" aria-label="Cerrar" />)
       expect(screen.getByRole('button', { name: 'Cerrar' })).toBeInTheDocument()
+    })
+  })
+
+  // Any child cancelled the fallback, an `aria-hidden` icon included, and the button had no name.
+  describe('children', () => {
+    test.each([
+      ['an Icon', <Icon key="icon" name="xmark-circle-solid" />],
+      [
+        'an aria-hidden svg',
+        <svg aria-hidden="true" key="svg">
+          <path d="M0 0" />
+        </svg>
+      ]
+    ])('keeps the Close name when %s replaces the icon', async (_, child) => {
+      const { container } = render(<CloseButton>{child}</CloseButton>)
+      expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test.each([
+      ['text', 'Dismiss'],
+      ['text in an element', <span key="span">Dismiss</span>],
+      ['an Icon with a title', <Icon key="icon" name="xmark" title="Dismiss" />]
+    ])('takes its name from children that give one: %s', (_, child) => {
+      render(<CloseButton>{child}</CloseButton>)
+      const button = screen.getByRole('button', { name: 'Dismiss' })
+      expect(button).not.toHaveAttribute('aria-label')
+    })
+
+    test('lets visible text passed through a component be the name', () => {
+      render(<CloseButton component={Button}>Done</CloseButton>)
+      expect(screen.getByRole('button', { name: 'Done' })).not.toHaveAttribute('aria-label')
     })
   })
 

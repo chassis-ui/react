@@ -1,8 +1,11 @@
 import React, {
+  Children,
   ElementType,
   ForwardRefRenderFunction,
+  isValidElement,
   MouseEventHandler,
   ReactElement,
+  ReactNode,
   Ref
 } from 'react'
 import classNames from 'classnames'
@@ -11,12 +14,27 @@ import { mergeProps } from 'react-aria'
 import { ContextColor, ContextStyle } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
 import { hrefProps, linkElement, resolveLinkKind } from '../../utils/elementKind'
+import { resolveLazy } from '../../utils/lazyElement'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
   PolymorphicRef,
   PolymorphicRefWithFallback
 } from '../../utils/polymorphic'
+
+// Whether `children` give the button a name of their own: text, or an element that names itself
+// (`aria-label`, `aria-labelledby`, `Icon`'s `title`) or holds text. An icon swapped in for the
+// default one is `aria-hidden`, and names nothing.
+const namesItself = (children: ReactNode): boolean =>
+  Children.toArray(children).some((child) => {
+    const node = resolveLazy(child)
+    if (typeof node === 'string' || typeof node === 'number') return String(node).trim() !== ''
+    if (!isValidElement(node)) return false
+    const props = node.props as Record<string, unknown>
+    if (props['aria-hidden'] === true || props['aria-hidden'] === 'true') return false
+    if (props['aria-label'] || props['aria-labelledby'] || props.title) return true
+    return namesItself(props.children as ReactNode)
+  })
 
 type CloseButtonOwnProps<C extends ElementType> = {
   /**
@@ -133,11 +151,12 @@ function CloseButtonRender<C extends ElementType = 'button'>(
       )
 
   // The default icon-only close button has no visible text, so it needs the 'Close' fallback
-  // as its accessible name. Once `children` renders visible content (e.g. custom text passed
-  // through `component`), let that content be the accessible name instead — forcing the
-  // fallback label here would silently override it (a Label-in-Name accessibility failure).
-  // An explicit `label` always wins either way, same as an explicit `aria-label` always did.
-  const _label = label ?? (children == null ? 'Close' : undefined)
+  // as its accessible name, and so does one whose icon is swapped through `children`. Once
+  // `children` name the button themselves (e.g. custom text passed through `component`), let
+  // them be the accessible name instead — forcing the fallback label here would silently
+  // override it (a Label-in-Name accessibility failure). An explicit `label` always wins either
+  // way, same as an explicit `aria-label` always did.
+  const _label = label ?? (namesItself(children) ? undefined : 'Close')
 
   // `<a>` has no real `disabled` attribute, so a disabled link close-button still fires
   // click (and still navigates) unless it's blocked here, same guard `Button` applies.

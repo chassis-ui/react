@@ -65,7 +65,8 @@ ancestor context class.
 ## Custom icon
 
 Place a custom icon inside `<CloseButton>` to replace the default X icon — the icon inherits the
-button's color and size.
+button's color and size. The button keeps its "Close" name, or the `label` you give it, unless the
+children name it themselves: text, or an element with its own `aria-label` or `title`.
 
 <Example>
   <IconExample client:load />
