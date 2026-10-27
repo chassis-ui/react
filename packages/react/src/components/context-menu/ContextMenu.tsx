@@ -361,6 +361,11 @@ function ContextMenuRender<C extends ElementType = 'div'>(
     // key up (Chromium) fires it at the item the key down has just focused.
     event.preventDefault()
     if (!isInRegion(event)) return
+    // A browser that fires `contextmenu` for a long press (Android) emits no click on release, so
+    // the press opens the menu here and nothing is left to swallow: armed, the next tap on an
+    // item would be dropped.
+    cancelLongPress()
+    stopSwallowingClicks()
     openAt({ kind: 'point', x: event.clientX, y: event.clientY })
   }
 
@@ -403,6 +408,11 @@ function ContextMenuRender<C extends ElementType = 'div'>(
   const endPress = () => {
     cancelLongPress()
     restoreUserSelect()
+  }
+  // A cancelled pointer emits no click either.
+  const handlePointerCancel = () => {
+    endPress()
+    stopSwallowingClicks()
   }
   // The click the release of a long press emits (iOS) lands on the item that has just opened
   // under the finger: swallowed before it reaches the item or the click-inside dismissal. Marked as
@@ -513,7 +523,7 @@ function ContextMenuRender<C extends ElementType = 'div'>(
             onPointerDown: handlePointerDown,
             onPointerMove: handlePointerMove,
             onPointerUp: endPress,
-            onPointerCancel: endPress,
+            onPointerCancel: handlePointerCancel,
             onPointerLeave: endPress
           },
           rest

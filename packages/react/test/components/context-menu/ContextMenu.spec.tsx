@@ -222,6 +222,37 @@ describe('ContextMenu', () => {
       expect(isOpen()).toBe(false)
     })
 
+    // Android ends a long press with `contextmenu` and no click on release: a swallow armed for
+    // the release click dropped the first tap on an item instead.
+    test.each([
+      ['`contextmenu` after the long press', ['timer', 'contextmenu']],
+      ['`contextmenu` before the long press', ['contextmenu', 'timer']],
+      ['a cancelled pointer', ['timer', 'pointercancel']]
+    ])('a long press ended by %s swallows no tap', (_, steps) => {
+      const onClick = vi.fn()
+      render(
+        <ContextMenu data-testid="region">
+          Region
+          <MenuList>
+            <MenuItem onClick={onClick}>Cut</MenuItem>
+          </MenuList>
+        </ContextMenu>
+      )
+      fireEvent.pointerDown(region(), { pointerType: 'touch', clientX: 10, clientY: 10 })
+      for (const step of steps) {
+        if (step === 'timer') act(() => vi.advanceTimersByTime(500))
+        else if (step === 'contextmenu')
+          fireEvent.contextMenu(region(), { clientX: 10, clientY: 10 })
+        else fireEvent.pointerCancel(region(), { pointerType: 'touch' })
+      }
+      if (!steps.includes('pointercancel')) fireEvent.pointerUp(region(), { pointerType: 'touch' })
+      expect(isOpen()).toBe(true)
+
+      act(() => vi.advanceTimersByTime(300))
+      fireEvent.click(screen.getByRole('menuitem', { name: 'Cut' }))
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
     test('selects no text while a finger is down, and restores the region afterwards', () => {
       render(<Subject style={{ userSelect: 'text' }} />)
       expect(region().style.getPropertyValue('user-select')).toBe('text')
