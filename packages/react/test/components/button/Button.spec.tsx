@@ -142,6 +142,20 @@ describe('Button', () => {
       expect(await axe(container)).toHaveNoViolations()
     })
 
+    // The role was read from Button's own props, where `asChild` never puts the child's.
+    test('an asChild anchor the caller made a button keeps aria-pressed', async () => {
+      const { container } = render(
+        <Button asChild pressed>
+          <a href="#bold" role="button">
+            Bold
+          </a>
+        </Button>
+      )
+
+      expect(screen.getByRole('button', { name: 'Bold' })).toHaveAttribute('aria-pressed', 'true')
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
     test.each([
       ['a <button>', <Button pressed children="Bold" key="button" />],
       ['an <input>', <Button component="input" pressed value="Bold" key="input" />],
