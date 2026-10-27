@@ -175,6 +175,15 @@ describe('Link', () => {
       expect(link).not.toHaveAttribute('role')
       expect(link).not.toHaveAttribute('tabIndex')
     })
+
+    test("keeps the caller's tabIndex and role", () => {
+      render(
+        <Link component="span" onClick={() => undefined} role="tab" tabIndex={-1}>
+          Test
+        </Link>
+      )
+      expect(screen.getByRole('tab', { name: 'Test' })).toHaveAttribute('tabIndex', '-1')
+    })
   })
 
   describe('router link as component (a link, given href)', () => {

@@ -12,7 +12,7 @@ import classNames from 'classnames'
 import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle } from '../../types'
-import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
+import { pickButtonSemantics, useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
 import { hrefProps, linkElement, resolveLinkKind } from '../../utils/elementKind'
 import { resolveLazy } from '../../utils/lazyElement'
 import {
@@ -168,7 +168,7 @@ function CloseButtonRender<C extends ElementType = 'button'>(
 
   const { buttonProps, forkedRef } = useButtonSemantics<HTMLButtonElement | HTMLAnchorElement>(
     ref as Ref<HTMLButtonElement | HTMLAnchorElement>,
-    { disabled, onClick }
+    { disabled, onClick, ...pickButtonSemantics(rest) }
   )
 
   // Rendered as explicit branches, same as `Button`, rather than one `<Component>` tag

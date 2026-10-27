@@ -9,7 +9,7 @@ import classNames from 'classnames'
 import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle, Shapes } from '../../types'
-import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
+import { pickButtonSemantics, useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
 import { hrefProps, linkElement, resolveLinkKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
@@ -151,7 +151,7 @@ function ButtonRender<C extends ElementType = 'button'>(
   // button/anchor-shaped instance.
   const { buttonProps, forkedRef } = useButtonSemantics<HTMLButtonElement | HTMLAnchorElement>(
     ref as Ref<HTMLButtonElement | HTMLAnchorElement>,
-    { disabled, onClick }
+    { disabled, onClick, ...pickButtonSemantics(rest) }
   )
 
   // Rendered as three separate branches (rather than one `<Component>` tag driven by a

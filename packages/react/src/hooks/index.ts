@@ -1,5 +1,5 @@
 import { useAutoDismiss } from './useAutoDismiss'
-import { useButtonSemantics } from './useButtonSemantics'
+import { pickButtonSemantics, useButtonSemantics } from './useButtonSemantics'
 import { useControllableState } from './useControllableState'
 import { useDialogElement } from './useDialogElement'
 import { useDisabledAnchorGuard } from './useDisabledAnchorGuard'
@@ -25,6 +25,7 @@ import { useTransitionState } from './useTransitionState'
 export {
   getOverlayArrowStyle,
   getOverlayTransitionClass,
+  pickButtonSemantics,
   useAutoDismiss,
   useButtonSemantics,
   useControllableState,
