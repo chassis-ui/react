@@ -105,6 +105,32 @@ describe('Button', () => {
       expect(await axe(container)).toHaveNoViolations()
     })
 
+    // Spread after `rest`, `{ 'aria-pressed': undefined }` wrote over the caller's own.
+    test.each([
+      ['a <button>', <Button aria-pressed="true" children="Bold" key="button" />],
+      ['a mixed <button>', <Button aria-pressed="mixed" children="Bold" key="mixed" />],
+      [
+        'an element given button semantics',
+        <Button aria-pressed="true" component="span" children="Bold" key="span" />
+      ]
+    ])("%s keeps a caller's aria-pressed when pressed isn't given", (_form, button) => {
+      render(button)
+      const element = screen.getByRole('button', { name: 'Bold' })
+      expect(element).toHaveAttribute(
+        'aria-pressed',
+        (button.props as { 'aria-pressed': string })['aria-pressed']
+      )
+    })
+
+    test('pressed wins over an aria-pressed given beside it', () => {
+      render(
+        <Button aria-pressed="mixed" pressed={false}>
+          Bold
+        </Button>
+      )
+      expect(screen.getByRole('button', { name: 'Bold' })).toHaveAttribute('aria-pressed', 'false')
+    })
+
     test('an anchor the caller made a button keeps aria-pressed', async () => {
       const { container } = render(
         <Button href="#bold" role="button" pressed>
