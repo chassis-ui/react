@@ -186,12 +186,14 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           ? ''
           : undefined
 
-    const { describedBy, feedbackId, helpId, inputId } = useFormField({
+    const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
       ariaDescribedBy: rest['aria-describedby'],
+      ariaLabelledBy: rest['aria-labelledby'],
       help,
       id,
       invalid,
       invalidFeedback,
+      label,
       valid,
       validFeedback
     })
@@ -231,6 +233,9 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       <select
         {...rest}
         aria-describedby={describedBy}
+        // A caller's `aria-labelledby` adds to the visible label, as in `TextInput`, rather than
+        // taking its place: it outranks the `<label for>`.
+        aria-labelledby={rest['aria-labelledby'] && labelledBy}
         aria-invalid={invalid || undefined}
         className={selectClassName}
         id={inputId}
@@ -281,7 +286,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     return renderFormField({
       children: rendered,
       help,
-      ids: { feedback: feedbackId, help: helpId, input: inputId },
+      ids: { feedback: feedbackId, help: helpId, input: inputId, label: labelId },
       invalid,
       invalidFeedback,
       label,

@@ -93,12 +93,14 @@ export const RangeInput = forwardRef<HTMLInputElement, RangeInputProps>(
     // as valid (`useHeldBack`).
     const { invalid, valid } = useHeldBack(inputRef, { invalid: invalidProp, valid: validProp })
 
-    const { describedBy, feedbackId, helpId, inputId } = useFormField({
+    const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
       ariaDescribedBy: rest['aria-describedby'],
+      ariaLabelledBy: rest['aria-labelledby'],
       help,
       id,
       invalid,
       invalidFeedback,
+      label,
       valid,
       validFeedback
     })
@@ -110,6 +112,9 @@ export const RangeInput = forwardRef<HTMLInputElement, RangeInputProps>(
         <input
           {...rest}
           aria-describedby={describedBy}
+          // A caller's `aria-labelledby` adds to the visible label, as in `TextInput`, rather than
+          // taking its place: it outranks the `<label for>`.
+          aria-labelledby={rest['aria-labelledby'] && labelledBy}
           aria-invalid={invalid || undefined}
           className={_className}
           id={inputId}
@@ -118,7 +123,7 @@ export const RangeInput = forwardRef<HTMLInputElement, RangeInputProps>(
         />
       ),
       help,
-      ids: { feedback: feedbackId, help: helpId, input: inputId },
+      ids: { feedback: feedbackId, help: helpId, input: inputId, label: labelId },
       invalid,
       invalidFeedback,
       label,

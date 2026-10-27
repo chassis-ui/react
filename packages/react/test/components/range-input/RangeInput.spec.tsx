@@ -6,6 +6,25 @@ import { RangeInput } from '../../../src/index'
 
 describe('RangeInput', () => {
   describe('rendering', () => {
+    // A caller's `aria-labelledby` outranked the `<label for>`, and the visible label dropped out
+    // of the name.
+    test("a caller's aria-labelledby adds to the visible label", () => {
+      render(
+        <>
+          <span id="extra">Extra</span>
+          <RangeInput aria-labelledby="extra" label="Country" />
+        </>
+      )
+      expect(screen.getByRole('slider')).toHaveAccessibleName('Country Extra')
+    })
+
+    test('without one, the label alone names it, by its for', () => {
+      render(<RangeInput label="Country" />)
+      const control = screen.getByRole('slider')
+      expect(control).toHaveAccessibleName('Country')
+      expect(control).not.toHaveAttribute('aria-labelledby')
+    })
+
     test('renders a range input with the base class', () => {
       render(<RangeInput aria-label="Volume" step={3} />)
       const range = screen.getByRole('slider', { name: 'Volume' })
