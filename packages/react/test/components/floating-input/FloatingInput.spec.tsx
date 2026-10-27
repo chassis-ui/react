@@ -1,8 +1,9 @@
 import * as React from 'react'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { FloatingInput, Select, Textarea, TextInput } from '../../../src/index'
+import { FloatingInput, Form, Select, Textarea, TextInput } from '../../../src/index'
 
 const LABEL_WARNING = 'If you do not provide a visible label'
 
@@ -278,6 +279,65 @@ describe('FloatingInput', () => {
       render(<TextInput label="Name" />)
       const input = screen.getByRole('textbox', { name: 'Name' })
       expect(input).toHaveAttribute('aria-labelledby', screen.getByText('Name').id)
+    })
+  })
+
+  // The held-back mark lives in the field's `useHeldBack`; the feedback rendered from the
+  // wrapper's own `invalid` alone, so a blocked submit marked the input and said nothing.
+  describe('a submit the field held back', () => {
+    const Subject = (props: Partial<React.ComponentProps<typeof FloatingInput>>) => (
+      <form aria-label="Sign up" onSubmit={(event) => event.preventDefault()}>
+        <FloatingInput invalidFeedback="Enter your email." label="Email" {...props}>
+          <TextInput name="email" required />
+        </FloatingInput>
+        <button type="submit">Save</button>
+      </form>
+    )
+
+    test('shows the invalid feedback with the mark, until the field has a value', async () => {
+      const user = userEvent.setup()
+      const { container } = render(<Subject />)
+      expect(screen.queryByText('Enter your email.')).not.toBeInTheDocument()
+
+      await user.click(screen.getByRole('button', { name: 'Save' }))
+      const input = screen.getByRole('textbox', { name: 'Email' })
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+      expect(input).toHaveAccessibleDescription('Enter your email.')
+      expect(await axe(container)).toHaveNoViolations()
+
+      await user.type(input, 'a@b.c')
+      expect(input).not.toHaveAttribute('aria-invalid')
+      expect(screen.queryByText('Enter your email.')).not.toBeInTheDocument()
+    })
+
+    test("clears on the form's reset", async () => {
+      const user = userEvent.setup()
+      render(<Subject />)
+      await user.click(screen.getByRole('button', { name: 'Save' }))
+      expect(screen.getByText('Enter your email.')).toBeInTheDocument()
+
+      act(() => screen.getByRole<HTMLFormElement>('form', { name: 'Sign up' }).reset())
+      expect(screen.queryByText('Enter your email.')).not.toBeInTheDocument()
+    })
+
+    test('leaves the feedback to an invalid set on the FloatingInput', async () => {
+      const user = userEvent.setup()
+      render(<Subject invalid={false} />)
+      await user.click(screen.getByRole('button', { name: 'Save' }))
+      expect(screen.queryByText('Enter your email.')).not.toBeInTheDocument()
+    })
+
+    test("shows the valid feedback of a validated form's valid field", () => {
+      render(
+        <Form validated>
+          <FloatingInput label="Email" validFeedback="Looks good.">
+            <TextInput defaultValue="a@b.c" name="email" required />
+          </FloatingInput>
+        </Form>
+      )
+      expect(screen.getByRole('textbox', { name: 'Email' })).toHaveAccessibleDescription(
+        'Looks good.'
+      )
     })
   })
 

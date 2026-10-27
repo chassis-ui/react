@@ -102,7 +102,7 @@
     },
     "invalidFeedback": {
       "defaultValue": null,
-      "description": "An error message for the field, rendered below the control when `invalid` is set.",
+      "description": "An error message for the field, rendered below the control when `invalid` is set, or when\nthe field inside shows a submit it held back.",
       "name": "invalidFeedback",
       "parent": {
         "fileName": "packages/react/src/components/floating-input/FloatingInput.tsx",

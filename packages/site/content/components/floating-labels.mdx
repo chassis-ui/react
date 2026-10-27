@@ -36,7 +36,10 @@ The label floats automatically when the wrapped control already has a `value`.
 Passing `help`, `invalid`/`invalidFeedback`, or `valid`/`validFeedback` wraps the floating input
 in a `.form-field` and renders the corresponding text below it, same as the other form components.
 The control inside is described by the text that shows. Set `invalid`/`valid` on the control as
-well: its state is what shows the feedback and draws its border.
+well: its state is what shows the feedback and draws its border. A submit the control holds back
+(a `required` field left empty) shows `invalidFeedback` with no `invalid` from you, as do the
+verdicts of a `Form` with `validated`; an `invalid` or `valid` set on the `FloatingInput` decides
+instead.
 
 <Example>
   <HelpAndValidationExample client:load />
