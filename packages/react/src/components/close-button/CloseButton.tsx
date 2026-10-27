@@ -2,6 +2,7 @@ import React, {
   Children,
   ElementType,
   ForwardRefRenderFunction,
+  Fragment,
   isValidElement,
   MouseEventHandler,
   ReactElement,
@@ -14,7 +15,8 @@ import { mergeProps } from 'react-aria'
 import { ContextColor, ContextStyle } from '../../types'
 import { pickButtonSemantics, useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
 import { hrefProps, linkElement, resolveLinkKind } from '../../utils/elementKind'
-import { resolveLazy } from '../../utils/lazyElement'
+import { isElementOfType, resolveLazy } from '../../utils/lazyElement'
+import { Icon } from '../icon/Icon'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -24,7 +26,10 @@ import {
 
 // Whether `children` give the button a name of their own: text, or an element that names itself
 // (`aria-label`, `aria-labelledby`, `Icon`'s `title`) or holds text. An icon swapped in for the
-// default one is `aria-hidden`, and names nothing.
+// default one is `aria-hidden`, and names nothing. A component other than `Icon` given no children
+// renders what can't be read here (a `<FormattedMessage>`), and is taken to name the button, as
+// any child was before: the fallback would give it an English "Close" over its visible text. An
+// icon component of another library takes `aria-hidden`, or the button a `label`.
 const namesItself = (children: ReactNode): boolean =>
   Children.toArray(children).some((child) => {
     const node = resolveLazy(child)
@@ -33,6 +38,9 @@ const namesItself = (children: ReactNode): boolean =>
     const props = node.props as Record<string, unknown>
     if (props['aria-hidden'] === true || props['aria-hidden'] === 'true') return false
     if (props['aria-label'] || props['aria-labelledby'] || props.title) return true
+    if (props.children == null) {
+      return typeof node.type !== 'string' && node.type !== Fragment && !isElementOfType(node, Icon)
+    }
     return namesItself(props.children as ReactNode)
   })
 

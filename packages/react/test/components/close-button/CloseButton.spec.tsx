@@ -93,6 +93,29 @@ describe('CloseButton', () => {
       expect(button).not.toHaveAttribute('aria-label')
     })
 
+    // A component's output can't be read during render: one that renders a translated label
+    // got an English "Close" over its visible text.
+    test('takes a component it cannot read for one that names it', () => {
+      const Message = () => <>Schließen</>
+      render(
+        <CloseButton>
+          <Message />
+        </CloseButton>
+      )
+      const button = screen.getByRole('button', { name: 'Schließen' })
+      expect(button).not.toHaveAttribute('aria-label')
+    })
+
+    test('keeps the Close name for an aria-hidden component', () => {
+      const Glyph = (props: React.SVGProps<SVGSVGElement>) => <svg {...props} />
+      render(
+        <CloseButton>
+          <Glyph aria-hidden="true" />
+        </CloseButton>
+      )
+      expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
+    })
+
     test('lets visible text passed through a component be the name', () => {
       render(<CloseButton component={Button}>Done</CloseButton>)
       expect(screen.getByRole('button', { name: 'Done' })).not.toHaveAttribute('aria-label')
