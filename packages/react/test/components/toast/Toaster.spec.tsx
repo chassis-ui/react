@@ -180,6 +180,38 @@ describe('Toaster', () => {
       vi.useRealTimers()
     })
 
+    // Spread after the region's props, a caller's handler replaced the region's own, which hand
+    // focus on when a toast closes.
+    test("a caller's onFocus and onBlur chain with the region's own", () => {
+      vi.useFakeTimers()
+      const onFocus = vi.fn()
+      const onBlur = vi.fn()
+      render(
+        <>
+          <button type="button">Origin</button>
+          <Toaster onBlur={onBlur} onFocus={onFocus} />
+        </>
+      )
+      act(() => {
+        addToast(<ToastHeader closeButton>Older</ToastHeader>, { autohide: false })
+        addToast(<ToastHeader closeButton>Newer</ToastHeader>, { autohide: false })
+      })
+      act(() => vi.runAllTimers())
+      const [newer, older] = screen.getAllByRole('status')
+      const closeOf = (item: HTMLElement) => within(item).getByRole('button', { name: 'Close' })
+
+      act(() => setInteractionModality('keyboard'))
+      act(() => screen.getByRole('button', { name: 'Origin' }).focus())
+      act(() => closeOf(newer!).focus())
+      expect(onFocus).toHaveBeenCalled()
+      fireEvent.click(closeOf(newer!))
+      act(() => vi.runAllTimers())
+      expect(closeOf(older!)).toHaveFocus()
+      act(() => screen.getByRole('button', { name: 'Origin' }).focus())
+      expect(onBlur).toHaveBeenCalled()
+      vi.useRealTimers()
+    })
+
     // Issue #39: `ToastContent` listed seven of the props `Toaster` spreads onto the toast.
     test('a queued toast takes the shorthand props and a role, with no children', () => {
       vi.useFakeTimers()
