@@ -951,5 +951,34 @@ describe('Popover', () => {
       expect(screen.getByRole('dialog')).not.toHaveAttribute('aria-labelledby')
       expect(screen.getByRole('button', { name: 'Test' })).not.toHaveAttribute('id')
     })
+
+    // The title's `aria-labelledby` stayed beside the caller's `aria-label`, and outranked it.
+    test('an aria-label names it in place of the title, which still shows', () => {
+      vi.useFakeTimers()
+      render(
+        <Popover aria-label="Custom name" content="content" title="The title">
+          <Button>Test</Button>
+        </Popover>
+      )
+      openPopover()
+      settle()
+      vi.useRealTimers()
+      expect(screen.getByRole('dialog')).toHaveAccessibleName('Custom name')
+      expect(screen.getByRole('dialog')).not.toHaveAttribute('aria-labelledby')
+      expect(screen.getByText('The title')).toBeInTheDocument()
+    })
+
+    test('a title names it when nothing else does', () => {
+      vi.useFakeTimers()
+      render(
+        <Popover content="content" title="The title">
+          <Button>Test</Button>
+        </Popover>
+      )
+      openPopover()
+      settle()
+      vi.useRealTimers()
+      expect(screen.getByRole('dialog')).toHaveAccessibleName('The title')
+    })
   })
 })

@@ -51,7 +51,13 @@ const PopoverPanel = ({
   // node.
   const panelRef = useRef<HTMLDivElement>(null)
   const forkedRef = useForkedRef(overlayRef, panelRef)
-  const { dialogProps, titleProps } = useDialog({}, panelRef)
+  // The caller's name goes to `useDialog`, which then labels the panel by its title only when the
+  // caller gave none: left in `rest`, an `aria-label` sat beside the title's `aria-labelledby`,
+  // which outranks it.
+  const { dialogProps, titleProps } = useDialog(
+    { 'aria-label': rest['aria-label'], 'aria-labelledby': rest['aria-labelledby'] },
+    panelRef
+  )
 
   return (
     <div {...mergeProps(overlayTriggerProps, dialogProps, rest)} ref={forkedRef}>
