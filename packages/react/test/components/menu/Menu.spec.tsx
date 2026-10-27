@@ -352,6 +352,30 @@ describe('Menu', () => {
       vi.useRealTimers()
     })
 
+    // A form in the list keeps the menu open for a click on the form itself, as menu.js's
+    // `clearMenus` does, not for one on a button in it.
+    test('a submit button in a form in the list closes the menu', () => {
+      vi.useFakeTimers()
+      render(
+        <Menu>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <form aria-label="Sign in" onSubmit={(event) => event.preventDefault()}>
+              <Button type="submit">Sign in</Button>
+            </form>
+          </MenuList>
+        </Menu>
+      )
+      const toggle = screen.getByRole('button', { name: 'Toggle' })
+      fireEvent.click(toggle)
+      act(() => vi.runAllTimers())
+      fireEvent.click(screen.getByRole('form', { name: 'Sign in' }))
+      expect(toggle).toHaveAttribute('aria-expanded', 'true')
+      fireEvent.click(screen.getByRole('button', { name: 'Sign in' }))
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
+      vi.useRealTimers()
+    })
+
     // react-aria's `usePress` stops the click of the element it is on, which never reached the
     // menu's listener on `window`: the menu stayed open beside the control just used.
     test('a click on a react-aria pressable outside closes the menu', async () => {

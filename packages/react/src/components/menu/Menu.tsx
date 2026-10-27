@@ -200,17 +200,20 @@ export const menuToggleClicks = new WeakSet<Event>()
 export const openMenuDismissals = new Set<(event: Event) => void>()
 
 // Whether a click uses a form control in a menu's list in place, which keeps the menu open: one on
-// the control, on a `<label>` (whose click the browser passes on to its control), or anywhere in
-// a form the list holds. Only what is inside `lists` counts: a menu inside a page's form still
-// closes on an item.
+// the control, on a `<label>` (whose click the browser passes on to its control), or on a form
+// itself, as menu.js's `clearMenus` has it. A button in that form is an item: its submit closes the
+// menu. Only what is inside `lists` counts: a menu inside a page's form still closes on an item.
 export const isFormControlClick = (
   target: EventTarget | null,
   lists: Array<Element | null | undefined>
 ): boolean => {
   if (!(target instanceof Element)) return false
-  const control = target.closest(
-    'input, select, option, textarea, label, form, [contenteditable]:not([contenteditable="false"])'
-  )
+  const control =
+    target instanceof HTMLFormElement
+      ? target
+      : target.closest(
+          'input, select, option, textarea, label, [contenteditable]:not([contenteditable="false"])'
+        )
   return !!control && lists.some((list) => !!list?.contains(control))
 }
 
