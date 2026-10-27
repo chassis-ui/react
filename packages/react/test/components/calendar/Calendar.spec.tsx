@@ -21,6 +21,13 @@ const getYearButton = () => screen.getByRole('button', { name: /^Year:/ })
 
 describe('Calendar', () => {
   describe('rendering', () => {
+    // The raw `aria-label` was spread after react-aria's props and replaced the name it composes
+    // with the visible month.
+    test('an aria-label names the root together with the visible month', () => {
+      render(<Calendar aria-label="Event date" defaultValue={new CalendarDate(2024, 3, 15)} />)
+      expect(screen.getByRole('application')).toHaveAccessibleName('Event date, March 2024')
+    })
+
     test('renders a grid with the accessible label applied', () => {
       render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       expect(screen.getByRole('grid')).toBeInTheDocument()
