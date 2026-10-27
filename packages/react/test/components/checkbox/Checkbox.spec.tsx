@@ -92,6 +92,34 @@ describe('Checkbox', () => {
     })
   })
 
+  // A browser ignores `readonly` on a checkbox, and react-aria never saw it: the box toggled.
+  describe('readOnly', () => {
+    test('keeps the box as it is and says it is read-only', () => {
+      const onChange = vi.fn()
+      render(<Checkbox defaultSelected label="Agree" onChange={onChange} readOnly />)
+      const checkbox = screen.getByRole('checkbox', { name: 'Agree' })
+      expect(checkbox).toHaveAttribute('aria-readonly', 'true')
+      expect(checkbox).not.toHaveAttribute('readonly')
+      fireEvent.click(checkbox)
+      expect(checkbox).toBeChecked()
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    test('inside a CheckboxGroup too', () => {
+      const onChange = vi.fn()
+      render(
+        <CheckboxGroup label="Terms" onChange={onChange}>
+          <Checkbox label="Agree" readOnly value="agree" />
+        </CheckboxGroup>
+      )
+      const checkbox = screen.getByRole('checkbox', { name: 'Agree' })
+      expect(checkbox).toHaveAttribute('aria-readonly', 'true')
+      fireEvent.click(checkbox)
+      expect(checkbox).not.toBeChecked()
+      expect(onChange).not.toHaveBeenCalled()
+    })
+  })
+
   describe('selection behavior', () => {
     test('an uncontrolled checkbox toggles on click and fires onChange(isSelected)', () => {
       const onChange = vi.fn()

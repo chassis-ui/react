@@ -82,6 +82,11 @@ export interface CheckboxProps extends Omit<
    */
   onChange?: (isSelected: boolean) => void
   /**
+   * Toggle the read-only state: the control keeps its state, can still be focused, and says it
+   * is read-only (`aria-readonly`).
+   */
+  readOnly?: boolean
+  /**
    * Size the component sm or lg.
    */
   size?: 'sm' | 'lg'
@@ -111,6 +116,7 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
       isSelected,
       label,
       onChange,
+      readOnly,
       size,
       style,
       valid: validProp,
@@ -124,9 +130,12 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
     // react-aria cancels the browser's own message, and the form stayed with nothing to say why.
     const { invalid, valid } = useHeldBack(inputRef, { invalid: invalidProp, valid: validProp })
 
+    // `readOnly` goes to react-aria, which keeps the box as it is and writes `aria-readonly`: a
+    // browser ignores the native attribute on a checkbox, which still toggled.
     const toggleState = useToggleState({
       defaultSelected,
       isDisabled: disabled,
+      isReadOnly: readOnly,
       isSelected,
       onChange
     })
@@ -142,6 +151,7 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
         isDisabled: disabled,
         isIndeterminate: indeterminate,
         isInvalid: invalid,
+        isReadOnly: readOnly,
         value: rest.value as string | undefined
       } as AriaCheckboxProps,
       toggleState,
@@ -199,6 +209,7 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
       isSelected: _isSelected,
       label,
       onChange: _onChange,
+      readOnly,
       size,
       style,
       valid: itemValid,
@@ -244,6 +255,7 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
         // as the item is, so a group's `invalid` handed back to its items never came off them
         // again. The hook shows the group's state on each item by itself.
         isInvalid: itemInvalid,
+        isReadOnly: readOnly,
         value: rest.value as string
       } as AriaCheckboxGroupItemProps,
       groupState,

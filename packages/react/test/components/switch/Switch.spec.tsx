@@ -99,6 +99,31 @@ describe('Switch', () => {
     })
   })
 
+  // A browser ignores `readonly` on a checkbox or a radio, and react-aria never saw it.
+  describe('readOnly', () => {
+    test('keeps the switch as it is and says it is read-only', () => {
+      const onChange = vi.fn()
+      render(<Switch label="Wi-Fi" onChange={onChange} readOnly />)
+      const control = screen.getByRole('switch', { name: 'Wi-Fi' })
+      expect(control).toHaveAttribute('aria-readonly', 'true')
+      fireEvent.click(control)
+      expect(control).not.toBeChecked()
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    test('the radio-backed switch too', () => {
+      const onChange = vi.fn()
+      render(
+        <Switch label="Dark" name="theme" onChange={onChange} readOnly type="radio" value="dark" />
+      )
+      const control = screen.getByRole('switch', { name: 'Dark' })
+      expect(control).toHaveAttribute('aria-readonly', 'true')
+      fireEvent.click(control)
+      expect(control).not.toBeChecked()
+      expect(onChange).not.toHaveBeenCalled()
+    })
+  })
+
   describe('selection behavior', () => {
     test('an uncontrolled switch toggles on click and fires onChange(isSelected)', () => {
       const onChange = vi.fn()
