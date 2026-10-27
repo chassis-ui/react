@@ -273,14 +273,15 @@ function MenuRender<C extends ElementType = typeof Fragment>(
   // All four report *transitions*, so none fires for the initial commit — mounting closed is not
   // a hide. Without this guard, mounting fired `onHide` (and scheduled `onHidden`) for every menu
   // on the page before `onShow` had ever fired once, which `Menu.spec.tsx` used to have to
-  // `mockClear()` past.
-  const mountedRef = useRef(false)
+  // `mockClear()` past. The guard compares against the state last reported, as
+  // `useFloatingOverlay` does: a `mounted` flag let StrictMode's second run of the effect on
+  // mount through.
+  const reportedOpenRef = useRef(state.isOpen)
 
   useEffect(() => {
     const overlay = overlayRef.current
-    const isInitialCommit = !mountedRef.current
-    mountedRef.current = true
-    if (isInitialCommit) return undefined
+    if (reportedOpenRef.current === state.isOpen) return undefined
+    reportedOpenRef.current = state.isOpen
 
     if (state.isOpen) {
       onShow?.()

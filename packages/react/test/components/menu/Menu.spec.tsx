@@ -712,6 +712,41 @@ describe('Menu', () => {
       expect(onHidden).toHaveBeenCalledTimes(1)
       vi.useRealTimers()
     })
+
+    // StrictMode runs the mount effect twice and keeps refs, so a `mounted` flag let the second
+    // run report the initial state as a change.
+    test.each([false, true])(
+      'fires none of them on mount under StrictMode (defaultVisible: %s)',
+      (defaultVisible) => {
+        const onShow = vi.fn()
+        const onShown = vi.fn()
+        const onHide = vi.fn()
+        const onHidden = vi.fn()
+        render(
+          <React.StrictMode>
+            <Menu
+              defaultVisible={defaultVisible}
+              onHidden={onHidden}
+              onHide={onHide}
+              onShow={onShow}
+              onShown={onShown}
+            >
+              <MenuToggle>Toggle</MenuToggle>
+              <MenuList>
+                <MenuItem>A</MenuItem>
+              </MenuList>
+            </Menu>
+          </React.StrictMode>
+        )
+        for (const callback of [onShow, onShown, onHide, onHidden]) {
+          expect(callback).not.toHaveBeenCalled()
+        }
+
+        if (defaultVisible) fireEvent.keyDown(screen.getByRole('menu'), { key: 'Escape' })
+        else fireEvent.click(screen.getByText('Toggle'))
+        expect(defaultVisible ? onHide : onShow).toHaveBeenCalledTimes(1)
+      }
+    )
   })
 
   describe('accessibility', () => {
