@@ -11,7 +11,11 @@ import { useForkedRef, useFormField, useHeldBack } from '../../hooks'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 
-export interface RangeInputProps extends InputHTMLAttributes<HTMLInputElement> {
+// No `placeholder` or `readOnly`: neither applies to `type="range"`.
+export interface RangeInputProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'placeholder' | 'readOnly'
+> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -49,9 +53,7 @@ export interface RangeInputProps extends InputHTMLAttributes<HTMLInputElement> {
    */
   onChange?: ChangeEventHandler<HTMLInputElement>
   /**
-   * Toggle the readonly state for the component.
    */
-  readOnly?: boolean
   /**
    * Specifies the interval between legal numbers in the component.
    */

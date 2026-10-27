@@ -33,7 +33,7 @@ describe('RangeInput', () => {
       expect(range).toHaveAttribute('step', '3')
     })
 
-    test('applies min, max, value, disabled and readOnly attributes', () => {
+    test('applies min, max, value and disabled attributes', () => {
       render(
         <RangeInput
           aria-label="Volume"
@@ -42,7 +42,6 @@ describe('RangeInput', () => {
           disabled={true}
           max={150}
           min={20}
-          readOnly={true}
           value={80}
         />
       )
@@ -50,7 +49,6 @@ describe('RangeInput', () => {
       expect(range).toHaveClass('form-range', 'bazinga')
       expect(range).toHaveAttribute('max', '150')
       expect(range).toHaveAttribute('min', '20')
-      expect(range).toHaveAttribute('readonly')
       expect(range).toHaveAttribute('step', '2')
       expect(range).toHaveValue('80')
       expect(range).toBeDisabled()

@@ -11,7 +11,12 @@ import { useForkedRef, useFormField, useHeldBack } from '../../hooks'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 
-export interface FileInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+// No `value` or `defaultValue`: a file input's value is the files chosen, and a string given
+// throws at mount (`InvalidStateError`).
+export interface FileInputProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'defaultValue' | 'size' | 'value'
+> {
   /**
    * A string of all className you want applied to the component.
    */

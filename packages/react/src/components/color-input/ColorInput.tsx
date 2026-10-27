@@ -11,7 +11,11 @@ import { useForkedRef, useFormField, useHeldBack } from '../../hooks'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 
-export interface ColorInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+// No `placeholder` or `readOnly`: neither applies to `type="color"`.
+export interface ColorInputProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'placeholder' | 'readOnly' | 'size'
+> {
   /**
    * A string of all className you want applied to the component.
    */

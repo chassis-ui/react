@@ -176,25 +176,6 @@
         "name": "ChangeEventHandler<HTMLInputElement>"
       }
     },
-    "readOnly": {
-      "defaultValue": null,
-      "description": "Toggle the readonly state for the component.",
-      "name": "readOnly",
-      "parent": {
-        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
-        "name": "RangeInputProps"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
-          "name": "RangeInputProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean"
-      }
-    },
     "step": {
       "defaultValue": null,
       "description": "Specifies the interval between legal numbers in the component.",

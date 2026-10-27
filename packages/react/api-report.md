@@ -11,7 +11,7 @@ renamed export, ...) and review the diff like any other code change. `pnpm react
 -->
 
 ```ts
-import React, { AriaAttributes, ButtonHTMLAttributes, CSSProperties, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, ComponentType, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, TableHTMLAttributes, TextareaHTMLAttributes } from "react";
+import React, { AriaAttributes, ButtonHTMLAttributes, CSSProperties, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, ComponentType, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, SelectHTMLAttributes, TableHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { ColumnSize, ColumnStaticSize, DateValue, Key as Key$1, Selection, SortDescriptor, TableBodyProps as TableBodyProps$1, TableHeaderProps as TableHeaderProps$1, ToastQueue } from "react-stately";
 import { DateValue as DateValue$1, I18nProvider, I18nProviderProps, Key as Key$2, RangeValue, TimeValue } from "react-aria";
 import { Key as Key$3, Selection as Selection$1, SortDescriptor as SortDescriptor$1, TableBodyRenderProps } from "react-aria-components";
@@ -2507,7 +2507,7 @@ type CloseButtonComponent = (<C extends ElementType = 'button'>(props: CloseButt
 export declare const CloseButton: CloseButtonComponent;
 //#endregion
 //#region src/components/color-input/ColorInput.d.ts
-interface ColorInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+interface ColorInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'placeholder' | 'readOnly' | 'size'> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -2562,7 +2562,7 @@ interface ColorInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 's
 export declare const ColorInput: React.ForwardRefExoticComponent<ColorInputProps & React.RefAttributes<HTMLInputElement>>;
 //#endregion
 //#region src/components/file-input/FileInput.d.ts
-interface FileInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+interface FileInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'defaultValue' | 'size' | 'value'> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -4384,7 +4384,7 @@ interface RadioGroupProps extends Omit<HTMLAttributes<HTMLFieldSetElement>, 'def
 export declare const RadioGroup: React.ForwardRefExoticComponent<RadioGroupProps & React.RefAttributes<HTMLFieldSetElement>>;
 //#endregion
 //#region src/components/range-input/RangeInput.d.ts
-interface RangeInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface RangeInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'placeholder' | 'readOnly'> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -4421,10 +4421,6 @@ interface RangeInputProps extends InputHTMLAttributes<HTMLInputElement> {
    * Method called immediately after the `value` prop changes.
    */
   onChange?: ChangeEventHandler<HTMLInputElement>;
-  /**
-   * Toggle the readonly state for the component.
-   */
-  readOnly?: boolean;
   /**
    * Specifies the interval between legal numbers in the component.
    */
@@ -4469,7 +4465,7 @@ interface SelectOptionDef {
    */
   value?: number | string;
 }
-interface SelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'size'> {
+interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
   /**
    * Content rendered at the select's trailing edge, e.g. a `InputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a

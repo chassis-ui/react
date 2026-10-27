@@ -1,7 +1,7 @@
 import React, {
   ChangeEventHandler,
   forwardRef,
-  InputHTMLAttributes,
+  SelectHTMLAttributes,
   MouseEventHandler,
   ReactNode,
   useRef
@@ -35,7 +35,9 @@ export interface SelectOptionDef {
    */
   value?: string | number
 }
-export interface SelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'size'> {
+// The attributes of a `<select>`: typed as an input's, it took `readOnly`, `pattern`, `min` and
+// the like, which a select ignores.
+export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
   /**
    * Content rendered at the select's trailing edge, e.g. a `InputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a

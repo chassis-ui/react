@@ -8,12 +8,14 @@ import {
   Chip,
   CloseButton,
   Collapse,
+  ColorInput,
   DataGridBody,
   DataGridCell,
   DataGridRow,
   DatePicker,
   Divider,
   Drawer,
+  FileInput,
   Flex,
   Grid,
   GridItem,
@@ -25,6 +27,8 @@ import {
   Notification,
   PaginationItem,
   Popover,
+  RangeInput,
+  Select,
   SkeletonLoader,
   Toast,
   Tooltip,
@@ -349,3 +353,15 @@ expectTypeOf(<Grid columns={{ '@xs': 2 }} />).toBeObject()
 expectTypeOf(<Flex direction={{ md: 'row' }} />).toBeObject()
 // @ts-expect-error `Flex` reads the viewport breakpoints only.
 expectTypeOf(<Flex direction={{ '@md': 'row' }} />).toBeObject()
+
+// --- The native leaves take the attributes their element has ---
+
+expectTypeOf(<Select aria-label="Plan" options={['a']} required />).toBeObject()
+// @ts-expect-error a `<select>` has no read-only state: the attribute was forwarded and ignored.
+expectTypeOf(<Select aria-label="Plan" readOnly />).toBeObject()
+// @ts-expect-error a file input's value is the files chosen: a string given threw at mount.
+expectTypeOf(<FileInput aria-label="Files" defaultValue="x" />).toBeObject()
+// @ts-expect-error `readonly` doesn't apply to `type="color"`.
+expectTypeOf(<ColorInput aria-label="Color" readOnly />).toBeObject()
+// @ts-expect-error `readonly` doesn't apply to `type="range"`.
+expectTypeOf(<RangeInput aria-label="Volume" readOnly />).toBeObject()
