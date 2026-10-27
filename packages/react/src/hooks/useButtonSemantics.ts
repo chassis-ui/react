@@ -7,7 +7,9 @@ interface UseButtonSemanticsOptions<T extends HTMLElement> {
   disabled?: boolean
   onClick?: MouseEventHandler<T>
   // The caller's own, which win over the synthesized `role="button"` and `tabIndex={0}`, as they
-  // do on a native `<button>`: a roving tabindex in a toolbar sets `-1`.
+  // do on a native `<button>`: a roving tabindex in a toolbar sets `-1`. A disabled one takes
+  // `-1` for any value given, as a `<button disabled>` stays out of the tab order: react-aria's
+  // `undefined` loses a `mergeProps` to the caller's own, which the component spreads too.
   role?: string
   tabIndex?: number
 }
@@ -46,7 +48,7 @@ export const useButtonSemantics = <T extends HTMLElement>(
     buttonProps: {
       ...buttonProps,
       ...(role !== undefined && { role }),
-      ...(tabIndex !== undefined && { tabIndex })
+      ...(tabIndex !== undefined && { tabIndex: disabled ? -1 : tabIndex })
     },
     forkedRef
   }

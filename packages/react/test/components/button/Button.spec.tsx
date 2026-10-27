@@ -282,6 +282,17 @@ describe('Button', () => {
       expect(screen.getByRole('button', { name: 'Roving' })).toHaveAttribute('tabIndex', '-1')
       expect(screen.getByRole('menuitem', { name: 'Item' })).toHaveAttribute('tabIndex', '0')
     })
+
+    // As on a native `<button disabled>`, a caller's `tabIndex` doesn't bring a disabled one back
+    // into the tab order.
+    test('keeps a disabled one out of the tab order whatever tabIndex the caller gives', () => {
+      render(
+        <Button component="span" disabled tabIndex={0}>
+          Off
+        </Button>
+      )
+      expect(screen.getByRole('button', { name: 'Off' })).toHaveAttribute('tabIndex', '-1')
+    })
   })
 
   describe('router link as component (a link, given href)', () => {
