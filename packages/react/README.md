@@ -30,8 +30,9 @@ The components render `@chassis-ui/css`'s markup and class names, so install bot
 npm install @chassis-ui/react @chassis-ui/css
 ```
 
-`@chassis-ui/css` is a peer dependency, pinned to one 0.x minor (`>=0.10.0 <0.11.0` today): before
-1.0 a minor release of it can rename the tokens the components rely on.
+`@chassis-ui/css` is a peer dependency, pinned to one 0.x minor (the range under
+"Peer dependencies" below): before 1.0 a minor release of it can rename the tokens the components
+rely on.
 
 ## Stylesheets
 
