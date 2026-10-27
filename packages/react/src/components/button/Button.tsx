@@ -170,8 +170,10 @@ function ButtonRender<C extends ElementType = 'button'>(
   }
   // `aria-pressed` is a state of the button role, which a `<button>`, a button `<input>` and an
   // element given button semantics below have. A link doesn't take it (axe's `aria-allowed-attr`),
-  // so an anchor gets it only when the caller made it a button.
-  const pressedProps = { 'aria-pressed': pressed }
+  // so an anchor gets it only when the caller made it a button. Without `pressed`, a caller's own
+  // `aria-pressed` (a toggle managed elsewhere, or `"mixed"`) stays: spread after `rest`, an
+  // `undefined` here wrote over it.
+  const pressedProps = pressed === undefined ? {} : { 'aria-pressed': pressed }
 
   if (kind === 'button') {
     const NativeButton = Component as 'button'
