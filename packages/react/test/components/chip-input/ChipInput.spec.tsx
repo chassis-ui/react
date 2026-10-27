@@ -16,6 +16,21 @@ describe('ChipInput', () => {
       expect(screen.getByRole('textbox')).toBeInTheDocument()
     })
 
+    // The empty group renders nothing: as a tab stop it took a Tab with nothing to show for it.
+    test('Tab goes straight to the input while there are no chips', async () => {
+      const user = userEvent.setup()
+      render(
+        <>
+          <button type="button">Before</button>
+          <ChipInput aria-label="Tags" />
+        </>
+      )
+      act(() => screen.getByRole('button', { name: 'Before' }).focus())
+      await user.tab()
+      expect(screen.getByRole('textbox')).toHaveFocus()
+      expect(screen.getByRole('group', { name: 'Tags' })).toHaveAttribute('tabindex', '-1')
+    })
+
     test('the group becomes a grid once it has tags', () => {
       render(<ChipInput aria-label="Skills" defaultValue={['React']} />)
       expect(screen.getByRole('grid', { name: 'Skills' })).toBeInTheDocument()
@@ -150,6 +165,27 @@ describe('ChipInput', () => {
       const lastRow = screen.getByRole('row', { name: /TypeScript/ })
       fireEvent.keyDown(lastRow, { key: 'Backspace' })
       expect(onChange).toHaveBeenCalledWith(['React'])
+    })
+
+    // react-aria focuses the list once its last chip is gone, and the empty list renders nothing.
+    test('removing the last chip with Backspace leaves the focus in the input', async () => {
+      const user = userEvent.setup()
+      render(<ChipInput aria-label="Tags" defaultValue={['a']} />)
+      const input = screen.getByRole('textbox')
+      await user.click(input)
+      await user.keyboard('{Backspace}')
+      expect(screen.getByRole('row', { name: 'a' })).toHaveFocus()
+      await user.keyboard('{Backspace}')
+      expect(screen.queryByRole('row')).not.toBeInTheDocument()
+      expect(input).toHaveFocus()
+    })
+
+    test('removing the last chip with its close button leaves the focus in the input', async () => {
+      const user = userEvent.setup()
+      render(<ChipInput aria-label="Tags" defaultValue={['a']} />)
+      await user.click(within(screen.getByRole('row', { name: 'a' })).getByRole('button'))
+      expect(screen.queryByRole('row')).not.toBeInTheDocument()
+      expect(screen.getByRole('textbox')).toHaveFocus()
     })
 
     test('removing one duplicate-valued chip only removes that instance, not every chip with the same value', () => {

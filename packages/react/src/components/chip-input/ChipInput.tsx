@@ -382,6 +382,7 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
             chipVariant={chipVariant}
             disabled={disabled}
             groupRef={groupRef}
+            onEmptyFocus={() => inputRef.current?.focus()}
             props={{
               'aria-label': ariaLabel,
               'aria-labelledby': labelledBy,

@@ -1,6 +1,6 @@
 import React, { RefObject, useRef } from 'react'
 import classNames from 'classnames'
-import { AriaTagGroupOptions, useButton, useTag, useTagGroup } from 'react-aria'
+import { AriaTagGroupOptions, mergeProps, useButton, useTag, useTagGroup } from 'react-aria'
 import { ListState, Node } from 'react-stately'
 
 import { Chip } from '../chip/Chip'
@@ -17,6 +17,11 @@ interface ChipListProps {
   chipVariant?: string
   disabled?: boolean
   groupRef: RefObject<HTMLDivElement | null>
+  /**
+   * Called when the list takes focus while it has no chips: react-aria focuses it when the last
+   * chip is removed. `ChipInput` sends the focus on to its text input.
+   */
+  onEmptyFocus: () => void
   props: AriaTagGroupOptions<ChipItem>
   size?: 'sm' | 'lg'
   state: ListState<ChipItem>
@@ -26,22 +31,33 @@ export const ChipList = ({
   chipVariant,
   disabled,
   groupRef,
+  onEmptyFocus,
   props,
   size,
   state
 }: ChipListProps) => {
   const { gridProps } = useTagGroup(props, state, groupRef)
+  const empty = state.collection.size === 0
 
   // react-aria describes the list by a description and an error message it never renders here
   // (FORMS.md, gotcha 6), and keeps `aria-multiselectable` when an empty list turns from a `grid`
   // into a `group`, which doesn't allow it.
+  // An empty list is a `group` with `tabIndex={0}`, so that a message for the empty state can be
+  // reached. Nothing is rendered in it here, and it was a zero-size tab stop before the input, which
+  // also took focus when the last chip was removed. It is focusable by script only, and passes on
+  // the focus react-aria gives it.
   return (
     <div
-      {...gridProps}
+      {...mergeProps(gridProps, {
+        onFocus: (event: React.FocusEvent<HTMLDivElement>) => {
+          if (empty && event.target === event.currentTarget) onEmptyFocus()
+        }
+      })}
       aria-describedby={undefined}
       aria-multiselectable={
         gridProps.role === 'grid' ? gridProps['aria-multiselectable'] : undefined
       }
+      tabIndex={empty ? -1 : gridProps.tabIndex}
       style={{ display: 'contents' }}
       ref={groupRef as RefObject<HTMLDivElement>}
     >
