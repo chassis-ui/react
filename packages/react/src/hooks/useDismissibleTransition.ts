@@ -8,6 +8,12 @@ import { useTransitionState } from './useTransitionState'
 
 export interface UseDismissibleTransitionOptions {
   /**
+   * Whether the component fades: `Toast`'s `animation`. Without it the entering and exiting
+   * phases end before they are painted, so `transitionClass` never holds `showing`, which
+   * chassis-css paints at opacity 0 whether or not `.fade` is there.
+   */
+  animated?: boolean
+  /**
    * Initial state of an uncontrolled component. `Toast` starts hidden, `Notification` shown.
    */
   defaultVisible: boolean
@@ -97,6 +103,7 @@ export interface UseDismissibleTransitionResult {
 // where `close()` is the change. A controlled one owes `onClose` only once `visible` has become
 // `false` and the exit has started: until then `close()` is a request its owner may decline.
 export function useDismissibleTransition({
+  animated = true,
   defaultVisible,
   displayName,
   onClose,
@@ -140,6 +147,7 @@ export function useDismissibleTransition({
   const hydrated = useHydrated()
 
   const { isMounted, phase } = useTransitionState({
+    animated,
     appear: hydrated,
     in: _visible,
     nodeRef,

@@ -11,6 +11,12 @@ export type TransitionPhase = 'unmounted' | 'exited' | 'entering' | 'entered' | 
 
 export interface UseTransitionStateOptions {
   /**
+   * Whether the element has a CSS transition to wait for. `false` ends `entering` and `exiting`
+   * in the same layout pass they start in, so neither is painted: a component told not to
+   * animate appears and disappears at once.
+   */
+  animated?: boolean
+  /**
    * Plays the enter transition on the first mount too, when `in` is already `true`. Without it
    * a component mounted visible starts settled, in `entered`.
    */
@@ -83,6 +89,7 @@ const forceReflow = (node: HTMLElement | null) => void node?.offsetHeight
 // and a step that needs the previous styles computed first (an element that was just mounted,
 // or `display: none` a moment ago) forces a reflow itself.
 export function useTransitionState({
+  animated = true,
   appear = false,
   in: inProp,
   mountOnEnter = false,
@@ -150,8 +157,8 @@ export function useTransitionState({
       finish()
       return undefined
     }
-    return executeAfterTransition(node, finish, true)
-  }, [phase])
+    return executeAfterTransition(node, finish, animated)
+  }, [phase, animated])
 
   // Shown while still `unmounted`: render it hidden in this same pass, so the element exists
   // when the effect above starts the enter from it.

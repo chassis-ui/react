@@ -9,7 +9,7 @@
       "defaultValue": {
         "value": true
       },
-      "description": "Apply a CSS fade transition to the toast.",
+      "description": "Apply a CSS fade transition to the toast. Off, the toast appears and disappears at once.",
       "name": "animation",
       "parent": {
         "fileName": "packages/react/src/components/toast/Toast.tsx",

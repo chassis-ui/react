@@ -11,7 +11,7 @@ import { ToastHeader } from './ToastHeader'
 
 export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   /**
-   * Apply a CSS fade transition to the toast.
+   * Apply a CSS fade transition to the toast. Off, the toast appears and disappears at once.
    */
   animation?: boolean
   /**
@@ -151,6 +151,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       transitionClass,
       visible: _visible
     } = useDismissibleTransition({
+      animated: animation,
       defaultVisible,
       displayName: 'Toast',
       onClose,

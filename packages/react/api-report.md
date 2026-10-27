@@ -6527,7 +6527,7 @@ export declare const TabPanel: React.ForwardRefExoticComponent<TabPanelProps & R
 //#region src/components/toast/Toast.d.ts
 interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   /**
-   * Apply a CSS fade transition to the toast.
+   * Apply a CSS fade transition to the toast. Off, the toast appears and disappears at once.
    */
   animation?: boolean;
   /**

@@ -450,6 +450,30 @@ describe('Toast', () => {
       vi.useRealTimers()
     })
 
+    // Without `fade` there is no transition to run, but the toast still went through `showing`,
+    // which chassis-css paints at opacity 0 whether or not `.fade` is there: invisible for the
+    // 50 ms fallback, then popping in.
+    test('animation={false} shows without the showing phase and hides at once', () => {
+      vi.useFakeTimers()
+      const { rerender } = render(
+        <Toast animation={false} autohide={false} visible={true}>
+          Test
+        </Toast>
+      )
+      const toast = screen.getByRole('status')
+      expect(toast).toHaveClass('show')
+      expect(toast).not.toHaveClass('showing')
+      expect(toast).not.toHaveClass('fade')
+
+      rerender(
+        <Toast animation={false} autohide={false} visible={false}>
+          Test
+        </Toast>
+      )
+      expect(screen.queryByRole('status')).not.toBeInTheDocument()
+      vi.useRealTimers()
+    })
+
     test('mounting already visible (the queue-mount path) still plays the entrance transition', () => {
       vi.useFakeTimers()
       render(
