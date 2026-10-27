@@ -1416,8 +1416,8 @@ interface DataGridOwnProps<T extends object> {
    */
   'aria-labelledby'?: string;
   /**
-   * Set the vertical alignment of cell content. Mirrors `Table`'s prop of the same name for API
-   * parity — same as `Table`, this awaits chassis-css adding the matching `.align-*` styles.
+   * Set the vertical alignment of the body cells' content, as `Table`'s prop of the same name
+   * does. The header row keeps its own alignment, as a table's does.
    */
   align?: 'bottom' | 'middle' | 'top';
   /**

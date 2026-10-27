@@ -59,7 +59,6 @@
     // a floor so the component isn't broken out of the box; callers size it for their own layout.
     height: 400px;
     overflow: auto;
-    vertical-align: var(--table-cell-vertical-align, $table-cell-vertical-align);
     border-color: var(--border-color);
 
     // `[role="rowheader"]` is the identifying cell of a *data* row (the `isRowHeader` column,
@@ -95,9 +94,32 @@
       --bg-color: var(--active-bg-color);
     }
 
-    &.hoverable [role="row"]:not([data-selected]):hover > *{
+    // Body rows only: the header row is a `[role="row"]` too, and chassis-css hovers
+    // `.table > tbody > tr` alone.
+    &.hoverable .datagrid-body [role="row"]:not([data-selected]):hover > * {
       --fg-color: var(--hover-fg-color);
       --bg-color: var(--hover-bg-color);
+    }
+
+    // `align`: the body cells' content on the row's cross axis. `vertical-align`, which
+    // `.table.align-*` sets, has nothing to align here: a cell is a block `<div>` as tall as its
+    // row, in the virtualizer's absolutely positioned wrapper. With `align` set, `DataGridCell`
+    // renders its content in one `.datagrid-cell-content`, and the cell is a column flexbox
+    // around it, so inline content (text beside a badge) keeps its flow. The header row keeps
+    // its own alignment, as `.table > thead` does, and a selection cell centres its checkbox.
+    @each $align, $justify in (top: flex-start, middle: center, bottom: flex-end) {
+      &.align-#{$align} .datagrid-body {
+        [role="gridcell"],
+        [role="rowheader"] {
+          display: flex;
+          flex-direction: column;
+          justify-content: $justify;
+        }
+
+        .datagrid-selection-cell {
+          align-items: center;
+        }
+      }
     }
 
     &.bordered {

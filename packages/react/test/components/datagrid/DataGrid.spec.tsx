@@ -50,6 +50,7 @@ class MockResizeObserver {
 }
 
 interface BasicDataGridProps {
+  align?: React.ComponentProps<typeof DataGrid>['align']
   disabledKeys?: React.ComponentProps<typeof DataGrid>['disabledKeys']
   onSelectionChange?: React.ComponentProps<typeof DataGrid>['onSelectionChange']
   onSortChange?: React.ComponentProps<typeof DataGrid>['onSortChange']
@@ -61,6 +62,7 @@ interface BasicDataGridProps {
 // DataGridSelectionCell's own doc comment - so this harness has no selection column at all.
 // `SelectableDataGrid` below is the separate harness that adds one.
 const BasicDataGrid = ({
+  align,
   disabledKeys,
   onSelectionChange,
   onSortChange,
@@ -68,6 +70,7 @@ const BasicDataGrid = ({
   sortDescriptor
 }: BasicDataGridProps = {}) => (
   <DataGrid
+    align={align}
     aria-label="Users"
     disabledKeys={disabledKeys}
     onSelectionChange={onSelectionChange}
@@ -184,6 +187,22 @@ describe('DataGrid', () => {
         'hoverable',
         'sm',
         'bazinga'
+      )
+    })
+
+    // `align` was the `align-*` class on the grid alone, a block `<div>` whose `vertical-align`
+    // reaches no cell: the cells are the virtualizer's absolutely positioned `<div>`s. With it,
+    // a cell wraps its content in the one element `DataGrid.scss` places on the cross axis.
+    test("align wraps each body cell's content for the stylesheet to place; without it, nothing is added", () => {
+      const { rerender } = render(<BasicDataGrid />)
+      expect(screen.getByText('Mark')).toBe(screen.getByRole('rowheader', { name: 'Mark' }))
+
+      rerender(<BasicDataGrid align="middle" />)
+      const content = screen.getByText('Mark')
+      expect(content).toHaveClass('datagrid-cell-content')
+      expect(screen.getByRole('rowheader', { name: 'Mark' })).toContainElement(content)
+      expect(screen.getByRole('columnheader', { name: 'Name' })).not.toContainHTML(
+        'datagrid-cell-content'
       )
     })
 

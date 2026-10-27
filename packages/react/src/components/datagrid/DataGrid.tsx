@@ -20,6 +20,7 @@ import {
 import { useForkedRef } from '../../hooks/useForkedRef'
 import { ContextColor } from '../../types'
 import { TABLE_ALIGN_CLASS_NAMES } from '../../utils/tableClassName'
+import { DataGridAlignContext } from './context'
 import { DataGridBodyProps } from './DataGridBody'
 import { DataGridHeaderProps } from './DataGridHeader'
 import { DataGridTableLayout } from './DataGridTableLayout'
@@ -40,8 +41,8 @@ interface DataGridOwnProps<T extends object> {
    */
   'aria-labelledby'?: string
   /**
-   * Set the vertical alignment of cell content. Mirrors `Table`'s prop of the same name for API
-   * parity — same as `Table`, this awaits chassis-css adding the matching `.align-*` styles.
+   * Set the vertical alignment of the body cells' content, as `Table`'s prop of the same name
+   * does. The header row keeps its own alignment, as a table's does.
    */
   align?: 'bottom' | 'middle' | 'top'
   /**
@@ -245,7 +246,7 @@ const DataGridInner = <T extends object>(
           />
         )}
       >
-        {children}
+        <DataGridAlignContext.Provider value={align}>{children}</DataGridAlignContext.Provider>
       </AriaTable>
       {footer && (
         // A sibling of the grid, so it takes the color itself: nothing reaches it by inheritance.

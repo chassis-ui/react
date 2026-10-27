@@ -1,7 +1,8 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useContext } from 'react'
 import { Key, Cell as AriaCell } from 'react-aria-components'
 import classNames from 'classnames'
 
+import { DataGridAlignContext } from './context'
 import { PinCueElement } from './pinnedColumns'
 
 export interface DataGridCellProps {
@@ -37,16 +38,21 @@ export const DataGridCell = ({
   colSpan,
   id,
   textValue
-}: DataGridCellProps) => (
-  <AriaCell
-    className={classNames('datagrid-cell', className)}
-    colSpan={colSpan}
-    id={id}
-    render={(props, { columnIndex }) => (
-      <PinCueElement {...(props as React.ComponentProps<'div'>)} columnIndex={columnIndex} />
-    )}
-    textValue={textValue}
-  >
-    {children}
-  </AriaCell>
-)
+}: DataGridCellProps) => {
+  // Under a grid with `align`, the content is one element for the cell, a column flexbox then,
+  // to place on the cross axis (`DataGrid.scss`): inline content keeps its flow inside it.
+  const align = useContext(DataGridAlignContext)
+  return (
+    <AriaCell
+      className={classNames('datagrid-cell', className)}
+      colSpan={colSpan}
+      id={id}
+      render={(props, { columnIndex }) => (
+        <PinCueElement {...(props as React.ComponentProps<'div'>)} columnIndex={columnIndex} />
+      )}
+      textValue={textValue}
+    >
+      {align ? <div className="datagrid-cell-content">{children}</div> : children}
+    </AriaCell>
+  )
+}
