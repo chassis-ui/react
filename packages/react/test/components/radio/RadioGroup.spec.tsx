@@ -150,6 +150,40 @@ describe('RadioGroup', () => {
     })
   })
 
+  describe('controlled value', () => {
+    // `value` was typed `string`: react-stately clears on `null` only, and `undefined` made the
+    // group uncontrolled with the selection left as it was, so a form reset in TypeScript had no
+    // legal way to unselect a controlled group.
+    test('value={null} clears a controlled selection', () => {
+      const onChange = vi.fn()
+      const { rerender } = render(
+        <RadioGroup label="Plan" onChange={onChange} value="pro">
+          <Radio value="free" label="Free" />
+          <Radio value="pro" label="Pro" />
+        </RadioGroup>
+      )
+      expect(screen.getByRole('radio', { name: 'Pro' })).toBeChecked()
+
+      rerender(
+        <RadioGroup label="Plan" onChange={onChange} value={null}>
+          <Radio value="free" label="Free" />
+          <Radio value="pro" label="Pro" />
+        </RadioGroup>
+      )
+      expect(screen.getByRole('radio', { name: 'Free' })).not.toBeChecked()
+      expect(screen.getByRole('radio', { name: 'Pro' })).not.toBeChecked()
+    })
+
+    test('defaultValue={null} starts with nothing selected', () => {
+      render(
+        <RadioGroup defaultValue={null} label="Plan">
+          <Radio value="free" label="Free" />
+        </RadioGroup>
+      )
+      expect(screen.getByRole('radio', { name: 'Free' })).not.toBeChecked()
+    })
+  })
+
   describe('orientation', () => {
     test('orientation="horizontal" wraps items in a flex row', () => {
       render(

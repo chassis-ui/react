@@ -45,7 +45,7 @@
     },
     "defaultValue": {
       "defaultValue": null,
-      "description": "The selected value, uncontrolled.",
+      "description": "The selected value, uncontrolled. `null` for none.",
       "name": "defaultValue",
       "parent": {
         "fileName": "packages/react/src/components/radio/RadioGroup.tsx",
@@ -59,7 +59,7 @@
       ],
       "required": false,
       "type": {
-        "name": "string"
+        "name": "string | null"
       }
     },
     "description": {
@@ -282,7 +282,7 @@
     },
     "value": {
       "defaultValue": null,
-      "description": "The selected value, controlled.",
+      "description": "The selected value, controlled. `null` clears the selection; `undefined` would make the group\nuncontrolled instead.",
       "name": "value",
       "parent": {
         "fileName": "packages/react/src/components/radio/RadioGroup.tsx",
@@ -296,7 +296,7 @@
       ],
       "required": false,
       "type": {
-        "name": "string"
+        "name": "string | null"
       }
     }
   }

@@ -4318,9 +4318,9 @@ interface RadioGroupProps extends Omit<HTMLAttributes<HTMLFieldSetElement>, 'def
    */
   className?: string;
   /**
-   * The selected value, uncontrolled.
+   * The selected value, uncontrolled. `null` for none.
    */
-  defaultValue?: string;
+  defaultValue?: null | string;
   /**
    * A description for the group, rendered below the options.
    */
@@ -4371,9 +4371,10 @@ interface RadioGroupProps extends Omit<HTMLAttributes<HTMLFieldSetElement>, 'def
    */
   valid?: boolean;
   /**
-   * The selected value, controlled.
+   * The selected value, controlled. `null` clears the selection; `undefined` would make the group
+   * uncontrolled instead.
    */
-  value?: string;
+  value?: null | string;
 }
 export declare const RadioGroup: React.ForwardRefExoticComponent<RadioGroupProps & React.RefAttributes<HTMLFieldSetElement>>;
 //#endregion

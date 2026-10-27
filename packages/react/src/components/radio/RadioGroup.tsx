@@ -26,9 +26,9 @@ export interface RadioGroupProps extends Omit<
    */
   className?: string
   /**
-   * The selected value, uncontrolled.
+   * The selected value, uncontrolled. `null` for none.
    */
-  defaultValue?: string
+  defaultValue?: string | null
   /**
    * A description for the group, rendered below the options.
    */
@@ -79,9 +79,10 @@ export interface RadioGroupProps extends Omit<
    */
   valid?: boolean
   /**
-   * The selected value, controlled.
+   * The selected value, controlled. `null` clears the selection; `undefined` would make the group
+   * uncontrolled instead.
    */
-  value?: string
+  value?: string | null
 }
 
 export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
