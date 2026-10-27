@@ -6,6 +6,25 @@ import { FileInput } from '../../../src/index'
 
 describe('FileInput', () => {
   describe('rendering', () => {
+    // A caller's `aria-labelledby` outranked the `<label for>`, and the visible label dropped out
+    // of the name.
+    test("a caller's aria-labelledby adds to the visible label", () => {
+      render(
+        <>
+          <span id="extra">Extra</span>
+          <FileInput aria-labelledby="extra" label="Country" />
+        </>
+      )
+      expect(screen.getByLabelText(/Country/)).toHaveAccessibleName('Country Extra')
+    })
+
+    test('without one, the label alone names it, by its for', () => {
+      render(<FileInput label="Country" />)
+      const control = screen.getByLabelText(/Country/)
+      expect(control).toHaveAccessibleName('Country')
+      expect(control).not.toHaveAttribute('aria-labelledby')
+    })
+
     test('renders a file input with the base class', () => {
       render(<FileInput aria-label="Attachment" />)
       expect(screen.getByLabelText('Attachment')).toHaveClass('form-input')

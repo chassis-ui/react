@@ -7,6 +7,25 @@ import { InputAdorn, Select } from '../../../src/index'
 
 describe('Select', () => {
   describe('rendering', () => {
+    // A caller's `aria-labelledby` outranked the `<label for>`, and the visible label dropped out
+    // of the name.
+    test("a caller's aria-labelledby adds to the visible label", () => {
+      render(
+        <>
+          <span id="extra">Extra</span>
+          <Select aria-labelledby="extra" label="Country" options={['a']} />
+        </>
+      )
+      expect(screen.getByRole('combobox')).toHaveAccessibleName('Country Extra')
+    })
+
+    test('without one, the label alone names it, by its for', () => {
+      render(<Select label="Country" options={['a']} />)
+      const control = screen.getByRole('combobox')
+      expect(control).toHaveAccessibleName('Country')
+      expect(control).not.toHaveAttribute('aria-labelledby')
+    })
+
     test('renders a select with the base class', () => {
       render(
         <Select aria-label="Language">
