@@ -12,7 +12,7 @@ export const Example = () => (
     </TableHeader>
     <TableBody items={rows.map((id) => ({ id }))}>
       {(row) => (
-        <TableRow key={row.id}>
+        <TableRow id={row.id}>
           {(columnKey) => <TableCell>{`Row ${row.id}, ${columnKey}`}</TableCell>}
         </TableRow>
       )}

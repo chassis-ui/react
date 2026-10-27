@@ -313,6 +313,58 @@ describe('Table', () => {
     })
   })
 
+  // A React `key` is always a string: `key={row.id}` made a numeric id `"1"`, which numeric
+  // `selectedKeys`/`disabledKeys` never matched.
+  describe('numeric row ids', () => {
+    const NumTable = (props: Omit<BasicTableProps, 'onSortChange' | 'sortDescriptor'>) => (
+      <Table aria-label="Nums" selectionMode="multiple" {...props}>
+        <TableHeader>
+          <TableColumn key="name">Name</TableColumn>
+        </TableHeader>
+        <TableBody
+          items={[
+            { id: 1, name: 'Mark' },
+            { id: 2, name: 'Jacob' }
+          ]}
+        >
+          {(row) => <TableRow id={row.id}>{() => <TableCell>{row.name}</TableCell>}</TableRow>}
+        </TableBody>
+      </Table>
+    )
+    const bodyRows = () => screen.getAllByRole('row').slice(1)
+
+    test('keeps a numeric id for selectedKeys, disabledKeys and onSelectionChange', () => {
+      const onSelectionChange = vi.fn()
+      const { unmount } = render(<NumTable selectedKeys={new Set([1])} />)
+      expect(bodyRows()[0]).toHaveAttribute('aria-selected', 'true')
+      unmount()
+
+      render(<NumTable disabledKeys={[2]} onSelectionChange={onSelectionChange} />)
+      fireEvent.click(within(bodyRows()[1]!).getByRole('checkbox'))
+      expect(onSelectionChange).not.toHaveBeenCalled()
+      fireEvent.click(within(bodyRows()[0]!).getByRole('checkbox'))
+      expect([...(onSelectionChange.mock.calls[0]![0] as Set<React.Key>)]).toEqual([1])
+    })
+
+    test('id wins over a key given beside it', () => {
+      const onSelectionChange = vi.fn()
+      render(
+        <Table aria-label="Nums" onSelectionChange={onSelectionChange} selectionMode="single">
+          <TableHeader>
+            <TableColumn key="name">Name</TableColumn>
+          </TableHeader>
+          <TableBody>
+            <TableRow id={7} key="seven">
+              <TableCell>Seven</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      )
+      fireEvent.click(screen.getByRole('rowheader', { name: 'Seven' }))
+      expect([...(onSelectionChange.mock.calls[0]![0] as Set<React.Key>)]).toEqual([7])
+    })
+  })
+
   describe('keyboard navigation', () => {
     test('arrow keys move focus between cells for keyboard grid navigation', () => {
       render(<BasicTable />)

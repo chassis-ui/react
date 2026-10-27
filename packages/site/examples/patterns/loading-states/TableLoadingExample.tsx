@@ -59,7 +59,7 @@ export const Example = () => {
         </TableHeader>
         <TableBody items={orders}>
           {(row) => (
-            <TableRow key={row.id}>
+            <TableRow id={row.id}>
               {(columnKey) => {
                 const column = columns.find((c) => c.key === columnKey)!
                 return (

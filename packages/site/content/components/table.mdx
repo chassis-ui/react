@@ -43,7 +43,7 @@ Add `allowsSorting` to a `TableColumn` to make it clickable (and keyboard-activa
 
 ## Selection
 
-Set `selectionMode="multiple"` for checkbox-based row selection (including a select-all checkbox in the header), or `selectionMode="single"` to select a row by clicking anywhere in it. Control the selection with `selectedKeys`/`onSelectionChange` — a selected row gets the same `.active` highlight the table's `active` variant applies.
+Set `selectionMode="multiple"` for checkbox-based row selection (including a select-all checkbox in the header), or `selectionMode="single"` to select a row by clicking anywhere in it. Control the selection with `selectedKeys`/`onSelectionChange` — a selected row gets the same `.active` highlight the table's `active` variant applies. Give each row its key with `id`, as the examples do: `selectedKeys`, `disabledKeys` and `onSelectionChange` then use the id as it is, a number included, where React's `key` would have made it a string.
 
 <Example>
   <SelectionExample client:load />

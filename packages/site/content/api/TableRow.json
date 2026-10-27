@@ -43,6 +43,25 @@
         "name": "string"
       }
     },
+    "id": {
+      "defaultValue": null,
+      "description": "The unique id of the row, referenced by `selectedKeys`/`disabledKeys` and reported by\n`onSelectionChange` as it is given. A React `key` is always a string, so `key={row.id}`\nturns a numeric id into one.",
+      "name": "id",
+      "parent": {
+        "fileName": "packages/react/src/components/table/TableRow.tsx",
+        "name": "TableRowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/table/TableRow.tsx",
+          "name": "TableRowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Key"
+      }
+    },
     "textValue": {
       "defaultValue": null,
       "description": "A string representation of the row's contents, used for typeahead.",

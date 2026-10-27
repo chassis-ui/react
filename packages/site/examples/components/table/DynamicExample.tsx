@@ -19,7 +19,7 @@ export const Example = () => (
     </TableHeader>
     <TableBody items={rows}>
       {(row) => (
-        <TableRow key={row.id}>
+        <TableRow id={row.id}>
           {(columnKey) => <TableCell>{row[columnKey as keyof typeof row]}</TableCell>}
         </TableRow>
       )}

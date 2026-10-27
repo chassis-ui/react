@@ -80,7 +80,7 @@ export const Example = () => {
               </TableHeader>
               <TableBody items={orders}>
                 {(row) => (
-                  <TableRow key={row.id}>
+                  <TableRow id={row.id}>
                     {(columnKey) => {
                       const column = orderColumns.find((c) => c.key === columnKey)
                       const value = row[columnKey as keyof typeof row]

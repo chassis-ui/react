@@ -63,7 +63,7 @@ export const Variants: Story = {
       </TableHeader>
       <TableBody items={rows}>
         {(row) => (
-          <TableRow key={row.id}>
+          <TableRow id={row.id}>
             {(columnKey) => <TableCell>{row[columnKey as keyof typeof row]}</TableCell>}
           </TableRow>
         )}
@@ -97,7 +97,7 @@ export const Sorting: Story = {
         </TableHeader>
         <TableBody items={sortedRows}>
           {(row) => (
-            <TableRow key={row.id}>
+            <TableRow id={row.id}>
               {(columnKey) => <TableCell>{row[columnKey as keyof typeof row]}</TableCell>}
             </TableRow>
           )}
@@ -128,7 +128,7 @@ export const RowSelection: Story = {
         </TableHeader>
         <TableBody items={rows}>
           {(row) => (
-            <TableRow key={row.id}>
+            <TableRow id={row.id}>
               {(columnKey) => <TableCell>{row[columnKey as keyof typeof row]}</TableCell>}
             </TableRow>
           )}
@@ -152,7 +152,7 @@ export const Responsive: Story = {
       </TableHeader>
       <TableBody items={rows}>
         {(row) => (
-          <TableRow key={row.id}>
+          <TableRow id={row.id}>
             {(columnKey) => <TableCell>{row[columnKey as keyof typeof row]}</TableCell>}
           </TableRow>
         )}

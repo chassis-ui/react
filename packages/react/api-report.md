@@ -6373,6 +6373,12 @@ interface TableRowProps {
    */
   className?: string;
   /**
+   * The unique id of the row, referenced by `selectedKeys`/`disabledKeys` and reported by
+   * `onSelectionChange` as it is given. A React `key` is always a string, so `key={row.id}`
+   * turns a numeric id into one.
+   */
+  id?: Key;
+  /**
    * A string representation of the row's contents, used for typeahead.
    */
   textValue?: string;
