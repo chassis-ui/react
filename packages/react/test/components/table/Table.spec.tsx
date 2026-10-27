@@ -298,6 +298,19 @@ describe('Table', () => {
       fireEvent.click(screen.getByRole('rowheader', { name: 'Mark' }))
       expect(onSelectionChange).not.toHaveBeenCalled()
     })
+    // react-stately's default `disabledBehavior`, `'selection'`, left a disabled row focusable and
+    // unmarked, where `DataGrid`'s are neither.
+    test('a disabled row is marked and skipped by the keyboard', () => {
+      render(<BasicTable disabledKeys={['2']} selectionMode="multiple" />)
+      const bodyRows = screen.getAllByRole('row').slice(1)
+      expect(bodyRows[1]).toHaveAttribute('aria-disabled', 'true')
+      expect(bodyRows[0]).not.toHaveAttribute('aria-disabled')
+
+      const mark = screen.getByRole('rowheader', { name: 'Mark' })
+      act(() => mark.focus())
+      fireEvent.keyDown(mark, { key: 'ArrowDown' })
+      expect(screen.getByRole('rowheader', { name: 'Larry' })).toHaveFocus()
+    })
   })
 
   describe('keyboard navigation', () => {

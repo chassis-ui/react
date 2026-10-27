@@ -161,8 +161,11 @@ const TableInner = <T extends object>(
   }: TableProps<T>,
   forwardedRef: Ref<HTMLTableElement>
 ) => {
+  // `disabledBehavior: 'all'`, as `DataGrid` has it from react-aria-components: react-stately's
+  // default, `'selection'`, kept a disabled row focusable and wrote no `aria-disabled` on it.
   const state = useTableState<T>({
     children,
+    disabledBehavior: 'all',
     disabledKeys,
     onSelectionChange,
     onSortChange,
