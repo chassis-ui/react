@@ -206,6 +206,24 @@ describe('Toast', () => {
       )
     }, 10000)
 
+    // Leaving restarted the whole delay, where the docs promise the countdown resumes.
+    test('resumes with the time left after a hover', () => {
+      vi.useFakeTimers()
+      render(<Toast defaultVisible delay={1000} message="Hi" />)
+      const toast = screen.getByRole('status')
+      // The entrance settles, then 800 of the 1000 ms run: 200 are owed.
+      act(() => vi.advanceTimersByTime(100))
+      act(() => vi.advanceTimersByTime(800))
+      fireEvent.mouseEnter(toast)
+      act(() => vi.advanceTimersByTime(5000))
+      fireEvent.mouseLeave(toast)
+      // The 200 owed, then the exit transition.
+      act(() => vi.advanceTimersByTime(200))
+      act(() => vi.advanceTimersByTime(300))
+      expect(screen.queryByRole('status')).not.toBeInTheDocument()
+      vi.useRealTimers()
+    })
+
     test('turning autohide off mid-display cancels the pending hide, instead of hiding on the original schedule', async () => {
       const { rerender, container } = render(
         <Toast autohide delay={500} defaultVisible>

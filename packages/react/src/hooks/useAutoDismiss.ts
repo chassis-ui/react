@@ -7,7 +7,8 @@ export interface UseAutoDismissOptions {
    */
   enabled?: boolean
   /**
-   * Delay in ms before `onHide` fires once the timer is (re)started. One a timer can't hold (not
+   * Delay in ms before `onHide` fires once the element is shown. A hover or focus pauses the
+   * countdown and leaving resumes it with the time that was left. One a timer can't hold (not
    * finite, or over 2^31 - 1 ms) runs no timer.
    */
   delay?: number
@@ -32,8 +33,9 @@ export interface UseAutoDismissResult {
 const MAX_TIMEOUT_DELAY = 2 ** 31 - 1
 
 // Shared timer logic for components that auto-dismiss after a delay, pausing while the pointer
-// or focus is on the element (mirrors the behavior `Toast` already implements). Extracted so new
-// auto-dismissing components don't reimplement the pause/resume bookkeeping.
+// or focus is on the element and resuming with the time left (mirrors the behavior `Toast`
+// already implements). Extracted so new auto-dismissing components don't reimplement the
+// pause/resume bookkeeping.
 export function useAutoDismiss({
   enabled = false,
   delay = 5000,
@@ -46,6 +48,15 @@ export function useAutoDismiss({
   const timeout = useRef<number | undefined>(undefined)
   const hasMouseInteraction = useRef(false)
   const hasKeyboardInteraction = useRef(false)
+  // The time still owed, and when the running timer started: a pause keeps what was left, and
+  // the countdown resumes with it rather than the whole delay, as the docs describe.
+  const remaining = useRef(delay)
+  const startedAt = useRef(0)
+  // Read through a ref so a fresh `onHide` each render neither restarts nor resets the countdown.
+  const onHideRef = useRef(onHide)
+  useEffect(() => {
+    onHideRef.current = onHide
+  })
 
   const clearAutoDismissTimeout = useCallback(() => {
     clearTimeout(timeout.current)
@@ -63,13 +74,28 @@ export function useAutoDismiss({
     ) {
       return
     }
-    timeout.current = window.setTimeout(onHide, delay)
-  }, [enabled, delay, onHide, clearAutoDismissTimeout])
+    startedAt.current = Date.now()
+    // Run out, the timer is gone and the whole delay owed again: an element its caller keeps
+    // shown counts down from the start after a hover, rather than asking to hide at once.
+    timeout.current = window.setTimeout(() => {
+      timeout.current = undefined
+      remaining.current = delay
+      onHideRef.current()
+    }, remaining.current)
+  }, [enabled, delay, clearAutoDismissTimeout])
+
+  const pause = useCallback(() => {
+    if (timeout.current === undefined) return
+    remaining.current = Math.max(0, remaining.current - (Date.now() - startedAt.current))
+    clearAutoDismissTimeout()
+  }, [clearAutoDismissTimeout])
 
   // Clears on unmount.
   useEffect(() => clearAutoDismissTimeout, [clearAutoDismissTimeout])
 
   useEffect(() => {
+    // Shown, or given a new delay: the whole delay is owed.
+    remaining.current = delay
     if (visible) {
       maybeScheduleHide()
     } else {
@@ -84,8 +110,8 @@ export function useAutoDismiss({
 
   const onMouseEnter = useCallback(() => {
     hasMouseInteraction.current = true
-    clearAutoDismissTimeout()
-  }, [clearAutoDismissTimeout])
+    pause()
+  }, [pause])
 
   const onMouseLeave = useCallback(() => {
     hasMouseInteraction.current = false
@@ -94,8 +120,8 @@ export function useAutoDismiss({
 
   const onFocus = useCallback(() => {
     hasKeyboardInteraction.current = true
-    clearAutoDismissTimeout()
-  }, [clearAutoDismissTimeout])
+    pause()
+  }, [pause])
 
   const onBlur = useCallback(() => {
     hasKeyboardInteraction.current = false
