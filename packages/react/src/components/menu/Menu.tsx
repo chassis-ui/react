@@ -197,6 +197,21 @@ export const menuToggleClicks = new WeakSet<Event>()
 // beside the one the click opened: the toggle hands its click to each of them itself.
 export const openMenuDismissals = new Set<(event: Event) => void>()
 
+// Whether a click uses a form control in a menu's list in place, which keeps the menu open: one on
+// the control, on a `<label>` (whose click the browser passes on to its control), or anywhere in
+// a form the list holds. Only what is inside `lists` counts: a menu inside a page's form still
+// closes on an item.
+export const isFormControlClick = (
+  target: EventTarget | null,
+  lists: Array<Element | null | undefined>
+): boolean => {
+  if (!(target instanceof Element)) return false
+  const control = target.closest(
+    'input, select, option, textarea, label, form, [contenteditable]:not([contenteditable="false"])'
+  )
+  return !!control && lists.some((list) => !!list?.contains(control))
+}
+
 function MenuRender<C extends ElementType = typeof Fragment>(
   {
     children,
@@ -374,9 +389,8 @@ function MenuRender<C extends ElementType = typeof Fragment>(
 
       if (toggleNode?.contains(target)) return
 
-      const isMenuTarget =
-        !!menuNode?.contains(target) ||
-        Array.from(submenuOverlaysRef.current.values()).some((node) => node.contains(target))
+      const lists = [menuNode, ...submenuOverlaysRef.current.values()]
+      const isMenuTarget = lists.some((node) => !!node?.contains(target))
 
       // An overlay opened from the menu (a popover on an item, a picker's list) is portaled out
       // of the list, and React still renders it under it (`insideEvents`). A click there is
@@ -390,7 +404,7 @@ function MenuRender<C extends ElementType = typeof Fragment>(
       if (
         isMenuTarget &&
         ((event instanceof KeyboardEvent && event.key === 'Tab') ||
-          /input|select|option|textarea|form/i.test((target as HTMLElement).tagName ?? ''))
+          isFormControlClick(target, lists))
       ) {
         return
       }

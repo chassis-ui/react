@@ -33,6 +33,7 @@ import {
   MenuContext,
   MenuContextProps,
   MenuFocusStrategy,
+  isFormControlClick,
   menuToggleClicks
 } from '../menu/Menu'
 
@@ -279,9 +280,8 @@ function ContextMenuRender<C extends ElementType = 'div'>(
   useEffect(() => {
     if (!state.isOpen || autoClose === false) return undefined
 
-    const isInMenu = (target: Node) =>
-      !!overlayRef.current?.contains(target) ||
-      Array.from(submenuOverlaysRef.current.values()).some((node) => node.contains(target))
+    const lists = () => [overlayRef.current, ...submenuOverlaysRef.current.values()]
+    const isInMenu = (target: Node) => lists().some((node) => !!node?.contains(target))
 
     // An overlay opened from the menu (a popover on an item) is portaled out of the list, and
     // React still renders it under it (`insideEvents`): a press there isn't one outside.
@@ -300,7 +300,7 @@ function ContextMenuRender<C extends ElementType = 'div'>(
       const target = event.target as HTMLElement
       if (!isInMenu(target) || autoClose === 'outside' || menuToggleClicks.has(event)) return
       // A form control inside the menu is used in place, as in `Menu`.
-      if (/input|select|option|textarea|form/i.test(target.tagName ?? '')) return
+      if (isFormControlClick(target, lists())) return
       close()
     }
 

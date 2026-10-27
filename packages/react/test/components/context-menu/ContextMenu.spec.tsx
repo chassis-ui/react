@@ -11,6 +11,7 @@ import {
   MenuList,
   MenuSubmenu,
   MenuSubmenuBack,
+  MenuText,
   Modal,
   Popover
 } from '../../../src/index'
@@ -522,6 +523,24 @@ describe('ContextMenu', () => {
       rightClick(screen.getByText('Region'))
       settle()
       fireEvent.click(screen.getByRole('textbox', { name: 'Name' }))
+      expect(isOpen()).toBe(true)
+    })
+
+    test("a click on a form control's label in the list keeps the menu open", () => {
+      render(
+        <ContextMenu data-testid="region">
+          Region
+          <MenuList>
+            <MenuText>
+              <label htmlFor="cm-input">Name</label>
+              <input id="cm-input" />
+            </MenuText>
+          </MenuList>
+        </ContextMenu>
+      )
+      rightClick(screen.getByText('Region'))
+      settle()
+      fireEvent.click(screen.getByText('Name'))
       expect(isOpen()).toBe(true)
     })
 

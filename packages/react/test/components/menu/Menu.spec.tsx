@@ -5,6 +5,7 @@ import { axe } from 'jest-axe'
 
 import {
   Button,
+  Checkbox,
   Menu,
   MenuToggle,
   MenuList,
@@ -248,6 +249,46 @@ describe('Menu', () => {
       fireEvent.click(screen.getByRole('menuitem', { name: 'Rename' }))
       expect(toggle).toHaveAttribute('aria-expanded', 'false')
       expect(screen.getByRole('textbox', { name: 'Name' })).toHaveFocus()
+      vi.useRealTimers()
+    })
+
+    // A click on a `<label>` lands on it (or its text) before the browser passes it on to the
+    // control, and the tag-name test closed the menu on it: the docs' "Remember me" did.
+    test("a click on a form control's label in the list keeps the menu open", async () => {
+      const user = userEvent.setup()
+      render(
+        <Menu>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <Checkbox id="remember" label="Remember me" />
+          </MenuList>
+        </Menu>
+      )
+      const toggle = screen.getByRole('button', { name: 'Toggle' })
+      await user.click(toggle)
+      await user.click(screen.getByText('Remember me'))
+      expect(screen.getByRole('checkbox', { name: 'Remember me' })).toBeChecked()
+      expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    })
+
+    // Only a form inside the list is used in place.
+    test('a menu inside a form still closes on an item', () => {
+      vi.useFakeTimers()
+      render(
+        <form aria-label="Settings">
+          <Menu>
+            <MenuToggle>Toggle</MenuToggle>
+            <MenuList>
+              <MenuItem>A</MenuItem>
+            </MenuList>
+          </Menu>
+        </form>
+      )
+      const toggle = screen.getByRole('button', { name: 'Toggle' })
+      fireEvent.click(toggle)
+      act(() => vi.runAllTimers())
+      fireEvent.click(screen.getByRole('menuitem', { name: 'A' }))
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
       vi.useRealTimers()
     })
 
