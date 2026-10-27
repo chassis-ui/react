@@ -7,7 +7,8 @@ import React, {
 } from 'react'
 import classNames from 'classnames'
 
-import { useForkedRef, useFormField, useHeldBack } from '../../hooks'
+import { useForkedRef, useFormField, useFormReset, useHeldBack } from '../../hooks'
+import { resetNativeControl } from '../../utils/nativeFormReset'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 
@@ -53,8 +54,6 @@ export interface RangeInputProps extends Omit<
    */
   onChange?: ChangeEventHandler<HTMLInputElement>
   /**
-   */
-  /**
    * Specifies the interval between legal numbers in the component.
    */
   step?: number
@@ -94,6 +93,17 @@ export const RangeInput = forwardRef<HTMLInputElement, RangeInputProps>(
     // A range input always has a value and holds no form back, but a `validated` form shows it
     // as valid (`useHeldBack`).
     const { invalid, valid } = useHeldBack(inputRef, { invalid: invalidProp, valid: validProp })
+
+    // A reset of the form puts the input back to its first value, controlled or not, and reports
+    // it (`resetNativeControl`). With no value known, the browser's own reset stands.
+    useFormReset(
+      inputRef,
+      rest.value ?? rest.defaultValue,
+      (initial) => {
+        if (initial !== undefined && inputRef.current) resetNativeControl(inputRef.current, initial)
+      },
+      rest.form
+    )
 
     const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
       ariaDescribedBy: rest['aria-describedby'],

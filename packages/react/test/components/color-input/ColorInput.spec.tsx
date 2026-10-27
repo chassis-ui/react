@@ -79,6 +79,37 @@ describe('ColorInput', () => {
     })
   })
 
+  describe('form reset', () => {
+    // React keeps a controlled input's default in step with its value, so the browser's reset
+    // left a controlled color input as edited, with no `onChange`.
+    test('puts a controlled value back to its first value and reports it', () => {
+      const Wrapper = () => {
+        const [value, setValue] = React.useState('#0000ff')
+        return (
+          <>
+            <form aria-label="Theme">
+              <ColorInput
+                aria-label="Accent color"
+                onChange={(event) => setValue(event.target.value)}
+                value={value}
+              />
+              <button type="reset">Reset</button>
+            </form>
+            <span data-testid="state">{value}</span>
+          </>
+        )
+      }
+      render(<Wrapper />)
+      const input = screen.getByLabelText('Accent color')
+      fireEvent.change(input, { target: { value: '#00ff00' } })
+      expect(screen.getByTestId('state')).toHaveTextContent('#00ff00')
+
+      fireEvent.click(screen.getByRole('button', { name: 'Reset' }))
+      expect(screen.getByTestId('state')).toHaveTextContent('#0000ff')
+      expect(input).toHaveValue('#0000ff')
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying input', () => {
       const ref = React.createRef<HTMLInputElement>()

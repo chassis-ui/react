@@ -7,6 +7,7 @@ import {
   useFormField,
   useOpenStateProps,
   useOverlayPlacement,
+  useFormReset,
   useRequiredValueInput
 } from '../../hooks'
 import { DateRangePreset } from '../../utils/dateRangePresets'
@@ -328,6 +329,9 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       ),
       ...pickerProps
     })
+    // A reset of the form puts the range back to its first value, controlled or not, as the text
+    // fields go back to theirs: react-stately's picker state has no reset of its own.
+    useFormReset(groupRef, value !== undefined ? value : (defaultValue ?? null), state.setValue)
     // A range outside `minValue`/`maxValue`, over an unavailable date or ending before it starts
     // is invalid too, shown as `invalid` is, as `TimeField` shows a time out of range. So is a
     // range with a date `missing`, which the state was given.

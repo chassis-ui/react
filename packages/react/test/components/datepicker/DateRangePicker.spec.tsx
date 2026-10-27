@@ -182,6 +182,35 @@ describe('DateRangePicker', () => {
     })
   })
 
+  // react-stately's picker state has no reset of its own: after an edit and a reset, the form
+  // still submitted the edited range.
+  describe('form reset', () => {
+    test('puts the range back to its first value', async () => {
+      const user = userEvent.setup()
+      render(
+        <form aria-label="Trip">
+          <DateRangePicker
+            aria-label="Trip dates"
+            defaultValue={{
+              start: new CalendarDate(2024, 3, 15),
+              end: new CalendarDate(2024, 3, 20)
+            }}
+            name="trip"
+          />
+          <button type="reset">Reset</button>
+        </form>
+      )
+      const form = screen.getByRole<HTMLFormElement>('form', { name: 'Trip' })
+      await user.click(screen.getAllByRole('spinbutton', { name: /^month/ })[0]!)
+      await user.keyboard('{ArrowUp}')
+      expect(new FormData(form).get('tripStart')).toBe('2024-04-15')
+
+      await user.click(screen.getByRole('button', { name: 'Reset' }))
+      expect(new FormData(form).get('tripStart')).toBe('2024-03-15')
+      expect(new FormData(form).get('tripEnd')).toBe('2024-03-20')
+    })
+  })
+
   describe('focus management', () => {
     test('closing the calendar restores focus to the toggle button', async () => {
       const user = userEvent.setup()

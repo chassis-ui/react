@@ -322,6 +322,34 @@ describe('Autocomplete', () => {
     })
   })
 
+  // The selection had no reset of its own: after a choice and a reset, the form still submitted
+  // the chosen key.
+  describe('form reset', () => {
+    test('puts the selection back to its first value', () => {
+      const onChange = vi.fn()
+      render(
+        <form aria-label="Basket">
+          <Autocomplete aria-label="Fruit" defaultValue="apple" name="fruit" onChange={onChange}>
+            <AutocompleteItem id="apple">Apple</AutocompleteItem>
+            <AutocompleteItem id="banana">Banana</AutocompleteItem>
+          </Autocomplete>
+          <button type="reset">Reset</button>
+        </form>
+      )
+      const form = screen.getByRole<HTMLFormElement>('form', { name: 'Basket' })
+      const toggle = screen.getByRole('button', { name: /Fruit/ })
+      fireEvent.click(toggle)
+      fireEvent.click(screen.getByRole('option', { name: 'Banana' }))
+      expect(new FormData(form).get('fruit')).toBe('banana')
+      expect(toggle).toHaveTextContent('Banana')
+
+      fireEvent.click(screen.getByRole('button', { name: 'Reset' }))
+      expect(new FormData(form).get('fruit')).toBe('apple')
+      expect(onChange).toHaveBeenLastCalledWith('apple')
+      expect(toggle).toHaveTextContent('Apple')
+    })
+  })
+
   // The autocomplete had no `required` at all: nothing marked it for a screen reader, and its
   // value input was `type="hidden"`, which a form doesn't validate, so one with nothing selected
   // was submitted.

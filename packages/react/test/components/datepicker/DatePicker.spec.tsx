@@ -802,6 +802,55 @@ describe('DatePicker', () => {
     })
   })
 
+  // react-stately's picker state has no reset of its own: after an edit and a reset, the form
+  // still submitted the edited date.
+  describe('form reset', () => {
+    test('puts the date back to its first value', async () => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      render(
+        <form aria-label="Event">
+          <DatePicker
+            aria-label="Event date"
+            defaultValue={new CalendarDate(2024, 3, 15)}
+            name="date"
+            onChange={onChange}
+          />
+          <button type="reset">Reset</button>
+        </form>
+      )
+      const form = screen.getByRole<HTMLFormElement>('form', { name: 'Event' })
+      await user.click(screen.getByRole('spinbutton', { name: /^month/ }))
+      await user.keyboard('{ArrowUp}')
+      expect(new FormData(form).get('date')).toBe('2024-04-15')
+
+      await user.click(screen.getByRole('button', { name: 'Reset' }))
+      expect(new FormData(form).get('date')).toBe('2024-03-15')
+      expect(onChange).toHaveBeenLastCalledWith(new CalendarDate(2024, 3, 15))
+    })
+
+    test('puts a controlled date back to its first value through onChange', async () => {
+      const user = userEvent.setup()
+      const Wrapper = () => {
+        const [value, setValue] = React.useState<DateValue | null>(new CalendarDate(2024, 3, 15))
+        return (
+          <form aria-label="Event">
+            <DatePicker aria-label="Event date" name="date" onChange={setValue} value={value} />
+            <button type="reset">Reset</button>
+          </form>
+        )
+      }
+      render(<Wrapper />)
+      const form = screen.getByRole<HTMLFormElement>('form', { name: 'Event' })
+      await user.click(screen.getByRole('spinbutton', { name: /^month/ }))
+      await user.keyboard('{ArrowUp}')
+      expect(new FormData(form).get('date')).toBe('2024-04-15')
+
+      await user.click(screen.getByRole('button', { name: 'Reset' }))
+      expect(new FormData(form).get('date')).toBe('2024-03-15')
+    })
+  })
+
   // The picker had no `required` at all: nothing marked it for a screen reader, and its value
   // input was `type="hidden"`, which a form doesn't validate, so an empty one was submitted.
   describe('required', () => {

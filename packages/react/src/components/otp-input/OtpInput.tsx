@@ -215,11 +215,13 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
       }
     }
 
-    // A form reset puts the code back once. Each box restoring its own first digit wrote each into
-    // the same stale code, which left one digit short and reported every box.
+    // A form reset puts the code back once, to its first value, controlled or not, as react-aria's
+    // fields go back to theirs. Each box restoring its own first digit wrote each into the same
+    // stale code, which left one digit short and reported every box.
+    const initialCode = useRef(value ?? defaultValue ?? '')
     const resetCode = useRef(() => {})
     resetCode.current = () => {
-      const initial = defaultValue ?? ''
+      const initial = initialCode.current
       setTypedBoxes(null)
       if (initial !== rawValue) setRawValue(initial)
     }

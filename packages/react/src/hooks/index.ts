@@ -11,6 +11,7 @@ import {
 } from './useFloatingOverlay'
 import { useForkedRef } from './useForkedRef'
 import { useFormField } from './useFormField'
+import { useFormReset } from './useFormReset'
 import { useHydrated } from './useHydrated'
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 import { useOpenStateProps } from './useOpenStateProps'
@@ -35,6 +36,7 @@ export {
   useFloatingOverlay,
   useForkedRef,
   useFormField,
+  useFormReset,
   useHydrated,
   useIsomorphicLayoutEffect,
   useOpenStateProps,

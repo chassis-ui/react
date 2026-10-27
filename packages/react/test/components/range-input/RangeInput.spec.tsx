@@ -83,6 +83,37 @@ describe('RangeInput', () => {
     })
   })
 
+  describe('form reset', () => {
+    // React keeps a controlled input's default in step with its value, so the browser's reset
+    // left a controlled range input as edited, with no `onChange`.
+    test('puts a controlled value back to its first value and reports it', () => {
+      const Wrapper = () => {
+        const [value, setValue] = React.useState('50')
+        return (
+          <>
+            <form aria-label="Mixer">
+              <RangeInput
+                aria-label="Volume"
+                onChange={(event) => setValue(event.target.value)}
+                value={value}
+              />
+              <button type="reset">Reset</button>
+            </form>
+            <span data-testid="state">{value}</span>
+          </>
+        )
+      }
+      render(<Wrapper />)
+      const range = screen.getByRole('slider', { name: 'Volume' })
+      fireEvent.change(range, { target: { value: '80' } })
+      expect(screen.getByTestId('state')).toHaveTextContent('80')
+
+      fireEvent.click(screen.getByRole('button', { name: 'Reset' }))
+      expect(screen.getByTestId('state')).toHaveTextContent('50')
+      expect(range).toHaveValue('50')
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying input', () => {
       const ref = React.createRef<HTMLInputElement>()

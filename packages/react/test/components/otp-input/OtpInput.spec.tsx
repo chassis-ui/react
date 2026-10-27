@@ -326,6 +326,32 @@ describe('OtpInput', () => {
       expect(screen.getByRole('textbox', { name: 'Digit 2' })).toHaveValue('')
     })
 
+    // A controlled code reset to `defaultValue ?? ''`, not to its first value as react-aria's
+    // fields do.
+    test('a form reset puts a controlled code back to its first value', async () => {
+      const user = userEvent.setup()
+      const Wrapper = () => {
+        const [code, setCode] = React.useState('12')
+        return (
+          <form aria-label="Verify">
+            <OtpInput aria-label="Code" length={3} onChange={setCode} value={code} />
+            <button type="reset">Reset</button>
+          </form>
+        )
+      }
+      render(<Wrapper />)
+      await user.click(screen.getByRole('textbox', { name: 'Digit 3' }))
+      await user.keyboard('3')
+      expect(screen.getByRole('textbox', { name: 'Digit 3' })).toHaveValue('3')
+
+      await user.click(screen.getByRole('button', { name: 'Reset' }))
+      expect(screen.getAllByRole('textbox').map((box) => (box as HTMLInputElement).value)).toEqual([
+        '1',
+        '2',
+        ''
+      ])
+    })
+
     test('creates a hidden input for form submission when name is provided', () => {
       // Hidden inputs are intentionally excluded from the accessibility tree - no query reaches
       // them.

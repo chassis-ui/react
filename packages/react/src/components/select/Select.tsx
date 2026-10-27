@@ -8,7 +8,8 @@ import React, {
 } from 'react'
 import classNames from 'classnames'
 
-import { useForkedRef, useFormField, useHeldBack } from '../../hooks'
+import { useForkedRef, useFormField, useFormReset, useHeldBack } from '../../hooks'
+import { resetNativeControl } from '../../utils/nativeFormReset'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 import { devWarning } from '../../utils/devWarning'
@@ -187,6 +188,18 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         : placeholder && !multiple
           ? ''
           : undefined
+
+    // A reset of the form puts the select back to its first value, controlled or not, and
+    // reports it (`resetNativeControl`). With no value known, the browser's own reset stands.
+    useFormReset(
+      selectRef,
+      rest.value ?? rest.defaultValue ?? inferredDefaultValue,
+      (initial) => {
+        if (initial !== undefined && selectRef.current)
+          resetNativeControl(selectRef.current, initial)
+      },
+      rest.form
+    )
 
     const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
       ariaDescribedBy: rest['aria-describedby'],

@@ -460,6 +460,56 @@ describe('Select', () => {
     })
   })
 
+  describe('form reset', () => {
+    // The browser's reset put a controlled select on its first option with its state left as
+    // edited, so the next render put the edited value back; a controlled color or range input
+    // stayed as edited.
+    test('puts a controlled select back to its first value and reports it', async () => {
+      const user = userEvent.setup()
+      const Wrapper = () => {
+        const [value, setValue] = React.useState('a')
+        return (
+          <>
+            <form aria-label="Letters">
+              <Select
+                aria-label="Letter"
+                onChange={(event) => setValue(event.target.value)}
+                options={['a', 'b']}
+                value={value}
+              />
+              <button type="reset">Reset</button>
+            </form>
+            <span data-testid="state">{value}</span>
+          </>
+        )
+      }
+      render(<Wrapper />)
+      await user.selectOptions(screen.getByRole('combobox', { name: 'Letter' }), 'b')
+      expect(screen.getByTestId('state')).toHaveTextContent('b')
+
+      await user.click(screen.getByRole('button', { name: 'Reset' }))
+      expect(screen.getByTestId('state')).toHaveTextContent('a')
+      expect(screen.getByRole('combobox', { name: 'Letter' })).toHaveValue('a')
+    })
+
+    test('puts an uncontrolled select back to its defaultValue and reports it', async () => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      render(
+        <form aria-label="Letters">
+          <Select aria-label="Letter" defaultValue="b" onChange={onChange} options={['a', 'b']} />
+          <button type="reset">Reset</button>
+        </form>
+      )
+      await user.selectOptions(screen.getByRole('combobox', { name: 'Letter' }), 'a')
+      onChange.mockClear()
+
+      await user.click(screen.getByRole('button', { name: 'Reset' }))
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(screen.getByRole('combobox', { name: 'Letter' })).toHaveValue('b')
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying select', () => {
       const ref = React.createRef<HTMLSelectElement>()

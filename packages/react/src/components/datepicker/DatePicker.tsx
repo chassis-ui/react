@@ -13,6 +13,7 @@ import {
   useFormField,
   useOpenStateProps,
   useOverlayPlacement,
+  useFormReset,
   useRequiredValueInput
 } from '../../hooks'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
@@ -368,6 +369,9 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       ),
       ...pickerProps
     })
+    // A reset of the form puts the date back to its first value, controlled or not, as the text
+    // fields go back to theirs: react-stately's picker state has no reset of its own.
+    useFormReset(groupRef, value !== undefined ? value : (defaultValue ?? null), state.setValue)
     // A value outside `minValue`/`maxValue`, or on an unavailable date, is invalid too, shown as
     // `invalid` is, as `TimeField` shows it. So is a `missing` one, which the state was given.
     const showInvalid = invalid || state.displayValidation.isInvalid
@@ -596,6 +600,9 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
     const inputRef = useRef<HTMLInputElement>(null)
     const overlayRef = useRef<HTMLDivElement>(null)
     const toggleButtonRef = useRef<HTMLButtonElement>(null)
+
+    // A reset of the form puts the dates back to their first value, controlled or not.
+    useFormReset(groupRef, value !== undefined ? (value ?? []) : (defaultValue ?? []), setValues)
 
     // Required asks for one date at least. Each date has a hidden input of its own, so there is
     // none while the picker is empty: it then renders the text input that isn't displayed, with

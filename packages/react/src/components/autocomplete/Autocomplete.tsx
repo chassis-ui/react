@@ -18,6 +18,7 @@ import {
   useForkedRef,
   useFormField,
   useOverlayMaxHeight,
+  useFormReset,
   useRequiredValueInput
 } from '../../hooks'
 import {
@@ -293,6 +294,14 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
   const listBoxRef = useRef<HTMLElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
   const valueInputRef = useRef<HTMLInputElement>(null)
+
+  // A reset of the form puts the selection back to its first value, controlled or not, as the
+  // text fields go back to theirs.
+  useFormReset(
+    triggerRef,
+    toModeValue(value, multiple) ?? toModeValue(defaultValue, multiple) ?? (multiple ? [] : null),
+    setSelection
+  )
 
   // What is submitted under `name`: a key that isn't in the list is still a value.
   const selectedKeys = asKeyArray(state.value)

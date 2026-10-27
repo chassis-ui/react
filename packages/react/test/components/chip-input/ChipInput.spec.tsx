@@ -379,6 +379,30 @@ describe('ChipInput', () => {
     })
   })
 
+  // The chips had no reset of their own: after a chip was added and the form reset, the form
+  // still submitted it.
+  describe('form reset', () => {
+    test('puts the chips back to their first value and clears the text', async () => {
+      const user = userEvent.setup()
+      render(
+        <form aria-label="Profile">
+          <ChipInput aria-label="Skills" defaultValue={['React']} name="skills" />
+          <button type="reset">Reset</button>
+        </form>
+      )
+      const form = screen.getByRole<HTMLFormElement>('form', { name: 'Profile' })
+      await user.click(screen.getByRole('textbox', { name: 'Skills' }))
+      await user.keyboard('CSS{Enter}')
+      expect(new FormData(form).getAll('skills')).toEqual(['React', 'CSS'])
+      await user.keyboard('Sa')
+
+      await user.click(screen.getByRole('button', { name: 'Reset' }))
+      expect(new FormData(form).getAll('skills')).toEqual(['React'])
+      expect(screen.queryByRole('row', { name: /CSS/ })).not.toBeInTheDocument()
+      expect(screen.getByRole('textbox', { name: 'Skills' })).toHaveValue('')
+    })
+  })
+
   // The chip input had no `required` at all: nothing marked it for a screen reader or held a
   // form back, and the chips' own inputs are `type="hidden"`, which a form doesn't validate.
   describe('required', () => {

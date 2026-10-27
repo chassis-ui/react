@@ -13,6 +13,7 @@ import { Item, Key, useListState } from 'react-stately'
 
 import {
   useControllableState,
+  useFormReset,
   useForkedRef,
   useFormField,
   useHeldBack,
@@ -221,6 +222,13 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
     const forkedRef = useForkedRef(ref, containerRef)
     const inputRef = useRef<HTMLInputElement>(null)
     const [inputValue, setInputValue] = useState('')
+
+    // A reset of the form puts the chips back to their first value, controlled or not, as the
+    // text fields go back to theirs, and clears what was typed and not added.
+    useFormReset(containerRef, value ?? defaultValue ?? [], (initial) => {
+      updateTags(initial)
+      setInputValue('')
+    })
 
     // Required asks for one chip at least, which HTML has no attribute for. The text input is
     // the field's one input a form validates (the chips' own are `type="hidden"`, which is barred
