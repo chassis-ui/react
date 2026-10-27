@@ -1,6 +1,7 @@
 import React, { CSSProperties, ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
+import { devWarning } from '../../utils/devWarning'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -14,6 +15,7 @@ import {
 } from '../../utils/breakpoints'
 import { Breakpoint, ContainerBreakpoint, Responsive, Spacing } from '../../types'
 import { gapClassName, gapValue } from './gap'
+import { GRID_COLUMNS, GRID_ROWS, hasPlacementClass, isCount } from './limits'
 import { hasRowsClass, rowsTemplate } from './rows'
 
 type GridStyle = CSSProperties & {
@@ -104,8 +106,7 @@ type GridOwnProps<C extends ElementType> = {
 export type GridProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, GridOwnProps<C>>
 
 // chassis-css has `grid-cols-1` to `grid-cols-12`.
-const hasColumnsClass = (columns: number | undefined) =>
-  columns !== undefined && Number.isInteger(columns) && columns >= 1 && columns <= 12
+const hasColumnsClass = (columns: number | undefined) => isCount(columns, GRID_COLUMNS)
 
 // chassis-css names the values as Tailwind does: `grid-flow-col`, `grid-flow-col-dense`.
 const flowClassName = (flow: GridFlow, prefix: string) =>
@@ -148,15 +149,25 @@ function GridRender<C extends ElementType = 'div'>(
     contained && 'contained',
     responsiveClassNames(
       [
+        // The base of a count past the classes is a custom property or a declaration (below); a
+        // breakpoint's can only be a class, so past them it is none, and warns.
         responsiveProp(
           columns,
           (value, prefix) =>
-            !fill && (prefix !== '' || hasColumnsClass(value)) && `${prefix}grid-cols-${value}`
+            !fill &&
+            (prefix === ''
+              ? hasColumnsClass(value)
+              : hasPlacementClass('Grid', 'columns', value, 'grid-cols', GRID_COLUMNS)) &&
+            `${prefix}grid-cols-${value}`
         ),
         responsiveProp(
           rows,
           (value, prefix) =>
-            !fill && (prefix !== '' || hasRowsClass(value)) && `${prefix}grid-rows-${value}`
+            !fill &&
+            (prefix === ''
+              ? hasRowsClass(value)
+              : hasPlacementClass('Grid', 'rows', value, 'grid-rows', GRID_ROWS)) &&
+            `${prefix}grid-rows-${value}`
         ),
         responsiveProp<string>(gap, gapClassName),
         responsiveProp(flow, flowClassName)
@@ -174,7 +185,18 @@ function GridRender<C extends ElementType = 'div'>(
   if (fill) {
     if (min !== undefined) _style['--cx-grid-min'] = min
   } else {
-    if (baseColumns !== undefined && !hasColumnsClass(baseColumns)) {
+    // A count is a whole number from 1 up: `repeat(2.5, …)` is invalid, and a browser drops it.
+    devWarning(
+      baseColumns !== undefined && !isCount(baseColumns),
+      `Grid: \`columns\` takes a whole number from 1 up, not ${JSON.stringify(baseColumns)}, ` +
+        'which sets nothing.'
+    )
+    devWarning(
+      baseRows !== undefined && !isCount(baseRows),
+      `Grid: \`rows\` takes a whole number from 1 up, not ${JSON.stringify(baseRows)}, which ` +
+        'sets nothing.'
+    )
+    if (isCount(baseColumns) && !hasColumnsClass(baseColumns)) {
       _style['--cx-grid-columns'] = baseColumns
     }
     const _rows = rowsTemplate(baseRows)

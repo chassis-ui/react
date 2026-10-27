@@ -207,6 +207,51 @@ describe('GridItem', () => {
     })
   })
 
+  // chassis-css generates `col-span-1` to `col-span-12`, lines to 13, and the row classes to 6
+  // and 7: a value past them rendered a class that named no rule, with no warning.
+  describe('a value chassis-css has no class for', () => {
+    test.each([
+      ['span', { span: 13 }, 'col-span-12'],
+      ['start', { start: 0 }, 'col-start-12'],
+      ['end', { end: 14 }, 'col-end-13'],
+      ['rowSpan', { rowSpan: 7 }, 'row-span-6'],
+      ['rowStart', { rowStart: 1.5 }, 'row-start-6'],
+      ['rowEnd', { rowEnd: 8 }, 'row-end-7'],
+      ['span at md', { span: { base: 2, md: 24 } }, 'col-span-12']
+    ])('renders no class for %s, and warns', (_name, props, last) => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+      render(<GridItem {...props}>Test</GridItem>)
+      expect(screen.getByText('Test').className).not.toMatch(
+        /(col|row)-[a-z]+-(0|1\.5|7|8|13|14|24)\b/
+      )
+      expect(warn).toHaveBeenCalledTimes(1)
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining(last))
+      warn.mockRestore()
+    })
+
+    test('renders the last line of the columns and rows, the edge after the last track', () => {
+      render(
+        <GridItem end={13} rowEnd={7}>
+          Test
+        </GridItem>
+      )
+      expect(screen.getByText('Test')).toHaveClass('col-end-13', 'row-end-7')
+    })
+
+    test('warns for rows or gap on an item that is no subgrid', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+      render(
+        <GridItem gap="md" rows={2}>
+          Test
+        </GridItem>
+      )
+      expect(screen.getByText('Test')).not.toHaveClass('grid-rows-2', 'gap-md')
+      expect(warn).toHaveBeenCalledTimes(1)
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('subgrid'))
+      warn.mockRestore()
+    })
+  })
+
   describe('subgrid', () => {
     test('adds grid-cols-subgrid alongside grid, combined with the col-span-{n} class', () => {
       render(

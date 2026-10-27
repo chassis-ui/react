@@ -86,18 +86,54 @@ describe('Grid', () => {
       expect(screen.getByText('Inner').className).toBe('grid')
     })
 
-    test.each([0, 13, 2.5])(
-      'falls back to --cx-grid-columns for %s, which has no class',
+    test('falls back to --cx-grid-columns for a count past the classes', () => {
+      render(<Grid columns={13}>Test</Grid>)
+      const el = screen.getByText('Test')
+      expect(el.className).toBe('grid')
+      expect(el.style.getPropertyValue('--cx-grid-columns')).toBe('13')
+    })
+
+    // `repeat(2.5, …)` and `repeat(0, …)` are invalid, and a browser drops them: the custom
+    // property was set and did nothing, with no warning.
+    test.each([0, 2.5])(
+      "sets nothing for %s, a count that isn't whole from 1 up, and warns",
       (columns) => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
         render(<Grid columns={columns}>Test</Grid>)
         const el = screen.getByText('Test')
         expect(el.className).toBe('grid')
-        expect(el.style.getPropertyValue('--cx-grid-columns')).toBe(String(columns))
+        expect(el).not.toHaveAttribute('style')
+        expect(warn).toHaveBeenCalledTimes(1)
+        expect(warn).toHaveBeenCalledWith(expect.stringContaining(`not ${columns}`))
+        warn.mockRestore()
       }
     )
+
+    // A breakpoint's count is a class or nothing: an inline style holds no media query. The class
+    // rendered past chassis-css's range named no rule.
+    test('renders no class for a breakpoint count past 12, and warns', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+      render(<Grid columns={{ base: 2, md: 14 }}>Test</Grid>)
+      expect(screen.getByText('Test').className).toBe('grid grid-cols-2')
+      expect(warn).toHaveBeenCalledTimes(1)
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('grid-cols-12'))
+      warn.mockRestore()
+    })
   })
 
   describe('rows', () => {
+    test("sets nothing for a count that isn't whole from 1 up, and warns", () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+      render(<Grid rows={{ base: 1.5, md: 9 }}>Test</Grid>)
+      const el = screen.getByText('Test')
+      expect(el.className).toBe('grid')
+      expect(el).not.toHaveAttribute('style')
+      expect(warn).toHaveBeenCalledTimes(2)
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('not 1.5'))
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('grid-rows-6'))
+      warn.mockRestore()
+    })
+
     test('maps a count from 1 to 6 to the grid-rows-{n} class, not a style', () => {
       render(<Grid rows={3}>Test</Grid>)
       const el = screen.getByText('Test')

@@ -8,7 +8,9 @@ import {
 } from '../../utils/polymorphic'
 import { GRID_BREAKPOINTS, responsiveClassNames, responsiveProp } from '../../utils/breakpoints'
 import { Breakpoint, ContainerBreakpoint, Responsive, Spacing } from '../../types'
+import { devWarning } from '../../utils/devWarning'
 import { gapClassName, gapValue } from './gap'
+import { GRID_COLUMNS, GRID_ROWS, hasPlacementClass, isCount } from './limits'
 import { hasRowsClass, rowsTemplate } from './rows'
 
 type GridItemStyle = CSSProperties & {
@@ -131,15 +133,53 @@ function GridItemRender<C extends ElementType = 'div'>(
   ref: PolymorphicRef<C>
 ) {
   const Component = component ?? 'div'
+  // `rows` and `gap` are the subgrid's own template and gap: on an item of the parent's grid
+  // they set nothing.
+  devWarning(
+    !subgrid && (rows !== undefined || gap !== undefined),
+    'GridItem: `rows` and `gap` apply to a `subgrid` alone; without it they do nothing.'
+  )
+  devWarning(
+    Boolean(subgrid) && rows !== undefined && !isCount(rows),
+    `GridItem: \`rows\` takes a whole number from 1 up, not ${JSON.stringify(rows)}, which sets ` +
+      'nothing.'
+  )
+  // A line is a track's edge: the one after the last track is a line too.
+  const has = (prop: string, value: number | string, base: string, max: number) =>
+    hasPlacementClass('GridItem', prop, value, base, max)
   const _className = classNames(
     responsiveClassNames(
       [
-        responsiveProp(span, (value, prefix) => `${prefix}col-span-${value}`),
-        responsiveProp(start, (value, prefix) => `${prefix}col-start-${value}`),
-        responsiveProp(end, (value, prefix) => `${prefix}col-end-${value}`),
-        responsiveProp(rowSpan, (value, prefix) => `${prefix}row-span-${value}`),
-        responsiveProp(rowStart, (value, prefix) => `${prefix}row-start-${value}`),
-        responsiveProp(rowEnd, (value, prefix) => `${prefix}row-end-${value}`)
+        responsiveProp(
+          span,
+          (value, prefix) =>
+            has('span', value, 'col-span', GRID_COLUMNS) && `${prefix}col-span-${value}`
+        ),
+        responsiveProp(
+          start,
+          (value, prefix) =>
+            has('start', value, 'col-start', GRID_COLUMNS) && `${prefix}col-start-${value}`
+        ),
+        responsiveProp(
+          end,
+          (value, prefix) =>
+            has('end', value, 'col-end', GRID_COLUMNS + 1) && `${prefix}col-end-${value}`
+        ),
+        responsiveProp(
+          rowSpan,
+          (value, prefix) =>
+            has('rowSpan', value, 'row-span', GRID_ROWS) && `${prefix}row-span-${value}`
+        ),
+        responsiveProp(
+          rowStart,
+          (value, prefix) =>
+            has('rowStart', value, 'row-start', GRID_ROWS) && `${prefix}row-start-${value}`
+        ),
+        responsiveProp(
+          rowEnd,
+          (value, prefix) =>
+            has('rowEnd', value, 'row-end', GRID_ROWS + 1) && `${prefix}row-end-${value}`
+        )
       ],
       GRID_BREAKPOINTS
     ),
