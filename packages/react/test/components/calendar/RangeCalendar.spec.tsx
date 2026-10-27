@@ -21,6 +21,21 @@ const getDateCell = (button: HTMLElement) =>
 
 describe('RangeCalendar', () => {
   describe('rendering', () => {
+    // The raw `aria-label` was spread after react-aria's props and replaced the name it composes
+    // with the visible month.
+    test('an aria-label names the root together with the visible month', () => {
+      render(
+        <RangeCalendar
+          aria-label="Trip"
+          defaultValue={{
+            start: new CalendarDate(2024, 3, 15),
+            end: new CalendarDate(2024, 3, 18)
+          }}
+        />
+      )
+      expect(screen.getByRole('application')).toHaveAccessibleName('Trip, March 2024')
+    })
+
     test('renders a grid with the accessible label applied', () => {
       render(
         <RangeCalendar

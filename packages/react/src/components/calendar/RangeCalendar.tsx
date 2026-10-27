@@ -274,6 +274,11 @@ export const RangeCalendar = forwardRef<HTMLDivElement, RangeCalendarProps>(
       <CalendarLabelsProvider labels={labels}>
         <div
           {...mergeProps(calendarProps, rest)}
+          // After the spread: react-aria composes the root's `aria-label` from the caller's and the
+          // visible month ("Event date, March 2024"), and the raw prop still in `rest` replaced it. An
+          // `aria-labelledby` stays the caller's: react-aria's adds the root's own id, which a date
+          // picker's dialog props give another one.
+          aria-label={calendarProps['aria-label']}
           className={classNames('datepicker', className)}
           data-cx-inline="true"
           ref={ref}
