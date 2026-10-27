@@ -133,12 +133,14 @@ function PlaceholderRender<C extends ElementType = 'img'>(
       className
     )
 
+    // `title` and `text` describe the generated graphic, which isn't rendered: an image given no
+    // `alt` is decorative, as an `<img alt="">`, not one named after a graphic it doesn't show.
     return (
       <Component
         src={src}
         width={width}
         height={height}
-        alt={alt ?? label ?? ''}
+        alt={alt ?? ''}
         className={_className}
         {...rest}
         ref={ref}
