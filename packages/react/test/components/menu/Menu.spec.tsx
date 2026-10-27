@@ -233,6 +233,39 @@ describe('Menu', () => {
       vi.useRealTimers()
     })
 
+    // Focus returned by script matches `:focus-visible` in the browser whatever the interaction
+    // was, so a mouse choice could leave a keyboard ring on the toggle.
+    test.each([
+      ['the mouse', 1, 'none'],
+      ['the keyboard', 0, '']
+    ])(
+      'an item chosen with %s (click detail %i) returns focus to the toggle with outline "%s"',
+      (_, detail, outline) => {
+        vi.useFakeTimers()
+        render(
+          <Menu>
+            <MenuToggle>Toggle</MenuToggle>
+            <MenuList>
+              <MenuItem>A</MenuItem>
+            </MenuList>
+          </Menu>
+        )
+        const toggle = screen.getByRole('button', { name: 'Toggle' })
+        fireEvent.click(toggle)
+        act(() => vi.runAllTimers())
+        const item = screen.getByRole('menuitem', { name: 'A' })
+        item.focus()
+        fireEvent.click(item, { detail })
+        expect(toggle).toHaveFocus()
+        expect(toggle.style.outline).toBe(outline)
+
+        // A key press is the keyboard in use again: the ring comes back.
+        fireEvent.keyDown(toggle, { key: 'Shift' })
+        expect(toggle.style.outline).toBe('')
+        vi.useRealTimers()
+      }
+    )
+
     test('an item that moves focus elsewhere keeps it there', () => {
       vi.useFakeTimers()
       render(

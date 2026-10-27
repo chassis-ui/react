@@ -20,6 +20,7 @@ import {
   useOverlayMaxHeight
 } from '../../hooks'
 import { executeAfterTransition } from '../../utils/dialogTransition'
+import { focusRedirect } from '../../utils/focusRedirect'
 import { isEventInside } from '../../utils/insideEvents'
 import {
   Placement,
@@ -336,6 +337,7 @@ function MenuRender<C extends ElementType = typeof Fragment>(
   const isControlledRef = useRef(false)
   isControlledRef.current = visible !== undefined
   const focusReturnOwedRef = useRef(false)
+  const focusReturnViaPointerRef = useRef(false)
 
   const show = (focusStrategy?: MenuFocusStrategy | null) => state.open(focusStrategy)
   const hide = () => {
@@ -343,14 +345,23 @@ function MenuRender<C extends ElementType = typeof Fragment>(
     state.close()
   }
   const toggleVisible = (focusStrategy?: MenuFocusStrategy | null) => state.toggle(focusStrategy)
-  const close = () => {
+  // Focus returns by script, which matches `:focus-visible` whatever the interaction was: after an
+  // item chosen with the pointer, the toggle is focused without its ring (`focusRedirect`), and a
+  // key press brings the ring back.
+  const closeAndReturnFocus = (viaPointer: boolean) => {
     state.close()
-    if (!isControlledRef.current) toggleNodeRef.current?.focus()
-    else focusReturnOwedRef.current = followsRequestsRef.current
+    if (!isControlledRef.current) focusRedirect(toggleNodeRef.current, viaPointer)
+    else {
+      focusReturnOwedRef.current = followsRequestsRef.current
+      focusReturnViaPointerRef.current = viaPointer
+    }
   }
+  const close = () => closeAndReturnFocus(false)
 
   useEffect(() => {
-    if (!state.isOpen && focusReturnOwedRef.current) toggleNodeRef.current?.focus()
+    if (!state.isOpen && focusReturnOwedRef.current) {
+      focusRedirect(toggleNodeRef.current, focusReturnViaPointerRef.current)
+    }
     focusReturnOwedRef.current = false
   }, [state.isOpen])
 
@@ -426,8 +437,10 @@ function MenuRender<C extends ElementType = typeof Fragment>(
         active === document.body ||
         !!menuNode?.contains(active) ||
         Array.from(submenuOverlaysRef.current.values()).some((node) => node.contains(active))
-      if (isMenuTarget && holdsFocus) close()
-      else hide()
+      // A click from the keyboard (Enter or Space on an item) has no `detail`.
+      if (isMenuTarget && holdsFocus) {
+        closeAndReturnFocus(event instanceof MouseEvent && event.detail > 0)
+      } else hide()
     }
 
     // On `window`, including a click that a react-aria pressable outside stopped
