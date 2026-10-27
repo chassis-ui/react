@@ -10,7 +10,12 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle, Shapes } from '../../types'
 import { pickButtonSemantics, useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
-import { hrefProps, linkElement, resolveLinkKind } from '../../utils/elementKind'
+import {
+  hrefProps,
+  linkElement,
+  resolveLinkKind,
+  resolveSlottedRole
+} from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -219,7 +224,8 @@ function ButtonRender<C extends ElementType = 'button'>(
       <Anchor
         {...(rest as Record<string, unknown>)}
         {...sharedProps}
-        {...((rest as { role?: string }).role === 'button' && pressedProps)}
+        {...((resolveSlottedRole(Component) ?? (rest as { role?: string }).role) === 'button' &&
+          pressedProps)}
         {...linkProps}
         {...(disabled && { 'aria-disabled': true, tabIndex: -1 })}
         ref={ref as Ref<HTMLAnchorElement>}

@@ -68,6 +68,15 @@ export function resolveSlottedId(component: ElementType): string | undefined {
   return typeof id === 'string' && id !== '' ? id : undefined
 }
 
+// The `role` the caller's `asChild` element carries, which wins over the component's own the same
+// way. A component whose markup depends on the role (`Button` gives a link `aria-pressed` only
+// when it is a button) reads it here; the role in its own props is the fallback.
+export function resolveSlottedRole(component: ElementType): string | undefined {
+  if (typeof (component as SlotLike).slotKind !== 'string' || !slotted) return undefined
+  const role = slotted.props.role
+  return typeof role === 'string' && role !== '' ? role : undefined
+}
+
 // The HTML tag that gets rendered, for a render function whose markup depends on a tag that has
 // no kind of its own (`List` renders `<li>` items only inside a `<ul>`/`<ol>`). `undefined` for a
 // component, whose output isn't known.
