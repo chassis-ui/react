@@ -73,6 +73,8 @@ const isSameSelection = (a: Key | Key[] | null, b: Key | Key[] | null) => {
   return left.length === right.length && left.every((key, index) => key === right[index])
 }
 
+const defaultSelectedText = (count: number) => `${count} selected`
+
 export interface AutocompleteProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
   'onChange' | 'defaultValue'
@@ -171,6 +173,12 @@ export interface AutocompleteProps extends Omit<
    */
   searchPlaceholder?: string
   /**
+   * Text the toggle of a `multiple` autocomplete shows once more than one option is selected,
+   * from the count. A function, so a translation can choose its plural form. Defaults to
+   * `` (count) => `${count} selected` ``.
+   */
+  selectedText?: (count: number) => ReactNode
+  /**
    * Size the component sm or lg.
    */
   size?: 'sm' | 'lg'
@@ -224,6 +232,7 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
     placeholder,
     required,
     searchPlaceholder,
+    selectedText = defaultSelectedText,
     size,
     valid: validProp,
     validFeedback,
@@ -474,7 +483,7 @@ export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(functi
     ? placeholder
     : state.selectedItems.length === 1
       ? (state.selectedItems[0]?.textValue ?? '')
-      : `${state.selectedItems.length} selected`
+      : selectedText(state.selectedItems.length)
 
   return renderFormField({
     children: (

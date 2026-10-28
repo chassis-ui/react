@@ -370,6 +370,27 @@
         "name": "string"
       }
     },
+    "selectedText": {
+      "defaultValue": {
+        "value": "(count: number) => `${count} selected`"
+      },
+      "description": "Text the toggle of a `multiple` autocomplete shows once more than one option is selected,\nfrom the count. A function, so a translation can choose its plural form. Defaults to\n`` (count) => `${count} selected` ``.",
+      "name": "selectedText",
+      "parent": {
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "name": "AutocompleteProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "name": "AutocompleteProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((count: number) => ReactNode)"
+      }
+    },
     "size": {
       "defaultValue": null,
       "description": "Size the component sm or lg.",

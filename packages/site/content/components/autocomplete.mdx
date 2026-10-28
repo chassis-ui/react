@@ -23,7 +23,9 @@ import { Example as FormFieldExample } from '../../examples/components/autocompl
 
 ## Multiple selection
 
-Set `multiple` to allow more than one option to be selected. The toggle shows the single selection's label, or an "N selected" count once more than one is picked, and the panel stays open after each selection so more can be picked. `Backspace` in the empty search field removes the last selected option.
+{/* cspell:ignore seçili */}
+
+Set `multiple` to allow more than one option to be selected. The toggle shows the single selection's label, or an "N selected" count once more than one is picked, and the panel stays open after each selection so more can be picked. `Backspace` in the empty search field removes the last selected option. Pass `selectedText`, a function of the count, to word that count in another language: ``selectedText={(count) => `${count} seçili`}``.
 
 <Example>
   <MultipleExample client:load />

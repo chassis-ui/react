@@ -248,6 +248,14 @@ describe('Autocomplete', () => {
       expect(getToggle()).toHaveTextContent('2 selected')
     })
 
+    test('selectedText words the count, for a translation', () => {
+      render(<MultiAutocomplete selectedText={(count) => `${count} seçili`} />)
+      openMultiMenu()
+      fireEvent.click(screen.getByRole('option', { name: 'Apple' }))
+      fireEvent.click(screen.getByRole('option', { name: 'Banana' }))
+      expect(getToggle()).toHaveTextContent('2 seçili')
+    })
+
     test('the menu stays open after a selection', () => {
       render(<MultiAutocomplete />)
       openMultiMenu()

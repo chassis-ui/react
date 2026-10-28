@@ -370,6 +370,12 @@ interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
    */
   searchPlaceholder?: string;
   /**
+   * Text the toggle of a `multiple` autocomplete shows once more than one option is selected,
+   * from the count. A function, so a translation can choose its plural form. Defaults to
+   * `` (count) => `${count} selected` ``.
+   */
+  selectedText?: (count: number) => ReactNode;
+  /**
    * Size the component sm or lg.
    */
   size?: 'lg' | 'sm';
