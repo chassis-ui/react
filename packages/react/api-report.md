@@ -5174,7 +5174,7 @@ interface NavItemDef {
    */
   label: React.ReactNode;
   /**
-   * URL for the nav link.
+   * URL for the nav link. Without one the link is a `<button>`.
    */
   href?: string;
   /**
@@ -5185,6 +5185,11 @@ interface NavItemDef {
    * Marks the item as disabled.
    */
   disabled?: boolean;
+  /**
+   * Called when the item is clicked. An item without `href` renders its link as a `<button>`,
+   * which this gives something to do, such as switching a tab's panel.
+   */
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 type NavOwnProps<C extends ElementType> = {
   /**

@@ -17,7 +17,7 @@
     "href": {
       "name": "href",
       "required": false,
-      "description": "URL for the nav link.",
+      "description": "URL for the nav link. Without one the link is a `<button>`.",
       "defaultValue": null,
       "type": {
         "name": "string"
@@ -39,6 +39,15 @@
       "defaultValue": null,
       "type": {
         "name": "boolean"
+      }
+    },
+    "onClick": {
+      "name": "onClick",
+      "required": false,
+      "description": "Called when the item is clicked. An item without `href` renders its link as a `<button>`,\nwhich this gives something to do, such as switching a tab's panel.",
+      "defaultValue": null,
+      "type": {
+        "name": "((event: MouseEvent<HTMLElement, MouseEvent>) => void)"
       }
     }
   }

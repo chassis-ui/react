@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
 import { Nav, NavItem, NavLink } from '../../../src/index'
@@ -113,16 +114,33 @@ describe('Nav', () => {
       expect(contact).toHaveAttribute('tabIndex', '-1')
     })
 
-    // Regression test for a bug where an omitted href (a valid, optional field on
-    // NavItemDef) still rendered a real, clickable `<a href="#">` - a dead link. The items path
-    // now delegates to NavItem, which already falls back to plain (non-anchor) markup, matching
-    // Breadcrumb/Stepper's own equivalent fallback.
-    test('an item without href renders as plain text, not a dead link', () => {
-      render(<Nav items={[{ label: 'Plain' }]} />)
+    // An omitted href once rendered a dead `<a href="#">`, then plain text that dropped `active`
+    // and `disabled`. A button keeps both and gives `onClick` an element, with no dead link.
+    test('an item without href renders a button link that keeps active, disabled and onClick', async () => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      const onOffClick = vi.fn()
+      render(
+        <Nav
+          items={[
+            { label: 'Home', active: true, onClick },
+            { label: 'Off', disabled: true, onClick: onOffClick }
+          ]}
+        />
+      )
       expect(screen.queryByRole('link')).not.toBeInTheDocument()
-      const item = screen.getByText('Plain')
-      expect(item.tagName).toBe('LI')
-      expect(item).toHaveClass('nav-item')
+      const home = screen.getByRole('button', { name: 'Home' })
+      expect(home).toHaveClass('nav-link', 'active')
+      expect(home).toHaveAttribute('type', 'button')
+      expect(screen.getAllByRole('listitem')[0]).toHaveClass('nav-item')
+      await user.click(home)
+      expect(onClick).toHaveBeenCalledOnce()
+
+      const off = screen.getByRole('button', { name: 'Off' })
+      expect(off).toHaveClass('nav-link', 'disabled')
+      expect(off).toBeDisabled()
+      await user.click(off)
+      expect(onOffClick).not.toHaveBeenCalled()
     })
 
     test('the items path renders the same markup as composing NavItem/NavLink directly', () => {

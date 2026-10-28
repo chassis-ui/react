@@ -50,7 +50,8 @@ markup.
 ## Data-driven usage
 
 Pass an `items` array to `<Nav>` to render navigation from data instead of composing children. Each
-item accepts `label`, `href`, `active`, and `disabled`.
+item accepts `label`, `href`, `active`, `disabled` and `onClick`. An item without `href` renders its
+link as a `<button>`, so `active` and `disabled` still apply and `onClick` decides what it does.
 
 <Example>
   <DataDrivenExample client:load />

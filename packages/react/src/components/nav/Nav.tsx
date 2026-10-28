@@ -1,7 +1,7 @@
 import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { resolveElementTag } from '../../utils/elementKind'
+import { hasHref, resolveElementTag } from '../../utils/elementKind'
 import { NavOverflowItems } from '../../utils/navOverflow'
 import { NavVariant, navVariantClassName } from '../../utils/navVariant'
 import {
@@ -17,7 +17,7 @@ export interface NavItemDef {
    */
   label: React.ReactNode
   /**
-   * URL for the nav link.
+   * URL for the nav link. Without one the link is a `<button>`.
    */
   href?: string
   /**
@@ -28,6 +28,11 @@ export interface NavItemDef {
    * Marks the item as disabled.
    */
   disabled?: boolean
+  /**
+   * Called when the item is clicked. An item without `href` renders its link as a `<button>`,
+   * which this gives something to do, such as switching a tab's panel.
+   */
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void
 }
 
 type NavOwnProps<C extends ElementType> = {
@@ -80,14 +85,18 @@ function NavRender<C extends ElementType = 'ul'>(
     className
   )
 
+  // An item without `href` is a button, so `active`, `disabled` and `onClick` still have a link to
+  // act on; `NavItem` alone would render a bare `<li>` for it.
   const autoContent = items
     ? items.map((item, idx) => (
         <NavItem
           // eslint-disable-next-line react/no-array-index-key
           key={idx}
           active={item.active}
+          component={hasHref(item.href) ? undefined : 'button'}
           disabled={item.disabled}
           href={item.href}
+          onClick={item.onClick}
         >
           {item.label}
         </NavItem>
