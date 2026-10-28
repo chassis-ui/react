@@ -80,8 +80,27 @@
     },
     "className": {
       "defaultValue": null,
-      "description": "A string of all className you want applied to the base component.",
+      "description": "A string of all className you want applied to the `<nav>`, which takes the ref and the other\nattributes too.",
       "name": "className",
+      "parent": {
+        "fileName": "packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "listClassName": {
+      "defaultValue": null,
+      "description": "Classes for the `.pagination` list inside the `<nav>`.",
+      "name": "listClassName",
       "parent": {
         "fileName": "packages/react/src/components/pagination/Pagination.tsx",
         "name": "PaginationProps"

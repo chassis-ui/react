@@ -51,6 +51,49 @@ describe('NavItem', () => {
       expect(item.className.split(' ')).toContain('bazinga')
       expect(link.className.split(' ')).not.toContain('bazinga')
     })
+    // `className` and the ref went to the `<li>` while every other attribute went to the link.
+    test('puts the ref and the other attributes on the li beside className, with a link too', async () => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      const ref = React.createRef<HTMLLIElement>()
+      render(
+        <NavItem
+          className="bazinga"
+          data-testid="nav-item"
+          href="/bazinga"
+          id="item"
+          onClick={onClick}
+          ref={ref}
+        >
+          Test
+        </NavItem>
+      )
+      const item = screen.getByRole('listitem')
+      expect(item).toHaveClass('nav-item', 'bazinga')
+      expect(item).toHaveAttribute('id', 'item')
+      expect(item).toHaveAttribute('data-testid', 'nav-item')
+      expect(ref.current).toBe(item)
+      const link = screen.getByRole('link', { name: 'Test' })
+      expect(link).not.toHaveAttribute('id')
+      await user.click(link)
+      expect(onClick).toHaveBeenCalledOnce()
+    })
+
+    test('passes linkProps to the link', () => {
+      render(
+        <NavItem
+          href="/bazinga"
+          linkProps={{ 'aria-describedby': 'hint', className: 'bazinga', target: '_blank' }}
+        >
+          Test
+        </NavItem>
+      )
+      const link = screen.getByRole('link', { name: 'Test' })
+      expect(link).toHaveClass('nav-link', 'bazinga')
+      expect(link).toHaveAttribute('target', '_blank')
+      expect(link).toHaveAttribute('aria-describedby', 'hint')
+      expect(screen.getByRole('listitem')).not.toHaveClass('bazinga')
+    })
   })
 
   describe('keepVisible', () => {

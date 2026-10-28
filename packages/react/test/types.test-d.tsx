@@ -24,6 +24,7 @@ import {
   MenuItem,
   MenuToggle,
   Modal,
+  NavItem,
   Notification,
   PaginationItem,
   Popover,
@@ -365,3 +366,13 @@ expectTypeOf(<FileInput aria-label="Files" defaultValue="x" />).toBeObject()
 expectTypeOf(<ColorInput aria-label="Color" readOnly />).toBeObject()
 // @ts-expect-error `readonly` doesn't apply to `type="range"`.
 expectTypeOf(<RangeInput aria-label="Volume" readOnly />).toBeObject()
+
+// --- NavItem's attributes are its <li>'s; its link's own go in `linkProps` ---
+
+const RouterLink = (props: { children?: React.ReactNode; to: string }) => (
+  <a href={props.to}>{props.children}</a>
+)
+expectTypeOf(<NavItem href="/a" id="a" linkProps={{ target: '_blank' }} />).toBeObject()
+expectTypeOf(<NavItem component={RouterLink} linkProps={{ to: '/a' }} />).toBeObject()
+// @ts-expect-error `target` is the link's attribute, not the `<li>`'s: it goes in `linkProps`.
+expectTypeOf(<NavItem href="/a" target="_blank" />).toBeObject()

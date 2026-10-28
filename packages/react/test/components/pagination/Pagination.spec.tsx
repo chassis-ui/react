@@ -25,9 +25,9 @@ describe('Pagination', () => {
       expect(item).toHaveAttribute('type', 'button')
     })
 
-    test('applies alignment, size and className to the inner ul', () => {
+    test('applies alignment, size and listClassName to the inner ul', () => {
       render(
-        <Pagination className="bazinga" align="end" size="lg">
+        <Pagination align="end" listClassName="bazinga" size="lg">
           Test
         </Pagination>
       )
@@ -37,6 +37,21 @@ describe('Pagination', () => {
         'lg',
         'justify-content-end'
       )
+    })
+
+    test('puts className, the ref and the other attributes on the nav', () => {
+      const ref = React.createRef<HTMLElement>()
+      render(
+        <Pagination className="bazinga" data-testid="pager" id="pager" ref={ref}>
+          Test
+        </Pagination>
+      )
+      const nav = screen.getByRole('navigation', { name: 'Pagination' })
+      expect(nav).toHaveClass('bazinga')
+      expect(nav).toHaveAttribute('id', 'pager')
+      expect(nav).toHaveAttribute('data-testid', 'pager')
+      expect(ref.current).toBe(nav)
+      expect(screen.getByRole('list')).not.toHaveClass('bazinga')
     })
   })
 

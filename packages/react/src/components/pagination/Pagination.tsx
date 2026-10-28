@@ -30,9 +30,14 @@ export interface PaginationProps extends HTMLAttributes<HTMLElement> {
    */
   'aria-label'?: string
   /**
-   * A string of all className you want applied to the base component.
+   * A string of all className you want applied to the `<nav>`, which takes the ref and the other
+   * attributes too.
    */
   className?: string
+  /**
+   * Classes for the `.pagination` list inside the `<nav>`.
+   */
+  listClassName?: string
   /**
    * Maximum number of visible page buttons (default: 5). Flanking pages are collapsed to ellipsis.
    */
@@ -132,6 +137,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
       'aria-label': ariaLabel = 'Pagination',
       children,
       className,
+      listClassName,
       maxVisiblePages = 5,
       nextIcon,
       nextLabel = 'Next',
@@ -146,7 +152,12 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
     },
     ref
   ) => {
-    const _className = classNames('pagination', size, align && ALIGN_CLASS_NAMES[align], className)
+    const _listClassName = classNames(
+      'pagination',
+      size,
+      align && ALIGN_CLASS_NAMES[align],
+      listClassName
+    )
 
     // `pages != null`, not truthiness: `pages={0}` is a pagination with no pages, both of its
     // controls disabled. It rendered `children` instead, an empty navigation landmark.
@@ -205,8 +216,10 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
     ) : null
 
     return (
-      <nav aria-label={ariaLabel} ref={ref} {...rest}>
-        <ul className={_className}>{smartContent ?? children}</ul>
+      // The `<nav>` takes `className`, the ref and the other attributes alike; the list inside it
+      // takes `listClassName`. `className` went to the list while the rest went to the `<nav>`.
+      <nav aria-label={ariaLabel} className={className} ref={ref} {...rest}>
+        <ul className={_listClassName}>{smartContent ?? children}</ul>
       </nav>
     )
   }

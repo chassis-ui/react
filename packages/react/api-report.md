@@ -11,7 +11,7 @@ renamed export, ...) and review the diff like any other code change. `pnpm react
 -->
 
 ```ts
-import React, { AriaAttributes, ButtonHTMLAttributes, CSSProperties, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, ComponentType, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, SelectHTMLAttributes, TableHTMLAttributes, TextareaHTMLAttributes } from "react";
+import React, { AriaAttributes, ButtonHTMLAttributes, CSSProperties, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, ComponentType, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, LiHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, SelectHTMLAttributes, TableHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { ColumnSize, ColumnStaticSize, DateValue, Key as Key$1, Selection, SortDescriptor, TableBodyProps as TableBodyProps$1, TableHeaderProps as TableHeaderProps$1, ToastQueue } from "react-stately";
 import { DateValue as DateValue$1, I18nProvider, I18nProviderProps, Key as Key$2, RangeValue, TimeValue } from "react-aria";
 import { Key as Key$3, Selection as Selection$1, SortDescriptor as SortDescriptor$1, TableBodyRenderProps } from "react-aria-components";
@@ -5253,12 +5253,47 @@ type NavLinkComponent = (<C extends ElementType = 'a'>(props: NavLinkProps<C> & 
 export declare const NavLink: NavLinkComponent;
 //#endregion
 //#region src/components/nav/NavItem.d.ts
-type NavItemProps<C extends ElementType = 'a'> = NavLinkProps<C> & {
+type NavItemOwnProps<C extends ElementType> = {
+  /**
+   * Toggle the active state of the item's link.
+   */
+  active?: boolean;
+  /**
+   * Render the item's link as its child element, as `NavLink`'s `asChild` does.
+   */
+  asChild?: boolean;
+  /**
+   * A string of all className you want applied to the `<li>`, which takes the ref and the other
+   * attributes too.
+   */
+  className?: string;
+  /**
+   * Component used for the item's link. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+  /**
+   * Toggle the disabled state of the item's link.
+   */
+  disabled?: boolean;
+  /**
+   * URL for the item's link.
+   */
+  href?: string;
   /**
    * Keeps the item in the list inside a `NavOverflow`, whatever the width.
    */
   keepVisible?: boolean;
+  /**
+   * Any other props of the item's link, such as a router link's `to`, `target` or `aria-label`,
+   * and its own `className`.
+   */
+  linkProps?: Omit<NavLinkProps<C>, 'active' | 'asChild' | 'children' | 'component' | 'disabled' | 'href' | 'onClick'>;
+  /**
+   * Callback fired on a click of the item's link, or of the `<li>` when it has none.
+   */
+  onClick?: MouseEventHandler<HTMLElement>;
 };
+type NavItemProps<C extends ElementType = 'a'> = Omit<LiHTMLAttributes<HTMLLIElement>, keyof NavItemOwnProps<C>> & NavItemOwnProps<C>;
 type NavItemComponent = (<C extends ElementType = 'a'>(props: NavItemProps<C> & {
   ref?: Ref<HTMLLIElement>;
 }) => ReactElement | null) & {
@@ -5425,9 +5460,14 @@ interface PaginationProps extends HTMLAttributes<HTMLElement> {
    */
   'aria-label'?: string;
   /**
-   * A string of all className you want applied to the base component.
+   * A string of all className you want applied to the `<nav>`, which takes the ref and the other
+   * attributes too.
    */
   className?: string;
+  /**
+   * Classes for the `.pagination` list inside the `<nav>`.
+   */
+  listClassName?: string;
   /**
    * Maximum number of visible page buttons (default: 5). Flanking pages are collapsed to ellipsis.
    */

@@ -35,6 +35,11 @@ style overrides for working with lists, link padding for larger hit areas, and d
 Compose it from `<NavItem>`/`<NavLink>` pairs, mark the current link with `active`, and mark an
 unavailable one with `disabled`.
 
+A `<NavItem>` given `href`, `component` or `asChild` renders its own `<NavLink>`, which takes those
+props and `active`, `disabled` and `onClick`. Every other attribute, `className` and the ref go to
+the item's `<li>`; pass the link's own attributes, such as `target` or a router link's `to`, in
+`linkProps`.
+
 <Example>
   <BaseNavExample client:load />
 </Example>

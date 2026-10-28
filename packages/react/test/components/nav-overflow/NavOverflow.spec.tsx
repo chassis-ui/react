@@ -260,7 +260,11 @@ describe('NavOverflow', () => {
             <NavItem href="/" active>
               Home
             </NavItem>
-            <NavItem href="/reports" id="reports" target="_blank" onClick={onClick}>
+            <NavItem
+              href="/reports"
+              linkProps={{ id: 'reports', target: '_blank' }}
+              onClick={onClick}
+            >
               Reports
             </NavItem>
             <NavItem href="/billing" disabled>
