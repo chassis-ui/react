@@ -255,7 +255,7 @@ const DataGridInner = <T extends object>(
       </AriaTable>
       {footer && (
         // A sibling of the grid, so it takes the color itself: nothing reaches it by inheritance.
-        <div className={classNames('datagrid-footer', color, { borderless, context: !!color })}>
+        <div className={classNames('datagrid-footer', color, { borderless, context: !!color, sm })}>
           {footer}
         </div>
       )}

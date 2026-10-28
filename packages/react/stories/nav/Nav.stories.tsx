@@ -168,7 +168,7 @@ export const WithTitle: Story = {
   ),
   play: async function ({ canvas }) {
     const title = canvas.getByText('Account')
-    await expect(title).toHaveClass('nav-title')
+    await expect(title.tagName).toBe('LI')
     await expect(canvas.getAllByRole('listitem')).toHaveLength(6)
     await expect(canvas.getAllByRole('link')).toHaveLength(4)
   }

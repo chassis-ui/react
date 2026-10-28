@@ -2,10 +2,19 @@
  * Table's `<table>`/`<thead>`/`<tbody>`/`<tr>`/`<th>`/`<td>` chrome reuses chassis-css's
  * existing `.table` class as-is (colors, borders, striping, hover, the `.active` row highlight —
  * now driven by real selection state instead of a manual prop). Only the pieces with no
- * chassis-css equivalent are new here: the sort indicator and the selection-checkbox column,
- * both built on `@chassis-ui/tokens`' public `--cx-*` tokens for the same reason as
+ * chassis-css equivalent are new here: the sort indicator, the selection-checkbox column and the
+ * `sm` padding, all built on `@chassis-ui/tokens`' public `--cx-*` tokens for the same reason as
  * DatePicker's calendar grid.
  */
+
+/*
+ * `sm`: chassis-css has no size modifier for a table, so the compact padding is set here, on the
+ * custom properties `.table` pads its cells with.
+ */
+.table.sm {
+  --cx-cell-padding-y: var(--cx-space-2xs);
+  --cx-cell-padding-x: var(--cx-space-2xs);
+}
 
 .table-sort-icon {
   display: inline-block;

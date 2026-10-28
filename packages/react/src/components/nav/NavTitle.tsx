@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import classNames from 'classnames'
 
 export interface NavTitleProps extends HTMLAttributes<HTMLLIElement> {
   /**
@@ -10,9 +9,10 @@ export interface NavTitleProps extends HTMLAttributes<HTMLLIElement> {
 
 export const NavTitle = forwardRef<HTMLLIElement, NavTitleProps>(
   ({ children, className, ...rest }, ref) => {
-    const _className = classNames('nav-title', className)
+    // chassis-css has no rule for a nav title, so it takes no class of its own: the caller's
+    // `className` styles it.
     return (
-      <li className={_className} {...rest} ref={ref}>
+      <li className={className} {...rest} ref={ref}>
         {children}
       </li>
     )

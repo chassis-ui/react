@@ -107,13 +107,23 @@ describe('Drawer', () => {
     })
 
     test('with scroll and no backdrop opens non-modally via show()', () => {
-      render(
-        <Drawer backdrop={false} placement="start" scroll visible>
+      const { rerender } = render(
+        <Drawer backdrop={false} placement="start" scroll>
           Test
         </Drawer>
       )
       const dialog = getDialog()
-      expect(dialog).toHaveClass('nonmodal')
+      const showSpy = vi.spyOn(dialog, 'show')
+      const showModalSpy = vi.spyOn(dialog, 'showModal')
+      rerender(
+        <Drawer backdrop={false} placement="start" scroll visible>
+          Test
+        </Drawer>
+      )
+      expect(showSpy).toHaveBeenCalledTimes(1)
+      expect(showModalSpy).not.toHaveBeenCalled()
+      // chassis-css styles `.nonmodal` on `.dialog` only; its drawer takes no such class.
+      expect(dialog).not.toHaveClass('nonmodal')
       expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
     })
 

@@ -6,10 +6,11 @@ import { NavTitle } from '../../../src/index'
 
 describe('NavTitle', () => {
   describe('rendering', () => {
-    test('renders a li with the base class and className merged', () => {
+    test('renders a li with no class of its own beside className', () => {
       render(<NavTitle className="bazinga">Test</NavTitle>)
       const title = screen.getByText('Test')
-      expect(title).toHaveClass('nav-title', 'bazinga')
+      expect(title).toHaveClass('bazinga')
+      expect(title).not.toHaveClass('nav-title')
       expect(title.tagName).toBe('LI')
     })
   })

@@ -73,7 +73,7 @@ packages:
 
 The calendar/datepicker family (`Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`, and
 `TimeField`, whose segments share the date pickers' `DateSegment.scss`),
-`Table` (its sort indicator and selection-checkbox column — see `Table.css`'s own header comment),
+`Table` (its sort indicator, selection-checkbox column and `sm` padding — see `Table.css`'s own header comment),
 `Notification` (its `.showing` mid-transition opacity state — see `Notification.scss`'s own header
 comment), `DataGrid` (see below), `Divider` (its label, and the line on elements other than
 `<hr>` — see `Divider.scss`'s own header comment), `NumberField` (its step buttons — see

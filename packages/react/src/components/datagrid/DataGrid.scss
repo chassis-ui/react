@@ -140,6 +140,13 @@
       }
     }
 
+    // chassis-css has no size modifier for a table: the same compact padding as Table.css's
+    // `.table.sm`.
+    &.sm {
+      --cell-padding-y: var(--space-2xs);
+      --cell-padding-x: var(--space-2xs);
+    }
+
     [role="row"]:focus-visible,
     [role="gridcell"]:focus-visible,
     [role="columnheader"]:focus-visible,
@@ -244,6 +251,11 @@
 
     &.borderless {
       border-width: 0;
+    }
+
+    &.sm {
+      --cell-padding-y: var(--space-2xs);
+      --cell-padding-x: var(--space-2xs);
     }
   }
 

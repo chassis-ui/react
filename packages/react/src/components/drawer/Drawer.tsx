@@ -232,7 +232,6 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
         translucent,
         instant,
         'drawer-fit-content': fitContent,
-        nonmodal: !(Boolean(backdrop) || !scroll),
         static: staticBounce,
         hiding
       },
