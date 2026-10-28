@@ -5686,7 +5686,9 @@ export declare const ProgressBar: ProgressBarComponent;
 interface DrawerProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
   /**
    * Show a backdrop while the drawer is open. `'static'` blocks closing on backdrop click
-   * (the drawer nudges instead).
+   * (the drawer nudges instead). `false` takes effect only together with `scroll`: the drawer
+   * then opens non-modal, with no backdrop and the page usable behind it. Without `scroll` the
+   * drawer stays modal, backdrop and all, as chassis-css's vanilla drawer derives it.
    */
   backdrop?: 'static' | boolean;
   /**

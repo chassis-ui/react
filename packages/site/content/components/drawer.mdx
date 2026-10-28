@@ -86,7 +86,7 @@ Always add a placement prop — the default off-screen transform without one is 
 
 ### Body scroll
 
-By default, body scroll is locked while a drawer is open. Set `scroll` to allow the page to scroll while the drawer is open. Combine with `backdrop={false}` to remove the backdrop entirely.
+By default, body scroll is locked while a drawer is open. Set `scroll` to allow the page to scroll while the drawer is open. Combine with `backdrop={false}` to remove the backdrop entirely: the drawer then opens non-modal, and the page behind it stays usable. `backdrop={false}` without `scroll` changes nothing; the drawer stays modal, with its backdrop.
 
 <Example>
   <BodyScrollExample client:load />

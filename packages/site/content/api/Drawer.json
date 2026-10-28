@@ -9,7 +9,7 @@
       "defaultValue": {
         "value": true
       },
-      "description": "Show a backdrop while the drawer is open. `'static'` blocks closing on backdrop click\n(the drawer nudges instead).",
+      "description": "Show a backdrop while the drawer is open. `'static'` blocks closing on backdrop click\n(the drawer nudges instead). `false` takes effect only together with `scroll`: the drawer\nthen opens non-modal, with no backdrop and the page usable behind it. Without `scroll` the\ndrawer stays modal, backdrop and all, as chassis-css's vanilla drawer derives it.",
       "name": "backdrop",
       "parent": {
         "fileName": "packages/react/src/components/drawer/Drawer.tsx",
