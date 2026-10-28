@@ -18,6 +18,7 @@ import {
 } from 'react-aria-components'
 
 import { useForkedRef } from '../../hooks/useForkedRef'
+import { useSelectionForMode } from '../../hooks/useSelectionForMode'
 import { ContextColor } from '../../types'
 import { TABLE_ALIGN_CLASS_NAMES } from '../../utils/tableClassName'
 import { DataGridAlignContext } from './context'
@@ -156,6 +157,7 @@ const DataGridInner = <T extends object>(
   }: DataGridProps<T>,
   forwardedRef: Ref<HTMLDivElement>
 ) => {
+  const selection = useSelectionForMode({ onSelectionChange, selectedKeys, selectionMode })
   const isVariableRowHeight = rowHeight === 'auto'
   const layout = useMemo(
     () =>
@@ -236,10 +238,10 @@ const DataGridInner = <T extends object>(
         aria-labelledby={rest['aria-labelledby']}
         className={_className || undefined}
         disabledKeys={disabledKeys}
-        onSelectionChange={onSelectionChange}
+        onSelectionChange={selection.onSelectionChange}
         onSortChange={onSortChange}
         ref={ref}
-        selectedKeys={selectedKeys}
+        selectedKeys={selection.selectedKeys}
         selectionMode={selectionMode}
         sortDescriptor={sortDescriptor}
         // react-aria joins the grid's descriptions without dropping an empty result, so a grid

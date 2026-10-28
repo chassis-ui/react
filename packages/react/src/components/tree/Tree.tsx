@@ -2,6 +2,7 @@ import React, { CSSProperties, forwardRef, ReactElement, ReactNode, Ref, useMemo
 import classNames from 'classnames'
 import { Key, Selection, Tree as AriaTree } from 'react-aria-components'
 
+import { useSelectionForMode } from '../../hooks/useSelectionForMode'
 import { IconValue } from '../../utils/iconConfig'
 import { TreeConfigContext } from './context'
 import './Tree.scss'
@@ -125,14 +126,23 @@ const TreeInner = <T extends object>(
     checkboxes,
     children,
     className,
+    defaultSelectedKeys,
     expandIcon,
+    onSelectionChange,
     renderEmptyState,
     selectionBehavior = 'toggle',
+    selectedKeys,
     selectionMode = 'none',
     ...rest
   }: TreeProps<T>,
   ref: Ref<HTMLDivElement>
 ) => {
+  const selection = useSelectionForMode({
+    defaultSelectedKeys,
+    onSelectionChange,
+    selectedKeys,
+    selectionMode
+  })
   // A checkbox per item is the toggle behavior's way of selecting several; the replace behavior
   // selects by click, as a file manager does.
   const config = useMemo(
@@ -156,6 +166,8 @@ const TreeInner = <T extends object>(
         className={classNames('tree', className)}
         ref={ref}
         renderEmptyState={renderEmptyState && (() => renderEmptyState())}
+        onSelectionChange={selection.onSelectionChange}
+        selectedKeys={selection.selectedKeys}
         selectionBehavior={selectionBehavior}
         selectionMode={selectionMode}
       >

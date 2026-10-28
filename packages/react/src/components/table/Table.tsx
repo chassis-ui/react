@@ -24,6 +24,7 @@ import {
 } from 'react-stately'
 
 import { useForkedRef } from '../../hooks/useForkedRef'
+import { useSelectionForMode } from '../../hooks/useSelectionForMode'
 import { ContextColor } from '../../types'
 import { tableClassName, tableWrapperClassName } from '../../utils/tableClassName'
 import './Table.css'
@@ -161,15 +162,16 @@ const TableInner = <T extends object>(
   }: TableProps<T>,
   forwardedRef: Ref<HTMLTableElement>
 ) => {
+  const selection = useSelectionForMode({ onSelectionChange, selectedKeys, selectionMode })
   // `disabledBehavior: 'all'`, as `DataGrid` has it from react-aria-components: react-stately's
   // default, `'selection'`, kept a disabled row focusable and wrote no `aria-disabled` on it.
   const state = useTableState<T>({
     children,
     disabledBehavior: 'all',
     disabledKeys,
-    onSelectionChange,
+    onSelectionChange: selection.onSelectionChange,
     onSortChange,
-    selectedKeys,
+    selectedKeys: selection.selectedKeys,
     selectionMode,
     showSelectionCheckboxes: selectionMode === 'multiple',
     sortDescriptor

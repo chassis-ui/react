@@ -367,6 +367,45 @@ describe('Tree', () => {
       expect(lastSelection(onSelectionChange)).toEqual(new Set())
     })
 
+    test('a change to single selection keeps the first selected item and reports it once', () => {
+      const onSelectionChange = vi.fn()
+      const { rerender } = render(
+        <Files
+          defaultExpandedKeys={['documents']}
+          onSelectionChange={onSelectionChange}
+          selectedKeys={['report', 'notes']}
+          selectionMode="multiple"
+        />
+      )
+      rerender(
+        <Files
+          defaultExpandedKeys={['documents']}
+          onSelectionChange={onSelectionChange}
+          selectedKeys={['report', 'notes']}
+          selectionMode="single"
+        />
+      )
+      expect(row('Report.pdf')).toHaveAttribute('aria-selected', 'true')
+      expect(row('Notes.txt')).toHaveAttribute('aria-selected', 'false')
+      expect(onSelectionChange).toHaveBeenCalledOnce()
+      expect(lastSelection(onSelectionChange)).toEqual(new Set(['report']))
+    })
+
+    test('an uncontrolled single selection keeps the first of several default keys', () => {
+      const onSelectionChange = vi.fn()
+      render(
+        <Files
+          defaultExpandedKeys={['documents']}
+          defaultSelectedKeys={['report', 'notes']}
+          onSelectionChange={onSelectionChange}
+          selectionMode="single"
+        />
+      )
+      expect(row('Report.pdf')).toHaveAttribute('aria-selected', 'true')
+      expect(row('Notes.txt')).toHaveAttribute('aria-selected', 'false')
+      expect(lastSelection(onSelectionChange)).toEqual(new Set(['report']))
+    })
+
     test('multiple: a checkbox per item, named after it, and a click toggles the item', async () => {
       const onSelectionChange = vi.fn()
       render(

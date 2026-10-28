@@ -427,6 +427,19 @@ describe('DataGrid', () => {
       expect(selected.has('1')).toBe(true)
     })
 
+    test('a single-select grid given several keys keeps the first and reports it once', () => {
+      const onSelectionChange = vi.fn()
+      render(
+        <BasicDataGrid onSelectionChange={onSelectionChange} selectedKeys={new Set(['1', '2'])} />
+      )
+      expect(screen.getByRole('row', { name: /Mark/ })).toHaveAttribute('aria-selected', 'true')
+      expect(screen.getByRole('row', { name: /Jacob/ })).not.toHaveAttribute(
+        'aria-selected',
+        'true'
+      )
+      expect(onSelectionChange).toHaveBeenCalledExactlyOnceWith(new Set(['1']))
+    })
+
     test('select-all checkbox selects every row', () => {
       const onSelectionChange = vi.fn()
       render(<SelectableDataGrid onSelectionChange={onSelectionChange} />)

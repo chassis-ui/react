@@ -277,6 +277,48 @@ describe('Table', () => {
       expect(screen.getByRole('row', { name: /Jacob/ })).not.toHaveClass('active')
     })
 
+    test('a change to single selection keeps the first selected row and reports it once', () => {
+      const onSelectionChange = vi.fn()
+      const { rerender } = render(
+        <BasicTable
+          onSelectionChange={onSelectionChange}
+          selectedKeys={new Set(['1', '2'])}
+          selectionMode="multiple"
+        />
+      )
+      rerender(
+        <BasicTable
+          onSelectionChange={onSelectionChange}
+          selectedKeys={new Set(['1', '2'])}
+          selectionMode="single"
+        />
+      )
+      expect(screen.getByRole('row', { name: /Mark/ })).toHaveAttribute('aria-selected', 'true')
+      expect(screen.getByRole('row', { name: /Jacob/ })).not.toHaveAttribute(
+        'aria-selected',
+        'true'
+      )
+      expect(onSelectionChange).toHaveBeenCalledExactlyOnceWith(new Set(['1']))
+    })
+
+    test('an uncontrolled selection is trimmed too when the mode changes to single', () => {
+      const onSelectionChange = vi.fn()
+      const { rerender } = render(
+        <BasicTable onSelectionChange={onSelectionChange} selectionMode="multiple" />
+      )
+      fireEvent.click(within(screen.getByRole('row', { name: /Mark/ })).getByRole('checkbox'))
+      fireEvent.click(within(screen.getByRole('row', { name: /Jacob/ })).getByRole('checkbox'))
+      rerender(<BasicTable onSelectionChange={onSelectionChange} selectionMode="single" />)
+      expect(screen.getByRole('row', { name: /Mark/ })).toHaveAttribute('aria-selected', 'true')
+      expect(screen.getByRole('row', { name: /Jacob/ })).not.toHaveAttribute(
+        'aria-selected',
+        'true'
+      )
+      expect(new Set(onSelectionChange.mock.lastCall?.[0] as Iterable<React.Key>)).toEqual(
+        new Set(['1'])
+      )
+    })
+
     test('single selection mode selects a row on click, with no checkboxes', () => {
       const onSelectionChange = vi.fn()
       render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="single" />)
