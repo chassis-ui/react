@@ -534,6 +534,26 @@ describe('Drawer', () => {
   })
 
   describe('focus management', () => {
+    // Firefox and Safari put a `<dialog>` without a tabindex in the Tab order, where it takes focus
+    // with no ring. A `responsive` drawer shown inline above its breakpoint is never opened.
+    test('keeps the dialog out of the Tab order before it ever opens', () => {
+      render(
+        <Drawer placement="end" responsive="lg">
+          Test
+        </Drawer>
+      )
+      expect(getDialog()).toHaveAttribute('tabindex', '-1')
+    })
+
+    test("leaves a caller's tabIndex in place", () => {
+      render(
+        <Drawer placement="end" tabIndex={0}>
+          Test
+        </Drawer>
+      )
+      expect(getDialog()).toHaveAttribute('tabindex', '0')
+    })
+
     test('restores focus to the trigger element after closing', () => {
       vi.useFakeTimers()
       function Wrapper() {

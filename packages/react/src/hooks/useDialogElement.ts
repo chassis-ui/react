@@ -262,7 +262,7 @@ export const useDialogElement = ({
         if (autofocusEl) {
           autofocusEl.focus()
         } else {
-          dialog.setAttribute('tabindex', '-1')
+          // Focusable through the `tabIndex={-1}` each dialog renders.
           dialog.focus()
         }
       }

@@ -339,6 +339,12 @@ describe('Alert', () => {
   })
 
   describe('focus', () => {
+    test('keeps the dialog out of the Tab order while closed', () => {
+      // Firefox and Safari put a `<dialog>` without a tabindex in the Tab order.
+      render(<ConfirmDelete visible={false} />)
+      expect(getDialog()).toHaveAttribute('tabindex', '-1')
+    })
+
     test('AlertCancel, the least destructive action, has focus when the alert opens', () => {
       const { rerender } = render(<ConfirmDelete visible={false} />)
       rerender(<ConfirmDelete visible />)

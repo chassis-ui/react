@@ -181,6 +181,9 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
             // Out of `rest`, so a caller's `aria-labelledby={undefined}` (a wrapper forwarding a prop
             // it wasn't given) leaves the title's label in place instead of writing over it.
             aria-labelledby={ariaLabelledBy ?? (rest['aria-label'] ? undefined : labelledBy)}
+            // Firefox and Safari put a `<dialog>` without a tabindex in the Tab order, where it takes
+            // focus with no ring; -1 keeps it focusable for the open-focus fallback only.
+            tabIndex={-1}
             {...rest}
             open={open}
             className={_className}

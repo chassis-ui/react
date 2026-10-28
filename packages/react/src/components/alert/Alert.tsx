@@ -197,6 +197,8 @@ export const Alert = forwardRef<HTMLDialogElement, AlertProps>(
           aria-describedby={describedBy}
           aria-labelledby={labelledBy}
           role="alertdialog"
+          // Out of Firefox's and Safari's Tab order, which takes in a `<dialog>` without a tabindex.
+          tabIndex={-1}
           {...rest}
           open={open}
           className={classNames(

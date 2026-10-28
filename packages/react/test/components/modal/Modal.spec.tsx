@@ -616,6 +616,33 @@ describe('Modal', () => {
   })
 
   describe('focus management', () => {
+    // Firefox and Safari put a `<dialog>` without a tabindex in the Tab order, where it takes focus
+    // with no ring: a closed one, and an open one whose child took the open focus.
+    test('keeps the dialog out of the Tab order, closed or opened onto a child', () => {
+      const Probe = ({ visible }: { visible: boolean }) => (
+        <Modal instant modal={false} visible={visible}>
+          <button data-autofocus="" type="button">
+            first
+          </button>
+        </Modal>
+      )
+      const { rerender } = render(<Probe visible={false} />)
+      expect(getDialog()).toHaveAttribute('tabindex', '-1')
+      rerender(<Probe visible />)
+      expect(screen.getByRole('button', { name: 'first' })).toHaveFocus()
+      expect(getDialog()).toHaveAttribute('tabindex', '-1')
+    })
+
+    test("leaves a caller's tabIndex in place when the dialog takes the open focus", () => {
+      render(
+        <Modal instant tabIndex={0} visible>
+          Test
+        </Modal>
+      )
+      expect(getDialog()).toHaveFocus()
+      expect(getDialog()).toHaveAttribute('tabindex', '0')
+    })
+
     // React writes no `autofocus` attribute in a client render: it calls `focus()` on mount, which
     // a closed dialog ignores. `data-autofocus` is what the dialog can find when it opens.
     test('focuses the element with data-autofocus when it opens', () => {
