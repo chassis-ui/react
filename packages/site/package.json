@@ -60,7 +60,7 @@
     "shiki": "^4.5.0",
     "typescript": "^6.0.3",
     "unified": "^11.0.5",
-    "unist-util-visit": "^5.1.0",
+    "unist-util-visit": "^5.2.0",
     "vnu-jar": "^26.10.12"
   }
 }
