@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
 import { Switch } from '../../../src/index'
@@ -76,7 +77,7 @@ describe('Switch', () => {
 
       const input = screen.getByRole('switch', { name: 'Some label' })
       expect(input).toHaveAttribute('id', '2')
-      expect(input).toHaveAttribute('type', 'radio')
+      expect(input).toHaveAttribute('type', 'checkbox')
       expect(input).toHaveClass('is-invalid', 'is-valid')
 
       // The check-input span and outer label wrapper are plain elements with no distinct
@@ -152,6 +153,90 @@ describe('Switch', () => {
       expect(screen.getByRole('switch')).toBeChecked()
       expect(consoleError).not.toHaveBeenCalled()
       consoleError.mockRestore()
+    })
+  })
+
+  // `role="switch"` on `<input type="radio">` failed axe's `aria-allowed-role`. The radio-type
+  // switch is a checkbox that does what a radio group does.
+  describe('type="radio"', () => {
+    const Theme = (props: Partial<React.ComponentProps<typeof Switch>>) => (
+      <form aria-label="Theme">
+        <Switch label="Light" name="theme" type="radio" value="light" {...props} />
+        <Switch label="Dark" name="theme" type="radio" value="dark" />
+        <Switch label="Other" name="other" type="radio" value="other" />
+      </form>
+    )
+    const control = (name: string) => screen.getByRole('switch', { name })
+    const form = () => screen.getByRole('form', { name: 'Theme' }) as HTMLFormElement
+
+    test('renders a checkbox switch with no axe violation', async () => {
+      const { container } = render(<Theme defaultSelected required />)
+      expect(control('Light')).toHaveAttribute('type', 'checkbox')
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('turning one on turns the others of its name off, and submits one value', async () => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      render(<Theme defaultSelected onChange={onChange} />)
+      await user.click(control('Other'))
+      expect(control('Light')).toBeChecked()
+      await user.click(control('Dark'))
+      expect(control('Dark')).toBeChecked()
+      expect(control('Light')).not.toBeChecked()
+      expect(control('Other')).toBeChecked()
+      expect(new FormData(form()).getAll('theme')).toEqual(['dark'])
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    test('a click leaves the switch that is on, as a radio does', async () => {
+      const user = userEvent.setup()
+      const onChange = vi.fn()
+      render(<Theme defaultSelected onChange={onChange} />)
+      await user.click(control('Light'))
+      expect(control('Light')).toBeChecked()
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    test('a controlled one reports the switch turned on', async () => {
+      const user = userEvent.setup()
+      const ThemePicker = () => {
+        const [theme, setTheme] = React.useState('light')
+        return (
+          <>
+            {['light', 'dark'].map((value) => (
+              <Switch
+                key={value}
+                isSelected={theme === value}
+                label={value}
+                name="theme"
+                onChange={() => setTheme(value)}
+                type="radio"
+                value={value}
+              />
+            ))}
+          </>
+        )
+      }
+      render(<ThemePicker />)
+      await user.click(control('dark'))
+      expect(control('dark')).toBeChecked()
+      expect(control('light')).not.toBeChecked()
+    })
+
+    test('required asks for one switch of the group, and a reset asks again', async () => {
+      const user = userEvent.setup()
+      render(<Theme required />)
+      expect(form().checkValidity()).toBe(false)
+      expect(control('Light')).toHaveAttribute('aria-required', 'true')
+      await user.click(control('Dark'))
+      expect(form().checkValidity()).toBe(true)
+      vi.useFakeTimers()
+      form().reset()
+      vi.runAllTimers()
+      vi.useRealTimers()
+      expect(control('Dark')).not.toBeChecked()
+      expect(form().checkValidity()).toBe(false)
     })
   })
 

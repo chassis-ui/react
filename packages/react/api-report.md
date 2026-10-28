@@ -4612,7 +4612,9 @@ interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'check
    */
   size?: 'lg' | 'sm';
   /**
-   * Specifies the type of component.
+   * `'radio'` makes the switch one of a group, as radios are: the switches of its `name` (in its
+   * form) have one on at a time, a click doesn't turn the one that is on off, and `required` asks
+   * for one of the group. It renders a checkbox with `role="switch"` either way.
    */
   type?: 'checkbox' | 'radio';
   /**

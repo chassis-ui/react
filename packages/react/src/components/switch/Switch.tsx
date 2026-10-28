@@ -1,9 +1,16 @@
-import React, { CSSProperties, forwardRef, InputHTMLAttributes, ReactNode, useRef } from 'react'
+import React, {
+  CSSProperties,
+  forwardRef,
+  InputHTMLAttributes,
+  ReactNode,
+  useEffect,
+  useRef
+} from 'react'
 import classNames from 'classnames'
 import { AriaSwitchProps, useSwitch } from 'react-aria'
 import { useToggleState } from 'react-stately'
 
-import { useForkedRef, useHeldBack } from '../../hooks'
+import { useForkedRef, useHeldBack, useIsomorphicLayoutEffect } from '../../hooks'
 import { ContextColor } from '../../types'
 import { mergeUnhandledProps, TOGGLE_PROPS } from '../../utils/unhandledProps'
 import { validationClassName } from '../../utils/validationClassName'
@@ -63,7 +70,9 @@ export interface SwitchProps extends Omit<
    */
   size?: 'sm' | 'lg'
   /**
-   * Specifies the type of component.
+   * `'radio'` makes the switch one of a group, as radios are: the switches of its `name` (in its
+   * form) have one on at a time, a click doesn't turn the one that is on off, and `required` asks
+   * for one of the group. It renders a checkbox with `role="switch"` either way.
    */
   type?: 'checkbox' | 'radio'
   /**
@@ -123,7 +132,7 @@ interface RenderSwitchInputOptions {
 }
 
 // Shared className-building/markup for `SwitchCheckbox`/`SwitchRadio` — the two variants only
-// differ in how `inputProps` gets built (a react-aria hook vs. a hand-wired radio), everything
+// differ in how `inputProps` gets built (a react-aria hook vs. a hand-wired input), everything
 // after that is identical. `style` goes on the outermost element, as `className` does: the
 // label, or the `.check-input` when there is no label.
 const renderSwitchInput = ({
@@ -237,9 +246,46 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
 )
 SwitchCheckbox.displayName = 'SwitchCheckbox'
 
-// Radio-backed switch: react-aria has no ungrouped radio hook (see Checkbox's own split for the
-// same reason), so this stays a native, hand-wired `<input type="radio" role="switch">` — no
-// react-aria hook to call here at all.
+// `type="radio"`: switches of which one is on per `name`, as radios are, rendered as checkboxes.
+// ARIA allows no role but `radio` on `<input type="radio">`, so `role="switch"` there failed
+// axe's `aria-allowed-role`, and chassis-css styles a switch by `[role=switch]` alone. What the
+// browser does for a radio group is done here: turning one on turns the others of its group off,
+// a click doesn't turn the one that is on off, and `required` asks for one of the group, through
+// a custom validity, as a checkbox's own `required` would ask for each. react-aria has no
+// ungrouped radio hook (see Checkbox's own split), so the input stays hand-wired.
+interface ExclusiveSwitch {
+  controlled: boolean
+  required: boolean
+}
+
+const exclusiveSwitches = new WeakMap<HTMLInputElement, ExclusiveSwitch>()
+
+const MISSING_MESSAGE = 'Turn one of these on.'
+
+// The switches of `input`'s group: its `name` in its form, or outside any form in its document,
+// as a radio button group is.
+const groupOf = (input: HTMLInputElement): HTMLInputElement[] => {
+  if (!input.name) return [input]
+  const candidates = input.form
+    ? Array.from(input.form.elements)
+    : Array.from((input.getRootNode() as ParentNode).querySelectorAll('input'))
+  return candidates.filter(
+    (element): element is HTMLInputElement =>
+      element instanceof HTMLInputElement &&
+      element.name === input.name &&
+      element.form === input.form &&
+      exclusiveSwitches.has(element)
+  )
+}
+
+const syncGroupValidity = (input: HTMLInputElement) => {
+  const group = groupOf(input)
+  const missing =
+    group.some((element) => exclusiveSwitches.get(element)?.required) &&
+    !group.some((element) => element.checked)
+  for (const element of group) element.setCustomValidity(missing ? MISSING_MESSAGE : '')
+}
+
 const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
   (
     {
@@ -254,6 +300,7 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
       label,
       onChange,
       readOnly,
+      required,
       size,
       style,
       valid: validProp,
@@ -270,28 +317,69 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
     // `label` is this package's name for what react-aria calls `children`. Accept either, so the
     // shape React developers reach for first names the control instead of vanishing.
     const resolvedLabel = label ?? children
+    const controlled = isSelected !== undefined
 
-    const radioProps = {
+    // On every render: a controlled switch's `isSelected`, or its group, may have changed.
+    useIsomorphicLayoutEffect(() => {
+      const input = inputRef.current
+      if (!input) return undefined
+      exclusiveSwitches.set(input, { controlled, required: !!required })
+      syncGroupValidity(input)
+      return () => {
+        exclusiveSwitches.delete(input)
+      }
+    })
+
+    // A reset puts each switch back without a change event, after its `reset` event.
+    const formAttribute = rest.form
+    useEffect(() => {
+      const owner = inputRef.current?.form
+      if (!owner) return undefined
+      let timer: ReturnType<typeof setTimeout> | undefined
+      const onReset = () => {
+        timer = setTimeout(() => {
+          if (inputRef.current) syncGroupValidity(inputRef.current)
+        })
+      }
+      owner.addEventListener('reset', onReset)
+      return () => {
+        owner.removeEventListener('reset', onReset)
+        clearTimeout(timer)
+      }
+    }, [formAttribute])
+
+    const inputProps = {
       ...rest,
       'aria-invalid': invalid || undefined,
-      // A browser ignores `readonly` on a radio: a read-only switch keeps its click from checking
-      // it, and says so.
+      // A browser ignores `readonly` on a checkbox: a read-only switch keeps its click from
+      // changing it, and says so.
       'aria-readonly': readOnly || undefined,
+      'aria-required': required || undefined,
       checked: isSelected,
       defaultChecked: defaultSelected,
       disabled,
-      ...(readOnly && {
-        onClick: (event: React.MouseEvent<HTMLInputElement>) => {
-          rest.onClick?.(event)
-          event.preventDefault()
-        }
-      }),
-      // Always a handler: React takes a `checked` input with none for a mistake and warns.
+      // A click puts back the switch that was on, as a radio's does, and any of a read-only one.
+      onClick: (event: React.MouseEvent<HTMLInputElement>) => {
+        rest.onClick?.(event)
+        if (readOnly || !event.currentTarget.checked) event.preventDefault()
+      },
+      // Always a handler: React takes a `checked` input with none for a mistake and warns. React
+      // reports the click it puts back too, so only a switch turned on is a change.
       onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (!readOnly) onChange?.(event.target.checked)
+        const input = event.target
+        if (readOnly || !input.checked) return
+        // A controlled switch of the group follows its `isSelected`, and a controlled one turned
+        // on here syncs its group once it renders as on.
+        for (const element of groupOf(input)) {
+          if (element !== input && !exclusiveSwitches.get(element)?.controlled) {
+            element.checked = false
+          }
+        }
+        if (!controlled) syncGroupValidity(input)
+        onChange?.(true)
       },
       role: 'switch' as const,
-      type: 'radio' as const
+      type: 'checkbox' as const
     }
 
     return renderSwitchInput({
@@ -299,7 +387,7 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
       color,
       forkedRef,
       id,
-      inputProps: radioProps,
+      inputProps,
       invalid,
       label: resolvedLabel,
       size,

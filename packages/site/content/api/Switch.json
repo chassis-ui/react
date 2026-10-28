@@ -244,7 +244,7 @@
       "defaultValue": {
         "value": "checkbox"
       },
-      "description": "Specifies the type of component.",
+      "description": "`'radio'` makes the switch one of a group, as radios are: the switches of its `name` (in its\nform) have one on at a time, a click doesn't turn the one that is on off, and `required` asks\nfor one of the group. It renders a checkbox with `role=\"switch\"` either way.",
       "name": "type",
       "parent": {
         "fileName": "packages/react/src/components/switch/Switch.tsx",

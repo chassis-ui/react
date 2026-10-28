@@ -139,9 +139,7 @@ const fields: Field[] = [
     name: 'Switch, radio-backed',
     ui: (props) => <Switch label="Terms" name="field" required type="radio" {...props} />,
     marked: () => screen.getByRole('switch', { name: 'Terms' }),
-    fill: (user) => user.click(screen.getByRole('switch', { name: 'Terms' })),
-    skipsAxe:
-      '`role="switch"` on an `<input type="radio">` fails `aria-allowed-role`, marked or not'
+    fill: (user) => user.click(screen.getByRole('switch', { name: 'Terms' }))
   },
   {
     name: 'Select',

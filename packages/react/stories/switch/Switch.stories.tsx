@@ -58,3 +58,28 @@ export const Disabled: Story = {
     </>
   )
 }
+
+// `type="radio"`: one switch of a `name` on at a time. A click turns another on, and leaves the one
+// that is on, as a radio group's does; the browser puts back the click it is denied.
+export const RadioType: Story = {
+  render: () => (
+    <form aria-label="Theme">
+      <Switch defaultSelected label="Light" name="theme" type="radio" value="light" />
+      <Switch label="Dark" name="theme" type="radio" value="dark" />
+    </form>
+  ),
+  play: async function ({ canvas, userEvent }) {
+    const light = canvas.getByRole('switch', { name: 'Light' })
+    const dark = canvas.getByRole('switch', { name: 'Dark' })
+    await userEvent.click(light)
+    await expect(light).toBeChecked()
+    await userEvent.click(dark)
+    await expect(dark).toBeChecked()
+    await expect(light).not.toBeChecked()
+    await userEvent.keyboard(' ')
+    await expect(dark).toBeChecked()
+    await userEvent.click(light)
+    await expect(light).toBeChecked()
+    await expect(dark).not.toBeChecked()
+  }
+}

@@ -34,6 +34,13 @@ Set `color` to any of the Chassis context colors to tint the switch indicator wh
   <ColorExample client:load />
 </Example>
 
+## One of a group
+
+Set `type="radio"` on switches that share a `name` to keep one of them on at a time, as radios do:
+turning one on turns the others off, a click leaves the one that is on, and `required` asks for one
+of the group. Each is still a checkbox with `role="switch"`, so the form submits the `value` of the
+one that is on.
+
 ## API
 
 ### Switch
