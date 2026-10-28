@@ -383,11 +383,12 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
     // the slot ids (FORMS.md, gotcha 6), and is set again after the spread (gotcha 4).
     const group = withoutSlotIds(groupProps, descriptionProps, errorMessageProps)
 
-    const { overlayStyle, placementAttr, overlayDismissProps } = useOverlayPlacement({
-      overlayRef,
-      state,
-      triggerRef: groupRef
-    })
+    const { overlayStyle, placementAttr, overlayDismissProps, portalContainer } =
+      useOverlayPlacement({
+        overlayRef,
+        state,
+        triggerRef: groupRef
+      })
 
     const { dialogProps: domDialogProps } = useDialog(dialogProps, calendarRef)
 
@@ -469,6 +470,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
                 overlayRef,
                 overlayStyle,
                 placementAttr,
+                portalContainer,
                 size,
                 toggleButton: (
                   <CalendarToggleButton

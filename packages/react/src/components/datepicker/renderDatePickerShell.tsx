@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { FocusScope } from 'react-aria'
 
 import { validationClassName } from '../../utils/validationClassName'
+import { Portal } from '../portal/Portal'
 
 export interface RenderDatePickerShellOptions {
   /**
@@ -40,6 +41,11 @@ export interface RenderDatePickerShellOptions {
   overlayRef: Ref<HTMLDivElement>
   overlayStyle?: CSSProperties
   placementAttr?: string
+  /**
+   * Where the overlay is portaled (`useOverlayPlacement`'s `portalContainer`). The calendar mounts
+   * only once it is known, so it mounts once, in the open `<dialog>` the picker is in if any.
+   */
+  portalContainer: Element | null
   size?: 'sm' | 'lg'
   toggleButton: ReactNode
   valid?: boolean
@@ -66,6 +72,7 @@ export const renderDatePickerShell = ({
   overlayRef,
   overlayStyle,
   placementAttr,
+  portalContainer,
   size,
   toggleButton,
   valid
@@ -86,19 +93,21 @@ export const renderDatePickerShell = ({
       {clearButton}
       {toggleButton}
     </div>
-    <div
-      className="datepicker"
-      data-cx-placement={placementAttr}
-      hidden={!isOpen}
-      ref={overlayRef}
-      {...overlayDismissProps}
-      style={overlayStyle}
-    >
-      {isOpen && (
-        <FocusScope contain restoreFocus>
-          {calendar}
-        </FocusScope>
-      )}
-    </div>
+    <Portal container={portalContainer}>
+      <div
+        className="datepicker"
+        data-cx-placement={placementAttr}
+        hidden={!isOpen}
+        ref={overlayRef}
+        {...overlayDismissProps}
+        style={overlayStyle}
+      >
+        {isOpen && portalContainer && (
+          <FocusScope contain restoreFocus>
+            {calendar}
+          </FocusScope>
+        )}
+      </div>
+    </Portal>
   </>
 )

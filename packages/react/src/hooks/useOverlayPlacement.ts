@@ -3,6 +3,7 @@ import { mergeProps, useOverlay, useOverlayPosition } from 'react-aria'
 import { OverlayTriggerState } from 'react-stately'
 
 import { resolveDataPlacement, toAriaPlacement } from '../utils/overlayPlacement'
+import { useFloatingOverlay } from './useFloatingOverlay'
 
 interface UseOverlayPlacementProps {
   overlayRef: RefObject<HTMLElement | null>
@@ -17,6 +18,9 @@ interface UseOverlayPlacementResult {
   // before (see git history) — react-aria's own return type pulls in a `FocusableElement`
   // reference the bundled `.d.ts` can't always resolve a portable name for.
   overlayDismissProps: HTMLAttributes<HTMLElement>
+  // Where the calendar is portaled: `document.body`, or the open `<dialog>` the trigger is in.
+  // `null` while an open calendar's container isn't known yet.
+  portalContainer: Element | null
 }
 
 // Shared by `DatePicker` and `DateRangePicker` — both position their calendar overlay the same
@@ -89,5 +93,14 @@ export const useOverlayPlacement = ({
   }
   const placementAttr = resolveDataPlacement('bottom-start', resolvedPlacement)
 
-  return { overlayStyle, placementAttr, overlayDismissProps }
+  // Portaled like `Combobox`'s panel: rendered in place, the calendar was clipped by any ancestor
+  // that scrolls (`overflow: auto`, a `table-responsive`, a scrolling card or dialog body), and
+  // that ancestor scrolled instead of the calendar covering what is under it.
+  const portalContainer = useFloatingOverlay({
+    close: state.close,
+    isOpen: state.isOpen,
+    triggerRef
+  })
+
+  return { overlayStyle, placementAttr, overlayDismissProps, portalContainer }
 }

@@ -112,7 +112,8 @@ describe('hydration of every story', () => {
 })
 
 // The server marks no day as today, in the class or react-aria's label (`useCellToday`); the
-// hydrated page marks the viewer's, in both.
+// hydrated page marks the viewer's, in both. Read from the whole body: a picker's calendar is
+// portaled there, outside the host.
 describe("hydration marks the viewer's today", () => {
   test.for([
     'Calendar showing today',
@@ -123,7 +124,7 @@ describe("hydration marks the viewer's today", () => {
     let labels: string[] = []
     let todayCells: HTMLElement[] = []
     const errors = await hydrate(`first paint: ${name}`, (host) => {
-      const page = within(host)
+      const page = within(host.ownerDocument.body)
       labels = page.getAllByRole('button').map((button) => button.getAttribute('aria-label') ?? '')
       todayCells = page.queryAllByRole('gridcell', { current: 'date' })
     })

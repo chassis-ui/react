@@ -142,6 +142,37 @@ describe('DatePicker', () => {
     })
   })
 
+  // Rendered in place, the calendar was clipped by any ancestor that scrolls, which scrolled
+  // instead of the calendar covering what is under it.
+  describe('portal', () => {
+    test.for(['single', 'multiple'] as const)(
+      'a %s-selection calendar is portaled out of a scrolling ancestor',
+      (selectionMode) => {
+        render(
+          <div aria-label="Scroller" role="region" style={{ overflow: 'auto' }}>
+            <DatePicker aria-label="Event date" selectionMode={selectionMode} />
+          </div>
+        )
+        fireEvent.click(screen.getByRole('button', { name: /calendar/i }))
+        expect(screen.getByRole('region', { name: 'Scroller' })).not.toContainElement(
+          screen.getByRole('grid')
+        )
+      }
+    )
+
+    test('in an open dialog, the calendar is portaled into that dialog', () => {
+      render(
+        <dialog aria-label="Booking" open>
+          <DatePicker aria-label="Event date" />
+        </dialog>
+      )
+      fireEvent.click(screen.getByRole('button', { name: /calendar/i }))
+      expect(screen.getByRole('dialog', { name: 'Booking' })).toContainElement(
+        screen.getByRole('grid')
+      )
+    })
+  })
+
   describe('clearing', () => {
     test('no clear button when there is nothing selected', () => {
       render(<DatePicker aria-label="Event date" />)

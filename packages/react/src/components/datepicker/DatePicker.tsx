@@ -422,11 +422,12 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
     // It's set again after the spread, where the caller's own value would replace it (gotcha 4).
     const group = withoutSlotIds(groupProps, descriptionProps, errorMessageProps)
 
-    const { overlayStyle, placementAttr, overlayDismissProps } = useOverlayPlacement({
-      overlayRef,
-      state,
-      triggerRef: groupRef
-    })
+    const { overlayStyle, placementAttr, overlayDismissProps, portalContainer } =
+      useOverlayPlacement({
+        overlayRef,
+        state,
+        triggerRef: groupRef
+      })
 
     // `Calendar` is dialog-agnostic by design (see its own comment) — applying `role="dialog"`
     // etc. is this component's concern, layered on via the generic HTML-attribute passthrough
@@ -491,6 +492,7 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
                 overlayRef,
                 overlayStyle,
                 placementAttr,
+                portalContainer,
                 size,
                 toggleButton: (
                   <CalendarToggleButton
@@ -641,11 +643,12 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
       validFeedback
     })
 
-    const { overlayStyle, placementAttr, overlayDismissProps } = useOverlayPlacement({
-      overlayRef,
-      state,
-      triggerRef: groupRef
-    })
+    const { overlayStyle, placementAttr, overlayDismissProps, portalContainer } =
+      useOverlayPlacement({
+        overlayRef,
+        state,
+        triggerRef: groupRef
+      })
 
     const { dialogProps: domDialogProps } = useDialog(
       { 'aria-label': rest['aria-label'], 'aria-labelledby': labelledBy },
@@ -717,6 +720,7 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
                 overlayRef,
                 overlayStyle,
                 placementAttr,
+                portalContainer,
                 size,
                 toggleButton: (
                   <CalendarToggleButton
