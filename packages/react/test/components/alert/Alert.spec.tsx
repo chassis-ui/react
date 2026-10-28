@@ -19,6 +19,7 @@ import {
   ModalBody,
   ModalTitle
 } from '../../../src/index'
+import { pressAndRelease } from '../../dialogPress'
 import { queueDialogCloseEvents } from '../../queuedDialogClose'
 
 // A closed <dialog> exposes no role, and several tests need the element before it opens or keep
@@ -256,6 +257,30 @@ describe('Alert', () => {
       const onClose = vi.fn()
       render(<ConfirmDelete backdrop onClose={onClose} visible />)
       fireEvent.click(getDialog())
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
+
+    // Regression test (#122): the browser sends the click of a press that goes down inside and
+    // comes up over the backdrop to the `<dialog>`, which closed the alert, or bounced it.
+    test('a press inside released over the backdrop neither closes nor bounces it', () => {
+      const onClose = vi.fn()
+      const onClosePrevented = vi.fn()
+      const { rerender } = render(
+        <ConfirmDelete onClose={onClose} onClosePrevented={onClosePrevented} visible />
+      )
+      const text = screen.getByText("This can't be undone.")
+
+      pressAndRelease(text, getDialog())
+      expect(onClosePrevented).not.toHaveBeenCalled()
+      pressAndRelease(getDialog(), getDialog())
+      expect(onClosePrevented).toHaveBeenCalledTimes(1)
+
+      rerender(
+        <ConfirmDelete backdrop onClose={onClose} onClosePrevented={onClosePrevented} visible />
+      )
+      pressAndRelease(text, getDialog())
+      expect(onClose).not.toHaveBeenCalled()
+      pressAndRelease(getDialog(), getDialog())
       expect(onClose).toHaveBeenCalledTimes(1)
     })
 

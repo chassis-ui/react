@@ -336,6 +336,29 @@ export const useDialogElement = ({
     return pushOverlay({ nodes: () => [dialogRef.current] })
   }, [isOpen])
 
+  // Where the last press on the open dialog started, for `handleBackdropClick`. A press that goes
+  // down on the content and comes up on the backdrop (a drag out of a text field, a crop handle
+  // pulled past the edge) gets its `click` on the nearest common ancestor of the two, the
+  // `<dialog>` itself, which is not a click on the backdrop. `pointerdown` as well as `mousedown`:
+  // a pointer press whose `pointerdown` is prevented sends no `mousedown`. Native and in the
+  // capture phase, so nothing inside the dialog can stop it, and no caller's handler of the same
+  // name is replaced.
+  const pressTargetRef = useRef<EventTarget | null>(null)
+  useEffect(() => {
+    const dialog = isOpen ? dialogRef.current : null
+    if (!dialog) return undefined
+    const handlePress = (event: Event) => {
+      pressTargetRef.current = event.target
+    }
+    dialog.addEventListener('pointerdown', handlePress, true)
+    dialog.addEventListener('mousedown', handlePress, true)
+    return () => {
+      pressTargetRef.current = null
+      dialog.removeEventListener('pointerdown', handlePress, true)
+      dialog.removeEventListener('mousedown', handlePress, true)
+    }
+  }, [isOpen])
+
   // The native `close` event. After our own `close()` the phase is settled and there is nothing
   // left to do. Otherwise the browser closed the dialog by itself: a `<form method="dialog">`, a
   // caller's own `close()`, or a close request it doesn't let a page cancel. The state follows: a
@@ -409,9 +432,15 @@ export const useDialogElement = ({
     close()
   }
 
+  // A click on the `<dialog>` is one on the backdrop only when its press started there too. A
+  // click with no press before it (`element.click()`, an assistive technology) still counts.
   const handleBackdropClick = (event: ReactMouseEvent<HTMLDialogElement>) => {
     onClick?.(event)
-    if (event.target !== dialogRef.current || !openedAsModalRef.current) return
+    const pressTarget = pressTargetRef.current
+    pressTargetRef.current = null
+    const dialog = dialogRef.current
+    if (event.target !== dialog || !openedAsModalRef.current) return
+    if (pressTarget !== null && pressTarget !== dialog) return
     if (backdrop === 'static') {
       triggerStaticBounce()
       return

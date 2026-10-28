@@ -12,6 +12,7 @@ import {
   DrawerTitle,
   useDrawer
 } from '../../../src/index'
+import { pressAndRelease } from '../../dialogPress'
 import { danglingReferences } from '../../utils/danglingReferences'
 
 // The dialog only gets an accessible role="dialog" once open (closed <dialog> elements have no
@@ -332,6 +333,52 @@ describe('Drawer', () => {
         vi.runAllTimers()
       })
       expect(onClose).toHaveBeenCalledTimes(0)
+      vi.useRealTimers()
+    })
+
+    // Regression test (#122): the browser sends the click of a press that goes down inside and
+    // comes up over the backdrop to the `<dialog>`, which closed the drawer.
+    test('a press inside released over the backdrop leaves it open', () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      render(
+        <Drawer onClose={onClose} placement="start" visible>
+          <input aria-label="Name" />
+        </Drawer>
+      )
+      const dialog = getDialog()
+
+      pressAndRelease(screen.getByRole('textbox', { name: 'Name' }), dialog)
+      expect(onClose).not.toHaveBeenCalled()
+
+      pressAndRelease(dialog, dialog)
+      expect(onClose).toHaveBeenCalledTimes(1)
+      act(() => {
+        vi.runAllTimers()
+      })
+      vi.useRealTimers()
+    })
+
+    test('backdrop="static" bounces only for a press both on the backdrop', () => {
+      vi.useFakeTimers()
+      const onClosePrevented = vi.fn()
+      render(
+        <Drawer backdrop="static" onClosePrevented={onClosePrevented} placement="start" visible>
+          <input aria-label="Name" />
+        </Drawer>
+      )
+      const dialog = getDialog()
+
+      pressAndRelease(screen.getByRole('textbox', { name: 'Name' }), dialog)
+      expect(onClosePrevented).not.toHaveBeenCalled()
+      expect(dialog).not.toHaveClass('static')
+
+      pressAndRelease(dialog, dialog)
+      expect(onClosePrevented).toHaveBeenCalledTimes(1)
+      expect(dialog).toHaveClass('static')
+      act(() => {
+        vi.runAllTimers()
+      })
       vi.useRealTimers()
     })
 

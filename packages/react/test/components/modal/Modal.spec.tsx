@@ -13,6 +13,7 @@ import {
   ModalTitle,
   useModal
 } from '../../../src/index'
+import { pressAndRelease } from '../../dialogPress'
 import { queueDialogCloseEvents } from '../../queuedDialogClose'
 import { danglingReferences } from '../../utils/danglingReferences'
 
@@ -294,6 +295,58 @@ describe('Modal', () => {
         vi.runAllTimers()
       })
       expect(onClose).toHaveBeenCalledTimes(0)
+      vi.useRealTimers()
+    })
+
+    // Regression test (#122): the browser sends the click of a press that goes down inside and
+    // comes up over the backdrop to the `<dialog>`, which closed the modal.
+    test('a press inside released over the backdrop leaves it open', () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      render(
+        <Modal onClose={onClose} visible>
+          <input aria-label="Name" />
+        </Modal>
+      )
+      const dialog = getDialog()
+      const input = screen.getByRole('textbox', { name: 'Name' })
+
+      pressAndRelease(input, dialog)
+      pressAndRelease(input, dialog, { mouse: false })
+      act(() => {
+        vi.runAllTimers()
+      })
+      expect(onClose).not.toHaveBeenCalled()
+      expect(dialog).toHaveAttribute('open')
+
+      pressAndRelease(dialog, dialog)
+      act(() => {
+        vi.runAllTimers()
+      })
+      expect(onClose).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+
+    test('backdrop="static" bounces only for a press both on the backdrop', () => {
+      vi.useFakeTimers()
+      const onClosePrevented = vi.fn()
+      render(
+        <Modal backdrop="static" onClosePrevented={onClosePrevented} visible>
+          <input aria-label="Name" />
+        </Modal>
+      )
+      const dialog = getDialog()
+
+      pressAndRelease(screen.getByRole('textbox', { name: 'Name' }), dialog)
+      expect(onClosePrevented).not.toHaveBeenCalled()
+      expect(dialog).not.toHaveClass('dialog-static')
+
+      pressAndRelease(dialog, dialog)
+      expect(onClosePrevented).toHaveBeenCalledTimes(1)
+      expect(dialog).toHaveClass('dialog-static')
+      act(() => {
+        vi.runAllTimers()
+      })
       vi.useRealTimers()
     })
 
