@@ -49,7 +49,7 @@ With `required`, every box is required: a code with a box left empty holds its f
 
 ## Controlled value
 
-Pass `value`/`onChange` to control the code externally, and `onComplete` to react once every box is filled. Omit them (use `defaultValue` instead) to let `OtpInput` manage its own state.
+Pass `value`/`onChange` to control the code externally, and `onComplete` to react once every box is filled. `onComplete` fires on each edit that leaves the code complete, so correcting a digit of a full code fires it again with the new code, which lets a form that submits on completion submit the correction. Omit them (use `defaultValue` instead) to let `OtpInput` manage its own state.
 
 <Example>
   <ControlledExample client:load />

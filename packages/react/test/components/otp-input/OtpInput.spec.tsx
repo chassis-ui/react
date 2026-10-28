@@ -84,6 +84,15 @@ describe('OtpInput', () => {
       expect(onComplete).toHaveBeenCalledWith('123')
     })
 
+    test('onComplete fires again when a digit of a complete code is corrected', () => {
+      const onComplete = vi.fn()
+      render(<OtpInput aria-label="Code" defaultValue="123" length={3} onComplete={onComplete} />)
+      fireEvent.change(screen.getByRole('textbox', { name: 'Digit 1' }), {
+        target: { value: '9' }
+      })
+      expect(onComplete).toHaveBeenCalledExactlyOnceWith('923')
+    })
+
     test('a non-digit character is not entered, and reports no change', () => {
       const onChange = vi.fn()
       render(<OtpInput aria-label="Code" length={3} onChange={onChange} />)

@@ -104,7 +104,8 @@ export interface OtpInputProps extends Omit<
    */
   onChange?: (value: string) => void
   /**
-   * Callback fired once every box is filled.
+   * Callback fired on each edit that leaves every box filled, so a correction to a complete code
+   * fires it again with the new code.
    */
   onComplete?: (value: string) => void
   /**

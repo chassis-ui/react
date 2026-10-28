@@ -351,7 +351,7 @@
     },
     "onComplete": {
       "defaultValue": null,
-      "description": "Callback fired once every box is filled.",
+      "description": "Callback fired on each edit that leaves every box filled, so a correction to a complete code\nfires it again with the new code.",
       "name": "onComplete",
       "parent": {
         "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
