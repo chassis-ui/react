@@ -1,14 +1,17 @@
 # Chassis React — monorepo guide
 
 Chassis React is the React component library for [Chassis UI](https://chassis-ui.com), whose CSS
-framework is the separate `@chassis-ui/css`. This repo holds two pnpm workspace packages:
+framework is the separate `@chassis-ui/css`. This repo holds three pnpm workspace packages:
 
 - **[`packages/react`](packages/react/AGENTS.md)** — `@chassis-ui/react`, the published component
   library, where almost all engineering work happens.
 - **[`packages/site`](packages/site/AGENTS.md)** — `chassis-react-site`, the Astro docs site at
   chassis-ui.com/react, which renders live examples from the workspace build of the library.
+- **[`packages/claude-design`](packages/claude-design/AGENTS.md)** —
+  `chassis-react-claude-design`, private, which builds the library's design system on claude.ai and
+  publishes it to its artifact.
 
-Read the package guide before working inside either package; this file covers only what is
+Read the package guide before working inside a package; this file covers only what is
 shared. RD numbers cite rows of [`DECISIONS.md`](DECISIONS.md), which holds the history behind the
 build, tests and CI; the guides state the rule and cite the row.
 
@@ -28,8 +31,11 @@ build, tests and CI; the guides state the rule and cite the row.
 - A script whose files live in one package is a real script on that package's `package.json`,
   reached from the root through a `react:*`/`site:*` alias. A script lives at the root only when
   it is cross-package (`react:generate` reads one package and writes into the other;
-  `new:component` writes into both) or owns a root artifact (`_site/`). `lint:eslint` delegates
-  to both packages' own scripts, never a root glob of their paths (RD7).
+  `new:component` writes into both) or owns a root artifact (`_site/`). A cross-package tool with
+  dependencies or code of its own is a private workspace package instead, reached through root
+  aliases, so it gets its own lint and type check: `packages/claude-design` and `claude-design:*`
+  (RD27). `lint:eslint` delegates to every package's own script, never a root glob of their paths
+  (RD7).
 - Run `pnpm react:generate` after changing any component's exported props; it writes
   `packages/site/content/api/` and `pnpm react:check:api-docs` fails CI when the committed files
   differ. It writes react-docgen-typescript's paths repo-relative so every machine produces the
@@ -42,6 +48,9 @@ build, tests and CI; the guides state the rule and cite the row.
   add the range of any script a page uses that they don't hold (RD23).
   The build reads the commit in the index, so `git add vendor/assets` before `pnpm vendor` after a
   sync.
+- Run `pnpm claude-design:sync` after a release, with the `claude` CLI signed in. It rebuilds the
+  library's design system on claude.ai (every brand, light and dark) and publishes it.
+  Edit the code and sync again, never the artifact: its page is read-only.
 
 ## CI
 

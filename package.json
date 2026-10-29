@@ -9,13 +9,13 @@
   "scripts": {
     "prepare": "simple-git-hooks",
     "build": "pnpm site:build",
-    "clean": "pnpm react:clean && pnpm site:clean",
+    "clean": "pnpm react:clean && pnpm site:clean && pnpm claude-design:clean",
     "setup": "pnpm vendor && pnpm react:build",
     "start": "pnpm setup && pnpm dev",
     "dev": "pnpm react:dev & pnpm site:dev",
     "preview": "pnpm site:preview",
-    "lint": "pnpm react:lint && pnpm site:lint && pnpm spellcheck",
-    "lint:eslint": "pnpm --filter @chassis-ui/react lint:eslint && pnpm --filter chassis-react-site lint:eslint",
+    "lint": "pnpm react:lint && pnpm site:lint && pnpm claude-design:lint && pnpm spellcheck",
+    "lint:eslint": "pnpm --filter @chassis-ui/react lint:eslint && pnpm --filter chassis-react-site lint:eslint && pnpm --filter chassis-react-claude-design lint:eslint",
     "lint:html": "pnpm --filter chassis-react-site lint:html",
     "lint:vnu": "pnpm --filter chassis-react-site lint:vnu",
     "react:build": "pnpm --filter @chassis-ui/react build",
@@ -40,6 +40,12 @@
     "site:lint": "pnpm --filter chassis-react-site lint",
     "site:pagefind": "pagefind --site _site --output-subdir react/pagefind",
     "site:preview": "pnpm --filter chassis-react-site preview",
+    "claude-design:build": "pnpm react:build && pnpm --filter chassis-react-claude-design build",
+    "claude-design:check": "pnpm --filter chassis-react-claude-design check",
+    "claude-design:publish": "pnpm --filter chassis-react-claude-design upload",
+    "claude-design:sync": "pnpm claude-design:build && pnpm claude-design:check && pnpm claude-design:publish",
+    "claude-design:lint": "pnpm --filter chassis-react-claude-design lint",
+    "claude-design:clean": "pnpm --filter chassis-react-claude-design clean",
     "storybook": "pnpm --filter @chassis-ui/react storybook",
     "storybook:build": "pnpm --filter @chassis-ui/react storybook:build",
     "test": "pnpm --filter @chassis-ui/react test",
@@ -64,7 +70,8 @@
       "eslint --no-warn-ignored --cache --cache-location .cache/staged.eslintcache --fix",
       "prettier --write"
     ],
-    "*.{json,md,mdx,yml,yaml}": "prettier --write"
+    "*.{json,md,mdx,yml,yaml}": "prettier --write",
+    "packages/claude-design/**/*.html": "prettier --write"
   },
   "devDependencies": {
     "@changesets/cli": "^3.0.3",

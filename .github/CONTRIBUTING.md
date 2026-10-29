@@ -8,13 +8,15 @@ rather than duplicates — those docs are kept up to date as the source of truth
 
 See the root [`README.md`](../README.md#running-the-docs-site-locally)'s "Running the docs site
 locally" section for the actual setup steps (`pnpm install`, `pnpm start`, open
-`http://localhost:4327/react/`). This repo is a pnpm workspace with two packages:
+`http://localhost:4327/react/`). This repo is a pnpm workspace with three packages:
 
 - [`packages/react`](../packages/react/AGENTS.md) — `@chassis-ui/react`, the published component
   library. Almost all engineering work happens here.
 - [`packages/site`](../packages/site/AGENTS.md) — `chassis-react-site`, the Astro docs site.
+- [`packages/claude-design`](../packages/claude-design/AGENTS.md) —
+  `chassis-react-claude-design`, private, which builds the library's design system on claude.ai.
 
-Read the relevant package's `AGENTS.md` before making changes — both are kept current and cover
+Read the relevant package's `AGENTS.md` before making changes — each is kept current and covers
 the day-to-day rules (layout, build, tests) this doc doesn't repeat.
 
 ## Your first pull request
@@ -81,10 +83,11 @@ pnpm react:generate
   ```
 
   Answer the prompts and commit the generated `.changeset/<name>.md` file alongside your code
-  change. See [`packages/react/VERSIONING.md`](../packages/react/VERSIONING.md) for the full
-  semver policy (what counts as patch/minor/major) and the deprecation policy for anything you're
-  renaming or removing. A PR that only touches `packages/site`, docs, or internal tooling doesn't
-  need a changeset — `chassis-react-site` is never versioned or published independently.
+  change. See [`packages/react/VERSIONING.md`](../packages/react/VERSIONING.md) for the full semver
+  policy (what counts as patch/minor/major) and the deprecation policy for anything you're renaming
+  or removing. A PR that only touches `packages/site`, `packages/claude-design`, docs, or internal
+  tooling doesn't need a changeset: `chassis-react-site` and `chassis-react-claude-design` are never
+  versioned or published.
 
   The Changeset job of CI fails when `packages/react/src/` or `packages/react/tsdown.config.ts`
   changed and the pull request adds no changeset. If the change is one no consumer can notice,

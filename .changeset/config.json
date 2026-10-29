@@ -8,5 +8,10 @@
   "baseBranch": "develop",
   "changedFilePatterns": ["src/**", "tsdown.config.ts"],
   "updateInternalDependencies": "patch",
-  "ignore": ["chassis-react-site", "smoke-test-nextjs-app-router", "smoke-test-tailwind"]
+  "ignore": [
+    "chassis-react-site",
+    "chassis-react-claude-design",
+    "smoke-test-nextjs-app-router",
+    "smoke-test-tailwind"
+  ]
 }

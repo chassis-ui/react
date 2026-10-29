@@ -29,7 +29,7 @@ const symbols = [
 ]
 
 // The sprite comes after the story: a tool that reads the first element of the canvas as the
-// story (design-sync's capture does) would find a hidden `<svg>` and call the story empty.
+// story would find a hidden `<svg>` and call the story empty.
 const withIcons = (Story: () => React.ReactElement) => (
   <>
     <div style={{ maxWidth: '20rem' }}>

@@ -1,0 +1,93 @@
+<!-- @dsCard height=300 -->
+<style>
+  .cover {
+    position: relative;
+    width: 960px;
+    height: 300px;
+    overflow: hidden;
+    background: var(--cx-bg-main);
+  }
+  .cover svg {
+    position: absolute;
+    inset: 0;
+  }
+  .primary {
+    fill: var(--cx-primary);
+  }
+  .secondary {
+    fill: var(--cx-secondary);
+  }
+  .ink {
+    fill: var(--cx-default-fg-main);
+  }
+  .tint {
+    fill: var(--cx-primary-bg-evident);
+  }
+  .tile {
+    fill: var(--cx-primary-bg-evident);
+  }
+  .tile.on {
+    fill: var(--cx-primary);
+  }
+  .block {
+    rx: var(--cx-border-radius-xl);
+  }
+  .cell {
+    rx: var(--cx-border-radius-md);
+  }
+  .name {
+    position: absolute;
+    left: 40px;
+    bottom: 32px;
+    max-width: 440px;
+    font-family: var(--cx-font-family-display);
+    font-weight: var(--cx-font-weight-display-mass);
+    font-size: 104px;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--cx-fg-main);
+    margin: 0;
+  }
+  .tagline {
+    position: absolute;
+    left: 40px;
+    bottom: 12px;
+    max-width: 440px;
+    margin: 0;
+    font-family: var(--cx-font-family-ui);
+    font-size: 13px;
+    color: var(--cx-fg-subtle);
+  }
+</style>
+<div class="cover">
+  <svg width="960" height="300" viewBox="0 0 960 300" aria-hidden="true">
+    <!--
+      blocks: primary 208×196 slab, secondary 224×92, primary-bg-evident tint 104×88, default-fg-main ink 104×204;
+              corners --cx-border-radius-xl, so each brand's corners are its own.
+      arrangement: one tall slab with satellites, bleeding off the top and right edges, all right of x = 480.
+      pattern: geometric, modular, dense UI → tiles cut by --cx-border-radius-md at a 48px pitch (3 × --cx-space-md),
+               two merged two-wide like a button group, three in the primary fill; this is a component library.
+      steps: 16px gaps (--cx-space-md), 40px tiles; radii xl for blocks, md for tiles.
+    -->
+    <rect class="primary block" x="512" y="-16" width="208" height="212" />
+    <rect class="secondary block" x="736" y="-16" width="240" height="108" />
+    <rect class="tint block" x="736" y="108" width="104" height="88" />
+    <rect class="ink block" x="856" y="108" width="120" height="208" />
+    <rect class="tile cell" x="512" y="212" width="40" height="40" />
+    <rect class="tile on cell" x="560" y="212" width="88" height="40" />
+    <rect class="tile cell" x="656" y="212" width="40" height="40" />
+    <rect class="tile cell" x="704" y="212" width="40" height="40" />
+    <rect class="tile on cell" x="752" y="212" width="40" height="40" />
+    <rect class="tile cell" x="800" y="212" width="40" height="40" />
+    <rect class="tile cell" x="512" y="260" width="88" height="40" />
+    <rect class="tile cell" x="608" y="260" width="40" height="40" />
+    <rect class="tile on cell" x="656" y="260" width="40" height="40" />
+    <rect class="tile cell" x="704" y="260" width="88" height="40" />
+    <rect class="tile cell" x="800" y="260" width="40" height="40" />
+  </svg>
+  <h1 class="name">Chassis<br />React</h1>
+  <p class="tagline">React components for Chassis, in every brand, light and dark.</p>
+</div>
+<script>
+  ChassisReact.__preview.followTheme()
+</script>

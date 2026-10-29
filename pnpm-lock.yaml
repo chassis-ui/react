@@ -104,6 +104,39 @@ importers:
         specifier: ^8.72.0
         version: 8.72.0(eslint@10.13.0(jiti@2.7.0))(typescript@6.0.3)
 
+  packages/claude-design:
+    devDependencies:
+      '@types/node':
+        specifier: ^26.6.5
+        version: 26.6.5
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      esbuild:
+        specifier: ^0.28.2
+        version: 0.28.2
+      playwright:
+        specifier: ^1.64.1
+        version: 1.64.1
+      postcss:
+        specifier: '>=8.5.23'
+        version: 8.5.31
+      postcss-prefix-custom-properties:
+        specifier: ^0.1.0
+        version: 0.1.0(postcss@8.5.31)
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.1.3
+      sass:
+        specifier: ^1.106.1
+        version: 1.106.1
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
   packages/react:
     dependencies:
       '@internationalized/date':

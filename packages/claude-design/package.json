@@ -1,0 +1,32 @@
+{
+  "name": "chassis-react-claude-design",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "description": "Builds the design system of @chassis-ui/react on claude.ai, every brand in light and dark, and publishes it to its artifact.",
+  "scripts": {
+    "build": "node --experimental-strip-types src/build.ts",
+    "check": "node --experimental-strip-types src/check.ts",
+    "upload": "node --experimental-strip-types src/publish.ts",
+    "lint": "pnpm lint:eslint && pnpm lint:prettier && pnpm check:types",
+    "lint:eslint": "eslint --cache --cache-location ../../.cache/claude-design.eslintcache --report-unused-disable-directives .",
+    "lint:prettier": "prettier -c --cache --ignore-path ../../.gitignore --ignore-path ../../.prettierignore .",
+    "check:types": "tsc --noEmit -p tsconfig.json",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "esbuild": "^0.28.2",
+    "playwright": "^1.64.1",
+    "postcss": "^8.5.31",
+    "postcss-prefix-custom-properties": "^0.1.0",
+    "rimraf": "^6.0.1",
+    "sass": "^1.106.1",
+    "typescript": "^6.0.3"
+  }
+}
