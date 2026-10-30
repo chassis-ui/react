@@ -64,7 +64,7 @@ RD27 says why this exists and why it is a package.
 ## Tokens and brands
 
 - Values are read from the compiled token blocks, as `light-dark(<light>, <dark>)` pairs, not
-  from `@chassis-ui/tokens`' Sass. A theme is a brand and a mode (`<brand>-dark`). The page's
+  from `@chassis-ui/website-tokens`' Sass. A theme is a brand and a mode (`<brand>-dark`). The page's
   Colors and Shadows views show every theme as a column, and its theme menu picks the one the
   previews render. The page can't show one brand at a time in its own views: it draws them from
   tokens.json, side by side, or leaves them empty, and empty views were judged worse.
@@ -81,7 +81,7 @@ RD27 says why this exists and why it is a package.
 
 ## Adding a brand
 
-When the brand is in `@chassis-ui/tokens` (`dist/web/docs/<brand>/`) and in the assets:
+When the brand is in `@chassis-ui/website-tokens` (`dist/web/docs/<brand>/`) and in the assets:
 
 1. Add its id to `BRANDS` and its name to `BRAND_NAMES` in `src/paths.ts`.
 2. Sync.

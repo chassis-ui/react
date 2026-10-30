@@ -44,7 +44,7 @@ export function provenance() {
     by: gitOr('config', 'user.name') || 'Claude',
     react: version(REACT),
     css: version(path.join(REACT_MODULES, '@chassis-ui/css')),
-    tokens: version(path.join(REACT_MODULES, '@chassis-ui/tokens'))
+    tokens: version(path.join(REACT_MODULES, '@chassis-ui/website-tokens'))
   }
 }
 

@@ -96,7 +96,7 @@ component is styled entirely through `@chassis-ui/css` and needs nothing extra.
 
 - **[`@chassis-ui/css`](#stylesheets)**, above, is the styling foundation every component's class
   names target.
-- **`@chassis-ui/tokens`** compiles the color, spacing, radius, and typography values
+- **`@chassis-ui/website-tokens`** compiles the color, spacing, radius, and typography values
   `@chassis-ui/css` declares as `--cx-*` custom properties — re-theming a brand or switching
   light/dark mode happens at this layer, not in `@chassis-ui/react`. See
   [Theming]([[docsref:/getting-started/theming]]) for the supported override surface.
@@ -106,5 +106,5 @@ component is styled entirely through `@chassis-ui/css` and needs nothing extra.
 
 None of these are peer dependencies of `@chassis-ui/react` — nothing errors if the application
 never installs them — but component output assumes their conventions: unstyled markup without
-`@chassis-ui/css`, default token values without `@chassis-ui/tokens`, and empty icon references
+`@chassis-ui/css`, default token values without `@chassis-ui/website-tokens`, and empty icon references
 without an icon sprite reachable at the path `<Icon>`'s `sprite` prop points to.

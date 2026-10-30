@@ -1,8 +1,8 @@
 // tokens.json and tokens.css, from the token blocks the stylesheet build compiled, and the brand
 // comparison the README shows.
 //
-// The values come from the compiled CSS, not from `@chassis-ui/tokens`' Sass: that is what a
-// component reads, in the names a consumer writes (`--cx-primary-fg-main`). A colour there is
+// The values come from the compiled CSS, not from `@chassis-ui/website-tokens`' Sass: that is what
+// a component reads, in the names a consumer writes (`--cx-primary-fg-main`). A colour there is
 // `light-dark(<light>, <dark>)`, so each brand gives two themes, and the page shows every theme as
 // a column of its token views. Token names drop the `cx-` prefix on purpose: the page writes a
 // custom property per token into the tokens.css every preview loads, and `--primary` reaches

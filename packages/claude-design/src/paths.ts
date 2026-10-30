@@ -16,7 +16,7 @@ export const SITE = path.join(ROOT, 'packages/site')
 // dependencies there, not at the root.
 export const REACT_MODULES = path.join(REACT, 'node_modules')
 export const CHASSIS_CSS = path.join(REACT_MODULES, '@chassis-ui/css')
-export const CHASSIS_TOKENS = path.join(REACT_MODULES, '@chassis-ui/tokens')
+export const CHASSIS_TOKENS = path.join(REACT_MODULES, '@chassis-ui/website-tokens')
 export const CHASSIS_ICONS = path.join(REACT_MODULES, '@chassis-ui/icons')
 export const ASSETS = path.join(ROOT, 'vendor/assets')
 
@@ -27,7 +27,7 @@ export const PROJECT = path.join(OUT, 'project')
 export const WORK = path.join(OUT, 'work')
 
 // The brands of the system, the only place they are named (AGENTS.md, "Adding a brand"). Each needs
-// its tokens in `@chassis-ui/tokens` and its fonts in the assets.
+// its tokens in `@chassis-ui/website-tokens` and its fonts in the assets.
 export const BRANDS = ['chassis', 'sinefil'] as const
 export type Brand = (typeof BRANDS)[number]
 // The brand on `:root`; every other brand is a layer an element opts into. It must be the token set

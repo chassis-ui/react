@@ -110,7 +110,7 @@ export default defineConfig({
         // Same two resolution gaps `rollup.config.mjs`'s `includePaths` used to close (see the
         // comment that used to live there): directory-partial `@use '@chassis-ui/css/...'`
         // specifiers need an explicit load path, and `@chassis-ui/css`'s own `_vendor.scss`
-        // forwards bare specifiers (`chassis-tokens`, `@chassis-ui/tokens/...`) that need one too.
+        // forwards bare specifiers (`chassis-tokens`, `@chassis-ui/website-tokens/...`) that need one too.
         loadPaths: [
           path.resolve('./node_modules/@chassis-ui/css/scss/vendor'),
           path.resolve('./node_modules')

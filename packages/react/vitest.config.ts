@@ -15,7 +15,7 @@ export default defineConfig({
     // Same resolution gap `tsdown.config.ts`'s build config and `.storybook/main.ts`'s
     // `viteFinal` close: component .scss files that `@use "@chassis-ui/css/scss/..."` directly
     // (e.g. DatePicker, Calendar, RangeCalendar) need this to resolve `@chassis-ui/css`'s own
-    // bare-specifier `@forward`s (`chassis-tokens`, `@chassis-ui/tokens/...`).
+    // bare-specifier `@forward`s (`chassis-tokens`, `@chassis-ui/website-tokens/...`).
     preprocessorOptions: {
       scss: {
         loadPaths: [

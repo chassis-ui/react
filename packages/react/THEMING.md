@@ -3,8 +3,8 @@
 `@chassis-ui/react` owns almost no visual styling of its own. Every component applies
 `@chassis-ui/css` class names via `classnames` — the same classes a hand-written HTML page using
 chassis-css directly would use — so re-theming this library is, for nearly every component, really
-about re-theming `@chassis-ui/css`/`@chassis-ui/tokens`, not this package. The one exception is the
-calendar/datepicker family (see "Component-scoped CSS" below).
+about re-theming `@chassis-ui/css`/`@chassis-ui/website-tokens`, not this package. The one exception
+is the calendar/datepicker family (see "Component-scoped CSS" below).
 
 This doc is about what a consuming app can safely override and expect to keep working across
 upgrades, versus what's an internal implementation detail of chassis-css that happens to be
@@ -12,17 +12,18 @@ reachable but isn't part of any stability contract.
 
 ## The supported override surface: `--cx-*` custom properties at `:root`
 
-`@chassis-ui/tokens` compiles a brand's design tokens into a lg set of CSS custom properties
-(colors, spacing, radii, typography, ...) that `@chassis-ui/css`'s compiled stylesheet declares at
+`@chassis-ui/website-tokens` compiles a brand's design tokens into a lg set of CSS custom
+properties (colors, spacing, radii, typography, ...) that `@chassis-ui/css`'s compiled stylesheet declares at
 `:root` — roughly 800 of them as of chassis-css 0.3.5, covering base colors, the eleven semantic
 context colors (`primary`, `success`, `danger`, ...) and their hover/active/subtle/contrast
 variants, spacing scale, border radii, and typography. These are the supported theming surface, in
 two ways:
 
-- **Build-time**: swap which `@chassis-ui/tokens` brand file gets compiled ahead of
+- **Build-time**: swap which `@chassis-ui/website-tokens` brand file gets compiled ahead of
   `@chassis-ui/css`'s own Sass (see chassis-css's own README — `@import
-'@chassis-ui/tokens/dist/web/<app>/<brand>.scss'` before `@import '@chassis-ui/css/scss/chassis.scss'`).
-  This is a chassis-css-level build step, not something `@chassis-ui/react` has any part in.
+'@chassis-ui/website-tokens/dist/web/<app>/<brand>/main.scss'` before `@import '@chassis-ui/css/scss/chassis.scss'`).
+  A team that builds its own tokens does so with `@chassis-ui/tokens` and its `chassis-tokens`
+  command. This is a chassis-css-level build step, not something `@chassis-ui/react` has any part in.
 - **Runtime**: because they're plain CSS custom properties, any of them can be overridden directly
   — `:root { --cx-primary: #... }` in a consuming app's own stylesheet, or set inline on a
   scoping ancestor to theme a subtree differently.

@@ -3,7 +3,7 @@
  * existing `.table` class as-is (colors, borders, striping, hover, the `.active` row highlight —
  * now driven by real selection state instead of a manual prop). Only the pieces with no
  * chassis-css equivalent are new here: the sort indicator, the selection-checkbox column and the
- * `sm` padding, all built on `@chassis-ui/tokens`' public `--cx-*` tokens for the same reason as
+ * `sm` padding, all built on `@chassis-ui/website-tokens`' public `--cx-*` tokens for the same reason as
  * DatePicker's calendar grid.
  */
 

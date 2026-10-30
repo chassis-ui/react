@@ -9,7 +9,7 @@
 ## Overview
 
 Chassis React is the React implementation of the Chassis Design System — a set of accessible,
-fully-typed components styled with `@chassis-ui/css` and driven by `@chassis-ui/tokens`. It
+fully-typed components styled with `@chassis-ui/css` and driven by `@chassis-ui/website-tokens`. It
 pairs with the [Chassis React docs site](https://chassis-ui.com/react/), an Astro-based reference
 of live examples and API tables generated from the library's own TypeScript source.
 
@@ -99,15 +99,16 @@ Open `http://localhost:4327/react/` in your browser.
 
 This project is part of the Chassis Design System's multi-repository architecture:
 
-| Project                                                  | Description                                   |
-| -------------------------------------------------------- | --------------------------------------------- |
-| [chassis-website](https://github.com/chassis-ui/website) | Main website and shared documentation package |
-| [chassis-css](https://github.com/chassis-ui/css)         | CSS framework and component library           |
-| **chassis-react**                                        | **React component library (this repository)** |
-| [chassis-tokens](https://github.com/chassis-ui/tokens)   | Design token generation and management        |
-| [chassis-icons](https://github.com/chassis-ui/icons)     | Icon library and build toolkit                |
-| [chassis-assets](https://github.com/chassis-ui/assets)   | Multi-platform asset management               |
-| [chassis-figma](https://github.com/chassis-ui/figma)     | Figma component documentation                 |
+| Project                                                                | Description                                     |
+| ---------------------------------------------------------------------- | ----------------------------------------------- |
+| [chassis-website](https://github.com/chassis-ui/website)               | Main website and shared documentation package   |
+| [chassis-css](https://github.com/chassis-ui/css)                       | CSS framework and component library             |
+| **chassis-react**                                                      | **React component library (this repository)**   |
+| [chassis-tokens](https://github.com/chassis-ui/tokens)                 | Design token generation and management          |
+| [chassis-website-tokens](https://github.com/chassis-ui/website-tokens) | The design tokens of the Chassis sites and apps |
+| [chassis-icons](https://github.com/chassis-ui/icons)                   | Icon library and build toolkit                  |
+| [chassis-assets](https://github.com/chassis-ui/assets)                 | Multi-platform asset management                 |
+| [chassis-figma](https://github.com/chassis-ui/figma)                   | Figma component documentation                   |
 
 All documentation sites share the `@chassis-ui/docs` package for consistent layouts, components,
 and styling.

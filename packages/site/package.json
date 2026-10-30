@@ -24,10 +24,10 @@
     "clean": "rimraf ../../_site .astro"
   },
   "dependencies": {
-    "@chassis-ui/css": "^0.12.0",
+    "@chassis-ui/css": "^0.14.0",
     "@chassis-ui/icons": "^0.3.1",
     "@chassis-ui/react": "workspace:*",
-    "@chassis-ui/tokens": "^0.10.1",
+    "@chassis-ui/website-tokens": "^0.1.0",
     "@internationalized/date": "^3.12.4"
   },
   "devDependencies": {
@@ -36,7 +36,7 @@
     "@astrojs/mdx": "^8.1.1",
     "@astrojs/react": "^7.1.1",
     "@astrojs/sitemap": "^3.7.4",
-    "@chassis-ui/docs": "^0.11.1",
+    "@chassis-ui/docs": "^0.12.0",
     "@pagefind/component-ui": "^1.5.2",
     "@shikijs/transformers": "^4.5.0",
     "@types/hast": "^3.0.5",

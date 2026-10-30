@@ -39,7 +39,7 @@ const tokens = buildTokens(styles.tokens, faces, {
   source: 'github',
   repo: 'chassis-ui/react',
   ref: prov.ref,
-  package: `@chassis-ui/react@${prov.react}, @chassis-ui/css@${prov.css}, @chassis-ui/tokens@${prov.tokens}`,
+  package: `@chassis-ui/react@${prov.react}, @chassis-ui/css@${prov.css}, @chassis-ui/website-tokens@${prov.tokens}`,
   synced: new Date().toISOString().slice(0, 10)
 })
 writeTokens(tokens)

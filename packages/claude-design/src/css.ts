@@ -43,7 +43,7 @@ async function compile(brand: Brand): Promise<Root> {
   fs.mkdirSync(tokensDir, { recursive: true })
   fs.writeFileSync(
     path.join(tokensDir, '_chassis-tokens.scss'),
-    `@forward "@chassis-ui/tokens/dist/web/docs/${brand}/main";\n`
+    `@forward "@chassis-ui/website-tokens/dist/web/docs/${brand}/main";\n`
   )
   const { css } = sass.compile(path.join(CHASSIS_CSS, 'scss/chassis.scss'), {
     loadPaths: [tokensDir, REACT_MODULES],

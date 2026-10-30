@@ -8,12 +8,12 @@ toc: true
 `@chassis-ui/react` owns almost no visual styling of its own — every component applies
 `@chassis-ui/css` class names, the same classes a hand-written page using chassis-css directly
 would use. Re-theming this library, for nearly every component, means re-theming
-`@chassis-ui/css`/`@chassis-ui/tokens` instead. The exceptions are the few components covered
+`@chassis-ui/css`/`@chassis-ui/website-tokens` instead. The exceptions are the few components covered
 under [Component-scoped styles](#component-scoped-styles) below.
 
 ## Custom properties
 
-`@chassis-ui/tokens` compiles a brand's design tokens into `--cx-*` custom properties — colors,
+`@chassis-ui/website-tokens` compiles a brand's design tokens into `--cx-*` custom properties — colors,
 spacing, radii, typography — that chassis-css's compiled stylesheet declares at `:root`. These are
 the supported theming surface: override any of them directly in an application stylesheet, or set
 one inline on a scoping ancestor to theme a subtree differently.
@@ -31,7 +31,7 @@ duplicated here, since it's large and actively maintained.
 ## Switching brand or mode
 
 A brand swap can happen at build time or at runtime. At build time, compile a different
-`@chassis-ui/tokens` brand file ahead of chassis-css's own Sass — a chassis-css-level build step
+`@chassis-ui/website-tokens` brand file ahead of chassis-css's own Sass — a chassis-css-level build step
 with no `@chassis-ui/react` involvement. At runtime, since every token is a plain custom property,
 override it directly from application code.
 
