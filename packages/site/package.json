@@ -45,11 +45,11 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "astro": "^7.4.2",
-    "autoprefixer": "^10.6.1",
+    "autoprefixer": "^10.6.2",
     "html-validate": "^11.17.0",
     "mdast-util-mdx-jsx": "^3.2.0",
     "pagefind": "^1.5.2",
-    "postcss": "^8.5.31",
+    "postcss": "^8.5.32",
     "postcss-prefix-custom-properties": "^0.1.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
@@ -60,7 +60,7 @@
     "shiki": "^4.5.0",
     "typescript": "^6.0.3",
     "unified": "^11.0.5",
-    "unist-util-visit": "^5.1.0",
+    "unist-util-visit": "^5.2.0",
     "vnu-jar": "^26.10.12"
   }
 }
