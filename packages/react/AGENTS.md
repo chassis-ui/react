@@ -2,7 +2,7 @@
 
 The component library, published from `dist/` (tsdown, ESM only) with source in `src/`. Components
 apply `@chassis-ui/css` class names and ship no styles of their own, except the few with no
-chassis-css equivalent, whose Sass builds into `dist/style.css` (see `THEMING.md`). RD numbers
+`@chassis-ui/css` equivalent, whose Sass builds into `dist/style.css` (see `THEMING.md`). RD numbers
 cite rows of [`DECISIONS.md`](../../DECISIONS.md), which holds the history behind each rule.
 
 ## Layout
@@ -96,11 +96,11 @@ cite rows of [`DECISIONS.md`](../../DECISIONS.md), which holds the history behin
 - Start a new component with `pnpm new:component <kebab-name>` at the root. A form component
   then follows [`FORMS.md`](FORMS.md#adding-a-new-form-component). The scaffold is the shape only;
   before it lands a component also needs:
-  - Markup from chassis-css where it has any (the component's docs page and its partial in
-    `@chassis-ui/css/scss/`); otherwise class names in chassis-css's vocabulary (`.<component>`,
-    `.<component>-<part>`, context and size modifiers as its siblings take them), so the styles
-    can move to chassis-css unchanged.
-  - Styles here only for what chassis-css lacks, built on the public `--cx-*` tokens and an
+  - Markup from `@chassis-ui/css` where it has any (the component's docs page and its partial in
+    `@chassis-ui/css/scss/`); otherwise class names in `@chassis-ui/css`'s vocabulary
+    (`.<component>`, `.<component>-<part>`, context and size modifiers as its siblings take them),
+    so the styles can move to `chassis-ui/css` unchanged.
+  - Styles here only for what `@chassis-ui/css` lacks, built on the public `--cx-*` tokens and an
     existing component's custom properties where one fits (as `DataGrid.scss` reads
     `--table-*`), never a new token namespace. List the file in `THEMING.md`'s "Component-scoped
     CSS", and give it a visual regression spec with Linux baselines.
@@ -123,14 +123,14 @@ cite rows of [`DECISIONS.md`](../../DECISIONS.md), which holds the history behin
   and takes its mark (`src/utils/scrollspy.ts`); `NavLink`, `ListItem` and `MenuItem` take part
   that way with no code of their own.
 - A component's own icons render through `IconSlot` (`src/components/icon/iconSlot.tsx`) with a purpose key
-  and the class chassis-css positions it by, never `<Icon>` directly, so consumers can swap them
-  through `IconProvider` or the component's icon prop. A new purpose goes in `IconKey`/
+  and the class `@chassis-ui/css` positions it by, never `<Icon>` directly, so consumers can swap
+  them through `IconProvider` or the component's icon prop. A new purpose goes in `IconKey`/
   `DEFAULT_ICONS` (`src/utils/iconConfig.ts`).
 - A prop maps to a utility class of `@chassis-ui/css` by whole class names, from a condition or a
   table (`src/utils/colorClassNames.ts`), never joined at runtime (`` `bg-${color}` ``): the
   Tailwind entry generates a utility only where the scanner reads its whole name (RD20). The
   exceptions are the allowlist of `test/utils/tailwindClassNames.spec.tsx`; a new layout-prop
-  value needs its class in chassis-css's safelist first.
+  value needs its class in `@chassis-ui/css`'s safelist first.
 - After changing exported props or types: `pnpm react:generate`, then
   `pnpm react:build && pnpm react:check:api:update`, and commit both diffs with the code (RD8).
   `pnpm react:check:api` fails CI when `api-report.md` has drifted.

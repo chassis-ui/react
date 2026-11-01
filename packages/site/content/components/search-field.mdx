@@ -15,8 +15,8 @@ import { Example as StatesExample } from '../../examples/components/search-field
 ## Overview
 
 `SearchField` is a native `<input type="search">`, built on React Aria's `useSearchField`. It
-renders chassis-css's [input adorn](https://chassis-ui.com/css/docs/forms/input-adorn) shape: a
-`.form-input` around the input, with a search icon at its start and, while there is a value, a
+renders `@chassis-ui/css`'s [input adorn](https://chassis-ui.com/css/docs/forms/input-adorn) shape:
+a `.form-input` around the input, with a search icon at its start and, while there is a value, a
 button that clears it.
 Like the other form fields, it takes `label`, `help` and the validation props, and renders a
 `FormLabel`, `FormHelp` and `FormFeedback` wired to it.
@@ -25,7 +25,7 @@ Like the other form fields, it takes `label`, `help` and the validation props, a
   <BasicExample client:load />
 </Example>
 
-The field takes chassis-css's sizes and states. Its own styles, which hide the browser's clear
+The field takes `@chassis-ui/css`'s sizes and states. Its own styles, which hide the browser's clear
 button and color the clear button by the field's state, are in `@chassis-ui/react/style.css` (see
 [Theming]([[docsref:/getting-started/theming]])).
 

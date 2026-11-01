@@ -266,7 +266,7 @@ interface MenuDividerDef {
 }
 /**
  * A flat array of item/header/divider definitions for data-driven rendering — headers and
- * dividers are interleaved with items in authoring order, matching how chassis-css itself
+ * dividers are interleaved with items in authoring order, matching how `@chassis-ui/css` itself
  * renders grouped items (flat DOM siblings under `.menu`, no wrapping element per group).
  *
  * Covers flat items, headers, and dividers only — nested/recursive submenus aren't
@@ -466,7 +466,7 @@ export declare const AutocompleteItem: {
 type Breakpoint = '2xl' | 'lg' | 'md' | 'sm' | 'xl';
 /**
  * Container breakpoints: the same widths, measured on the nearest query container instead of the
- * viewport. chassis-css's `@md:` classes.
+ * viewport. The `@md:` classes of `@chassis-ui/css`.
  */
 type ContainerBreakpoint = '@2xl' | '@lg' | '@md' | '@sm' | '@xl';
 /**
@@ -762,9 +762,10 @@ interface IconOwnProps {
    */
   className?: string;
   /**
-   * Icon size: a number of pixels, or any CSS length (`'1.25rem'`, `'1em'`). Sets chassis-css's
-   * `--cx-icon-size` on the icon, so it applies in `font` mode too. Leave unset to keep the size
-   * chassis-css gives icons in context (inside a button, an input, a navbar toggler, ...).
+   * Icon size: a number of pixels, or any CSS length (`'1.25rem'`, `'1em'`). Sets the
+   * `--cx-icon-size` of `@chassis-ui/css` on the icon, so it applies in `font` mode too. Leave
+   * unset to keep the size `@chassis-ui/css` gives icons in context (inside a button, an input, a
+   * navbar toggler, ...).
    */
   size?: number | string;
   /**
@@ -1024,8 +1025,8 @@ type ButtonGroupOwnProps<C extends ElementType> = {
   /**
    * Create a set of buttons that appear vertically stacked rather than horizontally, with the
    * `.button-group-vertical` class in place of `.button-group`. Split button dropdowns are not
-   * supported here, and `size` has no effect: chassis-css sizes the buttons of a horizontal group
-   * only, so size the buttons of a vertical one themselves.
+   * supported here, and `size` has no effect: `@chassis-ui/css` sizes the buttons of a horizontal
+   * group only, so size the buttons of a vertical one themselves.
    */
   vertical?: boolean;
 };
@@ -1650,8 +1651,8 @@ interface DataGridSelectionCellProps {
  *
  * react-aria-components' own `Checkbox` always visually hides its native `<input>` behind a custom
  * indicator the caller must supply. This renders a plain native `<input className="check-input">`
- * instead, wired to the same state, so it picks up chassis-css's existing checkbox styling for
- * free with no new CSS of its own.
+ * instead, wired to the same state, so it picks up the existing checkbox styling of
+ * `@chassis-ui/css` for free with no new CSS of its own.
  */
 export declare const DataGridSelectionCell: ({ className }: DataGridSelectionCellProps) => React.JSX.Element;
 /**
@@ -2135,7 +2136,7 @@ interface IconComponentProps {
   name: string;
   /**
    * The class names the rendering component needs on the icon (e.g. `menu-item-check`,
-   * `directional-icon`) for chassis-css to position and flip it.
+   * `directional-icon`) for `@chassis-ui/css` to position and flip it.
    */
   className?: string;
   [prop: string]: unknown;
@@ -2364,8 +2365,8 @@ interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVa
    */
   allowDuplicates?: boolean;
   /**
-   * Space-separated chassis-css chip modifier classes (e.g. `"primary smooth"`) applied to every
-   * chip. Defaults to `"default"`.
+   * Space-separated chip modifier classes of `@chassis-ui/css` (e.g. `"primary smooth"`) applied to
+   * every chip. Defaults to `"default"`.
    */
   chipVariant?: string;
   /**
@@ -4476,7 +4477,7 @@ interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'siz
   /**
    * Content rendered at the select's trailing edge, e.g. a `InputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
-   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.
+   * `.ghost-input`, matching the [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern of `@chassis-ui/css`.
    * Clicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the
    * native element itself no longer fills the wrapper's full width.
    */
@@ -4484,7 +4485,7 @@ interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'siz
   /**
    * Content rendered at the select's leading edge, e.g. a `InputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
-   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.
+   * `.ghost-input`, matching the [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern of `@chassis-ui/css`.
    * Clicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the
    * native element itself no longer fills the wrapper's full width.
    */
@@ -4629,13 +4630,13 @@ interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'de
   /**
    * Content rendered at the input's trailing edge, e.g. a `InputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
-   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.
+   * `.ghost-input`, matching the [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern of `@chassis-ui/css`.
    */
   adornEnd?: ReactNode;
   /**
    * Content rendered at the input's leading edge, e.g. a `InputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
-   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.
+   * `.ghost-input`, matching the [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern of `@chassis-ui/css`.
    */
   adornStart?: ReactNode;
   /**
@@ -4979,10 +4980,10 @@ interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCa
   /**
    * Show a backdrop while the modal is open. `'static'` blocks closing on backdrop click
    * (the modal bounces instead). `false` is intentionally not equivalent to `modal={false}` —
-   * unlike `Drawer`, whose vanilla chassis-css counterpart derives modality from `backdrop`,
-   * chassis-css's vanilla `Dialog` only ever reads `backdrop` to distinguish `'static'` from
-   * everything else; `modal` alone decides `showModal()`/`show()`. This mirrors that faithfully
-   * rather than reintroducing an inconsistency with the vendored behavior.
+   * unlike `Drawer`, whose vanilla counterpart in `@chassis-ui/css` derives modality from
+   * `backdrop`, the vanilla `Dialog` of `@chassis-ui/css` only ever reads `backdrop` to distinguish
+   * `'static'` from everything else; `modal` alone decides `showModal()`/`show()`. This mirrors
+   * that faithfully rather than reintroducing an inconsistency with the vendored behavior.
    */
   backdrop?: 'static' | boolean;
   /**
@@ -5742,7 +5743,7 @@ interface DrawerProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onC
    * Show a backdrop while the drawer is open. `'static'` blocks closing on backdrop click
    * (the drawer nudges instead). `false` takes effect only together with `scroll`: the drawer
    * then opens non-modal, with no backdrop and the page usable behind it. Without `scroll` the
-   * drawer stays modal, backdrop and all, as chassis-css's vanilla drawer derives it.
+   * drawer stays modal, backdrop and all, as the vanilla drawer of `@chassis-ui/css` derives it.
    */
   backdrop?: 'static' | boolean;
   /**

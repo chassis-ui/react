@@ -45,7 +45,7 @@
     },
     "size": {
       "defaultValue": null,
-      "description": "Icon size: a number of pixels, or any CSS length (`'1.25rem'`, `'1em'`). Sets chassis-css's\n`--cx-icon-size` on the icon, so it applies in `font` mode too. Leave unset to keep the size\nchassis-css gives icons in context (inside a button, an input, a navbar toggler, ...).",
+      "description": "Icon size: a number of pixels, or any CSS length (`'1.25rem'`, `'1em'`). Sets the\n`--cx-icon-size` of `@chassis-ui/css` on the icon, so it applies in `font` mode too. Leave\nunset to keep the size `@chassis-ui/css` gives icons in context (inside a button, an input, a\nnavbar toggler, ...).",
       "name": "size",
       "parent": {
         "fileName": "packages/react/src/components/icon/Icon.tsx",

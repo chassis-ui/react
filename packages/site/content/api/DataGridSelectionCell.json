@@ -1,7 +1,7 @@
 {
   "tags": {},
   "filePath": "packages/react/src/components/datagrid/DataGridSelectionCell.tsx",
-  "description": "Selection checkbox for one `DataGrid` row — place inside a `DataGridCell`.\n\nreact-aria-components' own `Checkbox` always visually hides its native `<input>` behind a custom\nindicator the caller must supply. This renders a plain native `<input className=\"check-input\">`\ninstead, wired to the same state, so it picks up chassis-css's existing checkbox styling for\nfree with no new CSS of its own.",
+  "description": "Selection checkbox for one `DataGrid` row — place inside a `DataGridCell`.\n\nreact-aria-components' own `Checkbox` always visually hides its native `<input>` behind a custom\nindicator the caller must supply. This renders a plain native `<input className=\"check-input\">`\ninstead, wired to the same state, so it picks up the existing checkbox styling of\n`@chassis-ui/css` for free with no new CSS of its own.",
   "displayName": "DataGridSelectionCell",
   "methods": [],
   "props": {

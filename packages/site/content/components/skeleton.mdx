@@ -100,8 +100,8 @@ class or `aria-disabled` needed.
 </Example>
 
 <Callout type="info">
-chassis-css applies extra styling to `.button` elements via `::before` so a button's height holds
-steady once a skeleton replaces its label. Extend the same `::before` pattern for other
+`@chassis-ui/css` applies extra styling to `.button` elements via `::before` so a button's height
+holds steady once a skeleton replaces its label. Extend the same `::before` pattern for other
 components, or add a non-breaking space inside an element to preserve its height once real content
 renders in place of the skeleton.
 </Callout>
@@ -149,7 +149,7 @@ belong to one loading operation (see the callout above): once on the shared cont
 ## Scope
 
 **No reduced-motion handling.** The `glow` and `wave` animations run at a fixed rate regardless of
-a visitor's reduced-motion preference — chassis-css doesn't gate either behind
+a visitor's reduced-motion preference — `@chassis-ui/css` doesn't gate either behind
 `prefers-reduced-motion` today. Wrap an animated `<Skeleton>` in that media query, or an equivalent
 JavaScript check, to disable the animation where it matters.
 

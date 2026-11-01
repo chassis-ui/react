@@ -47,8 +47,9 @@ RD27 says why this exists and why it is a package.
 
 ## The stylesheet
 
-- chassis-css has no brand switch. A brand is a whole compile with its own `_chassis-tokens.scss`
-  first on the Sass load path, which is the swap point of `scss/config/_vendor.scss`.
+- `@chassis-ui/css` has no brand switch. A brand is a whole compile with its own
+  `_chassis-tokens.scss` first on the Sass load path, which is the swap point of
+  `scss/config/_vendor.scss`.
 - The diff pairs each brand's compile with the default brand's, rule by rule. It throws if they ever
   differ in rule count or selector. That would mean a brand changed the structure and not only the
   values, so the merge needs rethinking rather than a patch.
@@ -58,8 +59,8 @@ RD27 says why this exists and why it is a package.
   silently stops working.
 - The control check compares the default brand's compile with the published
   `dist/css/chassis.css`, on every custom property of the token block, so the default brand is
-  the token set chassis-css compiles by default. If it fails, this build compiles chassis-css
-  differently from chassis-css's own build: fix that first.
+  the token set `@chassis-ui/css` compiles by default. If it fails, this build compiles
+  `@chassis-ui/css` differently from `chassis-ui/css`'s own build: fix that first.
 
 ## Tokens and brands
 

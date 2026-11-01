@@ -11,7 +11,7 @@ import { Example as ValidationFeedbackExample } from '../../examples/components/
 
 ## Overview
 
-`<FormField>` wraps a form control (or a small group of them) with a `.form-field` grid layout, along with an associated `FormLabel`, `FormHelp`, and `FormFeedback` — see [chassis-css's Form Field docs](https://chassis-ui.com/css/docs/forms/form-field) for the underlying CSS.
+`<FormField>` wraps a form control (or a small group of them) with a `.form-field` grid layout, along with an associated `FormLabel`, `FormHelp`, and `FormFeedback` — see [`@chassis-ui/css`'s Form Field docs](https://chassis-ui.com/css/docs/forms/form-field) for the underlying CSS.
 
 Every field component (`TextInput`, `Textarea`, `Select`, `RangeInput`, `FileInput`, `ColorInput`, `Combobox`, `Autocomplete`, `DatePicker`, `DateRangePicker`, `TimeField`, `NumberField`, `SearchField`, `ChipInput`, `OtpInput`) already accepts `label`/`help`/`invalidFeedback`/`validFeedback` props directly, lays itself out the same way and wires the label, help and feedback to its control — reach for those first, and don't wrap one of them in `<FormField>` to label it. Use `<FormField>` for what they can't do: a control with no field props of its own, like an `<InputGroup>`, or more than one element — like an input alongside a `PasswordStrength` meter — under a single label and help text.
 

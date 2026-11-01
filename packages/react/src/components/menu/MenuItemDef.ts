@@ -74,7 +74,7 @@ export interface MenuDividerDef {
 
 /**
  * A flat array of item/header/divider definitions for data-driven rendering — headers and
- * dividers are interleaved with items in authoring order, matching how chassis-css itself
+ * dividers are interleaved with items in authoring order, matching how `@chassis-ui/css` itself
  * renders grouped items (flat DOM siblings under `.menu`, no wrapping element per group).
  *
  * Covers flat items, headers, and dividers only — nested/recursive submenus aren't

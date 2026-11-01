@@ -30,7 +30,7 @@ With `required`, a chip input with no chips holds its form back from submitting,
 
 ## Chip styles
 
-Pass `chipVariant` with any combination of chassis-css chip modifier classes (e.g. `"primary smooth"`, `"danger"`) to style every chip this input creates.
+Pass `chipVariant` with any combination of `@chassis-ui/css` chip modifier classes (e.g. `"primary smooth"`, `"danger"`) to style every chip this input creates.
 
 <Example>
   <VariantExample client:load />
@@ -69,7 +69,7 @@ reader users.
 
 Built on React Aria's `useTagGroup`/`useTag` for the chip collection (arrow-key navigation, multi-select, removal) plus `useTextField` for entry — there's no single dedicated "chip input" hook, so the two are composed together with hand-written logic for separator/paste-splitting, matching the plan's own framing of this as the most bespoke of the newer form widgets.
 
-A few Mail.app-style affordances from chassis-css's vanilla `chip-input.js` aren't wired up here: shift+click range selection and cmd/ctrl+click toggle selection with the mouse, and automatically moving focus back to the input when <kbd>→</kbd> or <kbd>End</kbd> is pressed on the last chip. Keyboard chip-to-chip navigation, selection, and removal all work; only these secondary mouse/edge-of-list conveniences are out of scope for this pass.
+A few Mail.app-style affordances from `@chassis-ui/css`'s vanilla `chip-input.js` aren't wired up here: shift+click range selection and cmd/ctrl+click toggle selection with the mouse, and automatically moving focus back to the input when <kbd>→</kbd> or <kbd>End</kbd> is pressed on the last chip. Keyboard chip-to-chip navigation, selection, and removal all work; only these secondary mouse/edge-of-list conveniences are out of scope for this pass.
 
 ## API
 

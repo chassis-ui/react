@@ -95,7 +95,7 @@ Each box has no visible label, so it carries its own `aria-label` (`"Digit 1"`, 
 
 ## Scope
 
-Built on React Aria's `useTextField`/`useFocusRing` per box — there's no dedicated "OTP input" hook, so auto-advance, backspace/delete navigation, and paste-splitting are hand-written to match chassis-css's vanilla `otp-input.js` behavior.
+Built on React Aria's `useTextField`/`useFocusRing` per box — there's no dedicated "OTP input" hook, so auto-advance, backspace/delete navigation, and paste-splitting are hand-written to match `@chassis-ui/css`'s vanilla `otp-input.js` behavior.
 
 Unlike the vanilla component, `OtpInput` doesn't expose imperative `focus()`/`clear()` methods or a `complete`/`input` DOM event pair — use the declarative `value`/`defaultValue`/`onChange`/`onComplete` props instead.
 

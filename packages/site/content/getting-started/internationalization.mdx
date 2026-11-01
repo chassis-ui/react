@@ -1,6 +1,6 @@
 ---
 title: Internationalization
-description: How react-aria's I18nProvider drives locale-aware behavior in the date and menu components, and how that's separate from chassis-css's own dir-attribute RTL support.
+description: How react-aria's I18nProvider drives locale-aware behavior in the date and menu components, and how that's separate from `@chassis-ui/css`'s own dir-attribute RTL support.
 toc: true
 ---
 
@@ -11,7 +11,7 @@ calendar system, weekend styling, or which direction a submenu cascades toward.
 and [`MenuSubmenu`]([[docsref:/components/menu]]) all read that locale the same way — from
 react-aria's `I18nProvider`, falling back to the browser's own locale when none is set. This page
 covers setting that locale and its effect, and how it relates to — but doesn't replace —
-chassis-css's separate `dir`-attribute RTL support.
+`@chassis-ui/css`'s separate `dir`-attribute RTL support.
 
 ## Setting a locale
 
@@ -54,11 +54,11 @@ and which arrow key opens versus closes it, matching native OS/browser submenu b
 mechanism is scoped to whichever components actually call `useLocale()` internally; it doesn't
 touch anything else on the page.
 
-Everything else — layout mirroring, icon direction, chassis-css's own components — follows the
+Everything else — layout mirroring, icon direction, `@chassis-ui/css`'s own components — follows the
 `dir` attribute instead, set on `<html>` or a scoping ancestor, independently of `I18nProvider`.
 [`Pagination`]([[docsref:/components/pagination]])'s Prev/Next chevrons, for example, mirror under
 an ancestor `dir="rtl"` through a plain CSS rule, with no react-aria involvement at all. See
-chassis-css's own [RTL](https://chassis-ui.com/css/docs/core-concepts/rtl) page for the full
+`@chassis-ui/css`'s own [RTL](https://chassis-ui.com/css/docs/core-concepts/rtl) page for the full
 logical-properties story this covers.
 
 A fully consistent RTL experience needs both set together — an RTL locale with no `dir="rtl"`

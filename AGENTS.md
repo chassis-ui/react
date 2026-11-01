@@ -72,7 +72,10 @@ reads. See [`packages/react/VERSIONING.md`](packages/react/VERSIONING.md).
 - `packages/site`: prose in `content/**`, live examples in `examples/**`, the nav in
   `data/sidebar.yml`, which a new page must be added to.
 - Nothing here cites a file, a decision or a checkout path inside another Chassis repository
-  (`../chassis-css/...`, a row of its roadmap): those move without notice and nothing checks them.
-  State the fact and its reason here instead. What a sibling publishes is fine to name: the
+  (a relative path to its checkout, a row of its roadmap): those move without notice and nothing
+  checks them. State the fact and its reason here instead. What a sibling publishes is fine to name: the
   classes, tokens and `scss/` partials of `@chassis-ui/css`, the `chassis-docs` commands, an issue
   by its number.
+- Name a sibling by its GitHub repository (`chassis-ui/css`), never by a local folder name or a
+  relative path: checkouts are named and placed differently per contributor, and a folder need not
+  match its remote.

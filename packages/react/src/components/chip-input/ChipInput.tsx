@@ -55,8 +55,8 @@ export interface ChipInputProps extends Omit<
    */
   allowDuplicates?: boolean
   /**
-   * Space-separated chassis-css chip modifier classes (e.g. `"primary smooth"`) applied to every
-   * chip. Defaults to `"default"`.
+   * Space-separated chip modifier classes of `@chassis-ui/css` (e.g. `"primary smooth"`) applied to
+   * every chip. Defaults to `"default"`.
    */
   chipVariant?: string
   /**

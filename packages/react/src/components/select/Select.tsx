@@ -42,7 +42,7 @@ export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement
   /**
    * Content rendered at the select's trailing edge, e.g. a `InputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
-   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.
+   * `.ghost-input`, matching the [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern of `@chassis-ui/css`.
    * Clicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the
    * native element itself no longer fills the wrapper's full width.
    */
@@ -50,7 +50,7 @@ export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement
   /**
    * Content rendered at the select's leading edge, e.g. a `InputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
-   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.
+   * `.ghost-input`, matching the [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern of `@chassis-ui/css`.
    * Clicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the
    * native element itself no longer fills the wrapper's full width.
    */

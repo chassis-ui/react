@@ -31,10 +31,10 @@ sprite file instead, see [Sprite file](#sprite-file).
 
 ## Sizing
 
-`size` takes a number of pixels or any CSS length (`"1.25rem"`, `"1em"`). It sets chassis-css's
-`--cx-icon-size` on the icon, so it works for font glyphs too. Without `size`, an icon takes the
-size chassis-css gives it in context: inside a button, an input, a navbar toggler, and so on. To
-change the default size everywhere, set `--cx-icon-size` in your stylesheet.
+`size` takes a number of pixels or any CSS length (`"1.25rem"`, `"1em"`). It sets
+`@chassis-ui/css`'s `--cx-icon-size` on the icon, so it works for font glyphs too. Without `size`,
+an icon takes the size `@chassis-ui/css` gives it in context: inside a button, an input, a navbar
+toggler, and so on. To change the default size everywhere, set `--cx-icon-size` in your stylesheet.
 
 <Example>
   <SizingExample client:load />
@@ -149,8 +149,8 @@ A single instance can also override its icon: `Pagination` takes `previousIcon` 
 `pauseIcon`, `NavbarToggler` takes `icon`, `NumberField` takes `incrementIcon` and
 `decrementIcon`, `SearchField` takes `searchIcon` and `clearIcon`, and `Tree` takes `expandIcon`.
 
-Icons drawn by chassis-css itself (the close button, carets, the datepicker arrows, and checkbox
-marks) are CSS masks. Restyle those through their custom properties, such as
+Icons drawn by `@chassis-ui/css` itself (the close button, carets, the datepicker arrows, and
+checkbox marks) are CSS masks. Restyle those through their custom properties, such as
 `--cx-close-button-icon`.
 
 ## API

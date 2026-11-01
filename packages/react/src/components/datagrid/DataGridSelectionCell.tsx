@@ -42,8 +42,8 @@ const useSelectionCheckboxProps = (component: string): AriaCheckboxProps => {
  *
  * react-aria-components' own `Checkbox` always visually hides its native `<input>` behind a custom
  * indicator the caller must supply. This renders a plain native `<input className="check-input">`
- * instead, wired to the same state, so it picks up chassis-css's existing checkbox styling for
- * free with no new CSS of its own.
+ * instead, wired to the same state, so it picks up the existing checkbox styling of
+ * `@chassis-ui/css` for free with no new CSS of its own.
  */
 export const DataGridSelectionCell = ({ className }: DataGridSelectionCellProps) => {
   const checkboxProps = useSelectionCheckboxProps('DataGridSelectionCell')

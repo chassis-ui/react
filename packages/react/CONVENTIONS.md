@@ -94,17 +94,17 @@ Notes:
 `@chassis-ui/css` classes remain the default styling mechanism for every component. A
 component-local `.scss` file is only justified when:
 
-- chassis-css has no equivalent class at all (`THEMING.md`'s "Component-scoped CSS" lists every
-  file that exists for this reason; a new one is added there), or
-- chassis-css has partial coverage that would otherwise be duplicated as hardcoded values in the
-  component.
+- `@chassis-ui/css` has no equivalent class at all (`THEMING.md`'s "Component-scoped CSS" lists
+  every file that exists for this reason; a new one is added there), or
+- `@chassis-ui/css` has partial coverage that would otherwise be duplicated as hardcoded values in
+  the component.
 
-Reach for a chassis-css class first; reach for tokens/functions/mixins via `@use` before hardcoded
-colors, spacing, or radii; only write component-scoped CSS as a last resort.
+Reach for a `@chassis-ui/css` class first; reach for tokens/functions/mixins via `@use` before
+hardcoded colors, spacing, or radii; only write component-scoped CSS as a last resort.
 
 ## `className` builder ordering
 
-chassis-css base class first, then size, then `is-invalid`/`is-valid`, then the caller's
+`@chassis-ui/css` base class first, then size, then `is-invalid`/`is-valid`, then the caller's
 `className` last, so caller overrides win. No sweep checks the order; a component's own spec
 asserts it. Match it in any new component.
 
@@ -112,14 +112,14 @@ asserts it. Match it in any new component.
 
 `Flex`, `Stack` and `Grid` each name their axis/direction props differently — `Flex.direction` is
 `'row' | 'column' | 'row-reverse' | 'column-reverse'` (mirrors CSS `flex-direction` directly),
-`Stack.direction` is `'horizontal' | 'vertical'` (mirrors chassis-css's own `.hstack`/`.vstack`
-classes), and `Grid.flow` is `'row' | 'column' | 'dense' | 'row-dense' | 'column-dense'` (mirrors
-CSS `grid-auto-flow`; chassis-css's classes abbreviate `column` to `col`, the prop doesn't). All
-three take `gap` as a `Spacing` token mapped to chassis-css's `gap-*` utilities; `Flex` adds
-`rowGap`/`columnGap`, and `Grid.gap` also accepts a raw CSS value.
+`Stack.direction` is `'horizontal' | 'vertical'` (mirrors `@chassis-ui/css`'s own
+`.hstack`/`.vstack` classes), and `Grid.flow` is `'row' | 'column' | 'dense' | 'row-dense' |
+'column-dense'` (mirrors CSS `grid-auto-flow`; `@chassis-ui/css`'s classes abbreviate `column` to
+`col`, the prop doesn't). All three take `gap` as a `Spacing` token mapped to `@chassis-ui/css`'s
+`gap-*` utilities; `Flex` adds `rowGap`/`columnGap`, and `Grid.gap` also accepts a raw CSS value.
 
-This is intentional, not an oversight: each prop mirrors the CSS property or chassis-css class it
-maps to 1:1. Reconciling the three into one shared vocabulary would be a breaking public-API
+This is intentional, not an oversight: each prop mirrors the CSS property or `@chassis-ui/css` class
+it maps to 1:1. Reconciling the three into one shared vocabulary would be a breaking public-API
 rename with no functional benefit — don't unify them without an explicit user decision to do so.
 
 A layout prop that changes with the width takes the breakpoints itself, as a `Responsive<T>`
@@ -132,8 +132,8 @@ breakpoint. Only the base of a prop can fall back to an inline style or a defaul
 `baseValue` reads.
 
 Only `Grid` and `GridItem` take the container keys (`'@sm'` to `'@2xl'`) in those objects.
-chassis-css has the `@md:` variants of the flex utilities too, so `Flex`, `Stack` and `Skeleton`
-could take them; that is a decision not yet made, not an oversight.
+`@chassis-ui/css` has the `@md:` variants of the flex utilities too, so `Flex`, `Stack` and
+`Skeleton` could take them; that is a decision not yet made, not an oversight.
 
 ## `component` polymorphism: ask for the element's kind, don't compare tags
 
@@ -174,7 +174,7 @@ the element and spreads `hrefProps(kind, href, displayName)` for the attribute
 (`src/utils/elementKind.ts`). A parent that picks its own element from its children (`List`,
 `Stepper`) reads an item's `href` through `resolveKindFromProps`, which counts it as an anchor.
 
-`MenuItem` follows chassis-css, which styles `<a class="menu-item">` and
+`MenuItem` follows `@chassis-ui/css`, which styles `<a class="menu-item">` and
 `<button class="menu-item" type="button">` alike. A `NavItem` renders its `NavLink` for `href`,
 `component` or `asChild`, and otherwise a bare `<li>` that takes none of the link's props.
 
@@ -294,8 +294,8 @@ the overlays still appear once hydrated.
 ## Show and hide transitions: the phase from `useTransitionState`
 
 A component that animates showing and hiding takes its phase from `useTransitionState`
-(`src/hooks/useTransitionState.ts`) and maps it to chassis-css's classes itself. No duration lives
-in JavaScript: a phase ends with the element's own CSS transition, so a themed duration and
+(`src/hooks/useTransitionState.ts`) and maps it to `@chassis-ui/css`'s classes itself. No duration
+lives in JavaScript: a phase ends with the element's own CSS transition, so a themed duration and
 `prefers-reduced-motion` are followed. `Modal`, `Alert`, `Drawer` and `Menu` wait on the same
 `executeAfterTransition` (`src/utils/dialogTransition.ts`).
 

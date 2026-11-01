@@ -36,7 +36,7 @@ Dividers are added automatically in CSS through [`::before`](https://developer.m
 
 Inside `dir="rtl"` the divider reads `--cx-breadcrumb-divider-rtl` instead, with the `$breadcrumb-divider-rtl` Sass variable as its fallback. That variable defaults to `$breadcrumb-divider`, so a directional divider such as `>` needs its mirrored counterpart set as well, or right-to-left pages show it pointing the wrong way.
 
-Modifying the divider via Sass requires the [`string.quote`](https://sass-lang.com/documentation/modules/string#quote) function to generate the quotes around a string. Pass the variables when loading chassis-css's configuration, as its [Sass customization](https://chassis-ui.com/css/docs/customize/sass/) guide describes. For example, to use `>` as the divider:
+Modifying the divider via Sass requires the [`string.quote`](https://sass-lang.com/documentation/modules/string#quote) function to generate the quotes around a string. Pass the variables when loading `@chassis-ui/css`'s configuration, as its [Sass customization](https://chassis-ui.com/css/docs/customize/sass/) guide describes. For example, to use `>` as the divider:
 
 ```scss
 @use "sass:string";

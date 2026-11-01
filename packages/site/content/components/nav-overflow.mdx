@@ -23,7 +23,7 @@ resizable panel as it does across a page.
 
 It wraps a [`Nav`]([[docsref:/components/navs-tabs]]), the `TabList` of a
 [`Tabs`]([[docsref:/components/tabs]]), or a `NavbarNav` in a
-[`Navbar`]([[docsref:/components/navbar]]), and renders chassis-css's
+[`Navbar`]([[docsref:/components/navbar]]), and renders `@chassis-ui/css`'s
 [nav overflow](https://chassis-ui.com/css/docs/components/nav-overflow) markup: a `.nav-overflow`
 wrapper, the list, and a toggle item with a `.menu`.
 
@@ -84,7 +84,7 @@ menu.
 ## Keeping items visible
 
 Set `keepVisible` on a `NavItem` or a `Tab` that should never move into the menu, such as a
-contact link. It renders chassis-css's `.nav-overflow-keep`.
+contact link. It renders `@chassis-ui/css`'s `.nav-overflow-keep`.
 
 <Example resizable>
   <KeepVisibleExample client:load />
@@ -133,7 +133,7 @@ or in an element, instead.
 
 Below `collapseBelow` every item moves into the menu at once, apart from the active one and those
 marked `keepVisible`. It takes a width in pixels, or the name of a breakpoint, read from
-chassis-css's `--cx-breakpoint-{name}`. It compares the width of the component, not of the
+`@chassis-ui/css`'s `--cx-breakpoint-{name}`. It compares the width of the component, not of the
 viewport.
 
 `onOverflow` fires when items move into the menu or back, with the number in the menu and the
@@ -175,8 +175,8 @@ doesn't fit a vertical nav or a vertical `Tabs`.
 `NavItem`s. A `<Nav component="nav">` of bare `NavLink`s stays as it is, with a warning in
 development.
 
-**No `update` method.** chassis-css's plugin has one to measure again. The component measures when
-its width, an item's width, the items or the active item change.
+**No `update` method.** `@chassis-ui/css`'s plugin has one to measure again. The component measures
+when its width, an item's width, the items or the active item change.
 
 ## API
 

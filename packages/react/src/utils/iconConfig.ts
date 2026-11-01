@@ -35,7 +35,7 @@ export interface IconComponentProps {
   name: string
   /**
    * The class names the rendering component needs on the icon (e.g. `menu-item-check`,
-   * `directional-icon`) for chassis-css to position and flip it.
+   * `directional-icon`) for `@chassis-ui/css` to position and flip it.
    */
   className?: string
   [prop: string]: unknown

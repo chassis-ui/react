@@ -15,9 +15,10 @@ interface IconOwnProps {
    */
   className?: string
   /**
-   * Icon size: a number of pixels, or any CSS length (`'1.25rem'`, `'1em'`). Sets chassis-css's
-   * `--cx-icon-size` on the icon, so it applies in `font` mode too. Leave unset to keep the size
-   * chassis-css gives icons in context (inside a button, an input, a navbar toggler, ...).
+   * Icon size: a number of pixels, or any CSS length (`'1.25rem'`, `'1em'`). Sets the
+   * `--cx-icon-size` of `@chassis-ui/css` on the icon, so it applies in `font` mode too. Leave
+   * unset to keep the size `@chassis-ui/css` gives icons in context (inside a button, an input, a
+   * navbar toggler, ...).
    */
   size?: number | string
   /**

@@ -13,9 +13,9 @@ import { Example as LinksExample } from '../../examples/components/scrollspy/Lin
 
 `<Scrollspy>` wraps a navigation whose links point to sections of the same page, such as a table
 of contents, and marks the link to the section being read. It observes the sections with an
-`IntersectionObserver`, in the viewport or in an element that scrolls, and follows chassis-css's
-[scrollspy](https://chassis-ui.com/css/docs/components/scrollspy): the link gets `.active`, and the
-links it is nested under do too.
+`IntersectionObserver`, in the viewport or in an element that scrolls, and follows
+`@chassis-ui/css`'s [scrollspy](https://chassis-ui.com/css/docs/components/scrollspy): the link gets
+`.active`, and the links it is nested under do too.
 
 It renders no element of its own. The links it marks are [`Link`]([[docsref:/components/link]])s
 and the components built on it: `NavLink` and `NavItem` in a
@@ -102,9 +102,9 @@ element mounts later or is replaced are all followed, so the plugin's `refresh` 
 equivalent. A section that isn't rendered, such as one under
 `display: none`, takes no part.
 
-**No `threshold`.** chassis-css's plugin passes `threshold` to its observer and picks a section
-by the direction of the scroll. Here the choice depends only on where each section is, so the
-same position always marks the same link, and `rootMargin` is the only setting.
+**No `threshold`.** `@chassis-ui/css`'s plugin passes `threshold` to its observer and picks a
+section by the direction of the scroll. Here the choice depends only on where each section is, so
+the same position always marks the same link, and `rootMargin` is the only setting.
 
 **Links, not every element with `href`.** Only `Link` and the components built on it are marked.
 A plain `<a>` isn't, since its markup belongs to React: render it with `asChild` on a `Link` or a

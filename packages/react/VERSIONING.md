@@ -94,8 +94,8 @@ root-prefixed exports — see `CONVENTIONS.md`; there is no namespaced/dotted AP
   specifically to catch this kind of change turning up unintentionally).
 - **Renaming or removing a prop, narrowing a prop's accepted type, or changing a prop from
   optional to required** — **major**.
-- **Changing a component's rendered DOM structure or the chassis-css classes it applies** — treat
-  as **major** if it's a class a consumer could reasonably have targeted directly (see
+- **Changing a component's rendered DOM structure or the `@chassis-ui/css` classes it applies** —
+  treat as **major** if it's a class a consumer could reasonably have targeted directly (see
   `THEMING.md`'s "supported override surface" for the equivalent reasoning about CSS custom
   properties); a purely internal, undocumented structure change is judgment call, but default to
   major when unsure — a false-positive major bump costs nothing but a version number, an

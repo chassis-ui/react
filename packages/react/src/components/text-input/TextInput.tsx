@@ -14,13 +14,13 @@ export interface TextInputProps extends Omit<
   /**
    * Content rendered at the input's trailing edge, e.g. a `InputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
-   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.
+   * `.ghost-input`, matching the [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern of `@chassis-ui/css`.
    */
   adornEnd?: ReactNode
   /**
    * Content rendered at the input's leading edge, e.g. a `InputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
-   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.
+   * `.ghost-input`, matching the [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern of `@chassis-ui/css`.
    */
   adornStart?: ReactNode
   /**

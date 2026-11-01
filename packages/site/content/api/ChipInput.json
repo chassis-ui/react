@@ -68,7 +68,7 @@
       "defaultValue": {
         "value": "default"
       },
-      "description": "Space-separated chassis-css chip modifier classes (e.g. `\"primary smooth\"`) applied to every\nchip. Defaults to `\"default\"`.",
+      "description": "Space-separated chip modifier classes of `@chassis-ui/css` (e.g. `\"primary smooth\"`) applied to\nevery chip. Defaults to `\"default\"`.",
       "name": "chipVariant",
       "parent": {
         "fileName": "packages/react/src/components/chip-input/ChipInput.tsx",

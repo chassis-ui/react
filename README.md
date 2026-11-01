@@ -99,16 +99,16 @@ Open `http://localhost:4327/react/` in your browser.
 
 This project is part of the Chassis Design System's multi-repository architecture:
 
-| Project                                                                | Description                                     |
-| ---------------------------------------------------------------------- | ----------------------------------------------- |
-| [chassis-website](https://github.com/chassis-ui/website)               | Main website and shared documentation package   |
-| [chassis-css](https://github.com/chassis-ui/css)                       | CSS framework and component library             |
-| **chassis-react**                                                      | **React component library (this repository)**   |
-| [chassis-tokens](https://github.com/chassis-ui/tokens)                 | Design token generation and management          |
-| [chassis-website-tokens](https://github.com/chassis-ui/website-tokens) | The design tokens of the Chassis sites and apps |
-| [chassis-icons](https://github.com/chassis-ui/icons)                   | Icon library and build toolkit                  |
-| [chassis-assets](https://github.com/chassis-ui/assets)                 | Multi-platform asset management                 |
-| [chassis-figma](https://github.com/chassis-ui/figma)                   | Figma component documentation                   |
+| Project                                                                   | Description                                     |
+| ------------------------------------------------------------------------- | ----------------------------------------------- |
+| [chassis-ui/website](https://github.com/chassis-ui/website)               | Main website and shared documentation package   |
+| [chassis-ui/css](https://github.com/chassis-ui/css)                       | CSS framework and component library             |
+| **chassis-ui/react**                                                      | **React component library (this repository)**   |
+| [chassis-ui/tokens](https://github.com/chassis-ui/tokens)                 | Design token generation and management          |
+| [chassis-ui/website-tokens](https://github.com/chassis-ui/website-tokens) | The design tokens of the Chassis sites and apps |
+| [chassis-ui/icons](https://github.com/chassis-ui/icons)                   | Icon library and build toolkit                  |
+| [chassis-ui/assets](https://github.com/chassis-ui/assets)                 | Multi-platform asset management                 |
+| [chassis-ui/figma](https://github.com/chassis-ui/figma)                   | Figma component documentation                   |
 
 All documentation sites share the `@chassis-ui/docs` package for consistent layouts, components,
 and styling.
