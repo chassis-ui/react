@@ -59,8 +59,8 @@
     "changeset:version": "changeset version && node build/sync-version-refs.js",
     "check:pnpm": "pnpm audit --prod --audit-level moderate",
     "spellcheck": "cspell --no-progress --no-must-find-files",
-    "sync-submodules": "pnpm --filter chassis-react-site exec chassis-docs sync-submodules --subset latin --subset latin-ext --split",
-    "vendor": "pnpm --filter chassis-react-site exec chassis-docs vendor --subset latin --subset latin-ext --split"
+    "sync-assets": "pnpm --filter chassis-react-site exec chassis-docs sync-assets",
+    "vendor": "pnpm --filter chassis-react-site exec chassis-docs vendor"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged"

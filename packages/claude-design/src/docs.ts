@@ -5,9 +5,9 @@
 // `pnpm react:generate` writes, and the names of the stories its card shows.
 import * as fs from 'fs'
 import * as path from 'path'
-import { execFileSync } from 'child_process'
+import { assetDir } from './assets.ts'
 import {
-  ASSETS,
+  ASSETS_PIN,
   BRAND_NAMES,
   BRANDS,
   brandList,
@@ -35,37 +35,25 @@ const cell = (s: string) =>
     .replace(/\s*\n\s*/g, ' ')
     .trim()
 
-// Where a project downloads a brand's logos and images: the public assets repository, at the tag
-// (else the commit) of the `vendor/assets` checkout this system is built from. The names are each
-// brand's own images, which every brand keeps under the same names; the docs imagery the brands
-// share stays out of the list.
+// Where a project downloads a brand's logos and images: the archive of each brand in the release
+// of the assets that `vendor/assets.json` pins. The names are each brand's own images, which every
+// brand keeps under the same names; the docs imagery the brands share stays out of the list.
+const SHARED_IMAGES = /^(?:figma|home)\//
+
 function brandAssets() {
-  const ref =
-    gitIn(ASSETS, 'describe', '--tags', '--exact-match') || gitIn(ASSETS, 'rev-parse', 'HEAD')
-  const base = `https://raw.githubusercontent.com/chassis-ui/assets/${ref}`
+  const { repository, version } = JSON.parse(fs.readFileSync(ASSETS_PIN, 'utf8'))
+  const archive = (brand: string) =>
+    `https://github.com/${repository}/releases/download/v${version}/website-assets-web-docs-${brand}-${version}.zip`
   const names = new Set<string>()
   for (const brand of BRANDS) {
-    const dir = path.join(ASSETS, 'source', brand, 'docs/images')
-    if (!fs.existsSync(dir)) continue
+    const dir = assetDir(brand, 'images')
     for (const f of fs.readdirSync(dir, { recursive: true }) as string[]) {
-      if (fs.statSync(path.join(dir, f)).isFile()) names.add(f.split(path.sep).join('/'))
+      const name = f.split(path.sep).join('/')
+      if (path.basename(f).startsWith('.') || SHARED_IMAGES.test(name)) continue
+      if (fs.statSync(path.join(dir, f)).isFile()) names.add(name)
     }
   }
-  const example = `${base}/source/${DEFAULT_BRAND}/docs/images/logo/logo-light.svg`
-  return { base, names: [...names].sort(), example }
-}
-
-// A git query in `dir`, or '' where it has no answer (no tag at that commit).
-function gitIn(dir: string, ...args: string[]) {
-  try {
-    return execFileSync('git', args, {
-      cwd: dir,
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'ignore']
-    }).trim()
-  } catch {
-    return ''
-  }
+  return { url: archive('<brand>'), names: [...names].sort(), example: archive(DEFAULT_BRAND) }
 }
 
 export function writeReadme(summary: Map<Brand, Record<string, string>>) {
@@ -117,8 +105,7 @@ export function writeReadme(summary: Map<Brand, Record<string, string>>) {
       BRANDS.map((b) => `${b}: '/_blob/<${b} logo id>'`).join(', ')
     )
     .replace('<!-- brand-asset-names -->', assets.names.map((n) => `\`${n}\``).join(', '))
-    .replace('<!-- brand-asset-url -->', `${assets.base}/source/<brand>/docs/images/<file>`)
-    .replace('<!-- default-asset-url -->', `${assets.base}/source/default/docs/images/<file>`)
+    .replace('<!-- brand-asset-url -->', assets.url)
     .replace('<!-- brand-asset-example -->', assets.example)
     .replace('<!-- brand-table -->', table)
     .replace('<!-- react-version -->', react)

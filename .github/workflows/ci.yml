@@ -190,9 +190,9 @@ jobs:
   # The full static site build (`astro build` + pagefind), not just `astro check`'s type pass
   # (RD9). It builds against the published `@chassis-ui/css`, never a sibling checkout.
   #
-  # Its own job rather than a step in `test` because it's the only thing here that needs the
-  # `vendor/assets` submodule — `packages/site/public/` is populated from it by `pnpm vendor`
-  # (via `site:setup`), which builds the commit this repository pins, and is gitignored, so a
+  # Its own job rather than a step in `test` because it's the only thing here that needs
+  # `vendor/assets` — `packages/site/public/` is populated from it by `pnpm vendor` (via
+  # `site:setup`), which unpacks the release `vendor/assets.json` pins, and is gitignored, so a
   # plain checkout doesn't have it. The two HTML validators run here because they check the
   # built `_site/`. vnu runs on the runner's preinstalled Java and skips itself with only a
   # warning when Java is missing, so `java -version` fails the job first.
@@ -205,7 +205,6 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-          submodules: true
 
       - name: Setup pnpm
         uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
@@ -221,7 +220,7 @@ jobs:
 
       # `site:setup` = vendor + react:build + react:generate — the site imports
       # `@chassis-ui/react` through the workspace link, so `dist/` has to exist first.
-      - name: Build the vendor assets and the library
+      - name: Unpack the vendor assets and build the library
         run: pnpm site:setup
 
       - name: Build

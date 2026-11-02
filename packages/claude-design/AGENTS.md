@@ -14,7 +14,8 @@ RD27 says why this exists and why it is a package.
 - `dist/project/` is the artifact's `project/` folder, file for file. It is rebuilt on every run
   and never committed.
 - It reads the other packages by path: the stories, `src/` and `dist/` of `packages/react`, the
-  sidebar, docs pages and API files of `packages/site`, and `vendor/assets`. It resolves React
+  sidebar, docs pages and API files of `packages/site`, and `vendor/assets`, which it fills with
+  every brand's archive by running `pnpm vendor` once per brand. It resolves React
   and the chassis packages from `packages/react/node_modules`, so the bundle runs the React copy
   the library is built and tested with.
 - `pnpm lint` at the root runs this package's `lint`: ESLint, Prettier and `check:types`.

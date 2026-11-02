@@ -9,7 +9,7 @@ import * as path from 'path'
 import { brandList, DEFAULT_BRAND, OUT, PROJECT } from './paths.ts'
 import { buildStyles, controlCheck } from './css.ts'
 import { brandSummary, buildTokens, writeTokens } from './tokens.ts'
-import { fontFaces, writeFonts } from './assets.ts'
+import { fontFaces, vendorBrands, writeFonts } from './assets.ts'
 import { buildBundle, storyFiles, writeTypes } from './bundle.ts'
 import { sidebarPages, writePreviews } from './previews.ts'
 import { writeComponentReadmes, writeCover, writeReadme } from './docs.ts'
@@ -18,6 +18,7 @@ import { artifactConfig, provenance, writeIndex } from './artifact.ts'
 const started = Date.now()
 fs.rmSync(OUT, { recursive: true, force: true })
 fs.mkdirSync(path.join(PROJECT, 'components'), { recursive: true })
+vendorBrands()
 
 const styles = await buildStyles()
 const problems = controlCheck(styles.tokens.get(DEFAULT_BRAND)!)

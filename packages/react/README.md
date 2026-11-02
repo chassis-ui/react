@@ -1,10 +1,16 @@
 <p align="center">
   <a href="https://chassis-ui.com/react">
-    <img
-      src="https://chassis-ui.com/static/images/logo/chassis-logo-brand.svg"
-      alt="Chassis UI Logo"
-      width="300"
-    />
+    <picture>
+      <source
+        media="(prefers-color-scheme: dark)"
+        srcset="https://chassis-ui.com/static/images/logo/logo-dark.svg"
+      />
+      <img
+        src="https://chassis-ui.com/static/images/logo/logo-light.svg"
+        alt="Chassis UI Logo"
+        width="300"
+      />
+    </picture>
   </a>
 </p>
 

@@ -19,6 +19,7 @@ export const CHASSIS_CSS = path.join(REACT_MODULES, '@chassis-ui/css')
 export const CHASSIS_TOKENS = path.join(REACT_MODULES, '@chassis-ui/website-tokens')
 export const CHASSIS_ICONS = path.join(REACT_MODULES, '@chassis-ui/icons')
 export const ASSETS = path.join(ROOT, 'vendor/assets')
+export const ASSETS_PIN = path.join(ROOT, 'vendor/assets.json')
 
 // `dist/project/` mirrors the artifact's `project/` folder file for file, so the publish step sends
 // the tree as it is. `dist/work/` holds intermediate files.

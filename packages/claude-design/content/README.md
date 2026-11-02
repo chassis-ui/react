@@ -97,17 +97,17 @@ class Component extends DCLogic {
 
 **No hard-coded values.** A brand switch reaches only what reads the brand: components, utility classes and `var(--cx-…)` properties. A literal colour, font family, radius or shadow stays as written when the brand changes. Use `bg-primary`, `font-display`, `rounded-lg`, `shadow` or `var(--cx-primary)`, never a hex colour, a font's name or a radius in pixels.
 
-**Brand assets.** This system carries no logos, favicons or images. Each brand's are in Chassis Assets, the public `chassis-ui/assets` repository, under the same names in every brand: <!-- brand-asset-names -->.
+**Brand assets.** This system carries no logos, favicons or images. Each brand's are in a release of the public `chassis-ui/website-assets` repository, in an archive per brand, under `images/` and with the same names in every brand: <!-- brand-asset-names -->.
 
-At the version this system is built with, a brand's file is at
+At the version this system is built with, a brand's archive is at
 
 ```text
 <!-- brand-asset-url -->
 ```
 
-and a file the brand doesn't have of its own is the default one, at `<!-- default-asset-url -->`. For the default brand's light logo, that is <!-- brand-asset-example -->.
+For the default brand's light logo, that is `images/logo/logo-light.svg` in <!-- brand-asset-example -->.
 
-A canvas shows only images uploaded to it. Download each file the design needs, for every brand it switches between, upload them to the project, and pick one with the same `brand` value, so it switches with the rest:
+A canvas shows only images uploaded to it. Download the archive of every brand the design switches between, upload the files it needs to the project, and pick one with the same `brand` value, so it switches with the rest:
 
 ```js
 renderVals() {

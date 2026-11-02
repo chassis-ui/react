@@ -80,20 +80,20 @@ Open `http://localhost:4327/react/` in your browser.
 
 ### Available scripts
 
-| Script                            | Description                                                                                                               |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `pnpm start`                      | Build the assets submodule, build the library, then watch the library and Astro site together                             |
-| `pnpm setup`                      | Build the assets submodule at its pinned commit and build the library once — the part of `start` worth running on its own |
-| `pnpm dev`                        | Watch the library and Astro site without rebuilding the submodule                                                         |
-| `pnpm site:dev`                   | Start only the Astro dev server                                                                                           |
-| `pnpm site:setup`                 | Build the assets submodule and the library, and generate API data                                                         |
-| `pnpm site:build`                 | Build the static docs site and its search index                                                                           |
-| `pnpm sync-submodules`            | Move the assets submodule to its latest commit; commit the new pointer on its own                                         |
-| `pnpm site:preview`               | Preview the built docs site locally                                                                                       |
-| `pnpm react:generate`             | Re-generate prop table JSON from TypeScript source                                                                        |
-| `pnpm new:component <kebab-name>` | Scaffold a new component: source, barrel, exports, spec, story, docs page and sidebar entry                               |
-| `pnpm test`                       | Run component tests with coverage                                                                                         |
-| `pnpm react:build`                | Build the component library                                                                                               |
+| Script                            | Description                                                                                                       |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `pnpm start`                      | Unpack the assets, build the library, then watch the library and Astro site together                              |
+| `pnpm setup`                      | Unpack the assets of the pinned release and build the library once — the part of `start` worth running on its own |
+| `pnpm dev`                        | Watch the library and Astro site without unpacking the assets                                                     |
+| `pnpm site:dev`                   | Start only the Astro dev server                                                                                   |
+| `pnpm site:setup`                 | Unpack the assets, build the library, and generate API data                                                       |
+| `pnpm site:build`                 | Build the static docs site and its search index                                                                   |
+| `pnpm sync-assets`                | Move `vendor/assets.json` to the latest release of the assets; commit the new pin on its own                      |
+| `pnpm site:preview`               | Preview the built docs site locally                                                                               |
+| `pnpm react:generate`             | Re-generate prop table JSON from TypeScript source                                                                |
+| `pnpm new:component <kebab-name>` | Scaffold a new component: source, barrel, exports, spec, story, docs page and sidebar entry                       |
+| `pnpm test`                       | Run component tests with coverage                                                                                 |
+| `pnpm react:build`                | Build the component library                                                                                       |
 
 ## Chassis Ecosystem
 
@@ -108,6 +108,7 @@ This project is part of the Chassis Design System's multi-repository architectur
 | [chassis-ui/website-tokens](https://github.com/chassis-ui/website-tokens) | The design tokens of the Chassis sites and apps |
 | [chassis-ui/icons](https://github.com/chassis-ui/icons)                   | Icon library and build toolkit                  |
 | [chassis-ui/assets](https://github.com/chassis-ui/assets)                 | Multi-platform asset management                 |
+| [chassis-ui/website-assets](https://github.com/chassis-ui/website-assets) | The assets of the Chassis sites                 |
 | [chassis-ui/figma](https://github.com/chassis-ui/figma)                   | Figma component documentation                   |
 
 All documentation sites share the `@chassis-ui/docs` package for consistent layouts, components,

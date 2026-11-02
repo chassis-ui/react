@@ -40,14 +40,12 @@ build, tests and CI; the guides state the rule and cite the row.
   `packages/site/content/api/` and `pnpm react:check:api-docs` fails CI when the committed files
   differ. It writes react-docgen-typescript's paths repo-relative so every machine produces the
   same files; keep it that way or the gate breaks (RD8).
-- The site's static assets come from the `vendor/assets` submodule, built by the `chassis-docs`
-  command of `@chassis-ui/docs`. `pnpm vendor` builds the commit this repository pins, so one
-  commit always builds the same site. `pnpm sync-submodules` moves the pin to the latest and
-  builds it; commit the new pointer on its own.
-  Both scripts pass `--subset latin --subset latin-ext --split` for the fonts: keep the flags, and
-  add the range of any script a page uses that they don't hold (RD23).
-  The build reads the commit in the index, so `git add vendor/assets` before `pnpm vendor` after a
-  sync.
+- The site's static assets come from a release of `chassis-ui/website-assets`, which the
+  `chassis-docs` command of `@chassis-ui/docs` unpacks into the ignored `vendor/assets`.
+  `pnpm vendor` takes the release that `vendor/assets.json` pins, so one commit always builds the
+  same site. `pnpm sync-assets` moves the pin to the latest release and unpacks it; commit the new
+  pin on its own, and never edit its names or digests by hand. Set `GH_TOKEN`: it calls the GitHub
+  API. The archive holds the fonts split by range, for the ranges of every site (RD23).
 - Run `pnpm claude-design:sync` after a release, with the `claude` CLI signed in. It rebuilds the
   library's design system on claude.ai (every brand, light and dark) and publishes it.
   Edit the code and sync again, never the artifact: its page is read-only.

@@ -9,6 +9,7 @@ import {
   getChassisCSSFsPath,
   getChassisIconsFsPath
 } from '@chassis-ui/docs'
+import { writeBrandCSS } from '@chassis-ui/docs/integration'
 import type { ChassisConfig } from '@chassis-ui/docs/schema'
 
 // Static file paths that will be aliased (copied) to a different destination path.
@@ -213,7 +214,8 @@ function copyChassisAssets(root: string, publicDir: string) {
 }
 
 /**
- * Copies the compiled Chassis CSS bundle into `public/static/`.
+ * Copies the compiled Chassis CSS bundle into `public/static/`. Its files hold the tokens of the
+ * default brand, so a preview of another brand (`CHASSIS_BRAND`) compiles them over the copy.
  */
 function copyChassisCSS(root: string, publicDir: string) {
   const source = getChassisCSSFsPath({ root })
@@ -221,6 +223,7 @@ function copyChassisCSS(root: string, publicDir: string) {
 
   fs.mkdirSync(destination, { recursive: true })
   fs.cpSync(source, destination, { recursive: true })
+  writeBrandCSS({ root, destination })
 }
 
 /**

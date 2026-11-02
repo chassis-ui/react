@@ -1,31 +1,32 @@
-// Each brand's fonts, copied from the Chassis assets (the `vendor/assets` submodule), so a brand
-// added to `BRANDS` brings its own with no further change here. The tokens name each brand's faces,
-// and without the files a component renders in fallback fonts. Logos and other images are a
-// project's, not the library's, and stay out.
+// Each brand's fonts, copied from the Chassis assets (`vendor/assets`), so a brand added to `BRANDS`
+// brings its own with no further change here. The tokens name each brand's faces, and without the
+// files a component renders in fallback fonts. Logos and other images are a project's, not the
+// library's, and stay out.
 //
-// A brand's folder of one asset type resolves as the assets build resolves it: its built docs
-// output (`dist/web/docs/<brand>/<type>`) where the pinned build made one, else its own source
-// folder (`source/<brand>/docs/<type>`), else the default brand's, which every brand falls back
-// to. The built output comes first: its fonts are the ones the docs sites serve.
+// `pnpm vendor` unpacks one brand per run, the site's by default, so the build asks for each.
+import { execFileSync } from 'child_process'
 import * as fs from 'fs'
 import * as path from 'path'
 import postcss from 'postcss'
-import { ASSETS, BRANDS, CHASSIS_ICONS, PROJECT, type Brand } from './paths.ts'
+import { ASSETS, BRANDS, CHASSIS_ICONS, PROJECT, ROOT, type Brand } from './paths.ts'
 
-export function assetDir(brand: Brand, type: string): string {
-  const candidates = [
-    path.join(ASSETS, 'dist/web/docs', brand, type),
-    path.join(ASSETS, 'source', brand, 'docs', type),
-    path.join(ASSETS, 'source/default/docs', type)
-  ]
-  const dir = candidates.find((d) => fs.existsSync(d))
-  if (!dir) throw new Error(`assets: no ${type} for ${brand} in ${candidates.join(', ')}`)
-  return dir
+export function vendorBrands() {
+  for (const brand of BRANDS) {
+    execFileSync('pnpm', ['vendor'], {
+      cwd: ROOT,
+      env: { ...process.env, CHASSIS_BRAND: brand },
+      stdio: 'inherit'
+    })
+  }
 }
 
-// The unicode-range subsets the assets build splits a face into (its `--subset` names).
+export const assetDir = (brand: Brand, type: string) =>
+  path.join(ASSETS, 'dist/web/docs', brand, type)
+
+// The unicode-range subsets the assets build splits a face into: the names of its ranges, and a
+// range of its own by code points (`u2190-2193`).
 const SUBSET =
-  /-(?:latin|latin-ext|cyrillic|cyrillic-ext|greek|greek-ext|vietnamese|hebrew|arabic|math|symbols)(\.woff2)$/
+  /-(?:latin|latin-ext|cyrillic|cyrillic-ext|greek|greek-ext|vietnamese|hebrew|arabic|math|symbols|symbols2|u[0-9a-f]+-[0-9a-f]+)(\.woff2)$/
 
 export interface FontFace {
   family: string
