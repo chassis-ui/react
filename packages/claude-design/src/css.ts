@@ -188,7 +188,7 @@ export async function buildStyles(): Promise<StyleResult> {
   // every face, that one included.
   const own = fs.readFileSync(path.join(REACT, 'dist/style.css'), 'utf8')
   const icons = fs
-    .readFileSync(path.join(CHASSIS_ICONS, 'icons/chassis-icons.min.css'), 'utf8')
+    .readFileSync(path.join(CHASSIS_ICONS, 'chassis-icons.min.css'), 'utf8')
     .replace(/@font-face\{[^}]*\}/g, '')
 
   const merged = [out.toString(), own, icons].join('\n')

@@ -17,7 +17,7 @@ export const SITE = path.join(ROOT, 'packages/site')
 export const REACT_MODULES = path.join(REACT, 'node_modules')
 export const CHASSIS_CSS = path.join(REACT_MODULES, '@chassis-ui/css')
 export const CHASSIS_TOKENS = path.join(REACT_MODULES, '@chassis-ui/website-tokens')
-export const CHASSIS_ICONS = path.join(REACT_MODULES, '@chassis-ui/icons')
+export const CHASSIS_ICONS = path.join(REACT_MODULES, '@chassis-ui/website-icons/dist/web')
 export const ASSETS = path.join(ROOT, 'vendor/assets')
 export const ASSETS_PIN = path.join(ROOT, 'vendor/assets.json')
 

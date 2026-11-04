@@ -167,7 +167,7 @@ Write `var(--cx-…)` only where no utility exists (`--cx-primary`, `--cx-fg-mai
 
 ## Icons
 
-Icon names are the glyph names of Chassis Icons: `check-solid`, `xmark-outline`, `chevron-right-outline`, `search-outline`. `Icon`, and the icons components draw themselves (close buttons, carets, checks), default to an SVG sprite embedded in the page. The previews here embed it. A design of your own does not have it, so switch the tree to the icon font: `bundle.css` has its glyph classes and `tokens.css` its face, from `fonts/`:
+Icon names are the glyph names of the icons of Chassis, `@chassis-ui/website-icons`: `check-solid`, `xmark-outline`, `chevron-right-outline`, `search-outline`. `Icon`, and the icons components draw themselves (close buttons, carets, checks), default to an SVG sprite embedded in the page. The previews here embed it. A design of your own does not have it, so switch the tree to the icon font: `bundle.css` has its glyph classes and `tokens.css` its face, from `fonts/`:
 
 ```jsx
 const { IconProvider, Icon } = window.ChassisReact;

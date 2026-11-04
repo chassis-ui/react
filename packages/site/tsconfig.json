@@ -6,7 +6,7 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "paths": {
       "@css/*": ["node_modules/@chassis-ui/css/dist/*"],
-      "@icons/*": ["node_modules/@chassis-ui/icons/*"],
+      "@icons/*": ["node_modules/@chassis-ui/website-icons/dist/*"],
       "@assets/*": ["src/assets/*"],
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],

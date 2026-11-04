@@ -164,9 +164,9 @@ importers:
       '@chassis-ui/css':
         specifier: ^0.14.0
         version: 0.14.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1)
-      '@chassis-ui/icons':
-        specifier: ^0.3.1
-        version: 0.3.1
+      '@chassis-ui/website-icons':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@chassis-ui/website-tokens':
         specifier: ^0.3.0
         version: 0.3.0
@@ -269,12 +269,12 @@ importers:
       '@chassis-ui/css':
         specifier: ^0.14.0
         version: 0.14.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1)
-      '@chassis-ui/icons':
-        specifier: ^0.3.1
-        version: 0.3.1
       '@chassis-ui/react':
         specifier: workspace:*
         version: link:../react
+      '@chassis-ui/website-icons':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@chassis-ui/website-tokens':
         specifier: ^0.3.0
         version: 0.3.0
@@ -298,8 +298,8 @@ importers:
         specifier: ^3.7.4
         version: 3.7.4
       '@chassis-ui/docs':
-        specifier: ^0.13.0
-        version: 0.13.0(@astrojs/markdown-remark@7.3.4)(@chassis-ui/css@0.14.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.5.0)(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.106.1)(terser@5.47.1)(yaml@2.9.1))(autoprefixer@10.6.1(postcss@8.5.31))(html-validate@11.17.0(@jest/globals@29.7.0)(@vitest/expect@4.1.12)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.5)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.5)(typescript@6.0.3)))(vitest@4.1.12))(htmlparser2@12.0.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(postcss@8.5.31)(rehype-autolink-headings@7.1.0)(sass@1.106.1)(shiki@4.5.0)(vnu-jar@26.10.12)
+        specifier: ^0.14.0
+        version: 0.14.0(@astrojs/markdown-remark@7.3.4)(@chassis-ui/css@0.14.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.5.0)(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.106.1)(terser@5.47.1)(yaml@2.9.1))(autoprefixer@10.6.1(postcss@8.5.31))(html-validate@11.17.0(@jest/globals@29.7.0)(@vitest/expect@4.1.12)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.5)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.5)(typescript@6.0.3)))(vitest@4.1.12))(htmlparser2@12.0.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(postcss@8.5.31)(rehype-autolink-headings@7.1.0)(sass@1.106.1)(shiki@4.5.0)(vnu-jar@26.10.12)
       '@pagefind/component-ui':
         specifier: ^1.5.2
         version: 1.5.2
@@ -987,8 +987,8 @@ packages:
       tailwindcss:
         optional: true
 
-  '@chassis-ui/docs@0.13.0':
-    resolution: {integrity: sha512-uW/VAIaSpb+mjrBhBSx7Vw5ktQkkxn79NVv0mbmTYEz+H57HiA535R0xkM+YjebIMjrXxsF+Lric/lmzA+Q1wQ==}
+  '@chassis-ui/docs@0.14.0':
+    resolution: {integrity: sha512-tDLDSj4B6Hih65JVWomveWhUSKgM+zy4UTfuhW79qiWxnfXt/uL1oP064PmPpqpTEQQnOGopSVyJSWal7DmS/A==}
     engines: {node: '>=22.12.0'}
     hasBin: true
     peerDependencies:
@@ -1018,9 +1018,9 @@ packages:
       vnu-jar:
         optional: true
 
-  '@chassis-ui/icons@0.3.1':
-    resolution: {integrity: sha512-u940omGLvaDqQWzkLDiXXACs3UiEGgZeESbDM+7mB9Dd/L2QKkCk0XQE6sVRv3Tb4+eXDmJOLNd63scZgAKS+Q==}
-    engines: {node: '>=18.0.0', pnpm: '>=9.0.0'}
+  '@chassis-ui/website-icons@0.1.0':
+    resolution: {integrity: sha512-TPVgmtqYr17pq1mJ0SFDS7EcGklCeJ+D31zSNnYgH+/m6D085mo1EGhUs95dcGcgRy13vzDWsHoNEVstIwzX9g==}
+    engines: {node: '>=22.12.0'}
 
   '@chassis-ui/website-tokens@0.3.0':
     resolution: {integrity: sha512-eHMXqFSzEcyuYJ5mdpVDiG5CjeTEXcmrWZRAwIAHQoUIDQccmzJOi7d9iAU4qixlS5DfHcg3+wMh9aGzvyrJFA==}
@@ -8937,7 +8937,7 @@ snapshots:
       postcss-prefix-custom-properties: 0.1.0(postcss@8.5.31)
       tailwindcss: 4.3.3
 
-  '@chassis-ui/docs@0.13.0(@astrojs/markdown-remark@7.3.4)(@chassis-ui/css@0.14.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.5.0)(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.106.1)(terser@5.47.1)(yaml@2.9.1))(autoprefixer@10.6.1(postcss@8.5.31))(html-validate@11.17.0(@jest/globals@29.7.0)(@vitest/expect@4.1.12)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.5)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.5)(typescript@6.0.3)))(vitest@4.1.12))(htmlparser2@12.0.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(postcss@8.5.31)(rehype-autolink-headings@7.1.0)(sass@1.106.1)(shiki@4.5.0)(vnu-jar@26.10.12)':
+  '@chassis-ui/docs@0.14.0(@astrojs/markdown-remark@7.3.4)(@chassis-ui/css@0.14.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.5.0)(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.106.1)(terser@5.47.1)(yaml@2.9.1))(autoprefixer@10.6.1(postcss@8.5.31))(html-validate@11.17.0(@jest/globals@29.7.0)(@vitest/expect@4.1.12)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.5)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.5)(typescript@6.0.3)))(vitest@4.1.12))(htmlparser2@12.0.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(postcss@8.5.31)(rehype-autolink-headings@7.1.0)(sass@1.106.1)(shiki@4.5.0)(vnu-jar@26.10.12)':
     dependencies:
       '@astrojs/markdown-remark': 7.3.4
       '@chassis-ui/css': 0.14.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1)
@@ -8972,7 +8972,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@chassis-ui/icons@0.3.1': {}
+  '@chassis-ui/website-icons@0.1.0': {}
 
   '@chassis-ui/website-tokens@0.3.0': {}
 

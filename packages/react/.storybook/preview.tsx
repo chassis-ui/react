@@ -10,16 +10,16 @@ import { withThemeByDataAttribute } from '@storybook/addon-themes'
 // depends on a build having already run (see git history for why that's a real problem, not just
 // a style nit).
 import '@chassis-ui/css/dist/css/chassis.min.css'
-import iconSprite from '@chassis-ui/icons/icons/chassis-icons.svg?raw'
+import iconSprite from '@chassis-ui/website-icons/dist/web/chassis-icons.svg?raw'
 
 // `Icon` references a sprite embedded in the page by default (`<use href="#name">`), the way the
-// docs site and a consumer's page work, so Storybook embeds `@chassis-ui/icons`' sprite once.
-// Without it every sprite icon renders as an empty box, and no screenshot could catch an icon
-// regression. Done here rather than in `preview-body.html`, which the vitest `storybook` project
-// never loads; the id keeps a hot reload from adding a second copy. The server render sweep
-// (`test/ssr/`) imports this file with no `document`.
+// docs site and a consumer's page work, so Storybook embeds the sprite of
+// `@chassis-ui/website-icons` once. Without it every sprite icon renders as an empty box, and no
+// screenshot could catch an icon regression. Done here rather than in `preview-body.html`, which
+// the vitest `storybook` project never loads; the id keeps a hot reload from adding a second copy.
+// The server render sweep (`test/ssr/`) imports this file with no `document`.
 //
-// In `<head>`, which `<use>` reaches by id like any part of the document: in `<body>` its 503
+// In `<head>`, which `<use>` reaches by id like any part of the document: in `<body>` its 501
 // symbols were walked by every `screen` query and accessibility check of every story, and the
 // story tests took more than twice as long (RD26).
 if (typeof document !== 'undefined' && !document.getElementById('cx-icon-sprite')) {

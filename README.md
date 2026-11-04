@@ -106,7 +106,8 @@ This project is part of the Chassis Design System's multi-repository architectur
 | **chassis-ui/react**                                                      | **React component library (this repository)**   |
 | [chassis-ui/tokens](https://github.com/chassis-ui/tokens)                 | Design token generation and management          |
 | [chassis-ui/website-tokens](https://github.com/chassis-ui/website-tokens) | The design tokens of the Chassis sites and apps |
-| [chassis-ui/icons](https://github.com/chassis-ui/icons)                   | Icon library and build toolkit                  |
+| [chassis-ui/icons](https://github.com/chassis-ui/icons)                   | The builder of icon sets                        |
+| [chassis-ui/website-icons](https://github.com/chassis-ui/website-icons)   | The icons of the Chassis sites and apps         |
 | [chassis-ui/assets](https://github.com/chassis-ui/assets)                 | Multi-platform asset management                 |
 | [chassis-ui/website-assets](https://github.com/chassis-ui/website-assets) | The assets of the Chassis sites                 |
 | [chassis-ui/figma](https://github.com/chassis-ui/figma)                   | Figma component documentation                   |

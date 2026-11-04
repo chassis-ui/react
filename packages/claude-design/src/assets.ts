@@ -77,7 +77,7 @@ export function fontFaces(): FontFace[] {
       family: 'Chassis-Icons',
       style: 'normal',
       weight: '400',
-      source: path.join(CHASSIS_ICONS, 'icons/chassis-icons.woff2'),
+      source: path.join(CHASSIS_ICONS, 'chassis-icons.woff2'),
       file: 'fonts/chassis-icons.woff2'
     }
   ]

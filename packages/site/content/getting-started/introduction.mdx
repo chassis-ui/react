@@ -100,9 +100,11 @@ component is styled entirely through `@chassis-ui/css` and needs nothing extra.
   `@chassis-ui/css` declares as `--cx-*` custom properties — re-theming a brand or switching
   light/dark mode happens at this layer, not in `@chassis-ui/react`. See
   [Theming]([[docsref:/getting-started/theming]]) for the supported override surface.
-- **`@chassis-ui/icons`** is the source of the SVG sprite (or icon font) [`<Icon>`]([[docsref:/components/icon]])
-  renders by name — every icon-carrying component in this library, from `CloseButton` to the
-  calendar navigation, composes `<Icon>` internally rather than inlining its own markup.
+- **`@chassis-ui/website-icons`** holds the icons of Chassis, the SVG sprite (or icon font)
+  [`<Icon>`]([[docsref:/components/icon]]) renders by name — every icon-carrying component in this
+  library, from `CloseButton` to the calendar navigation, composes `<Icon>` internally rather than
+  inlining its own markup. `@chassis-ui/icons`, with its `chassis-icons` command, builds a set of
+  your own in the same formats.
 
 None of these are peer dependencies of `@chassis-ui/react` — nothing errors if the application
 never installs them — but component output assumes their conventions: unstyled markup without

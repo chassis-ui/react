@@ -227,11 +227,11 @@ function copyChassisCSS(root: string, publicDir: string) {
 }
 
 /**
- * Copies the `icons/` folder from the Chassis Icons package into
+ * Copies the `dist/web/` folder of `@chassis-ui/website-icons` into
  * `public/static/icons/` so icons are served from `/static/icons/`.
  */
 function copyChassisIcons(root: string, publicDir: string) {
-  const source = path.join(getChassisIconsFsPath({ root }), 'icons')
+  const source = getChassisIconsFsPath({ root })
   const destination = path.join(publicDir, 'static', 'icons')
 
   fs.mkdirSync(destination, { recursive: true })

@@ -9,7 +9,7 @@
 // state.
 import * as React from 'react'
 import { createRoot } from 'react-dom/client'
-import sprite from '@chassis-ui/icons/icons/chassis-icons.svg?raw'
+import sprite from '@chassis-ui/website-icons/dist/web/chassis-icons.svg?raw'
 
 // The default brand's id, which bundle.ts defines from DEFAULT_BRAND (paths.ts).
 declare const __DEFAULT_BRAND__: string
