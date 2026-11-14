@@ -1,29 +1,236 @@
 ---
+/**
+ * The home page of Chassis React, composed of the home page sections of `@chassis-ui/docs`.
+ * The copy is that of the Figma design "React · Home". A door is one page of the docs with its
+ * real title, and the groups of the doors follow `data/sidebar.yml`.
+ */
+
 import BaseLayout from '@chassis-ui/docs/layouts/BaseLayout.astro'
-import HeroSection from '@components/homepage/HeroSection.astro'
-import IntroSection from '@components/homepage/IntroSection.astro'
-import FeaturesSection from '@components/homepage/FeaturesSection.astro'
-import HowSection from '@components/homepage/HowSection.astro'
-import TechSection from '@components/homepage/TechSection.astro'
-import DocsSection from '@components/homepage/DocsSection.astro'
-import HomeIcons from '/static/icons/cx-sprite.svg?raw'
+import Cards from '@chassis-ui/docs/sections/Cards.astro'
+import Doors from '@chassis-ui/docs/sections/Doors.astro'
+import Facts from '@chassis-ui/docs/sections/Facts.astro'
+import Hero from '@chassis-ui/docs/sections/Hero.astro'
+import Rows from '@chassis-ui/docs/sections/Rows.astro'
+import Section from '@chassis-ui/docs/sections/Section.astro'
+import Steps from '@chassis-ui/docs/sections/Steps.astro'
+import Icon from '@chassis-ui/docs/shortcodes/Icon.astro'
+import { getConfig, getDocsPath } from '@chassis-ui/docs/site'
+
+const { description, repo, currentVersion } = getConfig()
+const changelog = `${repo}/blob/main/packages/react/CHANGELOG.md`
+
+const benefits = [
+  {
+    label: 'Design system',
+    title: 'Render what the design shows.',
+    points: [
+      'Every component renders the markup and class names of Chassis CSS.',
+      'Brands and dark mode come from Chassis Tokens, through custom properties.',
+      'More than 70 components, each with live examples and a props table.'
+    ]
+  },
+  {
+    label: 'Accessibility',
+    title: 'Get keyboard and screen reader support with every component.',
+    points: [
+      'Built on React Aria and React Stately.',
+      'Focus management and ARIA semantics need no extra code.',
+      'Dates, numbers and text direction follow the locale of the user.'
+    ]
+  },
+  {
+    label: 'Engineering',
+    title: 'Ship only what the page uses.',
+    points: [
+      'Each component family is its own entry point, so bundles stay small.',
+      'One client boundary per entry, tested with the Next.js App Router.',
+      'Typed props, polymorphic elements and asChild, in strict TypeScript.'
+    ]
+  }
+]
+
+const steps = [
+  {
+    name: 'Install to ship',
+    stations: [
+      {
+        label: '01 · Install',
+        title: 'Add the packages.',
+        body: 'Install the React package with its Chassis CSS peer, and import the stylesheet once.'
+      },
+      {
+        label: '02 · Compose',
+        title: 'Import and compose.',
+        body: 'Import components from the root or a subpath, and pass typed props.'
+      },
+      {
+        label: '03 · Theme',
+        title: 'Point it at your brand.',
+        body: 'Use your Chassis Tokens, switch dark mode with a data attribute, and ship.'
+      }
+    ]
+  }
+]
+
+const related = [
+  {
+    name: 'Chassis CSS',
+    icon: 'cx-brackets-curly',
+    href: 'https://chassis-ui.com/css/',
+    body: 'The stylesheet every component renders. It is a peer dependency of the React package.'
+  },
+  {
+    name: 'Chassis Tokens',
+    icon: 'cx-swatchbook',
+    href: 'https://chassis-ui.com/tokens/',
+    body: 'The source of the colours, type and spacing the components show, for each brand.'
+  },
+  {
+    name: 'Chassis Icons',
+    icon: 'cx-icons',
+    href: 'https://chassis-ui.com/icons/',
+    body: 'Your icon set, built as a font or a sprite that the components can use.'
+  }
+]
+
+const facts = [
+  { name: 'React 19', detail: 'Server Components' },
+  { name: 'React Aria', detail: 'Accessible behaviour' },
+  { name: 'TypeScript', detail: 'Strict, typed props' },
+  { name: 'Chassis CSS', detail: 'Token-driven styles' }
+]
+
+const doors = [
+  {
+    label: 'Getting started',
+    doors: [
+      {
+        name: 'Introduction',
+        href: getDocsPath('/getting-started/introduction/'),
+        body: 'Install the package and wire up the stylesheets.'
+      },
+      {
+        name: 'Theming',
+        href: getDocsPath('/getting-started/theming/'),
+        body: 'Brands and dark mode from your tokens.'
+      },
+      {
+        name: 'Accessibility',
+        href: getDocsPath('/getting-started/accessibility/'),
+        body: 'What each component does for keyboard and screen readers.'
+      }
+    ]
+  },
+  {
+    label: 'Components',
+    doors: [
+      {
+        name: 'Button',
+        href: getDocsPath('/components/button/'),
+        body: 'Actions and links, in every variant.'
+      },
+      {
+        name: 'Modal',
+        href: getDocsPath('/components/modal/'),
+        body: 'Dialogs and their focus handling.'
+      },
+      {
+        name: 'Table',
+        href: getDocsPath('/components/table/'),
+        body: 'Rows, columns and collections.'
+      }
+    ]
+  },
+  {
+    label: 'Patterns',
+    doors: [
+      {
+        name: 'Form Validation',
+        href: getDocsPath('/patterns/form-validation/'),
+        body: 'Errors and messages on a form.'
+      },
+      {
+        name: 'Loading States',
+        href: getDocsPath('/patterns/loading-states/'),
+        body: 'Skeletons and spinners while data loads.'
+      },
+      {
+        name: 'Paginated Table',
+        href: getDocsPath('/patterns/paginated-table/'),
+        body: 'A table with its pagination.'
+      }
+    ]
+  }
+]
 ---
 
-<BaseLayout title="Chassis React - React UI Component Library">
-  <!-- Hero Section -->
-  <HeroSection />
-  <hr class="hr container" />
-  <!-- Value Proposition -->
-  <IntroSection />
-  <!-- Key Features -->
-  <FeaturesSection />
-  <!-- How It Works -->
-  <HowSection />
-  <!-- Technical Stack -->
-  <TechSection />
-  <!-- Documentation Section -->
-  <DocsSection />
-  <div class="d-none">
-    <Fragment set:html={HomeIcons} />
-  </div>
+<BaseLayout title="Chassis React" description={description} navbarContext="alternate">
+  <Hero
+    kicker="Chassis React"
+    lead="Chassis React renders the markup of Chassis CSS, with behaviour from React Aria. It is written in TypeScript and ready for Server Components."
+    command="npm install @chassis-ui/react"
+    illustration="images/illustrations/hero-react.svg"
+    illustrationLabel="An outlined component beside the tree of the components it is made of"
+  >
+    <Fragment slot="title">
+      <span class="d-block">Your design system in React.</span>{' '}
+      <mark class="d-block">
+        <span class="lg:d-block">Accessible, typed and</span>{' '}
+        <span class="lg:d-block">styled by your tokens.</span>
+      </mark>
+    </Fragment>
+    <Fragment slot="actions">
+      <a class="button primary lg" href={getDocsPath('/getting-started/introduction/')}>
+        <Icon name="book-open-outline" />
+        Getting Started
+      </a>
+      <a class="button alternate lg" href={repo}>
+        <Icon name="github-brand" />
+        View on GitHub
+      </a>
+    </Fragment>
+    <Fragment slot="meta">
+      Currently v{currentVersion}
+      <span aria-hidden="true">&nbsp;/&nbsp;</span>
+      <a href={changelog}>Changes</a>
+    </Fragment>
+  </Hero>
+
+  <Section
+    id="what"
+    eyebrow="What you get"
+    title={['The components of the design.', 'The behaviour users expect.']}
+    lead="Each component looks like the CSS framework and the Figma library, and handles keyboard, focus and screen readers itself."
+  >
+    <Rows rows={benefits} />
+  </Section>
+
+  <Section
+    id="how"
+    eyebrow="How it works"
+    title={['From an empty project', 'to themed components.']}
+    lead="Three steps take an application to accessible components, rendered on the server or in the browser."
+  >
+    <Steps stages={steps} />
+  </Section>
+
+  <Section
+    id="works-with"
+    eyebrow="Works with"
+    title={['React comes last.', 'It reads everything before it.']}
+    lead="The components take their styles from Chassis CSS and their values from your tokens. Icons come from your icon set."
+  >
+    <Cards cards={related} />
+  </Section>
+
+  <Facts label="Built on" facts={facts} />
+
+  <Section
+    id="docs"
+    eyebrow="Get started"
+    title={['Start with the guide', 'that matches your task.']}
+    lead="Install the package and learn how it is themed, look up a component, or follow a pattern for a whole screen."
+  >
+    <Doors groups={doors} />
+  </Section>
 </BaseLayout>

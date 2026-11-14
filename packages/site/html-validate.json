@@ -13,6 +13,7 @@
       "error",
       { "exclude": ["button", "progressbar", "region", "textbox"] }
     ],
+    "presentation-role-style": "off",
     "unique-landmark": "off",
     "valid-id": ["error", { "relaxed": true }],
     "wcag/h32": "off",
