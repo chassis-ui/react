@@ -85,11 +85,12 @@ Open `http://localhost:4327/react/` in your browser.
 | `pnpm start`                      | Unpack the assets, build the library, then watch the library and Astro site together                              |
 | `pnpm setup`                      | Unpack the assets of the pinned release and build the library once — the part of `start` worth running on its own |
 | `pnpm dev`                        | Watch the library and Astro site without unpacking the assets                                                     |
-| `pnpm site:dev`                   | Start only the Astro dev server                                                                                   |
+| `pnpm site:dev`                   | Start only the Astro dev server; the same as `pnpm astro:dev`                                                     |
 | `pnpm site:setup`                 | Unpack the assets, build the library, and generate API data                                                       |
 | `pnpm site:build`                 | Build the static docs site and its search index                                                                   |
+| `pnpm astro:build`                | Build the static docs site only, without its search index                                                         |
 | `pnpm sync-assets`                | Move `vendor/assets.json` to the latest release of the assets; commit the new pin on its own                      |
-| `pnpm site:preview`               | Preview the built docs site locally                                                                               |
+| `pnpm site:preview`               | Preview the built docs site locally; the same as `pnpm astro:preview`                                             |
 | `pnpm react:generate`             | Re-generate prop table JSON from TypeScript source                                                                |
 | `pnpm new:component <kebab-name>` | Scaffold a new component: source, barrel, exports, spec, story, docs page and sidebar entry                       |
 | `pnpm test`                       | Run component tests with coverage                                                                                 |

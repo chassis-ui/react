@@ -42,6 +42,6 @@ library as `workspace:*`, so a page always reflects the in-repo library, and a b
   camelCase, ids from `useId` and explicit roles on native elements. Fix a new finding in the
   example or the component; add an exception only for markup that is correct (RD10 in
   [`DECISIONS.md`](../../DECISIONS.md)).
-- `pnpm --filter chassis-react-site build` alone builds against whatever `content/api/` and
+- `pnpm astro:build` alone builds against whatever `content/api/` and
   `vendor/assets` are on disk; a representative build is the root `pnpm site:setup` then
   `pnpm site:build`.

@@ -29,7 +29,9 @@ build, tests and CI; the guides state the rule and cite the row.
 ## Root scripts
 
 - A script whose files live in one package is a real script on that package's `package.json`,
-  reached from the root through a `react:*`/`site:*` alias. A script lives at the root only when
+  reached from the root through a `react:*`/`site:*` alias. `astro:dev`, `astro:build` and
+  `astro:preview` run the site's Astro alone, with no vendor or library build, under the name
+  every Chassis site uses; `site:dev`, `site:build` and `site:preview` call them. A script lives at the root only when
   it is cross-package (`react:generate` reads one package and writes into the other;
   `new:component` writes into both) or owns a root artifact (`_site/`). A cross-package tool with
   dependencies or code of its own is a private workspace package instead, reached through root
