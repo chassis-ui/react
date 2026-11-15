@@ -298,8 +298,8 @@ importers:
         specifier: ^3.7.4
         version: 3.7.4
       '@chassis-ui/docs':
-        specifier: ^0.15.0-next.0
-        version: 0.15.0-next.0(@astrojs/markdown-remark@7.3.4)(@chassis-ui/css@0.15.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.5.0)(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.106.1)(terser@5.47.1)(yaml@2.9.1))(autoprefixer@10.6.1(postcss@8.5.31))(html-validate@11.17.0(@jest/globals@29.7.0)(@vitest/expect@4.1.12)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.5)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.5)(typescript@6.0.3)))(vitest@4.1.12))(htmlparser2@12.0.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(postcss@8.5.31)(rehype-autolink-headings@7.1.0)(sass@1.106.1)(shiki@4.5.0)(vnu-jar@26.10.12)
+        specifier: ^0.15.0
+        version: 0.15.0(@astrojs/markdown-remark@7.3.4)(@chassis-ui/css@0.15.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.5.0)(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.106.1)(terser@5.47.1)(yaml@2.9.1))(autoprefixer@10.6.1(postcss@8.5.31))(html-validate@11.17.0(@jest/globals@29.7.0)(@vitest/expect@4.1.12)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.5)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.5)(typescript@6.0.3)))(vitest@4.1.12))(htmlparser2@12.0.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(postcss@8.5.31)(rehype-autolink-headings@7.1.0)(sass@1.106.1)(shiki@4.5.0)(vnu-jar@26.10.12)
       '@pagefind/component-ui':
         specifier: ^1.5.2
         version: 1.5.2
@@ -1001,8 +1001,8 @@ packages:
       tailwindcss:
         optional: true
 
-  '@chassis-ui/docs@0.15.0-next.0':
-    resolution: {integrity: sha512-Ub/aFVG22JhIxAvGHMhlVzgb2h6WgBUOFXXr2ZmojWPfppzOh6LA3B4fdoGj3TY3OISsKjNkF+ch+yHcF8/IBA==}
+  '@chassis-ui/docs@0.15.0':
+    resolution: {integrity: sha512-WfXe9M1tR1MenPnEu7buiXsBvaI3Lluz3JiUezW/DXsskI7bUBs2Mh+uEFHA+j5MszD9S71okWfVUG8hIFvL7A==}
     engines: {node: '>=22.12.0'}
     hasBin: true
     peerDependencies:
@@ -8972,7 +8972,7 @@ snapshots:
       postcss-prefix-custom-properties: 0.1.0(postcss@8.5.31)
       tailwindcss: 4.3.3
 
-  '@chassis-ui/docs@0.15.0-next.0(@astrojs/markdown-remark@7.3.4)(@chassis-ui/css@0.15.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.5.0)(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.106.1)(terser@5.47.1)(yaml@2.9.1))(autoprefixer@10.6.1(postcss@8.5.31))(html-validate@11.17.0(@jest/globals@29.7.0)(@vitest/expect@4.1.12)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.5)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.5)(typescript@6.0.3)))(vitest@4.1.12))(htmlparser2@12.0.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(postcss@8.5.31)(rehype-autolink-headings@7.1.0)(sass@1.106.1)(shiki@4.5.0)(vnu-jar@26.10.12)':
+  '@chassis-ui/docs@0.15.0(@astrojs/markdown-remark@7.3.4)(@chassis-ui/css@0.15.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.5.0)(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.106.1)(terser@5.47.1)(yaml@2.9.1))(autoprefixer@10.6.1(postcss@8.5.31))(html-validate@11.17.0(@jest/globals@29.7.0)(@vitest/expect@4.1.12)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.5)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.5)(typescript@6.0.3)))(vitest@4.1.12))(htmlparser2@12.0.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(postcss@8.5.31)(rehype-autolink-headings@7.1.0)(sass@1.106.1)(shiki@4.5.0)(vnu-jar@26.10.12)':
     dependencies:
       '@astrojs/markdown-remark': 7.3.4
       '@chassis-ui/css': 0.15.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.31))(tailwindcss@4.3.3)(vanilla-calendar-pro@3.3.1)
@@ -13194,7 +13194,7 @@ snapshots:
       mdast-util-to-hast: 13.2.1
       parse5: 7.3.0
       unist-util-position: 5.0.0
-      unist-util-visit: 5.1.0
+      unist-util-visit: 5.2.0
       vfile: 6.0.3
       web-namespaces: 2.0.1
       zwitch: 2.0.4
@@ -13216,7 +13216,7 @@ snapshots:
       estree-util-is-identifier-name: 3.0.0
       hast-util-whitespace: 3.0.0
       mdast-util-mdx-expression: 2.0.1
-      mdast-util-mdx-jsx: 3.2.0
+      mdast-util-mdx-jsx: 3.2.1
       mdast-util-mdxjs-esm: 2.0.1
       property-information: 7.2.0
       space-separated-tokens: 2.0.2
@@ -13250,7 +13250,7 @@ snapshots:
       estree-util-is-identifier-name: 3.0.0
       hast-util-whitespace: 3.0.0
       mdast-util-mdx-expression: 2.0.1
-      mdast-util-mdx-jsx: 3.2.0
+      mdast-util-mdx-jsx: 3.2.1
       mdast-util-mdxjs-esm: 2.0.1
       property-information: 7.2.0
       space-separated-tokens: 2.0.2
@@ -14314,7 +14314,7 @@ snapshots:
       '@types/mdast': 4.0.4
       escape-string-regexp: 5.0.0
       unist-util-is: 6.0.1
-      unist-util-visit-parents: 6.0.2
+      unist-util-visit-parents: 6.1.0
 
   mdast-util-from-markdown@2.0.3:
     dependencies:
@@ -14456,7 +14456,7 @@ snapshots:
     dependencies:
       mdast-util-from-markdown: 2.1.0
       mdast-util-mdx-expression: 2.0.1
-      mdast-util-mdx-jsx: 3.2.0
+      mdast-util-mdx-jsx: 3.2.1
       mdast-util-mdxjs-esm: 2.0.1
       mdast-util-to-markdown: 2.2.0
     transitivePeerDependencies:
@@ -14487,7 +14487,7 @@ snapshots:
       micromark-util-sanitize-uri: 2.0.1
       trim-lines: 3.0.1
       unist-util-position: 5.0.0
-      unist-util-visit: 5.1.0
+      unist-util-visit: 5.2.0
       vfile: 6.0.3
 
   mdast-util-to-markdown@2.1.2:
@@ -14499,7 +14499,7 @@ snapshots:
       mdast-util-to-string: 4.0.0
       micromark-util-classify-character: 2.0.1
       micromark-util-decode-string: 2.0.1
-      unist-util-visit: 5.1.0
+      unist-util-visit: 5.2.0
       zwitch: 2.0.4
 
   mdast-util-to-markdown@2.2.0:
@@ -15672,7 +15672,7 @@ snapshots:
     dependencies:
       '@types/nlcst': 2.0.3
       nlcst-to-string: 4.0.0
-      unist-util-visit: 5.1.0
+      unist-util-visit: 5.2.0
 
   retext-stringify@4.0.0:
     dependencies:
