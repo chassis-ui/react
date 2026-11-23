@@ -146,9 +146,9 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
     "@arethetypeswrong/core": "^0.18.5",
-    "@chassis-ui/css": "^0.14.0",
-    "@chassis-ui/website-icons": "^0.1.0",
-    "@chassis-ui/website-tokens": "^0.3.0",
+    "@chassis-ui/css": "^0.16.0",
+    "@chassis-ui/website-icons": "^0.2.0",
+    "@chassis-ui/website-tokens": "^0.5.0",
     "@playwright/test": "1.64.1",
     "@storybook/addon-a11y": "^10.6.3",
     "@storybook/addon-docs": "^10.6.3",
